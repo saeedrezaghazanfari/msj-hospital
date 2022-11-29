@@ -19,6 +19,7 @@ urlpatterns += i18n_patterns(
 
     # APP
     path('', include('hospital_auth.urls', namespace='auth')),
+    path('', include('hospital_setting.urls', namespace='setting')),
 )
 
 if settings.DEBUG:
@@ -26,3 +27,5 @@ if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = "App_Config.views.page_not_found_view"
+handler403 = "App_Config.views.page_forbidden_view"
+handler500 = "App_Config.views.page_server_error_view"
