@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'Extentions',
     'hospital_auth.apps.HospitalAuthConfig',
     'hospital_setting.apps.HospitalSettingConfig',
+    'hospital_blog.apps.HospitalBlogConfig',
 
     # Packs
     'widget_tweaks',

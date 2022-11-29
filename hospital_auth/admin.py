@@ -33,13 +33,13 @@ class LoginCodeModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 class SupporterModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'user__username', 'get_full_name', 'is_active']
-    search_field = ['user__username', 'get_full_name']
+    list_display = ['id', 'get_full_name', 'is_active']
+    search_field = ['get_full_name']
     ordering = ['-id']
 
 class ContentProducerModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'user__username', 'get_full_name', 'is_active']
-    search_field = ['user__username', 'get_full_name']
+    list_display = ['id', 'get_full_name', 'is_active']
+    search_field = ['get_full_name']
     ordering = ['-id']
 
 

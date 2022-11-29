@@ -10,7 +10,7 @@ from Extentions.utils import profile_image_path, jalali_convertor, get_random_co
 
 class User(AbstractUser):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-    username = models.CharField(max_length=10, unique=True, editable=False, verbose_name=_('کدملی'))
+    username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
     phone = models.BigIntegerField(unique=True, verbose_name=_('شماره تلفن'))
     fixed_phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('شماره تلفن'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
