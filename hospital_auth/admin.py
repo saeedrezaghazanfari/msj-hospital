@@ -9,9 +9,12 @@ class AdminUser(UserAdmin):
         'first_name',
         'last_name',
         'phone',
+        'fixed_phone',
+        'gender',
         'profile',
         'wallet_balance',
         'is_send_sms',
+        'is_active2',
     )
     UserAdmin.fieldsets[2][1]['fields'] = (
         'is_active',

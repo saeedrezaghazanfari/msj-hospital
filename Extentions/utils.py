@@ -88,67 +88,44 @@ def get_filename_ext_rand(filepath):
     return ext.lower(), output
 
 
-# ######### for users imgs ######### #
-def user_image_path(instance, filename):
+# ######### for users profiles ######### #
+def profile_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"users/{final_name}"
+    return f"users-profiles/{final_name}"
 
-
-# ######### for users imgs ######### #
-def file_chat_path(instance, filename):
+# ######### for hospital costs ######### #
+def costs_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"file-chats/{final_name}"
+    return f"hospital-costs/{final_name}"
 
-
-# ######### for doctors degrees ######### #
-def doctor_degree_path(instance, filename):
+# ######### for hospital facilities ######### #
+def facility_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"degrees/{final_name}"
+    return f"hospital-facilities/{final_name}"
 
-
-# ######### for ticket images ######### #
-def ticket_image_path(instance, filename):
+# ######### for item in gallery ######### #
+def gallery_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"tickets/{final_name}"
+    return f"galleries-items/{final_name}"
 
-
-# ######### for blogs imgs ######### #
-def blog_image_path(instance, filename):
+# ######### for item in home gallery ######### #
+def home_gallery_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"blogs/{final_name}"
+    return f"home-gallery/{final_name}"
+
+# ######### for certificate images ######### #
+def certificate_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"certificates/{final_name}"
+
 
 # =============== end static path
-
-
-# ######### get user code ######### #
-def get_user_code():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'1{str(year)[-2:]}{month}{day}{random}'
-    return output
-    # 10012017817 => 1 => user  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def get_blog_code():

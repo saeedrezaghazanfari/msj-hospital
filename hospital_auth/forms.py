@@ -7,16 +7,32 @@ from Extentions.utils import is_phone
 
 
 class SignUpForm(forms.ModelForm):
+    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    gender = forms.ChoiceField(
+        choices=GENDER_USER, 
+        widget=forms.RadioSelect(attrs={'name': 'gender_radio', 'checked': 'checked'})
+    )
     captcha = CaptchaField()
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'phone']
+        fields = ['username', 'first_name', 'last_name', 'phone', 'gender']
         widgets = {
+            'username': forms.TextInput({'placeholder': _('کدملی خود را وارد کنید')}),
             'first_name': forms.TextInput({'placeholder': _('نام خود را وارد کنید')}),
             'last_name': forms.TextInput({'placeholder': _('نام خانوادگی خود را وارد کنید')}),
             'phone': forms.NumberInput({'placeholder': _('شماره تلفن خود را وارد کنید')}),
         }
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username:
+            raise forms.ValidationError(_('کدملی خود را وارد کنید'))
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(_('کدملی شما یک بار در سیستم ثبت شده است'))
+        if not username.isdigit():
+            raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
+        return username
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
