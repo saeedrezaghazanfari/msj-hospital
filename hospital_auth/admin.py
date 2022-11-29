@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from .models import User, LoginCodeModel
+from .models import User, LoginCodeModel, SupporterModel, ContentProducerModel
 
 
 class AdminUser(UserAdmin):
@@ -26,13 +26,25 @@ class AdminUser(UserAdmin):
     list_display = ('id', 'username', 'get_full_name', 'phone')
     ordering = ['-id']
 
+
 class LoginCodeModel_Admin(admin.ModelAdmin):
     list_display = ['user', 'code', 'j_date', 'j_expire', 'is_use']
     search_field = ['is_use', 'user']
     ordering = ['-id']
 
+class SupporterModel_Admin(admin.ModelAdmin):
+    list_display = ['id', 'user__username', 'get_full_name', 'is_active']
+    search_field = ['user__username', 'get_full_name']
+    ordering = ['-id']
+
+class ContentProducerModel_Admin(admin.ModelAdmin):
+    list_display = ['id', 'user__username', 'get_full_name', 'is_active']
+    search_field = ['user__username', 'get_full_name']
+    ordering = ['-id']
 
 
 admin.site.register(User, AdminUser)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)
+admin.site.register(SupporterModel, SupporterModel_Admin)
+admin.site.register(ContentProducerModel, ContentProducerModel_Admin)
 admin.site.unregister(Group)

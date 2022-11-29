@@ -43,7 +43,6 @@ class CostModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=costs_image_path, verbose_name=_('تصویر'))
     year = models.PositiveIntegerField(verbose_name=_('سال'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
         ordering = ['-id']
@@ -56,7 +55,6 @@ class CostModel(models.Model):
 
 class HospitalPoliticModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
         ordering = ['-id']
@@ -70,7 +68,6 @@ class HospitalPoliticModel(models.Model):
 class HospitalFacilityModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=facility_image_path, verbose_name=_('تصویر'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
         ordering = ['-id']
@@ -84,7 +81,6 @@ class HospitalFacilityModel(models.Model):
 class FAQModel(models.Model):
     question = models.TextField(verbose_name=_('پرسش'))
     answer = models.TextField(verbose_name=_('پاسخ'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
         ordering = ['-id']
