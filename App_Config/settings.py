@@ -94,6 +94,7 @@ LANGUAGES = [
     ('fa', _('Persian')),
     ('en', _('English')),
     ('ar', _('Arabic')),
+    ('ru', _('Russia')),
 ]
 LANGUAGE_CODE = config('LANGUAGE_CODE')
 TIME_ZONE = config('TIME_ZONE')
@@ -111,5 +112,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # ## configs ## #
+
+# user
 AUTH_USER_MODEL = config('AUTH_USER_MODEL')
-LOGIN_URL = '/fa/sign-in'
+LOGIN_URL = '/fa/sign-in'  #TODO redirect to real route
+
+# captcha
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_BACKGROUND_COLOR = '#fff'
+CAPTCHA_FOREGROUND_COLOR = '#4f98dc'
+CAPTCHA_LENGTH = 4
+CAPTCHA_IMAGE_SIZE = (100, 50)

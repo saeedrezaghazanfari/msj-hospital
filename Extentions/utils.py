@@ -1,7 +1,6 @@
 from django.utils import timezone
 from . import jalali
 import os, re
-import datetime
 from random import randint, choice
 
 
@@ -16,15 +15,6 @@ def is_national_code(value):
 
 def is_shaba(value):
     return bool(re.compile(r'(^(?:IR)(?=.{24}$)[0-9]*$)').match(str(value)))
-
-
-def write_action(action):
-    """ 
-        this function write user actions in actions.log file in root directory 
-    """
-    with open('actions.log', 'a') as file:
-        file.write(f'Date: {datetime.datetime.now()} .:. Action: {action}')
-        file.write('\n')
 
 
 def jalali_convertor(time, output='date_time', number=False):
@@ -82,7 +72,7 @@ def get_ext_file(filename):
 
 # before function File storage
 def get_filename_ext_rand(filepath):
-    time = datetime.datetime.now()
+    time = timezone.now()
     intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     time_to_str = f'{time.year} {time.month} {time.day}'
     time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
@@ -137,7 +127,7 @@ def blog_image_path(instance, filename):
 
 # ######### get user code ######### #
 def get_user_code():
-    time = datetime.datetime.now()
+    time = timezone.now()
     intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     time_to_str = f'{time.year} {time.month} {time.day}'
@@ -162,7 +152,7 @@ def get_user_code():
 
 
 def get_blog_code():
-    time = datetime.datetime.now()
+    time = timezone.now()
     intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     time_to_str = f'{time.year} {time.month} {time.day}'
@@ -186,18 +176,18 @@ def get_blog_code():
     # 20012017817 => 2 => blog  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
-def get_links_code():
-    char_list = [
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
-        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
-    ]
-    code = ''
-    for _ in range(1, 20):
-        code += choice(char_list)
-    return code
+# def get_links_code():
+#     char_list = [
+#         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+#         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+#         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+#         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+#         '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+#     ]
+#     code = ''
+#     for _ in range(1, 20):
+#         code += choice(char_list)
+#     return code
 
 
 def get_random_code():
