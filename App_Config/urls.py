@@ -21,6 +21,7 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_auth.urls', namespace='auth')),
     path('', include('hospital_setting.urls', namespace='setting')),
     path('', include('hospital_blog.urls', namespace='blog')),
+    path('', include('hospital_contact.urls', namespace='contact')),
 )
 
 if settings.DEBUG:
