@@ -37,9 +37,6 @@ class NewsModel(models.Model):
     #     return jalali_convertor(time=self.created, output='j_date')
     # j_created.short_description = _('تاریخ انتشار')
 
-    def j_month(self):
-        return jalali_convertor(time=self.created, output='j_month')
-
     def prev_post(self):
         prev_id = int(self.id) - 1
         news = NewsModel.objects.filter(id=prev_id, is_published=True).first()

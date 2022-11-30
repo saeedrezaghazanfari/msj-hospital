@@ -11,7 +11,14 @@ from Extentions.utils import (
 )
 
 
-# class DoctorNotesModel(models.Model):
+# Managers
+class BlogModelManager(models.Manager):
+    def get_published(self):
+        this_time = timezone.now()
+        return self.get_queryset().filter(is_activate=True, publish_time__lt=this_time)
+
+
+# class MedicalNoteModel(models.Model):
 #     doctor = models.ForeignKey(to=DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
 #     short_title = models.CharField(max_length=100, verbose_name=_('عنوان کوتاه'))
 #     text = models.TextField(max_length=400, verbose_name=_('متن'))
@@ -55,6 +62,8 @@ class BlogModel(models.Model):  #TODO
         verbose_name = _('بلاگ')
         verbose_name_plural = _('بلاگ‌ها')
 
+    objects = BlogModelManager()
+
     def __str__(self):
         return self.title
 
@@ -62,29 +71,36 @@ class BlogModel(models.Model):  #TODO
     #     return jalali_convertor(time=self.created, output='j_date')
     # j_created.short_description = _('تاریخ انتشار')
 
-    def j_month(self):
-        return jalali_convertor(time=self.created, output='j_month')
-
     def prev_post(self):
         prev_id = int(self.id) - 1
-        blog = BlogModel.objects.filter(id=prev_id, is_published=True).first()
+        this_time = timezone.now()
+        blog = BlogModel.objects.filter(id=prev_id, is_activate=True, publish_time__lt=this_time).first()
         if blog:
             return blog
         return None
 
     def next_post(self):
         next_id = int(self.id) + 1
-        blog = BlogModel.objects.filter(id=next_id, is_published=True).first()
+        this_time = timezone.now()
+        blog = BlogModel.objects.filter(id=next_id, is_activate=True, publish_time__lt=this_time).first()
         if blog:
             return blog
         return None
 
-    # def get_full_name(self):
-    #     try:
-    #         return f'{self.writer.user.first_name} {self.writer.user.last_name}'
-    #     except:
-    #         return _('پشتیبان')
-    # get_full_name.short_description = _('نام نویسنده')
+    def get_full_name(self):
+        if self.writer_contentproducer:
+            try:
+                return f'{self.writer_contentproducer.user.first_name} {self.writer_contentproducer.user.last_name}'
+            except:
+                return _('پشتیبان')
+        elif self.writer_doctor:
+            try:
+                return f'{self.writer_doctor.user.first_name} {self.writer_doctor.user.last_name}'
+            except:
+                return _('پشتیبان')
+        else:
+            return _('پشتیبان')
+    get_full_name.short_description = _('نام نویسنده')
 
 
 class BlogGalleryModel(models.Model):
