@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'hospital_auth.apps.HospitalAuthConfig',
     'hospital_setting.apps.HospitalSettingConfig',
     'hospital_blog.apps.HospitalBlogConfig',
+    'hospital_news.apps.HospitalNewsConfig',
     'hospital_contact.apps.HospitalContactConfig',
 
     # Packs
