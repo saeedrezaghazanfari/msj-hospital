@@ -124,6 +124,29 @@ def certificate_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"certificates/{final_name}"
 
+# ######### for blog image ######### #
+def blog_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"blogs/{final_name}"
+
+# ######### for blog image gallery ######### #
+def blog_gallery_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"blogs-gallery/{final_name}"
+
+# ######### for blog image ######### #
+def news_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"news/{final_name}"
+
+# ######### for news image gallery ######### #
+def news_gallery_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"news-gallery/{final_name}"
 
 # =============== end static path
 
@@ -151,6 +174,31 @@ def get_blog_code():
     output = f'2{str(year)[-2:]}{month}{day}{random}'
     return output
     # 20012017817 => 2 => blog  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
+
+
+def get_news_code():
+    time = timezone.now()
+    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    time_to_str = f'{time.year} {time.month} {time.day}'
+    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+    time_to_list = list(time_to_tuple)
+
+    for index, month in enumerate(intmonth):
+        if time_to_list[1] == index + 1:
+            time_to_list[1] = month
+            break
+    random = randint(1000, 9999)
+    year = time_to_list[0]
+    month = time_to_list[1]
+    day = time_to_list[2]
+    if month < 10:
+        month = f'0{month}'
+    if day < 10:
+        day = f'0{day}'
+    output = f'3{str(year)[-2:]}{month}{day}{random}'
+    return output
+    # 30012017817 => 3 => news  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 # def get_links_code():
