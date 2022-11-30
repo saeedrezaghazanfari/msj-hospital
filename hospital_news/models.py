@@ -10,6 +10,13 @@ from Extentions.utils import (
 )
 
 
+# Managers
+class NewsModelManager(models.Manager):
+    def get_published(self):
+        this_time = timezone.now()
+        return self.get_queryset().filter(publish_time__lt=this_time)
+
+
 class NewsModel(models.Model):
     slug = models.SlugField(unique=True, default=get_news_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=news_image_path, verbose_name=_('تصویر'))
@@ -30,12 +37,14 @@ class NewsModel(models.Model):
         verbose_name = _('خبر')
         verbose_name_plural = _('خبر‌ها')
 
+    objects = NewsModelManager()
+
     def __str__(self):
         return self.title
 
-    # def j_created(self):
-    #     return jalali_convertor(time=self.created, output='j_date')
-    # j_created.short_description = _('تاریخ انتشار')
+    def j_publish_time(self):
+        return jalali_convertor(time=self.publish_time, output='j_date')
+    j_publish_time.short_description = _('تاریخ انتشار')
 
     def prev_post(self):
         prev_id = int(self.id) - 1
@@ -52,9 +61,12 @@ class NewsModel(models.Model):
         return None
 
     def get_full_name(self):
-        try:
-            return f'{self.writer_contentproducer.user.first_name} {self.writer_contentproducer.user.last_name}'
-        except:
+        if self.writer_contentproducer:
+            try:
+                return f'{self.writer_contentproducer.user.first_name} {self.writer_contentproducer.user.last_name}'
+            except:
+                return _('پشتیبان')
+        else:
             return _('پشتیبان')
     get_full_name.short_description = _('نام نویسنده')
 

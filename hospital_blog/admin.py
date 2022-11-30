@@ -17,7 +17,7 @@ from .models import (
 
 
 class BlogModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'get_full_name', 'publish_time', 'is_activate']
+    list_display = ['id', 'title', 'get_full_name', 'j_publish_time', 'is_activate']
     search_fields = ['title', 'is_activate']
     ordering = ['-id']
 

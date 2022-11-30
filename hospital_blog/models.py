@@ -11,11 +11,7 @@ from Extentions.utils import (
 )
 
 
-# Managers
-class BlogModelManager(models.Manager):
-    def get_published(self):
-        this_time = timezone.now()
-        return self.get_queryset().filter(is_activate=True, publish_time__lt=this_time)
+is_activate=True, 
 
 
 # class MedicalNoteModel(models.Model):
@@ -67,9 +63,9 @@ class BlogModel(models.Model):  #TODO
     def __str__(self):
         return self.title
 
-    # def j_created(self):
-    #     return jalali_convertor(time=self.created, output='j_date')
-    # j_created.short_description = _('تاریخ انتشار')
+    def j_publish_time(self):
+        return jalali_convertor(time=self.publish_time, output='j_date')
+    j_publish_time.short_description = _('تاریخ انتشار')
 
     def prev_post(self):
         prev_id = int(self.id) - 1
