@@ -23,6 +23,10 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_blog.urls', namespace='blog')),
     path('', include('hospital_news.urls', namespace='news')),
     path('', include('hospital_contact.urls', namespace='contact')),
+
+    # PACKAGES
+    path('change/language/', views.activate_language, name='activate_lang'),
+    path('admin/', admin.site.urls),
 )
 
 if settings.DEBUG:

@@ -30,7 +30,7 @@ class NewsModel(models.Model):
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
-    gallery = models.ManyToManyField('NewsGalleryModel', null=True, blank=True, verbose_name=_('گالری خبر'))
+    gallery = models.ManyToManyField('NewsGalleryModel', verbose_name=_('گالری خبر'))
 
     class Meta:
         ordering = ['-id']

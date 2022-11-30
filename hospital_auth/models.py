@@ -1,6 +1,6 @@
+from email.policy import default
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from django.utils.html import format_html
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -11,8 +11,8 @@ from Extentions.utils import profile_image_path, jalali_convertor, get_random_co
 class User(AbstractUser):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
-    ￼
-    fixed_phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('شماره تلفن'))
+    phone = models.BigIntegerField(default=0, verbose_name=_('شماره تلفن'))
+    fixed_phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('تلفن ثابت'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     wallet_balance = models.FloatField(default=0, verbose_name=_('موجودی کیف پول'))

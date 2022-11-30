@@ -49,7 +49,7 @@ class BlogModel(models.Model):  #TODO
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     is_educational = models.BooleanField(default=False, verbose_name=_('آیا این بلاگ آموزشی است؟'))
-    gallery = models.ManyToManyField('BlogGalleryModel', null=True, blank=True, verbose_name=_('گالری بلاگ'))
+    gallery = models.ManyToManyField('BlogGalleryModel', verbose_name=_('گالری بلاگ'))
 
     class Meta:
         ordering = ['-id']

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     NotificationModel,
-    NotificationModel,
+    NotificationUserModel,
     # PatientSightModel,
     # CooperationModel,
     ContactUsModel,
@@ -17,7 +17,7 @@ class NotificationModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class NotificationModel_Admin(admin.ModelAdmin):
+class NotificationUserModel_Admin(admin.ModelAdmin):
     list_display = ['id']
     ordering = ['-id']
 
@@ -59,7 +59,7 @@ class BenefactorModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(NotificationModel, NotificationModel_Admin)
-admin.site.register(NotificationModel, NotificationModel_Admin)
+admin.site.register(NotificationUserModel, NotificationUserModel_Admin)
 # admin.site.register(PatientSightModel, PatientSightModel_Admin)
 # admin.site.register(CooperationModel, CooperationModel_Admin)
 admin.site.register(ContactUsModel, ContactUsModel_Admin)

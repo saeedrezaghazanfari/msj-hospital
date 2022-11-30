@@ -26,7 +26,7 @@ class NotificationModel(models.Model): #TODO is_from_boss fk to riast
     j_publish_time.short_description = _('تاریخ انتشار')
 
 
-class NotificationModel(models.Model):
+class NotificationUserModel(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
     notification = models.ForeignKey(to=NotificationModel, on_delete=models.CASCADE, verbose_name=_('اعلان'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
