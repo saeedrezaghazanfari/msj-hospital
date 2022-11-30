@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    # MedicalNoteModel,
+    MedicalNoteModel,
     BlogModel,
     BlogGalleryModel,
     BlogCommentModel,
@@ -10,10 +10,10 @@ from .models import (
 )
 
 
-# class MedicalNoteModel_Admin(admin.ModelAdmin):
-#     list_display = []
-#     search_fields = []
-#     ordering = ['-id']
+class MedicalNoteModel_Admin(admin.ModelAdmin):
+    list_display = ['text', 'is_active']
+    search_fields = ['text', 'is_active']
+    ordering = ['-id']
 
 
 class BlogModel_Admin(admin.ModelAdmin):
@@ -52,7 +52,7 @@ class BlogLikeModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-# admin.site.register(MedicalNoteModel, MedicalNoteModel_Admin)
+admin.site.register(MedicalNoteModel, MedicalNoteModel_Admin)
 admin.site.register(BlogModel, BlogModel_Admin)
 admin.site.register(BlogGalleryModel, BlogGalleryModel_Admin)
 admin.site.register(BlogCommentModel, BlogCommentModel_Admin)

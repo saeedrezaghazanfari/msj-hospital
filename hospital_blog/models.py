@@ -7,7 +7,6 @@ from Extentions.utils import (
     blog_image_path, 
     get_blog_code, 
     blog_gallery_image_path,
-
 )
 
 
@@ -18,23 +17,18 @@ class BlogModelManager(models.Manager):
         return self.get_queryset().filter(is_activate=True, publish_time__lt=this_time)
 
 
-# class MedicalNoteModel(models.Model):
-#     doctor = models.ForeignKey(to=DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
-#     short_title = models.CharField(max_length=100, verbose_name=_('عنوان کوتاه'))
-#     text = models.TextField(max_length=400, verbose_name=_('متن'))
-#     created = models.DateTimeField(auto_now_add=True)
+class MedicalNoteModel(models.Model):
+    text = models.TextField(max_length=400, verbose_name=_('متن'))
+    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+    created = models.DateTimeField(auto_now_add=True)
 
-#     class Meta:
-#         ordering = ['-id']
-#         verbose_name = _('نوت پزشک')
-#         verbose_name_plural = _('نوت های پرشکان')
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نوت پزشکی')
+        verbose_name_plural = _('نوت های پزشکی')
 
-#     def __str__(self):
-#         return self.short_title
-
-#     def get_full_name(self):
-#         return f'{self.doctor.user.first_name} {self.doctor.user.last_name}'
-#     get_full_name.short_description = _('نام پزشک')
+    def __str__(self):
+        return str(self.id)
 
 
 class BlogModel(models.Model):  #TODO
