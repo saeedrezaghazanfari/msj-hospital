@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
+from Extentions.utils import jalali_convertor
 
 
 class NotificationModel(models.Model): #TODO is_from_boss fk to riast
@@ -20,6 +21,10 @@ class NotificationModel(models.Model): #TODO is_from_boss fk to riast
     def __str__(self):
         return self.title
 
+    def j_publish_time(self):
+        return jalali_convertor(time=self.publish_time, output='j_date')
+    j_publish_time.short_description = _('تاریخ انتشار')
+
 
 class NotificationModel(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
@@ -32,22 +37,22 @@ class NotificationModel(models.Model):
         verbose_name_plural = _('اعلان برای کاربران')
 
     def __str__(self):
-        return self.user
+        return str(self.id)
 
 
-class PatientSightModel(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    desc = models.TextField(verbose_name=_('متن'))
-    created = models.DateTimeField(auto_now_add=True)
-    is_show = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+# class PatientSightModel(models.Model):
+#     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+#     desc = models.TextField(verbose_name=_('متن'))
+#     created = models.DateTimeField(auto_now_add=True)
+#     is_show = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
     
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('دیدگاه بیمار')
-        verbose_name_plural = _('دیدگاه بیماران')
+#     class Meta:
+#         ordering = ['-id']
+#         verbose_name = _('دیدگاه بیمار')
+#         verbose_name_plural = _('دیدگاه بیماران')
 
-    def __str__(self):
-        return self.user
+#     def __str__(self):
+#         return self.user
 
 
 # class CooperationModel(models.Model):
@@ -79,6 +84,10 @@ class ContactUsModel(models.Model):
     def __str__(self):
         return str(self.title)
 
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ انتشار')
+
 
 # class CriticismSuggestionModel(models.Model):
 #     message = models.TextField(verbose_name=_('متن ارتباط'))
@@ -103,7 +112,7 @@ class PeopleAidModel(models.Model):
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ کمک شده'))
-    created = models.DateTimeField(auto_now_add=True)
+    date_of_aid = models.DateTimeField(default=timezone.now, verbose_name=_('تاریخ کمک'))
 
     class Meta:
         ordering = ['-id']
@@ -113,12 +122,15 @@ class PeopleAidModel(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def j_date_of_aid(self):
+        return jalali_convertor(time=self.date_of_aid, output='j_date')
+    j_date_of_aid.short_description = _('تاریخ انتشار')
+
 
 class BenefactorModel(models.Model):
     name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
     is_founder = models.BooleanField(default=False, verbose_name=_('بنیانگذار است؟'))
     about = models.TextField(verbose_name=_('درباره ی نیکوکار'))
-    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-id']
