@@ -11,7 +11,11 @@ from Extentions.utils import (
 )
 
 
-is_activate=True, 
+# Managers
+class BlogModelManager(models.Manager):
+    def get_published(self):
+        this_time = timezone.now()
+        return self.get_queryset().filter(is_activate=True, publish_time__lt=this_time)
 
 
 # class MedicalNoteModel(models.Model):
