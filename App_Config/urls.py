@@ -23,6 +23,7 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_blog.urls', namespace='blog')),
     path('', include('hospital_news.urls', namespace='news')),
     path('', include('hospital_contact.urls', namespace='contact')),
+    path('', include('hospital_website.urls', namespace='website')),
 
     # PACKAGES
     path('change/language/', views.activate_language, name='activate_lang'),
