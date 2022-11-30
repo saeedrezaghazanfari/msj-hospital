@@ -11,4 +11,23 @@
 {% block content %}
 
 
+    <form class="p-3 mt-3" method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="form-field d-flex align-items-center"> 
+            {% render_field form.phone required="" %}
+        </div>
+        {% for msg in form.phone.errors %}<p class="text-danger">{{ msg }}</p>{% endfor %}
+        
+        {% render_field form.captcha %}
+        {% for msg in form.captcha.errors %}<p class="text-danger">{{ msg }}</p>{% endfor %}
+
+        <button class="btn mt-3" type="submit">{% translate 'ورود' %}</button>
+    </form>
+    <br>
+    <div class="text-center fs-6">
+        <a href="{% url 'auth:signup' %}">{% translate 'ثبت نام در سایت' %}</a> 
+    </div>
+
+
 {% endblock %}

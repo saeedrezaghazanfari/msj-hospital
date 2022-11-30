@@ -11,8 +11,8 @@ from Extentions.utils import profile_image_path, jalali_convertor, get_random_co
 class User(AbstractUser):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
-    phone = models.BigIntegerField(default=0, verbose_name=_('شماره تلفن'))
-    fixed_phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('تلفن ثابت'))
+    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
+    fixed_phone = models.CharField(max_length=20, blank=True, null=True, verbose_name=_('تلفن ثابت'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     wallet_balance = models.FloatField(default=0, verbose_name=_('موجودی کیف پول'))
@@ -92,5 +92,5 @@ class LoginCodeModel(models.Model):
 @receiver(post_save, sender=LoginCodeModel)
 def set_expire_date(sender, instance, created, **kwargs):
     if created:
-        instance.expire_date = timezone.now() + timezone.timedelta(minutes=3)
+        instance.expire_date = timezone.now() + timezone.timedelta(minutes=2)
         instance.save()

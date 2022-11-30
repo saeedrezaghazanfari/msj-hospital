@@ -26,6 +26,7 @@ urlpatterns += i18n_patterns(
 
     # PACKAGES
     path('change/language/', views.activate_language, name='activate_lang'),
+    path('captcha/', include('captcha.urls')),
     path('admin/', admin.site.urls),
 )
 

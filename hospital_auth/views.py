@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 # import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -51,7 +51,7 @@ def sign_up_page(request):
 
 		messages.error(request, _('مشکلی بوجود آمده است'))
 		return redirect('/sign-up')
-	return render(request, 'ampool_auth/signup.html', context)
+	return render(request, 'auth/signup.html', context)
 
 
 # url: /sign-in
@@ -91,7 +91,7 @@ def sign_in_page(request):
 		messages.error(request, _('شماره تلفن شما اشتباه است و یا در سیستم موجود نیست'))
 		return redirect('/sign-in')
 	
-	return render(request, 'ampool_auth/signin.html', context)
+	return render(request, 'auth/signin.html', context)
 
 
 # url: /enter-sms-code/<uidb64>/<token>
@@ -112,7 +112,7 @@ def enter_sms_code(request, uidb64, token):
 			pw_code = LoginCodeModel.objects.filter(
 				user=user, 
 				code=code, 
-				expire_date__gt=datetime.datetime.now(), 
+				expire_date__gt=timezone.now(), 
 				is_use=False
 			).first()
 
@@ -140,7 +140,7 @@ def enter_sms_code(request, uidb64, token):
 				messages.error(request, _('کد شما نامعتبر و یا منقضی شده است'))
 				return redirect('auth:signin')
 
-		return render(request, 'ampool_auth/enter_code.html', context)
+		return render(request, 'auth/enter_code.html', context)
 
 
 # url: /sign-out
