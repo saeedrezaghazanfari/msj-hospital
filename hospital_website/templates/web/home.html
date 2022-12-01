@@ -1,0 +1,16 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    {{ gallery_items }}
+    <br>
+    {{ faq_items }}
+    <br>
+    {{ last_blogs }}
+
+{% endblock %}
