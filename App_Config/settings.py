@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'hospital_contact.apps.HospitalContactConfig',
     'hospital_website.apps.HospitalWebsiteConfig',
     'hospital_jobs.apps.HospitalJobsConfig',
+    'hospital_panel.apps.HospitalPanelConfig',
 
     # Packs
     'widget_tweaks',
