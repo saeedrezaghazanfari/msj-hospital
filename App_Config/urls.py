@@ -17,7 +17,7 @@ urlpatterns += i18n_patterns(
     path('403', views.page_forbidden_view),
     path('500', views.page_server_error_view),
 
-    # APP
+    # APPLICATIONS
     path('', include('hospital_auth.urls', namespace='auth')),
     path('', include('hospital_setting.urls', namespace='setting')),
     path('', include('hospital_blog.urls', namespace='blog')),
@@ -26,6 +26,7 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_website.urls', namespace='website')),
     path('', include('hospital_jobs.urls', namespace='jobs')),
     path('', include('hospital_panel.urls', namespace='panel')),
+    path('', include('hospital_units.urls', namespace='units')),
 
     # PACKAGES
     path('change/language/', views.activate_language, name='activate_lang'),
