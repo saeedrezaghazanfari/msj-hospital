@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'panel'
 urlpatterns = [
-    # path('', views., name='signin'),
+    path('panel', views.PanelHomePage.as_view(), name='home'),
 ]

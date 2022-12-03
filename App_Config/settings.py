@@ -1,4 +1,5 @@
 from pathlib import Path
+from django.urls import reverse_lazy
 from decouple import config
 from django.utils.translation import gettext_lazy as _
 
@@ -125,7 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # user
 AUTH_USER_MODEL = config('AUTH_USER_MODEL')
-LOGIN_URL = '/fa/sign-in'  #TODO redirect to real route
+LOGIN_URL = reverse_lazy('auth:signin')
 
 # captcha
 CAPTCHA_FONT_SIZE = 30
