@@ -4,7 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ClinicModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نام درمانگاه'))
+    title = models.CharField(max_length=255, verbose_name=_('نام'))
+    desc = models.TextField(verbose_name=_('متن'))
+    image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
+    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
+    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
 
     class Meta:
         ordering = ['-id']
@@ -19,6 +23,8 @@ class SurgeryRoomModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
+    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
+    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
 
     class Meta:
         ordering = ['-id']
@@ -33,6 +39,8 @@ class DepartmentModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
+    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
+    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
 
     class Meta:
         ordering = ['-id']
@@ -47,6 +55,8 @@ class TreatmentSectionModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
+    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
+    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
 
     class Meta:
         ordering = ['-id']
