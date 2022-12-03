@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'hospital_news.apps.HospitalNewsConfig',
     'hospital_contact.apps.HospitalContactConfig',
     'hospital_website.apps.HospitalWebsiteConfig',
-    'hospital_jobs.apps.HospitalJobsConfig',
+    'hospital_doctor.apps.HospitalDoctorConfig',
     'hospital_panel.apps.HospitalPanelConfig',
     'hospital_units.apps.HospitalUnitsConfig',
 

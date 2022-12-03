@@ -24,7 +24,7 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_news.urls', namespace='news')),
     path('', include('hospital_contact.urls', namespace='contact')),
     path('', include('hospital_website.urls', namespace='website')),
-    path('', include('hospital_jobs.urls', namespace='jobs')),
+    path('', include('hospital_doctor.urls', namespace='doctor')),
     path('', include('hospital_panel.urls', namespace='panel')),
     path('', include('hospital_units.urls', namespace='units')),
 
