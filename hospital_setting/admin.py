@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from .models import (
     SettingModel,
     CostModel,
-    HospitalPoliticModel,
+    HospitalPoliticModel, HospitalPoliticRECYCLE,
     HospitalFacilityModel,
     FAQModel,
     NewsLetterModel,
@@ -31,6 +32,17 @@ class HospitalPoliticModel_Admin(admin.ModelAdmin):
     list_display = ['title']
     search_field = ['title']
     ordering = ['-id']
+
+class HospitalPoliticRECYCLE_Admin(admin.ModelAdmin):
+
+    actions = ['recover']
+
+    def get_queryset(self, request):
+        return HospitalPoliticRECYCLE.deleted.filter(is_deleted=True)
+
+    @admin.action(description=_('ریکاوری کردن'))
+    def recover(self, request, queryset):
+        queryset.update(is_deleted=False, deleted_at=None)
 
 
 class HospitalFacilityModel_Admin(admin.ModelAdmin):
@@ -102,6 +114,8 @@ class CertificateModel_Admin(admin.ModelAdmin):
 admin.site.register(SettingModel, SettingModel_Admin)
 admin.site.register(CostModel, CostModel_Admin)
 admin.site.register(HospitalPoliticModel, HospitalPoliticModel_Admin)
+admin.site.register(HospitalPoliticRECYCLE, HospitalPoliticRECYCLE_Admin)
+
 admin.site.register(HospitalFacilityModel, HospitalFacilityModel_Admin)
 admin.site.register(FAQModel, FAQModel_Admin)
 admin.site.register(NewsLetterModel, NewsLetterModel_Admin)
