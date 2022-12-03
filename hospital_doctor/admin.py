@@ -3,7 +3,6 @@ from .models import (
     DoctorModel,
     DoctorSkillModel,
     TitleSkillModel,
-    ClinicModel,
     DoctorWorkTimeModel,
     DoctorVacationModel,
 )
@@ -26,12 +25,6 @@ class TitleSkillModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class ClinicModel_Admin(admin.ModelAdmin):
-    list_display = ['title']
-    search_fields = ['title']
-    ordering = ['-id']
-
-
 class DoctorWorkTimeModel_Admin(admin.ModelAdmin):
     list_display = ['doctor', 'day', 'time']
     search_fields = ['doctor', 'day', 'time']
@@ -47,6 +40,5 @@ class DoctorVacationModel_Admin(admin.ModelAdmin):
 admin.site.register(DoctorModel, DoctorModel_Admin)
 admin.site.register(DoctorSkillModel, DoctorSkillModel_Admin)
 admin.site.register(TitleSkillModel, TitleSkillModel_Admin)
-admin.site.register(ClinicModel, ClinicModel_Admin)
 admin.site.register(DoctorWorkTimeModel, DoctorWorkTimeModel_Admin)
 admin.site.register(DoctorVacationModel, DoctorVacationModel_Admin)

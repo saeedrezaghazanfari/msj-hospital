@@ -57,39 +57,6 @@ class TreatmentSectionModel(models.Model):
         return self.title
 
 
-class TreatmentSectionModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نام'))
-    desc = models.TextField(verbose_name=_('متن'))
-    image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
-    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
-    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('بخش درمان')
-        verbose_name_plural = _('بخش های درمان')
-
-    def __str__(self):
-        return self.title
-
-
-
-class TreatmentSectionModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نام'))
-    desc = models.TextField(verbose_name=_('متن'))
-    image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
-    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
-    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('بخش درمان')
-        verbose_name_plural = _('بخش های درمان')
-
-    def __str__(self):
-        return self.title
-
-
 class ParaclinicModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))
@@ -117,22 +84,6 @@ class ImagingModel(models.Model):
         ordering = ['-id']
         verbose_name = _('تصویربرداری')
         verbose_name_plural = _('تصویربرداری ها')
-
-    def __str__(self):
-        return self.title
-
-
-class LaboratoryModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نام'))
-    desc = models.TextField(verbose_name=_('متن'))
-    image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
-    phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
-    inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('آزمایشگاه')
-        verbose_name_plural = _('آزمایشگاه ها')
 
     def __str__(self):
         return self.title
