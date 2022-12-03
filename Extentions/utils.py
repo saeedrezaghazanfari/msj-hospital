@@ -148,6 +148,12 @@ def news_gallery_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"news-gallery/{final_name}"
 
+# ######### for hospital units images ######### #
+def units_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"units/{final_name}"
+
 # =============== end static path
 
 

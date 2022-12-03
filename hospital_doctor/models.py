@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
+from hospital_units.models import ClinicModel
 
 
 class DoctorModel(models.Model):
@@ -25,7 +26,7 @@ class DoctorSkillModel(models.Model):
     medical_code = models.IntegerField(verbose_name=_('کد نظام پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
     doctor = models.ForeignKey(to=DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
-    clinic = models.ForeignKey(to='ClinicModel', on_delete=models.CASCADE, verbose_name=_('کلینیک'))
+    clinic = models.ForeignKey(to=ClinicModel, on_delete=models.CASCADE, verbose_name=_('کلینیک'))
     position = models.TextField(max_length=500, verbose_name=_('موقعیت'))
     description = models.TextField(blank=True, null=True, verbose_name=_('توضیحات'))
     is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
@@ -47,18 +48,6 @@ class TitleSkillModel(models.Model):
         ordering = ['-id']
         verbose_name = _('عنوان تخصص')
         verbose_name_plural = _('عناوین تخصص‌ها')
-
-    def __str__(self):
-        return self.title
-
-
-class ClinicModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نام درمانگاه'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('درمانگاه')
-        verbose_name_plural = _('درمانگاه ها')
 
     def __str__(self):
         return self.title
