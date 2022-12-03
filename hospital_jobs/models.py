@@ -97,7 +97,6 @@ class DoctorWorkTimeModel(models.Model):
         return self.doctor.doctor.get_full_name()
 
 
-
 class DoctorVacationModel(models.Model):
     doctor = models.ForeignKey(DoctorSkillModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
     from_time = models.DateField(default=timezone.now, verbose_name=_('از تاریخ'))
