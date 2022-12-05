@@ -9,6 +9,8 @@ class ClinicModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -25,6 +27,8 @@ class SurgeryRoomModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -41,6 +45,8 @@ class DepartmentModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -57,6 +63,8 @@ class TreatmentSectionModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -73,6 +81,8 @@ class ParaclinicModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -89,6 +99,8 @@ class ImagingModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -105,6 +117,8 @@ class LaboratoryModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -121,6 +135,8 @@ class PhysiotherapyModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -137,6 +153,8 @@ class PharmacyModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -153,6 +171,8 @@ class AngiographyAngioplastyModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']
@@ -169,6 +189,8 @@ class EmergencyModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
+    address = models.CharField(max_length=500, blank=True, null=True, verbose_name=_('آدرس'))
+    manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مدیر'))
 
     class Meta:
         ordering = ['-id']

@@ -1,7 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from .models import User, LoginCodeModel, SupporterModel, ContentProducerModel
+from .models import (
+    User, 
+    LoginCodeModel, 
+    SupporterModel, 
+    ContentProducerModel, 
+    AdmissionsAdminModel
+)
 
 
 class AdminUser(UserAdmin):
@@ -42,9 +48,15 @@ class ContentProducerModel_Admin(admin.ModelAdmin):
     search_field = ['get_full_name']
     ordering = ['-id']
 
+class AdmissionsAdminModel_Admin(admin.ModelAdmin):
+    list_display = ['id', 'get_full_name', 'is_active']
+    search_field = ['get_full_name']
+    ordering = ['-id']
+
 
 admin.site.register(User, AdminUser)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)
 admin.site.register(SupporterModel, SupporterModel_Admin)
 admin.site.register(ContentProducerModel, ContentProducerModel_Admin)
+admin.site.register(AdmissionsAdminModel, AdmissionsAdminModel_Admin)
 admin.site.unregister(Group)

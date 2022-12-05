@@ -6,39 +6,26 @@ from hospital_units.models import ClinicModel
 
 
 class DoctorModel(models.Model):
+    medical_code = models.BigIntegerField(verbose_name=_('کد نظام پزشکی'))
+    skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    clinic = models.ForeignKey(to=ClinicModel, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('کلینیک'))
+    position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('توضیحات'))
     bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
+    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('پزشک')
-        verbose_name_plural = _('پزشک ها')
+        verbose_name_plural = _('پزشکان')
 
     def __str__(self):
-        return str(self.user.get_full_name())
+        return self.title
 
     def get_full_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
     get_full_name.short_description = _('نام پزشک')
-
-
-class DoctorSkillModel(models.Model):
-    medical_code = models.IntegerField(verbose_name=_('کد نظام پزشکی'))
-    skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
-    doctor = models.ForeignKey(to=DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
-    clinic = models.ForeignKey(to=ClinicModel, on_delete=models.CASCADE, verbose_name=_('کلینیک'))
-    position = models.TextField(max_length=500, verbose_name=_('موقعیت'))
-    description = models.TextField(blank=True, null=True, verbose_name=_('توضیحات'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
-
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('عنوان تخصص')
-        verbose_name_plural = _('عناوین تخصص‌ها')
-
-    def __str__(self):
-        return self.title
 
 
 class TitleSkillModel(models.Model):
@@ -73,7 +60,7 @@ class DoctorWorkTimeModel(models.Model):
         ('18-20', '18-20'),
         ('20-22', '20-22'),
     )
-    doctor = models.ForeignKey(DoctorSkillModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
+    doctor = models.ForeignKey(DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
     time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('زمان'))
 
@@ -83,11 +70,11 @@ class DoctorWorkTimeModel(models.Model):
         verbose_name_plural = _('زمان‌های کاری پزشکان')
     
     def __str__(self):  
-        return self.doctor.doctor.get_full_name()
+        return self.doctor.get_full_name()
 
 
 class DoctorVacationModel(models.Model):
-    doctor = models.ForeignKey(DoctorSkillModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
+    doctor = models.ForeignKey(DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
     from_time = models.DateField(default=timezone.now, verbose_name=_('از تاریخ'))
     to_time = models.DateField(default=timezone.now, verbose_name=_('تا تاریخ'))
 
@@ -97,4 +84,4 @@ class DoctorVacationModel(models.Model):
         verbose_name_plural = _('زمان‌های مرخصی پزشکان')
     
     def __str__(self):  
-        return self.doctor.doctor.get_full_name()
+        return self.doctor.get_full_name()

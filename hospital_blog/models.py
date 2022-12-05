@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from hospital_doctor.models import DoctorModel
 from hospital_auth.models import User, ContentProducerModel
 from Extentions.utils import (
     jalali_convertor, 
@@ -31,12 +32,12 @@ class MedicalNoteModel(models.Model):
         return str(self.id)
 
 
-class BlogModel(models.Model):  #TODO
+class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
     video = models.FileField(upload_to=blog_image_path, null=True, blank=True, verbose_name=_('ویدیو'))
-    writer_contentproducer = models.ForeignKey(to=ContentProducerModel, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک شخص تولید کننده ی محتوا بوده است.'))
-    # writer_doctor = models.ForeignKey(to=DoctorModel, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک پزشک بوده است.'))
+    writer_contentproducer = models.ForeignKey(to=ContentProducerModel, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک شخص تولید کننده ی محتوا بوده است.'))
+    writer_doctor = models.ForeignKey(to=DoctorModel, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک پزشک بوده است.'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))

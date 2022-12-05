@@ -63,6 +63,23 @@ class ContentProducerModel(models.Model):
     get_full_name.short_description = _('نام تولیدکننده ی محتوا')
 
 
+class AdmissionsAdminModel(models.Model):
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+    
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('ادمین پذیرش')
+        verbose_name_plural = _('ادمین های پذیرش')
+
+    def __str__(self):
+        return str(self.user.get_full_name())
+
+    def get_full_name(self):
+        return f'{self.user.first_name} {self.user.last_name}'
+    get_full_name.short_description = _('نام ادمین پذیرش')
+
+
 class LoginCodeModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
