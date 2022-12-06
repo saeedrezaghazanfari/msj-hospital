@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 # from hospital_auth.models import User
-from Extentions.utils import (
+from extentions.utils import (
     costs_image_path, 
     facility_image_path,
     gallery_image_path,

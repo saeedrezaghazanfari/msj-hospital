@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
-    'Extentions',
+    'extentions',
     'hospital_auth.apps.HospitalAuthConfig',
     'hospital_setting.apps.HospitalSettingConfig',
     'hospital_blog.apps.HospitalBlogConfig',
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'App_Config.urls'
+ROOT_URLCONF = 'app_config.urls'
 
 TEMPLATES = [
     {

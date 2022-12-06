@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
-from Extentions.utils import profile_image_path, jalali_convertor, get_random_code
+from extentions.utils import profile_image_path, jalali_convertor, get_random_code
 
 
 class User(AbstractUser):

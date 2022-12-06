@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
-from Extentions.utils import jalali_convertor
+from extentions.utils import jalali_convertor
 
 
 class NotificationModel(models.Model): #TODO is_from_boss fk to riast

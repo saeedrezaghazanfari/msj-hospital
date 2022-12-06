@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_doctor.models import DoctorModel
 from hospital_auth.models import User, ContentProducerModel
-from Extentions.utils import (
+from extentions.utils import (
     jalali_convertor, 
     blog_image_path, 
     get_blog_code, 

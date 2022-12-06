@@ -1,5 +1,5 @@
 from django.db import models
-from Extentions.utils import units_image_path
+from extentions.utils import units_image_path
 from django.utils.translation import gettext_lazy as _
 
 

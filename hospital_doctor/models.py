@@ -51,18 +51,28 @@ class DoctorWorkTimeModel(models.Model):
         ('friday', _('جمعه')),
     )
     TIMES = (
-        ('6-8', '6-8'),
-        ('8-10', '8-10'),
-        ('10-12', '10-12'),
-        ('12-14', '12-14'),
-        ('14-16', '14-16'),
-        ('16-18', '16-18'),
-        ('18-20', '18-20'),
-        ('20-22', '20-22'),
+        ('6-7', '6-7'),
+        ('7-8', '7-8'),
+        ('8-9', '8-9'),
+        ('9-10', '9-10'),
+        ('10-11', '10-11'),
+        ('11-12', '11-12'),
+        ('12-13', '12-13'),
+        ('13-14', '13-14'),
+        ('14-15', '14-15'),
+        ('15-16', '15-16'),
+        ('16-17', '16-17'),
+        ('17-18', '17-18'),
+        ('18-19', '18-19'),
+        ('19-20', '19-20'),
+        ('20-21', '20-21'),
+        ('21-22', '21-22'),
+        ('22-23', '22-23'),
+        ('23-24', '23-24'),
     )
     doctor = models.ForeignKey(DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
-    time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('زمان'))
+    time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('بازه ی زمانی'))
 
     class Meta:
         ordering = ['-id']

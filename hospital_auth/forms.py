@@ -3,7 +3,7 @@ from django import forms
 from .models import User
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
-from Extentions.utils import is_phone, is_national_code
+from extentions.utils import is_phone, is_national_code
 
 
 class SignUpForm(forms.ModelForm):
