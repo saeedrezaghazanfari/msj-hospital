@@ -17,19 +17,8 @@
 
     <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
         <ul>
-            <h3>Panels</h3>
-            <li {% if not user_label.is_supporter %}style="display: none;"{% endif %}><a href="">supporter</a></li>
-            <!-- <li><a href="">admission admin</a></li> -->
-            <li {% if not user_label.is_contentproducer %}style="display: none;"{% endif %}><a href="">content pro</a></li>
-            <li {% if not user_label.is_doctor %}style="display: none;"{% endif %}><a href="">doctor</a></li>
-            
-            <hr>
-            <h3>Real</h3>
-            <li><a href="{% url 'panel:online-appointment' %}">نوبتدهی اینترنتی</a></li>
-            <li><a href="{% url 'panel:activate-account' %}">فعالسازی حساب کاربری</a></li>
-            <li><a href="{% url 'panel:edit-info' %}">ویرایش اطلاعات</a></li>
-            <li><a href="{% url 'panel:reset-password' %}">تغییر رمز عبور</a></li>
-            <li><a href="{% url 'auth:signout' %}">exit</a></li>
+
+            {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
