@@ -3,7 +3,9 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
-from extentions.utils import jalali_convertor
+from hospital_units.models import UnitModel
+from hospital_doctor.models import TitleSkillModel, DegreeModel
+from extentions.utils import jalali_convertor, resume_image_path
 
 
 class NotificationModel(models.Model): #TODO is_from_boss fk to riast
@@ -40,31 +42,19 @@ class NotificationUserModel(models.Model):
         return str(self.id)
 
 
-# class PatientSightModel(models.Model):
-#     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-#     desc = models.TextField(verbose_name=_('متن'))
-#     created = models.DateTimeField(auto_now_add=True)
-#     is_show = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+class PatientSightModel(models.Model):
+    patient = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('بخش'))
+    desc = models.TextField(verbose_name=_('متن'))
+    created = models.DateTimeField(auto_now_add=True)
     
-#     class Meta:
-#         ordering = ['-id']
-#         verbose_name = _('دیدگاه بیمار')
-#         verbose_name_plural = _('دیدگاه بیماران')
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('دیدگاه بیمار')
+        verbose_name_plural = _('دیدگاه بیماران')
 
-#     def __str__(self):
-#         return self.user
-
-
-# class CooperationModel(models.Model):
-#     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-
-#     class Meta:
-#         ordering = ['-id']
-#         verbose_name = _('همکاری')
-#         verbose_name_plural = _('همکاری ها')
-
-#     def __str__(self):
-#         return self.user
+    def __str__(self):
+        return self.patient
 
 
 class ContactUsModel(models.Model):
@@ -89,22 +79,25 @@ class ContactUsModel(models.Model):
     j_created.short_description = _('تاریخ انتشار')
 
 
-# class CriticismSuggestionModel(models.Model):
-#     message = models.TextField(verbose_name=_('متن ارتباط'))
-#     name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
-#     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
-#     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
-#     title = models.CharField(max_length=100, verbose_name=_('عنوان ارتباط'))
-#     is_read = models.BooleanField(default=False, verbose_name=_('بررسی شده یا نه'))
-#     created = models.DateTimeField(auto_now_add=True)
+class CriticismSuggestionModel(models.Model):
+    message = models.TextField(verbose_name=_('متن ارتباط'))
+    name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
+    national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
+    email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
+    phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
+    email = models.EmailField(verbose_name=_('ایمیل'))
+    manager = models.CharField(max_length=100, verbose_name=_('نام مسیول'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('نام بخش'))
+    is_read = models.BooleanField(default=False, verbose_name=_('بررسی شده یا نه'))
+    created = models.DateTimeField(auto_now_add=True)
 
-#     class Meta:
-#         ordering = ['-id']
-#         verbose_name = _('انتقاد و پیشنهاد مخاطب')
-#         verbose_name_plural = _('انتقادات و پیشنهادات مخاطبان')
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('انتقاد و پیشنهاد مخاطب')
+        verbose_name_plural = _('انتقادات و پیشنهادات مخاطبان')
 
-#     def __str__(self):
-#         return str(self.title)
+    def __str__(self):
+        return str(self.national_code)
 
 
 class PeopleAidModel(models.Model):
@@ -139,3 +132,62 @@ class BenefactorModel(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class CareersModel(models.Model):    
+    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('بخش مربوطه'))
+    skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.CASCADE, verbose_name=_('تخصص'))
+    degree = models.ForeignKey(to=DegreeModel, on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
+    gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان موقعیت'))
+    desc = models.TextField(verbose_name=_('توضیحات'))
+    min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
+    max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('موقعیت شغلی بیمارستان')
+        verbose_name_plural = _('موقعیت های شغلی بیمارستان')
+
+    def __str__(self):
+        return self.title
+
+
+class HireFormModel(models.Model):
+    SINGLE_MARRIED = (('single', _('مجرد')), ('married', _('متاهل')))
+    SOLDIERING_TYPE = (('end', _('پایان خدمت')), ('abs_exemption', _('معافیت دایم')), ('edu_exemption', _('معافیت تحصیلی')), ('progressing', _('در حال انجام')), ('include', _('مشمول')))
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    career = models.ForeignKey(to=CareersModel, on_delete=models.CASCADE, verbose_name=_('موقعیت شغلی'))
+    created = models.DateTimeField(auto_now_add=True)
+    is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی شده است؟'))
+
+    first_name = models.CharField(max_length=50, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
+    father = models.CharField(max_length=50, verbose_name=_('نام پدر'))
+    national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
+    national_number = models.CharField(max_length=20, verbose_name=_('شماره شناسنامه'))
+    burthday_date = models.DateField(verbose_name=_('تاریخ تولد'))
+    burthday_place = models.CharField(max_length=50, verbose_name=_('محل تولد'))
+    single_married = models.CharField(choices=SINGLE_MARRIED, max_length=10, verbose_name=_('وضعیت تاهل'))
+    num_childs = models.PositiveIntegerField(default=0, verbose_name=_('تعداد فرزندان'))
+    soldiering = models.CharField(max_length=20, choices=SOLDIERING_TYPE, verbose_name=_('وضعیت نظام وظیفه'))
+    end_date = models.DateField(verbose_name=_('تاریخ پایان طرح'))
+    direct = models.CharField(max_length=50, verbose_name=_('معرف'))
+    education = models.CharField(max_length=50, verbose_name=_('تحصیلات'))
+    uni = models.CharField(max_length=50, verbose_name=_('نام دانشگاه'))
+    education_year = models.DateField(max_length=50, verbose_name=_('سال تحصیل'))
+    uni_permit = models.CharField(max_length=50, verbose_name=_('مجوز دانشگاه'))
+    address = models.TextField(verbose_name=_('آدرس محل زندگی'))
+    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
+    email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
+    resume = models.FileField(upload_to=resume_image_path, verbose_name=_('رزومه کاری مرتبط با کار درخواستی'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('فرم های استخدام')
+        verbose_name_plural = _('فرم های استخدام')
+
+    def __str__(self):
+        return self.user
+

@@ -16,8 +16,8 @@ class NewsModel_Admin(admin.ModelAdmin):
 
 
 class NewsGalleryModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'file_type']
-    search_fields = ['title', 'file_type']
+    list_display = ['title']
+    search_fields = ['title']
     ordering = ['-id']
 
 

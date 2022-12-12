@@ -14,11 +14,18 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     fixed_phone = models.CharField(max_length=20, blank=True, null=True, verbose_name=_('تلفن ثابت'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
+    age = models.PositiveIntegerField(verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     wallet_balance = models.FloatField(default=0, verbose_name=_('موجودی کیف پول'))
     is_send_sms = models.BooleanField(default=False, verbose_name=_('آیا پیامک های پزشکی ارسال شود؟'))
     is_active2 = models.BooleanField(default=False, verbose_name=_('فعال بودن حساب جهت استفاده از اپلیکیشن'), help_text=_('اگر اطلاعات حساب کاربر کامل بود آنگاه این گزینه فعال میشود.'))
-    
+    is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این بیمار بین الملل است؟'))
+    is_famous = models.BooleanField(default=False, verbose_name=_('آیا این بیمار از چهره های سرشناس است؟'))
+    # is_doctor = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام پزشک دارد؟'))
+    # is_supporter = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام پشتیبان دارد؟'))
+    # is_content_producer = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام تولیدکننده ی محتوا دارد؟'))
+    # is_admission_admin = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام ادمین پذیرش دارد؟'))
+
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
@@ -27,57 +34,6 @@ class User(AbstractUser):
         ordering = ['-id']
         verbose_name = _('کاربر')
         verbose_name_plural = _('کاربران')
-
-
-class SupporterModel(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
-    
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('پشتیبان')
-        verbose_name_plural = _('پشتیبانان')
-
-    def __str__(self):
-        return str(self.user.get_full_name())
-
-    def get_full_name(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-    get_full_name.short_description = _('نام پشتیبان')
-
-
-class ContentProducerModel(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
-    
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('تولیدکننده ی محتوا')
-        verbose_name_plural = _('تولیدکنندگان محتوا')
-
-    def __str__(self):
-        return str(self.user.get_full_name())
-
-    def get_full_name(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-    get_full_name.short_description = _('نام تولیدکننده ی محتوا')
-
-
-class AdmissionsAdminModel(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
-    
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('ادمین پذیرش')
-        verbose_name_plural = _('ادمین های پذیرش')
-
-    def __str__(self):
-        return str(self.user.get_full_name())
-
-    def get_full_name(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-    get_full_name.short_description = _('نام ادمین پذیرش')
 
 
 class LoginCodeModel(models.Model):

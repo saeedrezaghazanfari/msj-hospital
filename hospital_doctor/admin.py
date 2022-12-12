@@ -4,15 +4,22 @@ from .models import (
     TitleSkillModel,
     DoctorWorkTimeModel,
     DoctorVacationModel,
+    DegreeModel
 )
 
 
 class DoctorModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'get_full_name']
+    list_display = ['id', 'get_full_name', 'degree', 'skill_title']
     ordering = ['-id']
 
 
 class TitleSkillModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_fields = ['title']
+    ordering = ['-id']
+
+
+class DegreeModel_Admin(admin.ModelAdmin):
     list_display = ['title']
     search_fields = ['title']
     ordering = ['-id']
@@ -34,3 +41,4 @@ admin.site.register(DoctorModel, DoctorModel_Admin)
 admin.site.register(TitleSkillModel, TitleSkillModel_Admin)
 admin.site.register(DoctorWorkTimeModel, DoctorWorkTimeModel_Admin)
 admin.site.register(DoctorVacationModel, DoctorVacationModel_Admin)
+admin.site.register(DegreeModel, DegreeModel_Admin)

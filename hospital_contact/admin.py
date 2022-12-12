@@ -2,12 +2,13 @@ from django.contrib import admin
 from .models import (
     NotificationModel,
     NotificationUserModel,
-    # PatientSightModel,
-    # CooperationModel,
+    PatientSightModel,
     ContactUsModel,
-    # CriticismSuggestionModel,
+    CriticismSuggestionModel,
     PeopleAidModel,
     BenefactorModel,
+    CareersModel,
+    HireFormModel,
 )
 
 
@@ -22,16 +23,10 @@ class NotificationUserModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-# class PatientSightModel_Admin(admin.ModelAdmin):
-#     list_display = []
-#     search_fields = []
-#     ordering = ['-id']
-
-
-# class CooperationModel_Admin(admin.ModelAdmin):
-#     list_display = []
-#     search_fields = []
-#     ordering = ['-id']
+class PatientSightModel_Admin(admin.ModelAdmin):
+    list_display = ['patient', 'unit']
+    search_fields = ['patient', 'unit']
+    ordering = ['-id']
 
 
 class ContactUsModel_Admin(admin.ModelAdmin):
@@ -40,10 +35,10 @@ class ContactUsModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-# class CriticismSuggestionModel_Admin(admin.ModelAdmin):
-#     list_display = []
-#     search_fields = []
-#     ordering = ['-id']
+class CriticismSuggestionModel_Admin(admin.ModelAdmin):
+    list_display = ['name', 'national_code', 'unit']
+    search_fields = ['name', 'national_code']
+    ordering = ['-id']
 
 
 class PeopleAidModel_Admin(admin.ModelAdmin):
@@ -58,11 +53,24 @@ class BenefactorModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class CareersModel_Admin(admin.ModelAdmin):
+    list_display = ['title', 'skill', 'degree']
+    search_fields = ['title', 'skill', 'degree']
+    ordering = ['-id']
+
+
+class HireFormModel_Admin(admin.ModelAdmin):
+    list_display = ['user', 'career', 'is_checked']
+    search_fields = ['user']
+    ordering = ['-id']
+
+
 admin.site.register(NotificationModel, NotificationModel_Admin)
 admin.site.register(NotificationUserModel, NotificationUserModel_Admin)
-# admin.site.register(PatientSightModel, PatientSightModel_Admin)
-# admin.site.register(CooperationModel, CooperationModel_Admin)
+admin.site.register(PatientSightModel, PatientSightModel_Admin)
 admin.site.register(ContactUsModel, ContactUsModel_Admin)
-# admin.site.register(CriticismSuggestionModel, CriticismSuggestionModel_Admin)
+admin.site.register(CriticismSuggestionModel, CriticismSuggestionModel_Admin)
 admin.site.register(PeopleAidModel, PeopleAidModel_Admin)
 admin.site.register(BenefactorModel, BenefactorModel_Admin)
+admin.site.register(CareersModel, CareersModel_Admin)
+admin.site.register(HireFormModel, HireFormModel_Admin)

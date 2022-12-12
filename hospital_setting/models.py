@@ -3,12 +3,16 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 # from hospital_auth.models import User
+from hospital_doctor.models import TitleSkillModel, DegreeModel
 from extentions.utils import (
     costs_image_path, 
     facility_image_path,
     gallery_image_path,
     home_gallery_image_path,
     certificate_image_path,
+    insurance_image_path,
+    map_image_path,
+    report_image_path,
 )
 
 
@@ -45,8 +49,10 @@ class SettingModel(models.Model):
     address = models.CharField(max_length=255, verbose_name=_('آدرس'))
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
     phone = models.CharField(max_length=255, verbose_name=_('تلفن'))
+    facs = models.CharField(max_length=255, verbose_name=_('فکس'))
     from_to = models.CharField(max_length=200, verbose_name=_('زمان گشایش'))
     history = models.TextField(verbose_name=_('تاریخچه'))
+    aparat = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('لینکدین'))
     facebook = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('فیسبوک'))
     twitter = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('توییتر'))
@@ -92,6 +98,7 @@ class HospitalPoliticModel(SettingSDModel):
 
     def __str__(self):
         return self.title
+
 
 class HospitalPoliticRECYCLE(HospitalPoliticModel):
     deleted = models.Manager()
@@ -142,6 +149,7 @@ class NewsLetterModel(models.Model):
 
 class InsuranceModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('نام بیمه'))
+    img = models.ImageField(upload_to=insurance_image_path, verbose_name=_('تصویر'))
 
     class Meta:
         ordering = ['-id']
@@ -169,7 +177,8 @@ class HospitalGalleryItemModel(models.Model):
     FILE_TYPES = (('video', _('ویدیو')), ('image', _('تصویر')))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     file_type = models.CharField(max_length=20, choices=FILE_TYPES, verbose_name=_('نوع فایل'))
-    file = models.FileField(upload_to=gallery_image_path, verbose_name=_('فایل'))
+    file = models.ImageField(upload_to=gallery_image_path, blank=True, null=True, verbose_name=_('فایل'), help_text=_('اگر فایل شما تصویر میباشد تصویر مورد نظر را وارد کنید.'))
+    file_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک فایل'), help_text=_('اگر فایل شما ویدیو میباشد لینک فیلم را وارد کنید.'))
 
     class Meta:
         ordering = ['-id']
@@ -183,34 +192,39 @@ class HospitalGalleryItemModel(models.Model):
 class ReportModel(models.Model):
     time_bound = models.CharField(max_length=100, verbose_name=_('مدت عملکرد'))
     description = models.TextField(verbose_name=_('توضیحات'))
-    image = models.ImageField(upload_to=gallery_image_path, verbose_name=_('تصویر'))
-    video = models.FileField(upload_to=gallery_image_path, verbose_name=_('ویدیو'))
+    image = models.ImageField(upload_to=report_image_path, blank=True, null=True, verbose_name=_('تصویر'))
+    video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('گزارش بیمارستان')
-        verbose_name_plural = _('گزارش های بیمارستان')
+        verbose_name = _('گزارش عملکرد بیمارستان')
+        verbose_name_plural = _('گزارش عملکرد های بیمارستان')
 
     def __str__(self):
         return self.time_bound
 
 
-class PriceModel(models.Model):
-    title = models.CharField(max_length=400, verbose_name=_('عنوان'))
-    price = models.PositiveBigIntegerField(verbose_name=_('مبلغ'))
-    type_service = models.CharField(max_length=500, verbose_name=_('نوع خدمت'))
+class PriceAppointmentModel(models.Model):
+    TYPE_DEGREE = (('superexpert', _('فوق تخصص')), ('expert', _('متخصص')), ('public', _('عمومی')), ('drugcreator', _('داروساز')), ('fellowship', _('فلوشیپ')), ('phd', _('پی اچ دی')) )
+    title = models.ForeignKey(to=TitleSkillModel, on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
+    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('بیمه'))
+    degree = models.ForeignKey(to=DegreeModel, on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
+    price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد '))
+    price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ با بیمه'))
+    year = models.IntegerField(verbose_name=_('سال تعرفه'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('تعرفه')
-        verbose_name_plural = _('تعرفه ها')
+        verbose_name = _('تعرفه ی نوبت دهی')
+        verbose_name_plural = _('تعرفه ی نوبت دهی ها')
 
     def __str__(self):
         return self.title
 
 
 class ResultModel(models.Model):
-    title = models.CharField(max_length=500, verbose_name=_('عنوان'))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    desc = models.TextField(verbose_name=_('متن'))
 
     class Meta:
         ordering = ['-id']
@@ -239,6 +253,8 @@ class CertificateModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('عنوان'))
     description = models.TextField(verbose_name=_('توضیحات'))
     image = models.ImageField(upload_to=certificate_image_path, verbose_name=_('تصویر'))
+    year_certif = models.IntegerField(verbose_name=_('سال اخذ'))
+    year_expire = models.IntegerField(verbose_name=_('تاریخ اعتبار'))
 
     class Meta:
         ordering = ['-id']
@@ -248,3 +264,77 @@ class CertificateModel(models.Model):
     def __str__(self):
         return self.title
 
+
+class MapModel(models.Model):
+    phase = models.IntegerField(verbose_name=_('فاز'))
+    floor = models.IntegerField(verbose_name=_('طبقه'))
+    image_map = models.ImageField(upload_to=map_image_path, blank=True, null=True, verbose_name=_('نقشه'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نقشه بیمارستان')
+        verbose_name_plural = _('نقشه های بیمارستان')
+
+    def __str__(self):
+        return str(self.phase)
+
+
+class ContactInfoModel(models.Model):
+    title = models.CharField(max_length=500, verbose_name=_('عنوان'))
+    phones = models.CharField(max_length=100, verbose_name=_('تلفن ها'))
+    email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('اطلاعات تماس')
+        verbose_name_plural = _('اطلاعات تماس')
+
+    def __str__(self):
+        return self.title
+
+
+class PriceServiceModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    desc = models.TextField(verbose_name=_('متن'))
+    price_special = models.PositiveBigIntegerField(verbose_name=_('مبلغ خصوصی'))
+    price_govern = models.PositiveBigIntegerField(verbose_name=_('مبلغ دولتی'))
+    diffrence = models.PositiveBigIntegerField(verbose_name=_('تفاوت'))
+    year = models.IntegerField(verbose_name=_('سال تعرفه'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('تعرفه خدمات بیمارستان')
+        verbose_name_plural = _('تعرفه خدمات بیمارستان')
+
+    def __str__(self):
+        return self.title
+
+
+class PriceBedModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد'))
+    price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ بیمه'))
+    year = models.IntegerField(verbose_name=_('سال تعرفه'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('تعرفه تخت بیمارستان')
+        verbose_name_plural = _('تعرفه تخت های بیمارستان')
+
+    def __str__(self):
+        return self.title
+
+
+class PriceSurgrayModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد'))
+    price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ بیمه'))
+    year = models.IntegerField(verbose_name=_('سال تعرفه'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('تعرفه عمل جراحی بیمارستان')
+        verbose_name_plural = _('تعرفه عمل جراحی های بیمارستان')
+
+    def __str__(self):
+        return self.title

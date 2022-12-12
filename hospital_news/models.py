@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from hospital_auth.models import User, ContentProducerModel
+from hospital_auth.models import User
 from extentions.utils import (
     jalali_convertor, 
     news_image_path, 
@@ -20,8 +20,8 @@ class NewsModelManager(models.Manager):
 class NewsModel(models.Model):
     slug = models.SlugField(unique=True, default=get_news_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=news_image_path, verbose_name=_('تصویر'))
-    video = models.FileField(upload_to=news_image_path, null=True, blank=True, verbose_name=_('ویدیو'))
-    writer_contentproducer = models.ForeignKey(to=ContentProducerModel, on_delete=models.CASCADE, verbose_name=_('نویسنده'))
+    video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
+    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
@@ -61,21 +61,14 @@ class NewsModel(models.Model):
         return None
 
     def get_full_name(self):
-        if self.writer_contentproducer:
-            try:
-                return f'{self.writer_contentproducer.user.first_name} {self.writer_contentproducer.user.last_name}'
-            except:
-                return _('پشتیبان')
-        else:
-            return _('پشتیبان')
+        return f'{self.writer.user.first_name} {self.writer.user.last_name}'
     get_full_name.short_description = _('نام نویسنده')
 
 
 class NewsGalleryModel(models.Model):
-    FILE_TYPES = (('video', _('ویدیو')), ('image', _('تصویر')))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    file_type = models.CharField(max_length=20, choices=FILE_TYPES, verbose_name=_('نوع فایل'))
-    file = models.FileField(upload_to=news_gallery_image_path, verbose_name=_('فایل'))
+    image = models.ImageField(upload_to=news_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
+    video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 
     class Meta:
         ordering = ['-id']

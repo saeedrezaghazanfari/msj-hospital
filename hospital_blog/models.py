@@ -1,8 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from hospital_doctor.models import DoctorModel
-from hospital_auth.models import User, ContentProducerModel
+from hospital_auth.models import User
 from extentions.utils import (
     jalali_convertor, 
     blog_image_path, 
@@ -35,9 +34,8 @@ class MedicalNoteModel(models.Model):
 class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
-    video = models.FileField(upload_to=blog_image_path, null=True, blank=True, verbose_name=_('ویدیو'))
-    writer_contentproducer = models.ForeignKey(to=ContentProducerModel, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک شخص تولید کننده ی محتوا بوده است.'))
-    writer_doctor = models.ForeignKey(to=DoctorModel, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('نویسنده'), help_text=_('اگر این فیلد پر بشود یعنی تولید کننده ی این پست یک پزشک بوده است.'))
+    video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
+    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
@@ -83,26 +81,14 @@ class BlogModel(models.Model):
         return None
 
     def get_full_name(self):
-        if self.writer_contentproducer:
-            try:
-                return f'{self.writer_contentproducer.user.first_name} {self.writer_contentproducer.user.last_name}'
-            except:
-                return _('پشتیبان')
-        elif self.writer_doctor:
-            try:
-                return f'{self.writer_doctor.user.first_name} {self.writer_doctor.user.last_name}'
-            except:
-                return _('پشتیبان')
-        else:
-            return _('پشتیبان')
+        return f'{self.writer.user.first_name} {self.writer.user.last_name}'
     get_full_name.short_description = _('نام نویسنده')
 
 
 class BlogGalleryModel(models.Model):
-    FILE_TYPES = (('video', _('ویدیو')), ('image', _('تصویر')))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    file_type = models.CharField(max_length=20, choices=FILE_TYPES, verbose_name=_('نوع فایل'))
-    file = models.FileField(upload_to=blog_gallery_image_path, verbose_name=_('فایل'))
+    image = models.ImageField(upload_to=blog_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
+    video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 
     class Meta:
         ordering = ['-id']

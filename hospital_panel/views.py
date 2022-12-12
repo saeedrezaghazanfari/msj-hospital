@@ -1,5 +1,8 @@
 from django.views import generic
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from hospital_auth.models import User
+from .forms import EditInfoForm
 
 
 # url: /panel
@@ -16,18 +19,13 @@ class OnlineAppointmentPage(generic.TemplateView):
     template_name = 'panel/online-appointment.html'
 
 
-# url: /panel/activate-account
-class ActivateAccountPage(generic.TemplateView):
-    template_name = 'panel/activate-account.html'
-
-
 # url: /panel/edit-info
-class EditInfoPage(generic.TemplateView):
+class EditInfoPage(generic.UpdateView):
+    model = User
+    form_class = EditInfoForm
     template_name = 'panel/edit-info.html'
 
-
-# url: /panel/reset-password
-class ResetPassWordPage(generic.TemplateView):
-    template_name = 'panel/reset-password.html'
+    def get_success_url(self):
+        return reverse_lazy('panel:home')
 
 

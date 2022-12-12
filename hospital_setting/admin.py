@@ -11,10 +11,15 @@ from .models import (
     HospitalGalleryModel,
     HospitalGalleryItemModel,
     ReportModel,
-    PriceModel,
+    PriceAppointmentModel,
     ResultModel,
     HomeGalleryModel,
     CertificateModel,
+    MapModel,
+    ContactInfoModel,
+    PriceServiceModel,
+    PriceBedModel,
+    PriceSurgrayModel
 )
 
 
@@ -87,9 +92,9 @@ class ReportModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class PriceModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'price']
-    search_field = ['title', 'price']
+class PriceAppointmentModel_Admin(admin.ModelAdmin):
+    list_display = ['title', 'degree', 'insurance', 'price_free', 'price_insurance']
+    search_field = ['title', 'degree', 'insurance']
     ordering = ['-id']
 
 
@@ -111,6 +116,36 @@ class CertificateModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class MapModel_Admin(admin.ModelAdmin):
+    list_display = ['phase', 'floor']
+    search_field = ['phase', 'floor']
+    ordering = ['-id']
+
+
+class ContactInfoModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_field = ['title']
+    ordering = ['-id']
+
+
+class PriceServiceModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_field = ['title']
+    ordering = ['-id']
+
+
+class PriceBedModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_field = ['title']
+    ordering = ['-id']
+
+
+class PriceSurgrayModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_field = ['title']
+    ordering = ['-id']
+
+
 admin.site.register(SettingModel, SettingModel_Admin)
 admin.site.register(CostModel, CostModel_Admin)
 admin.site.register(HospitalPoliticModel, HospitalPoliticModel_Admin)
@@ -123,7 +158,12 @@ admin.site.register(InsuranceModel, InsuranceModel_Admin)
 admin.site.register(HospitalGalleryModel, HospitalGalleryModel_Admin)
 admin.site.register(HospitalGalleryItemModel, HospitalGalleryItemModel_Admin)
 admin.site.register(ReportModel, ReportModel_Admin)
-admin.site.register(PriceModel, PriceModel_Admin)
+admin.site.register(PriceAppointmentModel, PriceAppointmentModel_Admin)
 admin.site.register(ResultModel, ResultModel_Admin)
 admin.site.register(HomeGalleryModel, HomeGalleryModel_Admin)
 admin.site.register(CertificateModel, CertificateModel_Admin)
+admin.site.register(MapModel, MapModel_Admin)
+admin.site.register(ContactInfoModel, ContactInfoModel_Admin)
+admin.site.register(PriceServiceModel, PriceServiceModel_Admin)
+admin.site.register(PriceBedModel, PriceBedModel_Admin)
+admin.site.register(PriceSurgrayModel, PriceSurgrayModel_Admin)
