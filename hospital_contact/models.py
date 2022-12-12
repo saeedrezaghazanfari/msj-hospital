@@ -5,7 +5,13 @@ from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from hospital_doctor.models import TitleSkillModel, DegreeModel
-from extentions.utils import jalali_convertor, resume_image_path
+from extentions.utils import (
+    jalali_convertor, 
+    resume_image_path, 
+    workshop_image_path, 
+    career_image_path,
+    career_code,
+)
 
 
 class NotificationModel(models.Model): #TODO is_from_boss fk to riast
@@ -136,6 +142,7 @@ class BenefactorModel(models.Model):
 
 class CareersModel(models.Model):    
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    code = models.CharField(default=career_code, max_length=20, verbose_name=_('کد موقعیت شغلی'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('بخش مربوطه'))
     skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.CASCADE, verbose_name=_('تخصص'))
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
@@ -144,6 +151,10 @@ class CareersModel(models.Model):
     desc = models.TextField(verbose_name=_('توضیحات'))
     min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
     max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
+    image = models.ImageField(upload_to=career_image_path, verbose_name=_('تصویر'))
+    expriment = models.TextField(verbose_name=_('تجربه ی مورد نیاز'))
+    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+
 
     class Meta:
         ordering = ['-id']
@@ -151,7 +162,7 @@ class CareersModel(models.Model):
         verbose_name_plural = _('موقعیت های شغلی بیمارستان')
 
     def __str__(self):
-        return self.title
+        return str(self.code)
 
 
 class HireFormModel(models.Model):
@@ -190,4 +201,25 @@ class HireFormModel(models.Model):
 
     def __str__(self):
         return self.user
+
+
+class WorkshopModel(models.Model):
+    title = models.CharField(max_length=50, verbose_name=_('عنوان'))
+    length = models.CharField(max_length=50, verbose_name=_('طول دوره'))
+    category = models.CharField(max_length=100, verbose_name=_('دسته بندی دوره'))
+    capacity = models.PositiveIntegerField(verbose_name=_('ظرفیت دوره'))
+    nums = models.PositiveIntegerField(verbose_name=_('تعداد شرکت کنندگان'))
+    times = models.CharField(max_length=100, verbose_name=_('ساعات برگذاری'))
+    proffessors = models.CharField(max_length=255, verbose_name=_('استادان دوره'))
+    have_degree = models.BooleanField(default=False, verbose_name=_('آیا این دوره شامل مدرک میشود؟'))
+    image = models.ImageField(upload_to=workshop_image_path, verbose_name=_('تصویر'))
+    start_date = models.DateField(verbose_name=_('تاریخ شروع دوره'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('کارگاه و دوره آموزشی')
+        verbose_name_plural = _('کارگاه ها و دوره های آموزشی')
+
+    def __str__(self):
+        return self.title
 

@@ -9,6 +9,7 @@ from .models import (
     BenefactorModel,
     CareersModel,
     HireFormModel,
+    WorkshopModel,
 )
 
 
@@ -54,14 +55,20 @@ class BenefactorModel_Admin(admin.ModelAdmin):
 
 
 class CareersModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'skill', 'degree']
-    search_fields = ['title', 'skill', 'degree']
+    list_display = ['code', 'title', 'skill', 'degree']
+    search_fields = ['code', 'title', 'skill', 'degree']
     ordering = ['-id']
 
 
 class HireFormModel_Admin(admin.ModelAdmin):
     list_display = ['user', 'career', 'is_checked']
     search_fields = ['user']
+    ordering = ['-id']
+
+
+class WorkshopModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    search_fields = ['title']
     ordering = ['-id']
 
 
@@ -74,3 +81,4 @@ admin.site.register(PeopleAidModel, PeopleAidModel_Admin)
 admin.site.register(BenefactorModel, BenefactorModel_Admin)
 admin.site.register(CareersModel, CareersModel_Admin)
 admin.site.register(HireFormModel, HireFormModel_Admin)
+admin.site.register(WorkshopModel, WorkshopModel_Admin)

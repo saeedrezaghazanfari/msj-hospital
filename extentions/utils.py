@@ -192,7 +192,19 @@ def resume_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
     return f"resumes/{final_name}"
-    
+
+# ######### for workshop ######### #
+def workshop_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"workshops/{final_name}"
+
+# ######### for career ######### #
+def career_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"careers/{final_name}"
+
 # =============== end static path
 
 
@@ -294,6 +306,56 @@ def get_expriment_code():
     output = f'5{str(year)[-2:]}{month}{day}{random}'
     return output
     # 50012017898 => 5 => expriment_code  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
+
+
+def code_patient_turn():
+    time = timezone.now()
+    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    time_to_str = f'{time.year} {time.month} {time.day}'
+    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+    time_to_list = list(time_to_tuple)
+
+    for index, month in enumerate(intmonth):
+        if time_to_list[1] == index + 1:
+            time_to_list[1] = month
+            break
+    random = randint(1000, 9999)
+    year = time_to_list[0]
+    month = time_to_list[1]
+    day = time_to_list[2]
+    if month < 10:
+        month = f'0{month}'
+    if day < 10:
+        day = f'0{day}'
+    output = f'6{str(year)[-2:]}{month}{day}{random}'
+    return output
+    # 60012017898 => 6 => code_patient_turn  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
+
+
+def career_code():
+    time = timezone.now()
+    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    time_to_str = f'{time.year} {time.month} {time.day}'
+    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+    time_to_list = list(time_to_tuple)
+
+    for index, month in enumerate(intmonth):
+        if time_to_list[1] == index + 1:
+            time_to_list[1] = month
+            break
+    random = randint(1000, 9999)
+    year = time_to_list[0]
+    month = time_to_list[1]
+    day = time_to_list[2]
+    if month < 10:
+        month = f'0{month}'
+    if day < 10:
+        day = f'0{day}'
+    output = f'7{str(year)[-2:]}{month}{day}{random}'
+    return output
+    # 70012017898 => 7 => career  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 # def get_links_code():
