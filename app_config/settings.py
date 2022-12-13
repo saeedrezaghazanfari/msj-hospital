@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'hospital_panel.apps.HospitalPanelConfig',
     'hospital_units.apps.HospitalUnitsConfig',
     'hospital_official.apps.HospitalOfficialConfig',
+    'hospital_recycle.apps.HospitalRecycleConfig',
 
     # Packs
     'widget_tweaks',
