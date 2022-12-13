@@ -126,7 +126,6 @@ class PatientTurnModel(models.Model):
 
     code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
-    reserver = models.ForeignKey(to=User, blank=True, null=True, on_delete=models.SET_NULL, verbose_name=_('رزرو کننده'))
     first_name = models.CharField(max_length=50, verbose_name=_('نام بیمار'))
     last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی بیمار'))

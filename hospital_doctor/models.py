@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
+from extentions.utils import profile_image_path
 
 
 class DoctorModel(models.Model):
@@ -110,3 +111,31 @@ class DoctorVacationModel(models.Model):
     
     def __str__(self):  
         return self.doctor.get_full_name()
+
+
+class InternationalPatientModel(models.Model):
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('بیمار بین الملل')
+        verbose_name_plural = _('بیماران بین الملل')
+    
+    def __str__(self):  
+        return f'{self.first_name} {self.last_name}'
+
+
+class FamousPatientModel(models.Model):
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    profile = models.ImageField(upload_to=profile_image_path, verbose_name=_('تصویر'))
+    desc = models.TextField(verbose_name=_('متن'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('چهره سرشناس مراجعه کننده')
+        verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
+    
+    def __str__(self):  
+        return f'{self.first_name} {self.last_name}'

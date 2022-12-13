@@ -1,4 +1,3 @@
-from email.policy import default
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -12,15 +11,9 @@ class User(AbstractUser):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
-    fixed_phone = models.CharField(max_length=20, blank=True, null=True, verbose_name=_('تلفن ثابت'))
-    gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
-    wallet_balance = models.FloatField(default=0, verbose_name=_('موجودی کیف پول'))
-    is_send_sms = models.BooleanField(default=False, verbose_name=_('آیا پیامک های پزشکی ارسال شود؟'))
-    is_active2 = models.BooleanField(default=False, verbose_name=_('فعال بودن حساب جهت استفاده از اپلیکیشن'), help_text=_('اگر اطلاعات حساب کاربر کامل بود آنگاه این گزینه فعال میشود.'))
-    is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این بیمار بین الملل است؟'))
-    is_famous = models.BooleanField(default=False, verbose_name=_('آیا این بیمار از چهره های سرشناس است؟'))
     # actions
     is_blog_manager = models.BooleanField(default=False, verbose_name=_('قابلیت پست گذاشتن'))
     is_news_manager = models.BooleanField(default=False, verbose_name=_('قابلیت خبر گذاشتن'))

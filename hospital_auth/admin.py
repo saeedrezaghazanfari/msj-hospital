@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import Group
+from django.utils.translation import gettext_lazy as _
 from .models import (
     User, 
     LoginCodeModel, 
@@ -12,18 +12,15 @@ class AdminUser(UserAdmin):
         'first_name',
         'last_name',
         'phone',
-        'fixed_phone',
         'gender',
         'profile',
-        'wallet_balance',
-        'is_send_sms',
-        'is_active2',
+        'age',
     )
     UserAdmin.fieldsets[2][1]['fields'] = (
         'is_active',
         'is_staff',
         'is_superuser',
-        # 'groups',
+        'groups',
         # 'user_permissions',
         'is_blog_manager',
         'is_news_manager',
@@ -43,4 +40,4 @@ class LoginCodeModel_Admin(admin.ModelAdmin):
 
 admin.site.register(User, AdminUser)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)
-admin.site.unregister(Group)
+admin.site.site_header = _('پنل ادمین بیمارستان موسی ابن جعفر')
