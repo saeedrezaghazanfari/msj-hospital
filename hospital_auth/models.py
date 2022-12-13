@@ -28,7 +28,6 @@ class User(AbstractUser):
     is_expriment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت گذاشتن جواب آزمایش و تصویربرداری های بیمار'))
     is_appointment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت دسترسی به نوبت دهی آنلاین'))
 
-
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
