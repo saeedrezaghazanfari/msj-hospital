@@ -128,13 +128,13 @@ class PriceServiceModel_Admin(admin.ModelAdmin):
 
 
 class PriceBedModel_Admin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['title', 'insurance', 'price_free', 'price_insurance']
     search_field = ['title']
     ordering = ['-id']
 
 
 class PriceSurgrayModel_Admin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['title', 'insurance', 'price_free', 'price_insurance']
     search_field = ['title']
     ordering = ['-id']
 

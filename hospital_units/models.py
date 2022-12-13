@@ -134,7 +134,6 @@ class PatientTurnModel(models.Model):
     age = models.PositiveIntegerField(verbose_name=_('سن بیمار'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت بیمار'))
     insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.CASCADE, verbose_name=_('بیمه'))
-    insurance_code = models.PositiveBigIntegerField(verbose_name=_('کد بیمه'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ قابل پرداخت'))
     prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه ی پزشک دیگر'))
     turn = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('نوبت فیزیکی بیمار'))

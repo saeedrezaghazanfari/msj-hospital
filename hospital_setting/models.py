@@ -298,6 +298,7 @@ class PriceServiceModel(models.Model):
 class PriceBedModel(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد'))
+    insurance = models.ForeignKey(to=InsuranceModel, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ بیمه'))
     year = models.IntegerField(verbose_name=_('سال تعرفه'))
 
@@ -313,6 +314,7 @@ class PriceBedModel(models.Model):
 class PriceSurgrayModel(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد'))
+    insurance = models.ForeignKey(to=InsuranceModel, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ بیمه'))
     year = models.IntegerField(verbose_name=_('سال تعرفه'))
 
