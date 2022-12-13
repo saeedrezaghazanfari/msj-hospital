@@ -21,10 +21,13 @@ class User(AbstractUser):
     is_active2 = models.BooleanField(default=False, verbose_name=_('فعال بودن حساب جهت استفاده از اپلیکیشن'), help_text=_('اگر اطلاعات حساب کاربر کامل بود آنگاه این گزینه فعال میشود.'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این بیمار بین الملل است؟'))
     is_famous = models.BooleanField(default=False, verbose_name=_('آیا این بیمار از چهره های سرشناس است؟'))
-    # is_doctor = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام پزشک دارد؟'))
-    # is_supporter = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام پشتیبان دارد؟'))
-    # is_content_producer = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام تولیدکننده ی محتوا دارد؟'))
-    # is_admission_admin = models.BooleanField(default=False, verbose_name=_('آیا این این کاربر مقام ادمین پذیرش دارد؟'))
+    # actions
+    is_blog_manager = models.BooleanField(default=False, verbose_name=_('قابلیت پست گذاشتن'))
+    is_news_manager = models.BooleanField(default=False, verbose_name=_('قابلیت خبر گذاشتن'))
+    is_note_manager = models.BooleanField(default=False, verbose_name=_('قابلیت نوشتن نوت پزشکی'))
+    is_expriment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت گذاشتن جواب آزمایش و تصویربرداری های بیمار'))
+    is_appointment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت دسترسی به نوبت دهی آنلاین'))
+
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'

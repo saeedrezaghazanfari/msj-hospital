@@ -25,6 +25,11 @@ class AdminUser(UserAdmin):
         'is_superuser',
         # 'groups',
         # 'user_permissions',
+        'is_blog_manager',
+        'is_news_manager',
+        'is_note_manager',
+        'is_expriment_manager',
+        'is_appointment_manager',
     )
     list_display = ('id', 'username', 'get_full_name', 'phone')
     ordering = ['-id']
