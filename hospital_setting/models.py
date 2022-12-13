@@ -205,9 +205,9 @@ class ReportModel(models.Model):
 
 class PriceAppointmentModel(models.Model):
     TYPE_DEGREE = (('superexpert', _('فوق تخصص')), ('expert', _('متخصص')), ('public', _('عمومی')), ('drugcreator', _('داروساز')), ('fellowship', _('فلوشیپ')), ('phd', _('پی اچ دی')) )
-    title = models.ForeignKey(to=TitleSkillModel, on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
-    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('بیمه'))
-    degree = models.ForeignKey(to=DegreeModel, on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
+    title = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
+    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
+    degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد '))
     price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ با بیمه'))
     year = models.IntegerField(verbose_name=_('سال تعرفه'))
@@ -298,7 +298,7 @@ class PriceServiceModel(models.Model):
 class PriceBedModel(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     price_free = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ آزاد'))
-    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('بیمه'))
+    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ بیمه'))
     year = models.IntegerField(verbose_name=_('سال تعرفه'))
 
@@ -314,7 +314,7 @@ class PriceBedModel(models.Model):
 class PriceSurgrayModel(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     price_free = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ آزاد'))
-    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('بیمه'))
+    insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ بیمه'))
     year = models.IntegerField(verbose_name=_('سال تعرفه'))
 

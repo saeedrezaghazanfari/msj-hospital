@@ -7,11 +7,11 @@ from hospital_units.models import UnitModel
 
 class DoctorModel(models.Model):
     medical_code = models.BigIntegerField(verbose_name=_('کد نظام پزشکی'))
-    skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
+    user = models.OneToOneField(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
     position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
-    degree = models.ForeignKey('DegreeModel', on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
+    degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
     is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
@@ -84,7 +84,7 @@ class DoctorWorkTimeModel(models.Model):
         ('22-23', '22-23'),
         ('23-24', '23-24'),
     )
-    doctor = models.ForeignKey(DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
+    doctor = models.ForeignKey(DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
     time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('بازه ی زمانی'))
 
@@ -98,7 +98,7 @@ class DoctorWorkTimeModel(models.Model):
 
 
 class DoctorVacationModel(models.Model):
-    doctor = models.ForeignKey(DoctorModel, on_delete=models.CASCADE, verbose_name=_('پزشک'))
+    doctor = models.ForeignKey(DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
     from_time = models.DateField(default=timezone.now, verbose_name=_('از تاریخ'))
     to_time = models.DateField(default=timezone.now, verbose_name=_('تا تاریخ'))
     is_accepted = models.BooleanField(default=False, verbose_name=_('آیا تایید شده است؟'))

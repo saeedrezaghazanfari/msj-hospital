@@ -32,7 +32,7 @@ class OrganModel(models.Model):
 
 
 class OrganItemModel(models.Model):
-    organ = models.ForeignKey(to=OrganModel, on_delete=models.CASCADE, verbose_name=_('ارگان'))
+    organ = models.ForeignKey(to=OrganModel, on_delete=models.SET_NULL, null=True, verbose_name=_('ارگان'))
     first_name = models.CharField(max_length=50, verbose_name=_('نام'))
     last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
     national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))

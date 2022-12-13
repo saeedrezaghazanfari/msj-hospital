@@ -21,7 +21,7 @@ class NewsModel(models.Model):
     slug = models.SlugField(unique=True, default=get_news_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=news_image_path, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
-    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('نویسنده'))
+    writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
@@ -80,10 +80,10 @@ class NewsGalleryModel(models.Model):
 
 
 class NewsCommentModel(models.Model):
-    reply = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('پاسخ'))
+    reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = models.TextField(verbose_name=_('نظر'))
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    news = models.ForeignKey(to=NewsModel, on_delete=models.CASCADE, verbose_name=_('خبر'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    news = models.ForeignKey(to=NewsModel, on_delete=models.SET_NULL, null=True, verbose_name=_('خبر'))
     created = models.DateTimeField(auto_now_add=True)
     is_show = models.BooleanField(default=False, verbose_name=_('نمایش داده شود؟'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط نویسنده خوانده شده؟'))
@@ -127,8 +127,8 @@ class TagModel(models.Model):
 
 class NewsLikeModel(models.Model):
     LIKE_DISLIKE = (('like', _('لایک')), ('dislike', _('دیسلایک')))
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    news = models.ForeignKey(to=NewsModel, on_delete=models.CASCADE, verbose_name=_('خبر'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    news = models.ForeignKey(to=NewsModel, on_delete=models.SET_NULL, null=True, verbose_name=_('خبر'))
     like_dislike = models.CharField(choices=LIKE_DISLIKE, max_length=10, verbose_name=_('لایک یا دیسلایک'))
     
     class Meta:

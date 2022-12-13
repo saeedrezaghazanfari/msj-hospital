@@ -35,7 +35,7 @@ class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
-    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('نویسنده'))
+    writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
@@ -100,10 +100,10 @@ class BlogGalleryModel(models.Model):
 
 
 class BlogCommentModel(models.Model):
-    reply = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('پاسخ'))
+    reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = models.TextField(verbose_name=_('نظر'))
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    blog = models.ForeignKey(to=BlogModel, on_delete=models.CASCADE, verbose_name=_('بلاگ'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    blog = models.ForeignKey(to=BlogModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بلاگ'))
     created = models.DateTimeField(auto_now_add=True)
     is_show = models.BooleanField(default=False, verbose_name=_('نمایش داده شود؟'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط نویسنده خوانده شده؟'))
@@ -147,8 +147,8 @@ class TagModel(models.Model):
 
 class BlogLikeModel(models.Model):
     LIKE_DISLIKE = (('like', _('لایک')), ('dislike', _('دیسلایک')))
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    blog = models.ForeignKey(to=BlogModel, on_delete=models.CASCADE, verbose_name=_('بلاگ'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    blog = models.ForeignKey(to=BlogModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بلاگ'))
     like_dislike = models.CharField(choices=LIKE_DISLIKE, max_length=10, verbose_name=_('لایک یا دیسلایک'))
     
     class Meta:

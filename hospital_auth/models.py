@@ -39,7 +39,7 @@ class User(AbstractUser):
 
 
 class LoginCodeModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
     expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'), help_text=_('این فیلد لازم نیست پر شود. بعد از ثبت رکورد بصورت اتوماتیک ثبت میشود.'))

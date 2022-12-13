@@ -35,8 +35,8 @@ class NotificationModel(models.Model): #TODO is_from_boss fk to riast
 
 
 class NotificationUserModel(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    notification = models.ForeignKey(to=NotificationModel, on_delete=models.CASCADE, verbose_name=_('اعلان'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    notification = models.ForeignKey(to=NotificationModel, null=True, on_delete=models.SET_NULL, verbose_name=_('اعلان'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
 
     class Meta:
@@ -49,8 +49,8 @@ class NotificationUserModel(models.Model):
 
 
 class PatientSightModel(models.Model):
-    patient = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('بخش'))
+    patient = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     desc = models.TextField(verbose_name=_('متن'))
     created = models.DateTimeField(auto_now_add=True)
     
@@ -93,7 +93,7 @@ class CriticismSuggestionModel(models.Model):
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
     email = models.EmailField(verbose_name=_('ایمیل'))
     manager = models.CharField(max_length=100, verbose_name=_('نام مسیول'))
-    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('نام بخش'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نام بخش'))
     is_read = models.BooleanField(default=False, verbose_name=_('بررسی شده یا نه'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -143,9 +143,9 @@ class BenefactorModel(models.Model):
 class CareersModel(models.Model):    
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     code = models.CharField(default=career_code, max_length=20, verbose_name=_('کد موقعیت شغلی'))
-    unit = models.ForeignKey(to=UnitModel, on_delete=models.CASCADE, verbose_name=_('بخش مربوطه'))
-    skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.CASCADE, verbose_name=_('تخصص'))
-    degree = models.ForeignKey(to=DegreeModel, on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش مربوطه'))
+    skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('تخصص'))
+    degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان موقعیت'))
     desc = models.TextField(verbose_name=_('توضیحات'))
@@ -168,8 +168,8 @@ class CareersModel(models.Model):
 class HireFormModel(models.Model):
     SINGLE_MARRIED = (('single', _('مجرد')), ('married', _('متاهل')))
     SOLDIERING_TYPE = (('end', _('پایان خدمت')), ('abs_exemption', _('معافیت دایم')), ('edu_exemption', _('معافیت تحصیلی')), ('progressing', _('در حال انجام')), ('include', _('مشمول')))
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
-    career = models.ForeignKey(to=CareersModel, on_delete=models.CASCADE, verbose_name=_('موقعیت شغلی'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    career = models.ForeignKey(to=CareersModel, on_delete=models.SET_NULL, null=True, verbose_name=_('موقعیت شغلی'))
     created = models.DateTimeField(auto_now_add=True)
     is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی شده است؟'))
 
