@@ -6,7 +6,6 @@ from hospital_units.models import UnitModel
 
 
 class DoctorModel(models.Model):
-    TYPE_DEGREE = (('superexpert', _('فوق تخصص')), ('expert', _('متخصص')), ('public', _('عمومی')), ('drugcreator', _('داروساز')), ('fellowship', _('فلوشیپ')), ('phd', _('پی اچ دی')) )
     medical_code = models.BigIntegerField(verbose_name=_('کد نظام پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.CASCADE, verbose_name=_('عنوان تخصص'))
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name=_('کاربر'))
@@ -15,6 +14,7 @@ class DoctorModel(models.Model):
     degree = models.ForeignKey('DegreeModel', on_delete=models.CASCADE, verbose_name=_('نوع مدرک'))
     bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
+    is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
     is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:

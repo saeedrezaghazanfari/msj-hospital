@@ -4,7 +4,8 @@ from .models import (
     ExprimentResultModel,
     AppointmentTimeModel,
     PatientTurnModel,
-    OnlinePaymentModel
+    OnlinePaymentModel,
+    LimitTurnTimeModel
 )
 
 
@@ -27,8 +28,8 @@ class AppointmentTimeModel_Admin(admin.ModelAdmin):
 
 
 class PatientTurnModel_Admin(admin.ModelAdmin):
-    list_display = ['code', 'appointment', 'full_name', 'national_code']
-    search_fields = ['code', 'appointment', 'full_name', 'national_code']
+    list_display = ['code', 'appointment', 'first_name', 'last_name', 'national_code']
+    search_fields = ['code', 'appointment', 'first_name', 'last_name', 'national_code']
     ordering = ['-id']
 
 class OnlinePaymentModel_Admin(admin.ModelAdmin):
@@ -37,8 +38,14 @@ class OnlinePaymentModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class LimitTurnTimeModel_Admin(admin.ModelAdmin):
+    list_display = ['__str__']
+    ordering = ['-id']
+
+
 admin.site.register(UnitModel, UnitModel_Admin)
 admin.site.register(ExprimentResultModel, ExprimentResultModel_Admin)
 admin.site.register(AppointmentTimeModel, AppointmentTimeModel_Admin)
 admin.site.register(PatientTurnModel, PatientTurnModel_Admin)
 admin.site.register(OnlinePaymentModel, OnlinePaymentModel_Admin)
+admin.site.register(LimitTurnTimeModel, LimitTurnTimeModel_Admin)

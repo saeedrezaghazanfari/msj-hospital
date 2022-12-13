@@ -3,7 +3,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from extentions.utils import (
     units_image_path, 
-    units_map_image_path, 
     get_expriment_code, 
     expriment_result_image_path,
     code_patient_turn
@@ -32,9 +31,7 @@ class UnitModel(models.Model):
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
-    phase = models.IntegerField(verbose_name=_('فاز'))
-    floor = models.IntegerField(verbose_name=_('طبقه'))
-    image_map = models.ImageField(upload_to=units_map_image_path, blank=True, null=True, verbose_name=_('مکان روی نقشه'))
+    address = models.CharField(max_length=255, verbose_name=_('آدرس'))
     manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسیول'))
     manager_phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('شماره مسیول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
@@ -130,7 +127,8 @@ class PatientTurnModel(models.Model):
     code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.CASCADE, verbose_name=_('زمان مشاوره'))
     reserver = models.ForeignKey(to=User, blank=True, null=True, on_delete=models.CASCADE, verbose_name=_('رزرو کننده'))
-    full_name = models.CharField(max_length=50, verbose_name=_('نام و نام خانوادگی بیمار'))
+    first_name = models.CharField(max_length=50, verbose_name=_('نام بیمار'))
+    last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی بیمار'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن بیمار'))
     age = models.PositiveIntegerField(verbose_name=_('سن بیمار'))
@@ -151,7 +149,7 @@ class PatientTurnModel(models.Model):
         verbose_name_plural = _('نوبت بیماران')
 
     def __str__(self):
-        return self.full_name
+        return f'{self.first_name} {self.last_name}'
 
 
 class OnlinePaymentModel(models.Model):
@@ -168,3 +166,16 @@ class OnlinePaymentModel(models.Model):
 
     def __str__(self):
         return self.payer
+
+
+class LimitTurnTimeModel(models.Model):
+    to_hour = models.PositiveIntegerField(verbose_name=_('تا ساعت چند؟'))
+    how_days_hour = models.PositiveIntegerField(verbose_name=_('چند روز قبل؟ (به ساعت)'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('حد زمانی برای انتخاب نوبت')
+        verbose_name_plural = _('حد زمانی برای انتخاب نوبت')
+
+    def __str__(self):
+        return str(_('این جدول باید یک مقدار داشته باشد.'))

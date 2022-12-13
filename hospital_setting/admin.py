@@ -15,7 +15,6 @@ from .models import (
     ResultModel,
     HomeGalleryModel,
     CertificateModel,
-    MapModel,
     ContactInfoModel,
     PriceServiceModel,
     PriceBedModel,
@@ -116,12 +115,6 @@ class CertificateModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class MapModel_Admin(admin.ModelAdmin):
-    list_display = ['phase', 'floor']
-    search_field = ['phase', 'floor']
-    ordering = ['-id']
-
-
 class ContactInfoModel_Admin(admin.ModelAdmin):
     list_display = ['title']
     search_field = ['title']
@@ -162,7 +155,6 @@ admin.site.register(PriceAppointmentModel, PriceAppointmentModel_Admin)
 admin.site.register(ResultModel, ResultModel_Admin)
 admin.site.register(HomeGalleryModel, HomeGalleryModel_Admin)
 admin.site.register(CertificateModel, CertificateModel_Admin)
-admin.site.register(MapModel, MapModel_Admin)
 admin.site.register(ContactInfoModel, ContactInfoModel_Admin)
 admin.site.register(PriceServiceModel, PriceServiceModel_Admin)
 admin.site.register(PriceBedModel, PriceBedModel_Admin)

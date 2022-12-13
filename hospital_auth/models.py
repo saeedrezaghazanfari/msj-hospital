@@ -14,7 +14,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     fixed_phone = models.CharField(max_length=20, blank=True, null=True, verbose_name=_('تلفن ثابت'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
-    age = models.PositiveIntegerField(verbose_name=_('سن'))
+    age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     wallet_balance = models.FloatField(default=0, verbose_name=_('موجودی کیف پول'))
     is_send_sms = models.BooleanField(default=False, verbose_name=_('آیا پیامک های پزشکی ارسال شود؟'))

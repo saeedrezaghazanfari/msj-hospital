@@ -157,23 +157,11 @@ def units_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"units/{final_name}"
 
-# ######### for hospital units images ######### #
-def units_map_image_path(instance, filename):
-    ext, output = get_filename_ext_rand(filename)
-    final_name = f"{output}{ext}"
-    return f"units-map/{final_name}"
-
 # ######### for insurance images ######### #
 def insurance_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
     return f"insurances/{final_name}"
-
-# ######### for hospital map ######### #
-def map_image_path(instance, filename):
-    ext, output = get_filename_ext_rand(filename)
-    final_name = f"{output}{ext}"
-    return f"map/{final_name}"
 
 # ######### for reports ######### #
 def report_image_path(instance, filename):

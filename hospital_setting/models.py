@@ -11,7 +11,6 @@ from extentions.utils import (
     home_gallery_image_path,
     certificate_image_path,
     insurance_image_path,
-    map_image_path,
     report_image_path,
 )
 
@@ -263,20 +262,6 @@ class CertificateModel(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class MapModel(models.Model):
-    phase = models.IntegerField(verbose_name=_('فاز'))
-    floor = models.IntegerField(verbose_name=_('طبقه'))
-    image_map = models.ImageField(upload_to=map_image_path, blank=True, null=True, verbose_name=_('نقشه'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('نقشه بیمارستان')
-        verbose_name_plural = _('نقشه های بیمارستان')
-
-    def __str__(self):
-        return str(self.phase)
 
 
 class ContactInfoModel(models.Model):
