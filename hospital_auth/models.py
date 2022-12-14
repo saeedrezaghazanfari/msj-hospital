@@ -15,6 +15,7 @@ class User(AbstractUser):
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     # actions
+    is_doctor_manager = models.BooleanField(default=False, verbose_name=_('نمایش پنل پزشکی'))
     is_blog_manager = models.BooleanField(default=False, verbose_name=_('قابلیت پست گذاشتن'))
     is_news_manager = models.BooleanField(default=False, verbose_name=_('قابلیت خبر گذاشتن'))
     is_note_manager = models.BooleanField(default=False, verbose_name=_('قابلیت نوشتن نوت پزشکی'))

@@ -169,11 +169,11 @@ def report_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"reports/{final_name}"
 
-# ######### for expriment results ######### #
-def expriment_result_image_path(instance, filename):
+# ######### for experiment results ######### #
+def experiment_result_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
-    return f"expriments/{final_name}"
+    return f"experiments/{final_name}"
 
 # ######### for resumes ######### #
 def resume_image_path(instance, filename):
@@ -271,7 +271,7 @@ def get_patient_tracking_code():
     # 40012017898 => 4 => tracking_code  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
-def get_expriment_code():
+def get_experiment_code():
     time = timezone.now()
     intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 

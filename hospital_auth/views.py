@@ -10,6 +10,7 @@ from django.contrib import messages
 from .models import User, LoginCodeModel
 from .forms import SignUpForm, SignInForm, EnterCodePWForm
 from .decorators import login_not_required
+from hospital_setting.models import SettingModel
 # imports for activatings
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -19,6 +20,10 @@ from .tokens import account_activation_token
 # url: /sign-up
 @login_not_required
 def sign_up_page(request):
+
+	if SettingModel.objects.exists() and not SettingModel.objects.last().have_signup_page:
+		return redirect('/404')
+
 	form = SignUpForm(request.POST or None)
 	context = {'form': form}
 

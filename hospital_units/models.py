@@ -3,8 +3,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from extentions.utils import (
     units_image_path, 
-    get_expriment_code, 
-    expriment_result_image_path,
+    get_experiment_code, 
+    experiment_result_image_path,
     code_patient_turn
 )
 from hospital_auth.models import User
@@ -47,7 +47,7 @@ class UnitModel(models.Model):
 
 class ExprimentResultModel(models.Model):
     TYPE_EX = (
-        ('expriment', _('آزمایش')), 
+        ('experiment', _('آزمایش')), 
         ('ctscan', _('تصویربرداری-سی تی اسکن')),
         ('radiography_simple', _('تصویربرداری-رادیوگرافی ساده')),
         ('radiography_special', _('تصویربرداری-رادیوگرافی تخصصی')),
@@ -55,13 +55,13 @@ class ExprimentResultModel(models.Model):
         ('sonography', _('تصویربرداری-سونوگرافی')),
     )
     type = models.CharField(max_length=20, choices=TYPE_EX, verbose_name=_('نوع نتیجه'))
-    code = models.CharField(max_length=20, unique=True, default=get_expriment_code, verbose_name=_('کد پیگیری'))
+    code = models.CharField(max_length=20, unique=True, default=get_experiment_code, verbose_name=_('کد پیگیری'))
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     is_show_send_sms = models.BooleanField(default=False, verbose_name=_('بعد از ذخیره کردن آیا نمایش داده شود و پیامک به کاربر ارسال شود؟'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان آزمایش'))
     result = models.CharField(max_length=255, verbose_name=_('جواب آزمایش'))
-    image = models.ImageField(upload_to=expriment_result_image_path, verbose_name=_('تصویر آزمایش'))
+    image = models.ImageField(upload_to=experiment_result_image_path, verbose_name=_('تصویر آزمایش'))
     date = models.DateTimeField(default=timezone.now, verbose_name=_('زمان ثبت نتیجه'))
 
     class Meta:

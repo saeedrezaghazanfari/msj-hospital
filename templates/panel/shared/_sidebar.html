@@ -1,31 +1,32 @@
 
 <h3>Panels</h3>
 
-<li {% if not user_label.is_supporter %}style="display: none;"{% endif %}>
-    <a href="">supporter</a>
-</li>
-<!-- <li><a href="">admission admin</a></li> -->
-<li {% if not user_label.is_contentproducer %}style="display: none;"{% endif %}>
-    <a href="">content pro</a>
-</li>
-<li {% if not user_label.is_doctor %}style="display: none;"{% endif %}>
-    <a href="">doctor</a>
+<li>
+    <a href="{% url 'panel:home' %}">home</a>
 </li>
 
 <hr>
 
-<h3>Real</h3>
-<li>
-    <a href="{% url 'panel:home' %}">خانه</a>
+<li {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:doctor' %}">doctor manager</a>
+</li>
+<li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:blog' %}">blog manager</a>
+</li>
+<li {% if not request.user.is_news_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:news' %}">news manager</a>
+</li>
+<li {% if not request.user.is_note_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:notes' %}">note manager</a>
+</li>
+<li {% if not request.user.is_expriment_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:experiment' %}">expriment manager</a>
+</li>
+<li {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
+    <a href="{% url 'panel:appointment' %}">appointment manager</a>
 </li>
 
-<li>
-    <a href="{% url 'panel:online-appointment' %}">نوبتدهی اینترنتی</a>
-</li>
-
-<li>
-    <a href="{% url 'panel:edit-info' %}">ویرایش اطلاعات</a>
-</li>
+<hr>
 
 <li>
     <a href="{% url 'auth:signout' %}">exit</a>

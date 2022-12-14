@@ -19,4 +19,3 @@ class HomePage(generic.TemplateView):
         context['faq_items'] = FAQModel.objects.all()
         return context
 
-        

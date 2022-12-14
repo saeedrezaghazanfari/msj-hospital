@@ -22,6 +22,7 @@ class AdminUser(UserAdmin):
         'is_superuser',
         'groups',
         # 'user_permissions',
+        'is_doctor_manager',
         'is_blog_manager',
         'is_news_manager',
         'is_note_manager',
