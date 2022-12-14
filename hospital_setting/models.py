@@ -1,8 +1,6 @@
-from django.utils import timezone
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-# from hospital_auth.models import User
 from hospital_doctor.models import TitleSkillModel, DegreeModel
 from extentions.utils import (
     costs_image_path, 
@@ -13,32 +11,6 @@ from extentions.utils import (
     insurance_image_path,
     report_image_path,
 )
-
-
-class SettingSDQuerySet(models.QuerySet):
-    def delete(self): # delete with queryset
-        return self.update(is_deleted=True, deleted_at=timezone.now())
-
-class SettingSDManager(models.Manager):
-    def get_queryset(self):
-        return SettingSDQuerySet(self.model, self._db).filter(
-            Q(is_deleted=False) | Q(is_deleted__isnull=True)
-        )
-
-class SettingSDModel(models.Model):
-    is_deleted = models.BooleanField(blank=True, null=True, editable=False)
-    deleted_at = models.DateTimeField(blank=True, null=True, editable=False)
-
-    class Meta:
-        abstract = True
-
-    objects = SettingSDManager()
-
-    def delete(self, using=None, keep_parents=False): # delete with instance
-        self.is_deleted = True
-        self.deleted_at = timezone.now()
-        self.save()
-
 
 
 class SettingModel(models.Model):
@@ -62,6 +34,7 @@ class SettingModel(models.Model):
     bank_account_cardnum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره کارت'))
     bank_account_num = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره حساب'))
     bank_account_shabanum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره شبا'))
+    have_signup_page = models.BooleanField(default=False, verbose_name=_('صفحه ثبتنام کاربران نمایش داده شود؟'))
 
     class Meta:
         ordering = ['-id']
@@ -86,26 +59,16 @@ class CostModel(models.Model):
         return self.title
 
 
-class HospitalPoliticModel(SettingSDModel):
+class HospitalPoliticModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
 
     class Meta:
-        default_manager_name = 'objects'
         ordering = ['-id']
         verbose_name = _('سیاست بیمارستان')
         verbose_name_plural = _('سیاست های بیمارستان')
 
     def __str__(self):
         return self.title
-
-
-class HospitalPoliticRECYCLE(HospitalPoliticModel):
-    deleted = models.Manager()
-    class Meta:
-        proxy = True
-        ordering = ['-id']
-        verbose_name = _('سیاست بیمارستان - بازیابی')
-        verbose_name_plural = _('سیاست های بیمارستان - بازیابی')
 
 
 class HospitalFacilityModel(models.Model):
