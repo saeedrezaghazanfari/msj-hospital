@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
-from extentions.utils import profile_image_path
+from extentions.utils import profile_image_path, DAYS, TIMES
 
 
 class DoctorModel(models.Model):
@@ -56,38 +56,10 @@ class DegreeModel(models.Model):
 
 
 class DoctorWorkTimeModel(models.Model):
-    DAYS = (
-        ('saturday', _('شنبه')),
-        ('sunday', _('یک شنبه')),
-        ('monday', _('دو شنبه')),
-        ('tuesday', _('سه شنبه')),
-        ('wednesday', _('چهار شنبه')),
-        ('thursday', _('پنج شنبه')),
-        ('friday', _('جمعه')),
-    )
-    TIMES = (
-        ('6-7', '6-7'),
-        ('7-8', '7-8'),
-        ('8-9', '8-9'),
-        ('9-10', '9-10'),
-        ('10-11', '10-11'),
-        ('11-12', '11-12'),
-        ('12-13', '12-13'),
-        ('13-14', '13-14'),
-        ('14-15', '14-15'),
-        ('15-16', '15-16'),
-        ('16-17', '16-17'),
-        ('17-18', '17-18'),
-        ('18-19', '18-19'),
-        ('19-20', '19-20'),
-        ('20-21', '20-21'),
-        ('21-22', '21-22'),
-        ('22-23', '22-23'),
-        ('23-24', '23-24'),
-    )
     doctor = models.ForeignKey(DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
-    time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('بازه ی زمانی'))
+    time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
+    time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
 
     class Meta:
         ordering = ['-id']

@@ -5,7 +5,8 @@ from extentions.utils import (
     units_image_path, 
     get_experiment_code, 
     experiment_result_image_path,
-    code_patient_turn
+    code_patient_turn,
+    DAYS, TIMES,
 )
 from hospital_auth.models import User
 
@@ -74,40 +75,12 @@ class ExprimentResultModel(models.Model):
 
 
 class AppointmentTimeModel(models.Model):
-    DAYS = (
-        ('saturday', _('شنبه')),
-        ('sunday', _('یک شنبه')),
-        ('monday', _('دو شنبه')),
-        ('tuesday', _('سه شنبه')),
-        ('wednesday', _('چهار شنبه')),
-        ('thursday', _('پنج شنبه')),
-        ('friday', _('جمعه')),
-    )
-    TIMES = (
-        ('6-7', '6-7'),
-        ('7-8', '7-8'),
-        ('8-9', '8-9'),
-        ('9-10', '9-10'),
-        ('10-11', '10-11'),
-        ('11-12', '11-12'),
-        ('12-13', '12-13'),
-        ('13-14', '13-14'),
-        ('14-15', '14-15'),
-        ('15-16', '15-16'),
-        ('16-17', '16-17'),
-        ('17-18', '17-18'),
-        ('18-19', '18-19'),
-        ('19-20', '19-20'),
-        ('20-21', '20-21'),
-        ('21-22', '21-22'),
-        ('22-23', '22-23'),
-        ('23-24', '23-24'),
-    )
     unit = models.ForeignKey(to=UnitModel, blank=True, null=True, on_delete=models.SET_NULL, verbose_name=_('بخش'), help_text=_('اگر مقداری به این قسمت داده نشود در اینصورت بخش پزشکان انتخاب میشود.'))
     doctor = models.ForeignKey(to='hospital_doctor.DoctorModel', on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
     date = models.DateField(default=timezone.now, verbose_name=_('تاریخ روز'))
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
-    time = models.CharField(max_length=15, choices=TIMES, verbose_name=_('بازه ی زمانی'))
+    time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
+    time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
     price = models.ForeignKey(to='hospital_setting.PriceAppointmentModel', on_delete=models.SET_NULL, null=True, verbose_name=_('تعرفه'))
     capacity = models.PositiveIntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(verbose_name=_('تعداد رزرو شده'))

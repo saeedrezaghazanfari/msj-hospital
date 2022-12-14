@@ -22,7 +22,7 @@ class ExprimentResultModel_Admin(admin.ModelAdmin):
 
 
 class AppointmentTimeModel_Admin(admin.ModelAdmin):
-    list_display = ['doctor', 'date', 'day', 'time', 'capacity', 'reserved']
+    list_display = ['doctor', 'date', 'day', 'time_from', 'time_to', 'capacity', 'reserved']
     search_fields = ['doctor', 'date', 'day']
     ordering = ['-id']
 
