@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import (
     MedicalNoteModel,
+    PampheletModel,
+    CreditEduModel,
     BlogModel,
     BlogGalleryModel,
     BlogCommentModel,
@@ -16,8 +18,18 @@ class MedicalNoteModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class PampheletModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    ordering = ['-id']
+
+
+class CreditEduModel_Admin(admin.ModelAdmin):
+    list_display = ['title']
+    ordering = ['-id']
+
+
 class BlogModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'get_full_name', 'j_publish_time', 'is_activate']
+    list_display = ['id', 'title', 'get_full_name', 'is_publish', 'is_emailed', 'is_activate']
     search_fields = ['title', 'is_activate']
     ordering = ['-id']
 
@@ -53,6 +65,8 @@ class BlogLikeModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(MedicalNoteModel, MedicalNoteModel_Admin)
+admin.site.register(PampheletModel, PampheletModel_Admin)
+admin.site.register(CreditEduModel, CreditEduModel_Admin)
 admin.site.register(BlogModel, BlogModel_Admin)
 admin.site.register(BlogGalleryModel, BlogGalleryModel_Admin)
 admin.site.register(BlogCommentModel, BlogCommentModel_Admin)

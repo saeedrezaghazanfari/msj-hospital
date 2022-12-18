@@ -128,6 +128,12 @@ def profile_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"users-profiles/{final_name}"
 
+# ######### for users famous profiles ######### #
+def famous_profile_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"users-famous-profiles/{final_name}"
+
 # ######### for hospital costs ######### #
 def costs_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
@@ -164,11 +170,29 @@ def blog_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"blogs/{final_name}"
 
+# ######### for blog pdf image ######### #
+def blog_pdf_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"blog-pdf/{final_name}"
+
+# ######### for blog qr code image ######### #
+def blog_qrcode_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"blog-qr/{final_name}"
+
 # ######### for blog image gallery ######### #
 def blog_gallery_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
     final_name = f"{output}{ext}"
     return f"blogs-gallery/{final_name}"
+
+# ######### for pamphelet ######### #
+def pamphelet_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"pamphelets/{final_name}"
 
 # ######### for blog image ######### #
 def news_image_path(instance, filename):
@@ -224,10 +248,35 @@ def career_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"careers/{final_name}"
 
+# ######### for newsletter image ######### #
+def news_letter_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"careers/{final_name}"
+
+# ######### for unit member ######### #
+def unit_member_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"unit-member/{final_name}"
+
+# ######### for credit_edu ######### #
+def credit_edu_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"credit-edu/{final_name}"
+
+# ######### for IPD document ######### #
+def ipd_doc_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"ipd-document/{final_name}"
+
+
 # =============== end static path
 
 
-def get_blog_code():
+def daily_code_generator():
     time = timezone.now()
     intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
@@ -239,142 +288,66 @@ def get_blog_code():
         if time_to_list[1] == index + 1:
             time_to_list[1] = month
             break
+
     random = randint(1000, 9999)
     year = time_to_list[0]
     month = time_to_list[1]
     day = time_to_list[2]
+
     if month < 10:
         month = f'0{month}'
     if day < 10:
         day = f'0{day}'
-    output = f'2{str(year)[-2:]}{month}{day}{random}'
+        
+    return f'{str(year)[-2:]}{month}{day}{random}'
+
+
+def get_blog_code():
+    output = '2' + daily_code_generator()
+    # 20012010000 => 2 => blog  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 20012017817 => 2 => blog  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def get_news_code():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'3{str(year)[-2:]}{month}{day}{random}'
+    output = '3' + daily_code_generator()
+    # 30012010000 => 3 => news  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 30012017817 => 3 => news  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def get_patient_tracking_code():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'4{str(year)[-2:]}{month}{day}{random}'
+    output = '4' + daily_code_generator()
+    # 40012010000 => 4 => tracking_code  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 40012017898 => 4 => tracking_code  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def get_experiment_code():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'5{str(year)[-2:]}{month}{day}{random}'
+    output = '5' + daily_code_generator()
+    # 50012010000 => 5 => expriment_code  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 50012017898 => 5 => expriment_code  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def code_patient_turn():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'6{str(year)[-2:]}{month}{day}{random}'
+    output = '6' + daily_code_generator()
+    # 60012010000 => 6 => code_patient_turn  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 60012017898 => 6 => code_patient_turn  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
 
 
 def career_code():
-    time = timezone.now()
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-
-    for index, month in enumerate(intmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    random = randint(1000, 9999)
-    year = time_to_list[0]
-    month = time_to_list[1]
-    day = time_to_list[2]
-    if month < 10:
-        month = f'0{month}'
-    if day < 10:
-        day = f'0{day}'
-    output = f'7{str(year)[-2:]}{month}{day}{random}'
+    output = '7' + daily_code_generator()
+    # 70012010000 => 7 => career  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
-    # 70012017898 => 7 => career  // 00 => 1400 // 12 => month // 01 => day // 7898 => random
+
+
+def criticic_suggestion_code():
+    output = '8' + daily_code_generator()
+    # 80012010000 => 8 => career  // 00 => 1400 // 12 => month // 01 => day // 0000 => random    
+    return output
+
+
+def get_credit_edu_code():
+    output = '9' + daily_code_generator()
+    # 90012010000 => 9 => credit_edu  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
+    return output
 
 
 # def get_links_code():

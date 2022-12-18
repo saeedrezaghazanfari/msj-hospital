@@ -3,6 +3,7 @@ from .models import (
     NotificationModel,
     NotificationUserModel,
     PatientSightModel,
+    BeneficiaryCommentModel,
     ContactUsModel,
     CriticismSuggestionModel,
     PeopleAidModel,
@@ -30,6 +31,11 @@ class PatientSightModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class BeneficiaryCommentModel_Admin(admin.ModelAdmin):
+    list_display = ['__str__']
+    ordering = ['-id']
+
+
 class ContactUsModel_Admin(admin.ModelAdmin):
     list_display = ['name', 'is_read', 'j_created']
     search_fields = ['name']
@@ -37,8 +43,8 @@ class ContactUsModel_Admin(admin.ModelAdmin):
 
 
 class CriticismSuggestionModel_Admin(admin.ModelAdmin):
-    list_display = ['name', 'national_code', 'unit']
-    search_fields = ['name', 'national_code']
+    list_display = ['first_name', 'last_name', 'national_code', 'unit']
+    search_fields = ['first_name', 'last_name', 'national_code']
     ordering = ['-id']
 
 
@@ -75,6 +81,7 @@ class WorkshopModel_Admin(admin.ModelAdmin):
 admin.site.register(NotificationModel, NotificationModel_Admin)
 admin.site.register(NotificationUserModel, NotificationUserModel_Admin)
 admin.site.register(PatientSightModel, PatientSightModel_Admin)
+admin.site.register(BeneficiaryCommentModel, BeneficiaryCommentModel_Admin)
 admin.site.register(ContactUsModel, ContactUsModel_Admin)
 admin.site.register(CriticismSuggestionModel, CriticismSuggestionModel_Admin)
 admin.site.register(PeopleAidModel, PeopleAidModel_Admin)

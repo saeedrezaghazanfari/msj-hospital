@@ -3,19 +3,21 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
-from extentions.utils import profile_image_path, DAYS, TIMES
+from extentions.utils import famous_profile_image_path, DAYS, TIMES
 
 
 class DoctorModel(models.Model):
-    medical_code = models.BigIntegerField(verbose_name=_('کد نظام پزشکی'))
+    medical_code = models.CharField(max_length=15, verbose_name=_('کد نظام پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
     user = models.OneToOneField(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
-    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
-    position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
+    position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
     bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
-    is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
     is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
+    is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
+    is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
+    is_clinic = models.BooleanField(default=False, verbose_name=_('آیا این پزشک درمانگاه است؟'))
     is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
 
     class Meta:
@@ -85,23 +87,24 @@ class DoctorVacationModel(models.Model):
         return self.doctor.get_full_name()
 
 
-class InternationalPatientModel(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+class DoctorInsuranceModel(models.Model):
+    doctor = models.ForeignKey(to=DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
+    insurance_exit = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('بیمه ی غیر بیمارستان'))
+    insurance_hospital = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('بیمه ی طرف بیمارستان'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('بیمار بین الملل')
-        verbose_name_plural = _('بیماران بین الملل')
+        verbose_name = _('بیمه ی پزشک')
+        verbose_name_plural = _('بیمه های پزشکان')
     
     def __str__(self):  
-        return f'{self.first_name} {self.last_name}'
+        return self.doctor
 
 
 class FamousPatientModel(models.Model):
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
-    profile = models.ImageField(upload_to=profile_image_path, verbose_name=_('تصویر'))
+    profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
     desc = models.TextField(verbose_name=_('متن'))
 
     class Meta:

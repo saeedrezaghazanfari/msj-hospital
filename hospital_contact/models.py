@@ -2,7 +2,7 @@ from email.policy import default
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from hospital_auth.models import User
+from hospital_auth.models import User, PatientModel
 from hospital_units.models import UnitModel
 from hospital_doctor.models import TitleSkillModel, DegreeModel
 from extentions.utils import (
@@ -11,6 +11,7 @@ from extentions.utils import (
     workshop_image_path, 
     career_image_path,
     career_code,
+    criticic_suggestion_code,
 )
 
 
@@ -49,7 +50,7 @@ class NotificationUserModel(models.Model):
 
 
 class PatientSightModel(models.Model):
-    patient = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     desc = models.TextField(verbose_name=_('متن'))
     created = models.DateTimeField(auto_now_add=True)
@@ -61,6 +62,22 @@ class PatientSightModel(models.Model):
 
     def __str__(self):
         return self.patient
+
+
+class BeneficiaryCommentModel(models.Model):
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    desc = models.TextField(verbose_name=_('متن'))
+    bio = models.TextField(blank=True, null=True, verbose_name=_('بیوگرافی'))
+    created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نظر ذینفع')
+        verbose_name_plural = _('نظرات ذینفعان')
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class ContactUsModel(models.Model):
@@ -86,12 +103,13 @@ class ContactUsModel(models.Model):
 
 
 class CriticismSuggestionModel(models.Model):
+    code = models.CharField(default=criticic_suggestion_code, max_length=20, verbose_name=_('کد پیگیری'))
     message = models.TextField(verbose_name=_('متن ارتباط'))
-    name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
-    email = models.EmailField(verbose_name=_('ایمیل'))
     manager = models.CharField(max_length=100, verbose_name=_('نام مسیول'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نام بخش'))
     is_read = models.BooleanField(default=False, verbose_name=_('بررسی شده یا نه'))
@@ -187,8 +205,6 @@ class HireFormModel(models.Model):
     direct = models.CharField(max_length=50, verbose_name=_('معرف'))
     education = models.CharField(max_length=50, verbose_name=_('تحصیلات'))
     uni = models.CharField(max_length=50, verbose_name=_('نام دانشگاه'))
-    education_year = models.DateField(max_length=50, verbose_name=_('سال تحصیل'))
-    uni_permit = models.CharField(max_length=50, verbose_name=_('مجوز دانشگاه'))
     address = models.TextField(verbose_name=_('آدرس محل زندگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))

@@ -3,6 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from .models import (
     User, 
+    PatientModel,
+    IPDModel,
     LoginCodeModel, 
 )
 
@@ -33,12 +35,25 @@ class AdminUser(UserAdmin):
     ordering = ['-id']
 
 
+class PatientModel_Admin(admin.ModelAdmin):
+    list_display = ['username', 'gender', 'age']
+    search_field = ['username', 'gender', 'age']
+    ordering = ['-id']
+
+
+class IPDModel_Admin(admin.ModelAdmin):
+    list_display = ['get_full_name']
+    ordering = ['-id']
+
+
 class LoginCodeModel_Admin(admin.ModelAdmin):
-    list_display = ['user', 'code', 'j_date', 'j_expire', 'is_use']
+    list_display = ['user', 'code', 'j_date', 'j_expire', 'usage', 'is_use']
     search_field = ['is_use', 'user']
     ordering = ['-id']
 
 
 admin.site.register(User, AdminUser)
+admin.site.register(PatientModel, PatientModel_Admin)
+admin.site.register(IPDModel, IPDModel_Admin)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)
 admin.site.site_header = _('پنل ادمین بیمارستان موسی ابن جعفر')

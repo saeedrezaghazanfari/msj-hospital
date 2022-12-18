@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
+from hospital_units.models import UnitModel
 from extentions.utils import (
     jalali_convertor, 
     news_image_path, 
@@ -26,11 +27,13 @@ class NewsModel(models.Model):
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     desc = models.TextField(verbose_name=_('متن مقاله'))
-    publish_time = models.DateTimeField(default=timezone.now, verbose_name=_('زمان انتشار پست'))
+    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
+    is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     gallery = models.ManyToManyField('NewsGalleryModel', verbose_name=_('گالری خبر'))
+    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
 
     class Meta:
         ordering = ['-id']
@@ -41,10 +44,6 @@ class NewsModel(models.Model):
 
     def __str__(self):
         return self.title
-
-    def j_publish_time(self):
-        return jalali_convertor(time=self.publish_time, output='j_date')
-    j_publish_time.short_description = _('تاریخ انتشار')
 
     def prev_post(self):
         prev_id = int(self.id) - 1

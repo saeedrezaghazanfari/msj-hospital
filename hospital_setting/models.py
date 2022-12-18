@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from hospital_doctor.models import TitleSkillModel, DegreeModel
+from hospital_auth.models import User
 from extentions.utils import (
     costs_image_path, 
     facility_image_path,
@@ -10,6 +11,7 @@ from extentions.utils import (
     certificate_image_path,
     insurance_image_path,
     report_image_path,
+    news_letter_image_path,
 )
 
 
@@ -97,8 +99,26 @@ class FAQModel(models.Model):
         return self.question
 
 
-class NewsLetterModel(models.Model):
+class NewsLetterEmailsModel(models.Model):
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('ایمیل خبرنامه')
+        verbose_name_plural = _('ایمیل های خبرنامه')
+
+    def __str__(self):
+        return self.email
+
+
+class NewsLetterModel(models.Model):
+    writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    image = models.ImageField(upload_to=news_letter_image_path, verbose_name=_('تصویر'))
+    read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
+    desc = models.TextField(verbose_name=_('متن'))
+    is_send = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شوند؟'))
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-id']
@@ -199,8 +219,8 @@ class ResultModel(models.Model):
 
 class HomeGalleryModel(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('عنوان'))
-    subtitle = models.CharField(max_length=255, verbose_name=_('متن'))
     image = models.ImageField(upload_to=home_gallery_image_path, verbose_name=_('تصویر'))
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-id']

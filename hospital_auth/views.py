@@ -35,7 +35,8 @@ def sign_up_page(request):
 		if user:
 			login_code = LoginCodeModel.objects.create(
 				user=user,
-				is_use=False
+				is_use=False,
+				usage='login'
 			)
 			# set password for user
 			user.set_password(str(login_code.code))
@@ -73,7 +74,8 @@ def sign_in_page(request):
 
 			login_code = LoginCodeModel.objects.create(
 				user=find_user,
-				is_use=False
+				is_use=False,
+				usage='login'
 			)
 			if login_code:
 				find_user.set_password(str(login_code.code))
@@ -117,6 +119,7 @@ def enter_sms_code(request, uidb64, token):
 			pw_code = LoginCodeModel.objects.filter(
 				user=user, 
 				code=code, 
+				usage='login',
 				expire_date__gt=timezone.now(), 
 				is_use=False
 			).first()

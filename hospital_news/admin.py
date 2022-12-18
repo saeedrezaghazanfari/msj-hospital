@@ -10,7 +10,7 @@ from .models import (
 
 
 class NewsModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'get_full_name', 'j_publish_time']
+    list_display = ['id', 'title', 'get_full_name', 'is_publish', 'is_emailed']
     search_fields = ['title']
     ordering = ['-id']
 

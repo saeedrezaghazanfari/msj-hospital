@@ -1,38 +1,33 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from hospital_auth.models import PatientModel
 from extentions.utils import (
     units_image_path, 
     get_experiment_code, 
     experiment_result_image_path,
     code_patient_turn,
     DAYS, TIMES,
+    unit_member_image_path,
 )
-from hospital_auth.models import User
 
 
 class UnitModel(models.Model):
     CATEGORY_UNITS = (
-        ('technical', _('فنی')), 
-        ('hopitalization', _('بستری')), 
-        ('clinic', _('کلینیک')), 
+        ('medical', _('درمانی')), 
         ('paraclinic', _('پاراکلینیک')), 
-        ('ipd', _('IPD')), 
-        ('official', _('اداری')),
-        ('ctscan', _('تصویربرداری-سی تی اسکن')),
-        ('radiography_simple', _('تصویربرداری-رادیوگرافی ساده')),
-        ('radiography_special', _('تصویربرداری-رادیوگرافی تخصصی')),
-        ('mamography', _('تصویربرداری-ماموگرافی')),
-        ('sonography', _('تصویربرداری-سونوگرافی')),
+        ('official', _('غیردرمانی')),
     )
-    category = models.CharField(max_length=255, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی'))
-    have_appointment = models.BooleanField(default=False, verbose_name=_('امکان نوبت دهی آنلاین دارد؟'))
+    category = models.CharField(max_length=255, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
+    subunit = models.ForeignKey(to='SubUnitModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان بخش'))
     title = models.CharField(max_length=255, verbose_name=_('نام'))
+    have_appointment = models.BooleanField(default=False, verbose_name=_('امکان نوبت دهی آنلاین دارد؟'))
     desc = models.TextField(verbose_name=_('متن'))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
     address = models.CharField(max_length=255, verbose_name=_('آدرس'))
+    work_times = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('ساعات کاری'))
     manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسیول'))
     manager_phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('شماره مسیول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
@@ -46,19 +41,56 @@ class UnitModel(models.Model):
         return self.title
 
 
+class SubUnitModel(models.Model):
+    title = models.CharField(max_length=255, verbose_name=_('نام'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('عنوان بخش')
+        verbose_name_plural = _('عناوین بخش')
+
+    def __str__(self):
+        return self.title
+
+
+class UnitMemberModel(models.Model):
+    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    unit = models.ForeignKey(UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
+    email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
+    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    job = models.CharField(max_length=255, verbose_name=_('سمت'))
+    profile = models.ImageField(upload_to=unit_member_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('')
+        verbose_name_plural = _('')
+
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+    get_full_name.short_description = _('نام و نام خانوادگی')
+
+    def __str__(self):
+        return self.get_full_name()
+
+
 class ExprimentResultModel(models.Model):
     TYPE_EX = (
         ('experiment', _('آزمایش')), 
-        ('ctscan', _('تصویربرداری-سی تی اسکن')),
-        ('radiography_simple', _('تصویربرداری-رادیوگرافی ساده')),
-        ('radiography_special', _('تصویربرداری-رادیوگرافی تخصصی')),
-        ('mamography', _('تصویربرداری-ماموگرافی')),
-        ('sonography', _('تصویربرداری-سونوگرافی')),
+        ('ctscan', _('تصویربرداری (سی تی اسکن)')),
+        ('radiography_simple', _('تصویربرداری (رادیوگرافی ساده)')),
+        ('radiography_special', _('تصویربرداری (رادیوگرافی تخصصی)')),
+        ('mamography', _('تصویربرداری (ماموگرافی)')),
+        ('sonography', _('تصویربرداری (سونوگرافی)')),
     )
     type = models.CharField(max_length=20, choices=TYPE_EX, verbose_name=_('نوع نتیجه'))
     code = models.CharField(max_length=20, unique=True, default=get_experiment_code, verbose_name=_('کد پیگیری'))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
+    patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
+    insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, verbose_name=_('بیمه'))
     is_show_send_sms = models.BooleanField(default=False, verbose_name=_('بعد از ذخیره کردن آیا نمایش داده شود و پیامک به کاربر ارسال شود؟'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان آزمایش'))
     result = models.CharField(max_length=255, verbose_name=_('جواب آزمایش'))
@@ -82,8 +114,9 @@ class AppointmentTimeModel(models.Model):
     time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
     time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
     price = models.ForeignKey(to='hospital_setting.PriceAppointmentModel', on_delete=models.SET_NULL, null=True, verbose_name=_('تعرفه'))
-    capacity = models.PositiveIntegerField(verbose_name=_('ظرفیت کل'))
+    capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(verbose_name=_('تعداد رزرو شده'))
+    tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
 
     class Meta:
         ordering = ['-id']
@@ -94,10 +127,23 @@ class AppointmentTimeModel(models.Model):
         return self.doctor
 
 
+class AppointmentTipModel(models.Model):
+    title = models.CharField(max_length=15, verbose_name=_('عنوان'))
+    tips = models.TextField(verbose_name=_('نکات'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نکات نوبت دهی')
+        verbose_name_plural = _('نکات نوبت دهی')
+
+    def __str__(self):
+        return self.title
+
+
 class PatientTurnModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
 
-    code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری'))
+    code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
     first_name = models.CharField(max_length=50, verbose_name=_('نام بیمار'))
     last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی بیمار'))
@@ -108,6 +154,7 @@ class PatientTurnModel(models.Model):
     insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, verbose_name=_('بیمه'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ قابل پرداخت'))
     prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه ی پزشک دیگر'))
+    experiment_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کدرهگیری(کدملی)'))
     turn = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('نوبت فیزیکی بیمار'))
     is_paid = models.BooleanField(default=False, verbose_name=_('پرداخت شده؟'))
     is_canceled = models.BooleanField(default=False, verbose_name=_('آیا از سمت بیمار کنسل شده است؟'))

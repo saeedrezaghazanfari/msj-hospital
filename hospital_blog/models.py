@@ -2,11 +2,17 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
+from hospital_units.models import UnitModel
 from extentions.utils import (
     jalali_convertor, 
-    blog_image_path, 
+    blog_image_path,
+    blog_pdf_image_path,
+    blog_qrcode_image_path,
+    get_credit_edu_code, 
+    credit_edu_image_path,
     get_blog_code, 
     blog_gallery_image_path,
+    pamphelet_image_path
 )
 
 
@@ -31,9 +37,39 @@ class MedicalNoteModel(models.Model):
         return str(self.id)
 
 
+class PampheletModel(models.Model):
+    image = models.ImageField(upload_to=pamphelet_image_path, verbose_name=_('تصویر'))
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('پمفلت آموزشی')
+        verbose_name_plural = _('پمفلت های آموزشی')
+
+    def __str__(self):
+        return self.title
+
+
+class CreditEduModel(models.Model):
+    slug = models.SlugField(unique=True, default=get_credit_edu_code, verbose_name=_('مقدار در url'))
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    image = models.ImageField(upload_to=credit_edu_image_path, verbose_name=_('تصویر'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('آموزش اعتبار بخشی')
+        verbose_name_plural = _('آموزش های اعتباربخشی')
+
+    def __str__(self):
+        return self.title
+
+
 class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
+    pdf = models.FileField(upload_to=blog_pdf_image_path, blank=True, null=True, verbose_name=_('پی دی اف بلاگ'))
+    qr_img = models.ImageField(upload_to=blog_qrcode_image_path, blank=True, null=True, verbose_name=_('تصویر کد QR'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
@@ -42,13 +78,14 @@ class BlogModel(models.Model):
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
     desc = models.TextField(verbose_name=_('متن مقاله'))
     short_desc = models.CharField(max_length=500, verbose_name=_('متن کوتاه'))
-    publish_time = models.DateTimeField(default=timezone.now, verbose_name=_('زمان انتشار پست'))
+    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
+    is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_activate = models.BooleanField(default=False, verbose_name=_('آیا پست از نظر تولید کننده محتوا تایید شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
-    is_educational = models.BooleanField(default=False, verbose_name=_('آیا این بلاگ آموزشی است؟'))
     gallery = models.ManyToManyField('BlogGalleryModel', verbose_name=_('گالری بلاگ'))
+    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
 
     class Meta:
         ordering = ['-id']
@@ -59,10 +96,6 @@ class BlogModel(models.Model):
 
     def __str__(self):
         return self.title
-
-    def j_publish_time(self):
-        return jalali_convertor(time=self.publish_time, output='j_date')
-    j_publish_time.short_description = _('تاریخ انتشار')
 
     def prev_post(self):
         prev_id = int(self.id) - 1

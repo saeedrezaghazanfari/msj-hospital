@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'hospital_doctor.apps.HospitalDoctorConfig',
     'hospital_panel.apps.HospitalPanelConfig',
     'hospital_units.apps.HospitalUnitsConfig',
-    'hospital_official.apps.HospitalOfficialConfig',
 
     # Packs
     'widget_tweaks',
