@@ -26,15 +26,25 @@
 
         <h1>Online Appointment - limit time</h1>
 
-        <a @click="clck">create one</a>
+        <a @click="show_create_form = !show_create_form">create one</a>
 
-        <div class="box">
-            <div>تا ساعت چند؟: {{ limit_time.to_hour }}</div>
-            <div>چند روز قبل؟ (به ساعت): {{ limit_time.how_days_hour }}</div>
-            <div><a href="">edit</a></div>
+        <div class="box" v-if="show_create_form">
+            <form @submit.prevent="create_limit_time">
+                <input type="number" v-model="time" placeholder="تا ساعت چند؟">
+                <input type="number" v-model="hours" placeholder="چند روز قبل؟ (به ساعت):">
+                <button>create +</button>
+            </form>
         </div>
 
+        <ul class="box" v-if="errors.length >= 1">
+            <li v-for="error in errors">[[ error ]]</li>
+        </ul>
         
+        
+        <div class="box">
+            <div id="old_to_hour">تا ساعت چند؟: {{ limit_time.to_hour }}</div>
+            <div id="old_how_days_hour">چند روز قبل؟ (به ساعت): {{ limit_time.how_days_hour }}</div>
+        </div>
 
     </div>
 
@@ -45,6 +55,7 @@
     
 {% block extraScript %}
 <script type="text/javascript" src="{% static 'js/vue3.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
 
 <script>
 
@@ -54,7 +65,11 @@
 
         data() {
             return {
-                message: 'Hello Vue!'
+                time: '',
+                hours: '',
+                show_create_form: false,
+
+                errors: [],
             }
         },
 
@@ -63,37 +78,50 @@
         },
 
         methods: {
-            clck() {
+
+            async create_limit_time() {
+
+                this.errors = [];
+
+                if(!this.time || !this.hours)
+                    return;
 
                 let username = document.getElementById('username');
                 let token = document.getElementById('token');
 
                 let formdata = new FormData();
-                formdata.append('dat', 'dat');
+                formdata.append('to_hour', this.time);
+                formdata.append('how_days_hour', this.hours);
 
-                (async () => {
-                    await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/limit-time/management/', {
-                        method: "GET",
-                        // body: new URLSearchParams(formdata),
+                await axios.post(
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/limit-time/management/',
+                    formdata,
+                    {
                         headers: {
-                            "Content-type": "application/x-www-form-urlencoded",
-                            "Authorization": "Token " + token.innerText,
+                            'Authorization': `Token ${token.innerText}`,
+                            'Content-type': 'application/json'
                         }
-                    })
-                    .then(response => response.json())
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch(err => {
-                        console.log('ERR: ', err);
-                    });
-                })();
+                    }
+                )
+                .then((response) => {
+                    if(response.data.status == 200) {
+                        document.getElementById('old_to_hour').innerText = response.data.data.to_hour;
+                        document.getElementById('old_how_days_hour').innerText = response.data.data.how_days_hour;
+
+                        this.time = '';
+                        this.hours = '';
+                    }
+                })
+                .catch(err => {
+                    if (err){
+                        this.errors.push(err.response.data.to_hour[0]);
+                        this.errors.push(err.response.data.how_days_hour[0]);
+                    }
+                });
 
             },
 
-            get_user_auth() {
-
-                console.log('saeeeeeeeeeed');
+            async get_user_auth() {
 
                 let username = document.getElementById('username');
                 let token = document.getElementById('token');
@@ -102,22 +130,24 @@
                 formdata.append('username', username.innerText);
                 formdata.append('password', username.innerText * 2);
 
-                (async () => {
-                    await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/user/get/token/', {
-                        method: "POST",
-                        body: new URLSearchParams(formdata),
+                axios.post(
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/user/get/token/',
+                    formdata,
+                    {    
                         headers: {
-                            "Content-type": "application/x-www-form-urlencoded"
+                            // 'Authorization': `Token ${token.innerText}`,
+                            'Content-type': 'application/x-www-form-urlencoded'
                         }
-                    })
-                    .then(response => response.json())
-                    .then((response) => {
-                        token.innerText = response.token;
-                    })
-                    .catch(err => {
-                        console.log('ERR: ', err);
-                    });
-                })();
+                    }
+                )
+                .then((response) => {
+                    if(response.status == 200)
+                        token.innerText = response.data.token;
+                })
+                .catch(err => {
+                    console.log('ERR: ', err);
+                });
+
             },
         }
 

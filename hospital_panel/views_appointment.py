@@ -3,11 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from .decorators import online_appointment_required
-from .mixins import OnlineAppointmentUserRequired
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from hospital_units.models import LimitTurnTimeModel
+from .decorators import online_appointment_required
+from .mixins import OnlineAppointmentUserRequired
+from . import serializers
 
 
 # url: /panel/online-appointment
@@ -31,10 +32,25 @@ def oa_limit_time_page(request):
 # url: /api/v1/limit-time/management/
 class OnlineAppointmentManager(OnlineAppointmentUserRequired, APIView):
 
-    def get(self, request):
-        return Response({'status': 200})
+    def post(self, request):
+        """ create a new limit time in db for user online appointment """
+        
+        serializer = serializers.LimitTurnTimeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-    def delete(self, request):
-        return Response({'status': 201})
+        if LimitTurnTimeModel.objects.exists():
+            LimitTurnTimeModel.objects.all().delete()
+
+        limit_time = LimitTurnTimeModel.objects.create(
+            to_hour=request.data.get('to_hour'),
+            how_days_hour=request.data.get('how_days_hour')
+        )
+
+        return Response({
+            'data': serializers.LimitTurnTimeSerializer(limit_time).data,
+            'msg': _('حد زمانی برای ثبت نوبت اینترنتی کاربران با موفقیت ذخیره شد.'),
+            'status': 200
+        })
+
 
 

@@ -11,6 +11,12 @@ def home_page(request):
     return render(request, 'panel/home.html', {})
 
 
+# url: /edit-info
+@login_required(login_url=reverse_lazy('auth:signin'))
+def edit_data(request):
+    return render(request, 'panel/editdata.html', {})
+
+
 # url: /panel/doctor
 @login_required(login_url=reverse_lazy('auth:signin'))
 def doctor_page(request):

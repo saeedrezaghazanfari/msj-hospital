@@ -7,6 +7,7 @@ urlpatterns = [
     
     # Real pathes
     path('panel', views.home_page, name='home'),
+    path('edit-info', views.edit_data, name='editdata'),
 
     # doctor management
     path('panel/doctor', views.doctor_page, name='doctor'),
