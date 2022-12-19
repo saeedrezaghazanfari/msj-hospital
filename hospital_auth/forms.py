@@ -28,12 +28,12 @@ class SignUpForm(forms.ModelForm):
         username = self.cleaned_data.get('username')
         if not username:
             raise forms.ValidationError(_('کدملی خود را وارد کنید'))
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError(_('کدملی شما یک بار در سیستم ثبت شده است'))
         if not username.isdigit():
             raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
         if not is_national_code(username):
             raise forms.ValidationError(_('الگوی کدملی شما صحیح نیست'))
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(_('کدملی شما یک بار در سیستم ثبت شده است'))
         return username
 
     def clean_first_name(self):
@@ -66,25 +66,25 @@ class SignUpForm(forms.ModelForm):
         phone = self.cleaned_data.get('phone')
         if not phone or phone == 0:
             raise forms.ValidationError(_('شماره تلفن خود را وارد کنید'))
-        if User.objects.filter(phone=phone).first():
-            raise forms.ValidationError(_('این شماره تلفن در سیستم ثبت شده است'))
         if not is_phone(phone):
             raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))
+        if User.objects.filter(phone=phone).first():
+            raise forms.ValidationError(_('این شماره تلفن در سیستم ثبت شده است'))
         return phone
 
 
 class SignInForm(forms.Form):
-    phone = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder': _('شماره تلفن خود را وارد کنید') }))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('شماره تلفن خود را وارد کنید') }))
     captcha = CaptchaField()
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         if not phone:
-            raise forms.ValidationError(_('شماره تلفن همراه خود را وارد کنید'))        
+            raise forms.ValidationError(_('شماره تلفن همراه خود را وارد کنید')) 
+        if not is_phone(phone):
+            raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))       
         if not User.objects.filter(phone=phone).first():
             raise forms.ValidationError(_('این شماره تلفن در سیستم موجود نیست'))
-        if not is_phone(phone):
-            raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))
         return phone
 
 

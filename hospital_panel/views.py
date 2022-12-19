@@ -1,64 +1,42 @@
-from django.views import generic
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from hospital_auth.models import User
 # from .forms import EditInfoForm
 
 
 # url: /panel
-class HomePage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(HomePage, self).get_context_data(**kwargs)
-        return context
-
-
+@login_required(login_url=reverse_lazy('auth:signin'))
+def home_page(request):
+    return render(request, 'panel/home.html', {})
 
 
 # url: /panel/doctor
-class DoctorPage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/doctor/home.html'
+@login_required(login_url=reverse_lazy('auth:signin'))
+def doctor_page(request):
+    return render(request, 'panel/doctor/home.html', {})
 
 
 # url: /panel/blog
-class BlogPage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/blog/home.html'
+@login_required(login_url=reverse_lazy('auth:signin'))
+def blog_page(request):
+    return render(request, 'panel/blog/home.html', {})
 
 
 # url: /panel/news
-class NewsPage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/news/home.html'
+@login_required(login_url=reverse_lazy('auth:signin'))
+def news_page(request):
+    return render(request, 'panel/news/home.html', {})
 
 
 # url: /panel/notes
-class NotesPage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/notes/home.html'
+@login_required(login_url=reverse_lazy('auth:signin'))
+def notes_page(request):
+    return render(request, 'panel/notes/home.html', {})
 
 
 # url: /panel/experiment
-class ExperimentPage(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'panel/experiment/home.html'
-
-
-# url: /panel/online-appointment
-class OnlineAppointmentPage(generic.TemplateView):
-    template_name = 'panel/online-appointment/home.html'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@login_required(login_url=reverse_lazy('auth:signin'))
+def experiment_page(request):
+    return render(request, 'panel/experiment/home.html', {})
 

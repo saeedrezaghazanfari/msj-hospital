@@ -66,8 +66,8 @@ class UnitMemberModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('')
-        verbose_name_plural = _('')
+        verbose_name = _('عضو بخش')
+        verbose_name_plural = _('اعضای بخش ها')
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'

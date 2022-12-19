@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}">
 <head>
@@ -15,6 +17,16 @@
         .bg-red {
             background-color: red !important;
             pointer-events: none !important;
+        }
+
+        .box {
+            padding: 1rem;
+            margin: 5px;
+            border-radius: 7px;
+            background-color: rgb(233, 233, 233);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
         }
     </style>
 

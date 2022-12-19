@@ -3,6 +3,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
+from rest_framework.authtoken.views import obtain_auth_token
+from .custom_api import obtain_auth_token
 from . import views
 
 
@@ -27,6 +29,9 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_doctor.urls', namespace='doctor')),
     path('', include('hospital_panel.urls', namespace='panel')),
     path('', include('hospital_units.urls', namespace='units')),
+
+    # API
+    path('api/v1/user/get/token/', obtain_auth_token),
 
     # PACKAGES
     path('change/language/', views.activate_language, name='activate_lang'),

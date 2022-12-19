@@ -39,7 +39,7 @@ def sign_up_page(request):
 				usage='login'
 			)
 			# set password for user
-			user.set_password(str(login_code.code))
+			user.set_password(str(login_code.code_login))
 			user.save()
 
 			print(str(login_code.code)) #TODO
@@ -67,6 +67,7 @@ def sign_in_page(request):
 	context = {'form': form}
 
 	if form.is_valid():
+
 		phone = form.cleaned_data.get('phone')
 		find_user = User.objects.filter(phone=phone).first()
 
@@ -78,7 +79,7 @@ def sign_in_page(request):
 				usage='login'
 			)
 			if login_code:
-				find_user.set_password(str(login_code.code))
+				find_user.set_password(str(login_code.code_login))
 				find_user.save()
 
 			print(str(login_code.code)) #TODO
@@ -115,6 +116,7 @@ def enter_sms_code(request, uidb64, token):
 		context = {'form': form}
 
 		if form.is_valid():
+			
 			code = form.cleaned_data.get('code')
 			pw_code = LoginCodeModel.objects.filter(
 				user=user, 
@@ -125,7 +127,7 @@ def enter_sms_code(request, uidb64, token):
 			).first()
 
 			if pw_code:
-				user = authenticate(username=user.username, password=code)
+				user = authenticate(username=user.username, password=pw_code.code_login)
 				if user:
 					# set is_use for password
 					pw_code.is_use = True

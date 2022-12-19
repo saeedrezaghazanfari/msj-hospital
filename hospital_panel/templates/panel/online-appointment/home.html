@@ -1,5 +1,5 @@
 {% extends 'panel/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks panel_tags %}
+{% load static i18n widget_tweaks %}
 {% block title %}{% translate 'online-appointment' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
@@ -9,9 +9,6 @@
 
 
 {% block content %}
-{% get_user_labels request.user as user_label %}
-
-<h3>{{ user_label }}</h3>
 
 <div style="display: flex; direction: rtl !important;">
 
@@ -23,6 +20,14 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment</h1>
+
+        <ul>
+
+            <li><a href="{% url 'panel:appointment-limittime' %}">limit time before appointment</a></li>
+
+        </ul>
 
     </div>
 

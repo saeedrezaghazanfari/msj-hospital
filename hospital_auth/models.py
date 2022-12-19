@@ -8,7 +8,8 @@ from extentions.utils import (
     profile_image_path,
     jalali_convertor, 
     ipd_doc_image_path,
-    get_random_code
+    get_random_code,
+    get_links_code
 )
 
 
@@ -88,6 +89,7 @@ class LoginCodeModel(models.Model):
     USAGES = (('login', _('ورود کاربر به پنل')), )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
+    code_login = models.CharField(max_length=30, default=get_links_code, verbose_name=_('کد ورود'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
     expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'), help_text=_('این فیلد لازم نیست پر شود. بعد از ثبت رکورد بصورت اتوماتیک ثبت میشود.'))
     usage = models.CharField(max_length=20, choices=USAGES, blank=True, null=True, verbose_name=_('عنوان استفاده ی کد'))
@@ -115,5 +117,5 @@ class LoginCodeModel(models.Model):
 @receiver(post_save, sender=LoginCodeModel)
 def set_expire_date(sender, instance, created, **kwargs):
     if created:
-        instance.expire_date = timezone.now() + timezone.timedelta(minutes=2)
+        instance.expire_date = timezone.now() + timezone.timedelta(seconds=90)
         instance.save()

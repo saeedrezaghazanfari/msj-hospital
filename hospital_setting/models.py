@@ -126,7 +126,7 @@ class NewsLetterModel(models.Model):
         verbose_name_plural = _('خبرنامه')
 
     def __str__(self):
-        return self.email
+        return self.title
 
 
 class InsuranceModel(models.Model):
