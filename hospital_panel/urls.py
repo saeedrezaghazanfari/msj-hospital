@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_appointment
+from . import views, views_appointment, views_doctor, views_api
 
 
 app_name = 'panel'
@@ -9,30 +9,39 @@ urlpatterns = [
     path('panel', views.home_page, name='home'),
     path('edit-info', views.edit_data, name='editdata'),
 
+
     # doctor management
     path('panel/doctor', views.doctor_page, name='doctor'),
+    path('panel/doctor/vacation/', views_doctor.doctor_vacation_page, name='doctor-vacation'),
+
 
     # blog management
     path('panel/blog', views.blog_page, name='blog'),
 
+
     # news management
     path('panel/news', views.news_page, name='news'),
+
 
     # note management
     path('panel/notes', views.notes_page, name='notes'),
 
+
     # experiment management
     path('panel/experiment', views.experiment_page, name='experiment'),
 
+
     # online appointment management
-    path('panel/online-appointment', views_appointment.online_appointment_page, name='appointment'),
-    
+    path('panel/online-appointment', views_appointment.online_appointment_page, name='appointment'), 
     path('panel/online-appointment/limit-time/', views_appointment.oa_limit_time_page, name='appointment-limittime'),
-    path('api/v1/limit-time/management/', views_appointment.OnlineAppointmentManager.as_view(), name='appointment-limittime-manager'),
-    
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
-    path('api/v1/insurances/management/', views_appointment.InsurancesManager.as_view(), name='appointment-insurances-manager'),
-    
     path('panel/online-appointment/tips/', views_appointment.oa_tips_page, name='appointment-tips'),
-    path('api/v1/tips/management/', views_appointment.TipsManager.as_view(), name='appointment-tips-manager'),
+    path('panel/online-appointment/doctor/list/', views_appointment.oa_doctorlist_page, name='appointment-doctorlist'),
+    
+
+    # API
+    path('api/v1/online-appointment/limit-time/', views_api.OnlineAppointmentManager.as_view(), name='appointment-limittime-manager'),
+    path('api/v1/online-appointment/insurances/', views_api.InsurancesManager.as_view(), name='appointment-insurances-manager'),
+    path('api/v1/online-appointment/tips/', views_api.TipsManager.as_view(), name='appointment-tips-manager'),
+    path('api/v1/online-appointment/doctor/list/', views_api.AppointmentDoctorManager.as_view(), name='appointment-doctorlist-manager'),
 ]

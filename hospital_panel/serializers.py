@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from hospital_units.models import LimitTurnTimeModel, AppointmentTipModel
 from hospital_setting.models import InsuranceModel
+from hospital_doctor.models import DoctorModel, DoctorVacationModel, DoctorWorkTimeModel, TitleSkillModel
 from django.utils.translation import gettext_lazy as _
 from extentions.utils import is_image
 
@@ -54,4 +55,34 @@ class AppointmentTipSerializer(serializers.ModelSerializer):
         if AppointmentTipModel.objects.filter(title=value).exists():
             raise serializers.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
         return value
+
+
+
+class DoctorSerializer(serializers.ModelSerializer):
+    skill_title = serializers.ReadOnlyField(source='skill_title.title')
+    user = serializers.ReadOnlyField(source='user.get_full_name')
+    unit = serializers.ReadOnlyField(source='unit.__str__')
+    degree = serializers.ReadOnlyField(source='degree.title')
+    have_not_accecpted_vac = serializers.SerializerMethodField('get_not_accepted_time')
+
+    def get_not_accepted_time(self, obj):
+        if obj.doctorvacationmodel_set.filter(is_accepted=False).exists():
+            return True
+        return False
+
+    class Meta:
+        model = DoctorModel
+        fields = ['medical_code', 'skill_title', 'user', 'have_not_accecpted_vac', 'unit', 'degree', 'is_public', 'is_clinic', 'is_active']
+
+
+class DoctorWorkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DoctorWorkTimeModel
+        fields = ['day_from', 'day_to', 'time_from', 'time_to']
+
+
+class DoctorVacationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DoctorVacationModel
+        fields = ['from_time', 'to_time', 'is_accepted']
 

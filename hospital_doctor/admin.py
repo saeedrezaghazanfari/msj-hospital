@@ -33,8 +33,8 @@ class DegreeModel_Admin(admin.ModelAdmin):
 
 
 class DoctorWorkTimeModel_Admin(admin.ModelAdmin):
-    list_display = ['doctor', 'day', 'time_from', 'time_to']
-    search_fields = ['doctor', 'day']
+    list_display = ['doctor', 'day_from', 'day_to', 'time_from', 'time_to']
+    search_fields = ['doctor', 'day_from', 'day_to']
     ordering = ['-id']
 
 

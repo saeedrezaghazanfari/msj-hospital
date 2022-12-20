@@ -59,7 +59,8 @@ class DegreeModel(models.Model):
 
 class DoctorWorkTimeModel(models.Model):
     doctor = models.ForeignKey(DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
-    day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
+    day_from = models.CharField(max_length=15, default='saturday', choices=DAYS, verbose_name=_('از روز'))
+    day_to = models.CharField(max_length=15, default='thursday', choices=DAYS, verbose_name=_('تا روز'))
     time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
     time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
 

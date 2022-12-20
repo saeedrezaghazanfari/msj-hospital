@@ -98,7 +98,7 @@
                 formdata.append('img', this.insurace_image);
 
                 await axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/insurances/management/',
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/insurances/',
                     formdata,
                     {
                         headers: {
@@ -130,7 +130,7 @@
                 let token = document.getElementById('token');
 
                 axios.get(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/insurances/management/',
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/insurances/',
                     {    
                         headers: {
                             'Authorization': `Token ${token.innerText}`,
