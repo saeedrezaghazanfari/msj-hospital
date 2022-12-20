@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
-from hospital_units.models import LimitTurnTimeModel
+from hospital_units.models import LimitTurnTimeModel, AppointmentTipModel
 from hospital_setting.models import InsuranceModel
 from .decorators import online_appointment_required
 from .mixins import OnlineAppointmentUserRequired
@@ -85,5 +85,40 @@ class InsurancesManager(OnlineAppointmentUserRequired, APIView):
         return Response({
             'data': serializers.InsuranceSerializer(insurance).data,
             'msg': _('بیمه ی مورد نظر با موفقیت ذخیره شد.'),
+            'status': 200
+        })
+
+
+# url: /panel/online-appointment/tips/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_tips_page(request):
+    return render(request, 'panel/online-appointment/tips.html')
+
+
+# url: /api/v1/tips/management/
+class TipsManager(OnlineAppointmentUserRequired, APIView):
+
+    def get(self, request):
+        tips = AppointmentTipModel.objects.all()
+        
+        return Response({
+            'data': serializers.AppointmentTipSerializer(tips, many=True).data,
+            'status': 200
+        })
+
+    def post(self, request):
+        
+        serializer = serializers.AppointmentTipSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        tips = AppointmentTipModel.objects.create(
+            title=request.data.get('title'),
+            tips=request.data.get('tips')
+        )
+
+        return Response({
+            'data': serializers.AppointmentTipSerializer(tips).data,
+            'msg': _('نکات مورد نظر با موفقیت ذخیره شد.'),
             'status': 200
         })

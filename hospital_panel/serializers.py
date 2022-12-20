@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from hospital_units.models import LimitTurnTimeModel
+from hospital_units.models import LimitTurnTimeModel, AppointmentTipModel
 from hospital_setting.models import InsuranceModel
 from django.utils.translation import gettext_lazy as _
 from extentions.utils import is_image
@@ -41,3 +41,17 @@ class InsuranceSerializer(serializers.ModelSerializer):
         if not is_image(value):
             raise serializers.ValidationError(_('پسوند فایل مجاز نیست.'))
         return value
+
+
+class AppointmentTipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppointmentTipModel
+        fields = ['title', 'tips']
+
+    def validate_title(self, value):
+        if len(value) >= 90:
+            raise serializers.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
+        if AppointmentTipModel.objects.filter(title=value).exists():
+            raise serializers.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
+        return value
+
