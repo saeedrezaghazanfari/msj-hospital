@@ -28,5 +28,7 @@ urlpatterns = [
     path('panel/online-appointment', views_appointment.online_appointment_page, name='appointment'),
     path('panel/online-appointment/limit-time/', views_appointment.oa_limit_time_page, name='appointment-limittime'),
     path('api/v1/limit-time/management/', views_appointment.OnlineAppointmentManager.as_view(), name='appointment-limittime-manager'),
+    path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
+    path('api/v1/insurances/management/', views_appointment.InsurancesManager.as_view(), name='appointment-limittime-manager'),
 
 ]

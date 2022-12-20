@@ -93,9 +93,17 @@ def persian_numbers(myStr):
         myStr = myStr.replace(e,p)
     return myStr
 
-def get_ext_file(filename):
+def is_image(filename):
     extesion = os.path.splitext(str(filename))[1].lower()
     extesion_allowed = ['.png', '.jpg', 'jpeg']
+    for i in extesion_allowed:
+        if extesion == i:
+            return True
+    return False
+
+def is_video(filename):
+    extesion = os.path.splitext(str(filename))[1].lower()
+    extesion_allowed = ['.mp4', '.webm']
     for i in extesion_allowed:
         if extesion == i:
             return 'yes'

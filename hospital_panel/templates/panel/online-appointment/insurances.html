@@ -23,27 +23,27 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
-        
+
         <div v-if="msg">[[ msg ]]</div>
         <ul class="box" v-if="errors.length >= 1">
             <li v-for="error in errors">[[ error ]]</li>
         </ul>
 
-        <h1>Online Appointment - limit time</h1>
+        <h1>Online Appointment - insurances</h1>
 
-        <a @click="show_create_form = !show_create_form">create one</a>
+        <button @click="show_create_insurance = !show_create_insurance">create +</button>
 
-        <div class="box" v-if="show_create_form">
-            <form @submit.prevent="create_limit_time">
-                <input type="number" v-model="time" placeholder="تا ساعت چند؟">
-                <input type="number" v-model="hours" placeholder="چند روز قبل؟ (به ساعت):">
+        <div class="box" v-if="show_create_insurance">
+            <form @submit.prevent="create_insurance" enctype="multipart/form-data">
+                <input type="text" v-model="title" placeholder="title">
+                <input type="file" @change="insurace_image = $event.target.files[0]" >
                 <button>create +</button>
             </form>
         </div>
 
-        <div class="box">
-            <div id="old_to_hour">تا ساعت چند؟: {{ limit_time.to_hour }}</div>
-            <div id="old_how_days_hour">چند روز قبل؟ (به ساعت): {{ limit_time.how_days_hour }}</div>
+        <div class="box" v-for="insurance in insurances" :key="insurances.title">
+            <div>[[ insurance.title ]]</div>
+            <div><img :src="insurance.img" style="height: 50px; width: 50px;"></div>
         </div>
 
     </div>
@@ -65,9 +65,11 @@
 
         data() {
             return {
-                time: '',
-                hours: '',
-                show_create_form: false,
+                title: '',
+                insurances: [],
+                
+                show_create_insurance: false,
+                insurace_image: '',
 
                 msg: '',
                 errors: [],
@@ -80,25 +82,56 @@
 
         methods: {
 
-            async create_limit_time() {
+            async create_insurance() {
 
                 this.msg = '';
                 this.errors = [];
 
-                if(!this.time || !this.hours)
+                if(!this.title || !this.insurace_image)
                     return;
 
                 let username = document.getElementById('username');
                 let token = document.getElementById('token');
 
                 let formdata = new FormData();
-                formdata.append('to_hour', this.time);
-                formdata.append('how_days_hour', this.hours);
+                formdata.append('title', this.title);
+                formdata.append('img', this.insurace_image);
 
                 await axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/limit-time/management/',
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/insurances/management/',
                     formdata,
                     {
+                        headers: {
+                            'Authorization': `Token ${token.innerText}`,
+                            'Content-type': 'multipart/form-data'
+                        }
+                    }
+                )
+                .then((response) => {
+                    if(response.data.status == 200) {
+                        this.insurances.unshift(response.data.data);
+                        
+                        this.msg = response.data.msg;
+                        this.title = '';
+                        this.img = '';
+                    }
+                })
+                .catch(err => {
+                    if(err.response.data.title) this.errors.push(err.response.data.title[0]);
+                    if(err.response.data.img) this.errors.push(err.response.data.img[0]);
+                });
+
+            },
+
+
+            async get_insurances(){
+
+                let username = document.getElementById('username');
+                let token = document.getElementById('token');
+
+                axios.get(
+                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/insurances/management/',
+                    {    
                         headers: {
                             'Authorization': `Token ${token.innerText}`,
                             'Content-type': 'application/json'
@@ -106,18 +139,12 @@
                     }
                 )
                 .then((response) => {
-                    if(response.data.status == 200) {
-                        document.getElementById('old_to_hour').innerText = response.data.data.to_hour;
-                        document.getElementById('old_how_days_hour').innerText = response.data.data.how_days_hour;
-
-                        this.msg = response.data.msg;
-                        this.time = '';
-                        this.hours = '';
+                    if(response.status == 200) {
+                        this.insurances = response.data.data;
                     }
                 })
                 .catch(err => {
-                    if(err.response.data.to_hour) this.errors.push(err.response.data.to_hour[0]);
-                    if(err.response.data.how_days_hour) this.errors.push(err.response.data.how_days_hour[0]);
+                    console.log('ERR: ', err);
                 });
 
             },
@@ -141,8 +168,11 @@
                     }
                 )
                 .then((response) => {
-                    if(response.status == 200)
+                    if(response.status == 200) {
                         token.innerText = response.data.token;
+                        
+                        this.get_insurances();
+                    }
                 });
 
             },
