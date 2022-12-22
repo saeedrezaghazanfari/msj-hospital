@@ -37,6 +37,7 @@ urlpatterns = [
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
     path('panel/online-appointment/tips/', views_appointment.oa_tips_page, name='appointment-tips'),
     path('panel/online-appointment/doctor/list/', views_appointment.oa_doctorlist_page, name='appointment-doctorlist'),
+    path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     
 
     # API

@@ -1,0 +1,116 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    {% if messages %}
+    <ul>
+        {% for msg in messages %}
+        <li style="color: red;"><p>{{ msg }}</p></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - price appointment</h1>
+
+        <button id="toggle_form_btn">create +</button>
+
+        <form method="POST" id="create_form" class="d-none" novalidate>
+            {% csrf_token %}
+            <div class="box">
+                <div>
+                    <p>{{ form.title.label_tag }}</p>
+                    {{ form.title }}
+                    {% for msg in form.title.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.insurance.label_tag }}</p>
+                    {{ form.insurance }}
+                    {% for msg in form.insurance.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.degree.label_tag }}</p>
+                    {{ form.degree }}
+                    {% for msg in form.degree.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.price_free.label_tag }}</p>
+                    {{ form.price_free }}
+                    {% for msg in form.price_free.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.price_insurance.label_tag }}</p>
+                    {{ form.price_insurance }}
+                    {% for msg in form.price_insurance.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.year.label_tag }}</p>
+                    {{ form.year }}
+                    {% for msg in form.year.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <button type="submit">Create</button>
+        </form>
+
+        {% for price in prices %}
+        <div class="box">
+            <div title="title">{{ price.title }}</div>
+            <div title="insurance">{{ price.insurance }}</div>
+            <div title="degree">{{ price.degree }}</div>
+            <div title="price_free">{{ price.price_free }}</div>
+            <div title="price_insurance">{{ price.price_insurance }}</div>
+            <div title="year">{{ price.year }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extraScript %}
+
+<script>
+    document.getElementById('toggle_form_btn').addEventListener('click', () => {
+        if(document.getElementById('create_form').classList.contains('d-none')){
+            document.getElementById('create_form').classList.remove('d-none')
+        }
+        else {
+            document.getElementById('create_form').classList.add('d-none')
+        }
+    })
+</script>
+
+{% endblock %}

@@ -1,9 +1,10 @@
-# import re
-# from django import forms
-# from hospital_auth.models import User
-# from captcha.fields import CaptchaField
-# from django.utils.translation import gettext_lazy as _
-# from extentions.utils import is_fixed_phone, is_email
+import re
+from django import forms
+from hospital_auth.models import User
+from captcha.fields import CaptchaField
+from django.utils.translation import gettext_lazy as _
+from hospital_setting.models import PriceAppointmentModel
+from extentions.utils import is_fixed_phone, is_email
 
 
 # class EditInfoForm(forms.Form):
@@ -60,3 +61,33 @@
 #         if not is_email(email):
 #             raise forms.ValidationError(_('الگوی ایمیل شما صحیح نیست'))
 #         return email
+
+
+class CreatePriceAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = PriceAppointmentModel
+        fields = ['title', 'insurance', 'degree', 'price_free', 'price_insurance', 'year']
+
+    def clean_price_free(self):
+        value = self.cleaned_data.get('price_free')
+        if value == 0:
+            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
+        if value < 0:
+            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
+        return value
+    
+    def clean_price_insurance(self):
+        value = self.cleaned_data.get('price_insurance')
+        if value == 0:
+            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
+        if value < 0:
+            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
+        return value
+        
+    def clean_year(self):
+        value = self.cleaned_data.get('year')
+        if value == 0:
+            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
+        if value < 0:
+            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
+        return value

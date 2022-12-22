@@ -200,7 +200,7 @@ class PriceAppointmentModel(models.Model):
         verbose_name_plural = _('تعرفه ی نوبت دهی ها')
 
     def __str__(self):
-        return self.title
+        return f'{self.title.title} - {self.insurance.title} - {self.degree.title}'
 
 
 class ResultModel(models.Model):
