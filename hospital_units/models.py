@@ -115,7 +115,7 @@ class AppointmentTimeModel(models.Model):
     time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
     price = models.ForeignKey(to='hospital_setting.PriceAppointmentModel', on_delete=models.SET_NULL, null=True, verbose_name=_('تعرفه'))
     capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
-    reserved = models.PositiveIntegerField(verbose_name=_('تعداد رزرو شده'))
+    reserved = models.PositiveIntegerField(default=0, verbose_name=_('تعداد رزرو شده'))
     tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
 
     class Meta:
@@ -141,16 +141,9 @@ class AppointmentTipModel(models.Model):
 
 
 class PatientTurnModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-
     code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
+    patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
-    first_name = models.CharField(max_length=50, verbose_name=_('نام بیمار'))
-    last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی بیمار'))
-    national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی بیمار'))
-    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن بیمار'))
-    age = models.PositiveIntegerField(verbose_name=_('سن بیمار'))
-    gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت بیمار'))
     insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, verbose_name=_('بیمه'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ قابل پرداخت'))
     prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه ی پزشک دیگر'))
@@ -167,7 +160,7 @@ class PatientTurnModel(models.Model):
         verbose_name_plural = _('نوبت بیماران')
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.patient.first_name} {self.patient.last_name}'
 
 
 class OnlinePaymentModel(models.Model):

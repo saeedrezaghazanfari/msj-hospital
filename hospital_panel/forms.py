@@ -104,7 +104,7 @@ class TimeAppointmentForm(forms.ModelForm):
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'price', 'capacity', 'reserved', 'tip']
+        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'price', 'capacity', 'tip']
 
     def __init__(self, *args, **kwargs):
         super(TimeAppointmentForm, self).__init__(*args, **kwargs)
@@ -132,9 +132,9 @@ class TimeAppointmentForm(forms.ModelForm):
         time_from_str = time_from.split(':')
         time_to_str = time_to.split(':')
 
-        if time_to_str[0] < time_from_str[0]:
+        if int(time_to_str[0]) < int(time_from_str[0]):
             raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
-        if time_to_str[0] == time_from_str[0]:
-            if time_to_str[1] <= time_from_str[1]:
+        if int(time_to_str[0]) == int(time_from_str[0]):
+            if int(time_to_str[1]) <= int(time_from_str[1]):
                 raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
         return time_to

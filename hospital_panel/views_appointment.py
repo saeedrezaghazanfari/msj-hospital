@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel
+from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel
 from hospital_setting.models import PriceAppointmentModel
 from extentions.utils import date_range_list
 from .decorators import online_appointment_required
@@ -106,7 +106,7 @@ def oa_time_page(request):
                         time_to=create_form.cleaned_data.get('time_to'),
                         price=create_form.cleaned_data.get('price'),
                         capacity=create_form.cleaned_data.get('capacity'),
-                        reserved=create_form.cleaned_data.get('reserved'),
+                        reserved=0,
                         tip=create_form.cleaned_data.get('tip'),
                     )
                 )
@@ -117,3 +117,13 @@ def oa_time_page(request):
             return redirect('panel:appointment-time')
 
     return render(request, 'panel/online-appointment/time-appointment.html', context)
+
+
+# url: /panel/online-appointment/patient/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_patient_page(request):
+    patients = PatientTurnModel.objects.all()
+    return render(request, 'panel/online-appointment/patient.html', {
+        'patients': patients
+    })

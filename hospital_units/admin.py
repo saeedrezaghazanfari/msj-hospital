@@ -47,8 +47,8 @@ class AppointmentTipModel_Admin(admin.ModelAdmin):
 
 
 class PatientTurnModel_Admin(admin.ModelAdmin):
-    list_display = ['code', 'appointment', 'first_name', 'last_name', 'national_code']
-    search_fields = ['code', 'appointment', 'first_name', 'last_name', 'national_code']
+    list_display = ['code', 'appointment', 'patient']
+    search_fields = ['code', 'appointment']
     ordering = ['-id']
 
 class OnlinePaymentModel_Admin(admin.ModelAdmin):

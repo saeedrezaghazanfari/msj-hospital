@@ -39,6 +39,7 @@ urlpatterns = [
     path('panel/online-appointment/doctor/list/', views_appointment.oa_doctorlist_page, name='appointment-doctorlist'),
     path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     path('panel/online-appointment/time/', views_appointment.oa_time_page, name='appointment-time'),
+    path('panel/online-appointment/patient/', views_appointment.oa_patient_page, name='appointment-patient'),
 
     # API
     path('api/v1/online-appointment/limit-time/', views_api.OnlineAppointmentManager.as_view(), name='appointment-limittime-manager'),
