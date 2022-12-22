@@ -102,10 +102,30 @@ class AppointmentDoctorManager(OnlineAppointmentUserRequired, APIView):
     def post(self, request):
 
         code = request.data.get('code')
-        print(code)
+        
         if code and DoctorModel.objects.filter(medical_code=code).exists():
             
             doctor = DoctorModel.objects.get(medical_code=code)
+
+            works = doctor.doctorworktimemodel_set.all()
+            vacations = doctor.doctorvacationmodel_set.all()
+
+            return Response({
+                'works': serializers.DoctorWorkSerializer(works, many=True).data,
+                'vacations': serializers.DoctorVacationSerializer(vacations, many=True).data,
+                'status': 200
+            })
+        return Response({'status': 400})
+
+
+    def patch(self, request):
+
+        code = request.data.get('code')
+        
+        if code and DoctorModel.objects.filter(medical_code=code).exists():
+            
+            doctor = DoctorModel.objects.get(medical_code=code)
+            doctor.doctorvacationmodel_set.filter(is_accepted=False).update(is_accepted=True)
 
             works = doctor.doctorworktimemodel_set.all()
             vacations = doctor.doctorvacationmodel_set.all()

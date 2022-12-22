@@ -187,7 +187,6 @@ class ReportModel(models.Model):
 
 
 class PriceAppointmentModel(models.Model):
-    TYPE_DEGREE = (('superexpert', _('فوق تخصص')), ('expert', _('متخصص')), ('public', _('عمومی')), ('drugcreator', _('داروساز')), ('fellowship', _('فلوشیپ')), ('phd', _('پی اچ دی')) )
     title = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
     insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
