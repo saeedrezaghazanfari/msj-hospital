@@ -124,7 +124,7 @@ class AppointmentTimeModel(models.Model):
         verbose_name_plural = _('زمان های نوبتدهی')
 
     def __str__(self):
-        return self.doctor
+        return f'{self.doctor.user.first_name} {self.doctor.user.last_name}'
 
 
 class AppointmentTipModel(models.Model):

@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from . import jalali
+from datetime import timedelta
 import os, re
 from random import randint, choice
 
@@ -50,6 +51,13 @@ def is_national_code(value):
 def is_shaba(value):
     return bool(re.compile(r'(^(?:IR)(?=.{24}$)[0-9]*$)').match(str(value)))
 
+def date_range_list(start_date, end_date):
+    date_list = []
+    curr_date = start_date
+    while curr_date <= end_date:
+        date_list.append(curr_date)
+        curr_date += timedelta(days=1)
+    return date_list
 
 def jalali_convertor(time, output='date_time', number=False):
     jmonth = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']

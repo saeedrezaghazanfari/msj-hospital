@@ -4,6 +4,9 @@ from hospital_auth.models import User
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel
+from hospital_units.models import AppointmentTimeModel
+from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
+from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_fixed_phone, is_email
 
 
@@ -63,7 +66,7 @@ from extentions.utils import is_fixed_phone, is_email
 #         return email
 
 
-class CreatePriceAppointmentForm(forms.ModelForm):
+class PriceAppointmentForm(forms.ModelForm):
     class Meta:
         model = PriceAppointmentModel
         fields = ['title', 'insurance', 'degree', 'price_free', 'price_insurance', 'year']
@@ -91,3 +94,47 @@ class CreatePriceAppointmentForm(forms.ModelForm):
         if value < 0:
             raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
         return value
+
+
+
+
+class TimeAppointmentForm(forms.ModelForm):
+    date_from = forms.DateField(widget=forms.DateInput())
+    date_to = forms.DateField(widget=forms.DateInput())
+
+    class Meta:
+        model = AppointmentTimeModel
+        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'price', 'capacity', 'reserved', 'tip']
+
+    def __init__(self, *args, **kwargs):
+        super(TimeAppointmentForm, self).__init__(*args, **kwargs)
+        self.fields['date_from'] = JalaliDateField(label=_('از تاریخ'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+        self.fields['date_to'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+        # self.fields['date'] = SplitJalaliDateTimeField(label=_('تاریخ روز'), 
+        #     widget=AdminSplitJalaliDateTime # required, for decompress DatetimeField to JalaliDateField and JalaliTimeField
+        # )
+
+    def clean_date_to(self):
+        date_from = self.cleaned_data.get('date_from')
+        date_to = self.cleaned_data.get('date_to')
+        if date_from > date_to:
+            raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
+        return date_to
+    
+    def clean_time_to(self):
+        time_from = self.cleaned_data.get('time_from')
+        time_to = self.cleaned_data.get('time_to')
+
+        time_from_str = time_from.split(':')
+        time_to_str = time_to.split(':')
+
+        if time_to_str[0] < time_from_str[0]:
+            raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
+        if time_to_str[0] == time_from_str[0]:
+            if time_to_str[1] <= time_from_str[1]:
+                raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
+        return time_to
