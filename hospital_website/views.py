@@ -1,4 +1,11 @@
+from django.utils import timezone
+from datetime import datetime
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib import messages
+from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import (
    FAQModel,
    HomeGalleryModel,
@@ -6,16 +13,120 @@ from hospital_setting.models import (
 from hospital_blog.models import (
     BlogModel,
 )
+from hospital_doctor.models import DoctorModel
+from hospital_units.models import AppointmentTimeModel
+from . import forms
+from .models import LoginCodePatientModel
+# imports for activatings
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from hospital_auth.tokens import account_activation_phone_token
 
 
 # url: /
-class HomePage(generic.TemplateView):
-    template_name = 'web/home.html'
+def home_page(request):
+    return render(request, 'web/home.html', {})
 
-    def get_context_data(self, **kwargs):
-        context = super(HomePage, self).get_context_data(**kwargs)
-        context['gallery_items'] = HomeGalleryModel.objects.all()
-        context['last_blogs'] = BlogModel.objects.all()[:6]
-        context['faq_items'] = FAQModel.objects.all()
-        return context
 
+# url: /electronic/appointment/
+def eoa_home_page(request):
+    return render(request, 'web/electronic-services/oa-home.html', {})
+
+
+# url: /electronic/appointment/categories/
+def eoa_categories_page(request):
+    return render(request, 'web/electronic-services/oa-categories.html', {})
+
+
+# url: /electronic/appointment/categories/doctors/
+def eoa_doctors_page(request):
+    doctors = AppointmentTimeModel.objects.filter(
+                date__gt=datetime.now(),
+                doctor__is_active=True
+            ).values(
+                'doctor__medical_code', 
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).distinct()
+
+    return render(request, 'web/electronic-services/oa-doctors.html', {
+        'doctors': doctors,
+    })
+
+
+# url: /electronic/appointment/<int:medicalCode>/phone/
+def eoa_phone_page(request, medicalCode):
+
+    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode).exists():
+        return redirect('/404')
+        
+    doctor = DoctorModel.objects.get(medical_code=medicalCode)
+    get_phone = forms.PhoneForm(request.POST or None)
+    context = {
+        'form': get_phone,
+    }
+    if request.method == 'POST':
+        if get_phone.is_valid():
+
+            phone = get_phone.cleaned_data.get('phone')
+
+            code = LoginCodePatientModel.objects.create(
+				phone=phone,
+                usage='appointment'
+			)
+
+            print(code.code) #TODO delete here
+
+			# + send sms: send code.code #TODO
+			# a = requests.get(
+			# 	f'https://api.kavenegar.com/v1/{settings.KAVENEGAR_APIKEY}/verify/lookup.json?receptor={phone}&token={code.code}&template=signin'
+			# )
+			# - sending sms
+
+            uid = urlsafe_base64_encode(force_bytes(code.id)) 
+            token = account_activation_phone_token.make_token(code)
+            messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
+            return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.medical_code}/{uid}/{token}')
+
+
+    return render(request, 'web/electronic-services/oa-phone.html', context)
+
+
+# url: /electronic/appointment/enter-sms-code/<medicalCode>/<uidb64>/<token>
+def eoa_entercode_page(request, medicalCode, uidb64, token):
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        form = forms.EnterCodePhoneForm(request.POST or None)
+        context = {'form': form}
+
+        if request.method == 'POST':
+            if form.is_valid():
+
+                code_enter = LoginCodePatientModel.objects.filter(
+                    code=int(form.cleaned_data.get('code')), 
+                    expire_date__gt=timezone.now(), 
+                    usage='appointment', 
+                    is_use=False
+                ).first()
+                
+                if code_enter:
+                    code_enter.is_use = True
+                    code_enter.save()
+
+                    context['form'] = forms.EnterCodePhoneForm()
+                    return redirect('/') 
+
+                else:
+                    messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
+                    return redirect(f'/electronic/appointment/enter-sms-code/{medicalCode}/{uidb64}/{token}') 
+
+        return render(request, 'web/electronic-services/oa-entercode.html', context)

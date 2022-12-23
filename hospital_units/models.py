@@ -124,7 +124,7 @@ class AppointmentTimeModel(models.Model):
         verbose_name_plural = _('زمان های نوبتدهی')
 
     def __str__(self):
-        return f'{self.doctor.user.first_name} {self.doctor.user.last_name}'
+        return f'{self.doctor.user.first_name} {self.doctor.user.last_name} - {self.date}'
 
 
 class AppointmentTipModel(models.Model):
@@ -151,7 +151,7 @@ class PatientTurnModel(models.Model):
     turn = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('نوبت فیزیکی بیمار'))
     is_paid = models.BooleanField(default=False, verbose_name=_('پرداخت شده؟'))
     is_canceled = models.BooleanField(default=False, verbose_name=_('آیا از سمت بیمار کنسل شده است؟'))
-    is_canceled = models.BooleanField(default=False, verbose_name=_('آیا از مبلغ کنسل شدن به بیمار واریز شده است؟'))
+    is_returned = models.BooleanField(default=False, verbose_name=_('آیا مبلغ کنسل شدن به بیمار واریز شده است؟'))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -182,6 +182,7 @@ class OnlinePaymentModel(models.Model):
 class LimitTurnTimeModel(models.Model):
     to_hour = models.PositiveIntegerField(verbose_name=_('تا ساعت چند؟'))
     how_days_hour = models.PositiveIntegerField(verbose_name=_('چند روز قبل؟ (به ساعت)'))
+    rules = models.TextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
 
     class Meta:
         ordering = ['-id']

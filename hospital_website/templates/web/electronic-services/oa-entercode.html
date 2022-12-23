@@ -1,0 +1,26 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > Enter Phone > Enter Code</span></h1>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        {{ form.code.label_tag }}
+        {{ form.code }}
+        {% for msg in form.code.errors %}
+        <p style="color: red;">{{ msg }}</p>
+        {% endfor %}
+
+
+        <button type="submit">enter and get sms code</button>
+    </form>
+
+{% endblock %}
+

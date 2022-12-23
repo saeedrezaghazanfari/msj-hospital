@@ -37,7 +37,7 @@ class AuthTokenSerializer(serializers.Serializer):
             
             if User.objects.filter(username=username).exists():
                 this_user = User.objects.get(username=username)
-                string = this_user.logincodemodel_set.first().code_login
+                string = this_user.logincodemodel_set.filter(usage='login', is_use=True).first().code_login
 
             user = authenticate(
                 request=self.context.get('request'),

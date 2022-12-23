@@ -46,7 +46,7 @@ class PatientModel(models.Model):
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
-    age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
+    age = models.PositiveIntegerField(verbose_name=_('سن'))
     created = models.DateTimeField(auto_now_add=True)
 
     def get_full_name(self):
@@ -89,7 +89,7 @@ class LoginCodeModel(models.Model):
     USAGES = (('login', _('ورود کاربر به پنل')), )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
-    code_login = models.CharField(max_length=30, default=get_links_code, verbose_name=_('کد ورود'))
+    code_login = models.CharField(max_length=30, default=get_links_code, editable=False, verbose_name=_('کد ورود'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
     expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'), help_text=_('این فیلد لازم نیست پر شود. بعد از ثبت رکورد بصورت اتوماتیک ثبت میشود.'))
     usage = models.CharField(max_length=20, choices=USAGES, blank=True, null=True, verbose_name=_('عنوان استفاده ی کد'))

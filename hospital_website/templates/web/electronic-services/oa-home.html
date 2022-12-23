@@ -1,0 +1,17 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home</span></h1>
+
+    <p>we have online appointment.. :|</p>
+
+    <a href="{% url 'website:el-oa-categories' %}">let's get a Turn...</a>
+
+{% endblock %}
+

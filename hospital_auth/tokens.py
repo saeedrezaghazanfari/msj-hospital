@@ -9,3 +9,12 @@ class TokenGenerator(PasswordResetTokenGenerator):
             six.text_type(user.is_active)
         )
 account_activation_token = TokenGenerator()
+
+
+class TokenPhoneGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, code, timestamp):
+        return (
+            six.text_type(code.id) + six.text_type(timestamp)
+            # six.text_type(user.is_active)
+        )
+account_activation_phone_token = TokenPhoneGenerator()

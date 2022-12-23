@@ -13,4 +13,37 @@
     <br>
     {{ last_blogs }}
 
+    <hr>
+
+    <a href="{% url 'panel:home' %}">panel</a>
+    <br>
+    <a href="{% url 'website:el-oa-home' %}">online appointment, click here!</a>
+
+{% endblock %}
+
+{% block extraScript %}
+
+    <script>
+
+        let host = window.location.host;
+        let links = [
+            
+            [ /* panel */
+                `${host}/${window.location.pathname[1]}${window.location.pathname[2]}/panel/`, [
+                    'word1', 'word2', 'word3'
+                ]
+            ],
+
+            [ /* panel */
+                `${host}/${window.location.pathname[1]}${window.location.pathname[2]}/panel/`, [
+                    'word1', 'word2', 'word3'
+                ]
+            ],
+
+
+        ]
+
+        console.log(links);
+    </script>
+
 {% endblock %}

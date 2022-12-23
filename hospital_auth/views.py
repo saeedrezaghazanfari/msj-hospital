@@ -110,6 +110,7 @@ def enter_sms_code(request, uidb64, token):
 		user = User.objects.get(pk=uid)
 	except(TypeError, ValueError, OverflowError, User.DoesNotExist):
 		user = None
+		return redirect('/404')
 
 	if user and account_activation_token.check_token(user, token):
 		form = EnterCodePWForm(request.POST or None)

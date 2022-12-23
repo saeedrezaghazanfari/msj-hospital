@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
+from hospital_blog.models import TagModel, CategoryModel
 from extentions.utils import (
     jalali_convertor, 
     news_image_path, 
@@ -23,8 +24,8 @@ class NewsModel(models.Model):
     image = models.ImageField(upload_to=news_image_path, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
-    categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
-    tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
+    categories = models.ManyToManyField(to=CategoryModel, verbose_name=_('دسته بندی ها'))
+    tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ ها'))
     title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     desc = models.TextField(verbose_name=_('متن مقاله'))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
@@ -98,30 +99,6 @@ class NewsCommentModel(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-
-class CategoryModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('دسته بندی')
-        verbose_name_plural = _('دسته بندی ها')
-
-    def __str__(self):
-        return self.title
-
-
-class TagModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('تگ')
-        verbose_name_plural = _('تگ ها')
-
-    def __str__(self):
-        return self.title
 
 
 class NewsLikeModel(models.Model):

@@ -40,10 +40,10 @@ def is_email(email):
     return bool(re.compile(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)').match(str(email)))
 
 def is_phone(phone):
-    return bool(re.compile(r'0?9([0-1][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}').match(str(phone)))
+    return bool(re.compile(r'(^0?9([0-1][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$)').match(str(phone)))
 
 def is_fixed_phone(phone): #TODO
-    return bool(re.compile(r'0?9([0-1][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}').match(str(phone)))
+    return bool(re.compile(r'(^0?9([0-1][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$)').match(str(phone)))
 
 def is_national_code(value):
     return bool(re.compile(r'(^[0-9]{10}$)').match(str(value)))

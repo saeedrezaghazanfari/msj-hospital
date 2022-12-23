@@ -171,7 +171,7 @@ class CareersModel(models.Model):
     max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
     image = models.ImageField(upload_to=career_image_path, verbose_name=_('تصویر'))
     expriment = models.TextField(verbose_name=_('تجربه ی مورد نیاز'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+    is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
 
     class Meta:

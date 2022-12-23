@@ -1,0 +1,22 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > Categories > Doctors</span></h1>
+
+    {% for doctor in doctors %}
+    <div class="box">
+        <div>{{ doctor.doctor__user__first_name }} {{ doctor.doctor__user__last_name }}</div>
+        <div>{{ doctor.doctor__skill_title__title }}</div>
+        <div>{{ doctor.doctor__degree__title }}</div>
+        <div><a href="{% url 'website:el-oa-phone' doctor.doctor__medical_code %}">view</a></div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+

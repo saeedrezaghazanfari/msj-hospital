@@ -18,7 +18,7 @@ class DoctorModel(models.Model):
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
     is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
     is_clinic = models.BooleanField(default=False, verbose_name=_('آیا این پزشک درمانگاه است؟'))
-    is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
+    is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
     class Meta:
         ordering = ['-id']
