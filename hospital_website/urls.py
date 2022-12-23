@@ -12,4 +12,5 @@ urlpatterns = [
     path('electronic/appointment/categories/doctors/', views.eoa_doctors_page, name='el-oa-doctors'),
     path('electronic/appointment/<int:medicalCode>/phone/', views.eoa_phone_page, name='el-oa-phone'),
     path('electronic/appointment/enter-sms-code/<medicalCode>/<uidb64>/<token>', views.eoa_entercode_page, name='el-oa-entercode'),
+    path('electronic/appointment/<medicalCode>/<uidb64>/<token>/calendar/', views.eoa_calendar_page, name='el-oa-calendar'),
 ]

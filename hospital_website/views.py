@@ -6,15 +6,10 @@ from django.views import generic
 from django.contrib import messages
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
-from hospital_setting.models import (
-   FAQModel,
-   HomeGalleryModel,
-)
-from hospital_blog.models import (
-    BlogModel,
-)
+from hospital_setting.models import FAQModel, HomeGalleryModel
+from hospital_blog.models import BlogModel
 from hospital_doctor.models import DoctorModel
-from hospital_units.models import AppointmentTimeModel
+from hospital_units.models import UnitModel, AppointmentTimeModel
 from . import forms
 from .models import LoginCodePatientModel
 # imports for activatings
@@ -59,10 +54,10 @@ def eoa_doctors_page(request):
 # url: /electronic/appointment/<int:medicalCode>/phone/
 def eoa_phone_page(request, medicalCode):
 
-    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode).exists():
+    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
         return redirect('/404')
         
-    doctor = DoctorModel.objects.get(medical_code=medicalCode)
+    doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
     get_phone = forms.PhoneForm(request.POST or None)
     context = {
         'form': get_phone,
@@ -90,7 +85,6 @@ def eoa_phone_page(request, medicalCode):
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
             return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.medical_code}/{uid}/{token}')
 
-
     return render(request, 'web/electronic-services/oa-phone.html', context)
 
 
@@ -102,6 +96,9 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid)
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
+        return redirect('/404')
+    
+    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
@@ -123,10 +120,34 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
                     code_enter.save()
 
                     context['form'] = forms.EnterCodePhoneForm()
-                    return redirect('/') 
+                    return redirect(f'/electronic/appointment/{medicalCode}/{uidb64}/{token}/calendar/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
                     return redirect(f'/electronic/appointment/enter-sms-code/{medicalCode}/{uidb64}/{token}') 
 
         return render(request, 'web/electronic-services/oa-entercode.html', context)
+
+
+# url: /electronic/appointment/<medicalCode>/<uidb64>/<token>/calendar/
+def eoa_calendar_page(request, medicalCode, uidb64, token):
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        
+        doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+        times = AppointmentTimeModel.objects.all()
+
+        return render(request, 'web/electronic-services/oa-calendar.html', {
+            'times': times
+        })
+

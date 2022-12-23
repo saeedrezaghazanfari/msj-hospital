@@ -1,0 +1,19 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar</span></h1>
+
+    {% for time in times %}
+    <div class="box">
+        {{ time }}
+    </div>
+    {% endfor %}
+
+{% endblock %}
+
