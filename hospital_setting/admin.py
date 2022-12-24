@@ -28,8 +28,8 @@ class SettingModel_Admin(admin.ModelAdmin):
 
 
 class CostModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'year']
-    search_field = ['title', 'year']
+    list_display = ['title']
+    search_field = ['title']
     ordering = ['-id']
 
 
@@ -88,8 +88,8 @@ class ReportModel_Admin(admin.ModelAdmin):
 
 
 class PriceAppointmentModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'degree', 'insurance', 'price_free', 'price_insurance']
-    search_field = ['title', 'degree', 'insurance']
+    list_display = ['degree', 'insurance', 'price']
+    search_field = ['degree', 'insurance']
     ordering = ['-id']
 
 

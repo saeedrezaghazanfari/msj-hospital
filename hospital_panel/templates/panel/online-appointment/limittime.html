@@ -10,9 +10,6 @@
 
 {% block content %}
 
-<div id="username" class="d-non">{{ request.user.username }}</div>
-<div id="token" class="d-non"></div>
-
 <div style="display: flex; direction: rtl !important;" id="application">
 
     <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
@@ -23,132 +20,38 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
-        
-        <div v-if="msg">[[ msg ]]</div>
-        <ul class="box" v-if="errors.length >= 1">
-            <li v-for="error in errors">[[ error ]]</li>
-        </ul>
 
         <h1>Online Appointment - limit time</h1>
 
-        <a @click="show_create_form = !show_create_form">create one</a>
+        <div class="box">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <p>{{ form.hours.label_tag }}</p>
+                {{ form.hours }}
+                {% for msg in form.hours.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
 
-        <div class="box" v-if="show_create_form">
-            <form @submit.prevent="create_limit_time">
-                <input type="number" v-model="time" placeholder="تا ساعت چند؟">
-                <input type="number" v-model="hours" placeholder="چند روز قبل؟ (به ساعت):">
-                <button>create +</button>
+                <p>{{ form.rules.label_tag }}</p>
+                {{ form.rules }}
+                {% for msg in form.rules.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <button type="submit">create +</button>
             </form>
         </div>
 
         <div class="box">
-            <div id="old_to_hour">تا ساعت چند؟: {{ limit_time.to_hour }}</div>
-            <div id="old_how_days_hour">چند روز قبل؟ (به ساعت): {{ limit_time.how_days_hour }}</div>
+            {{ limit_time.hours }}
+        </div>
+        <div class="box">
+            {{ limit_time.rules }}
         </div>
 
     </div>
 
 </div>
 
-{% endblock %}
-
-    
-{% block extraScript %}
-<script type="text/javascript" src="{% static 'js/vue3.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
-
-<script>
-
-    Vue.createApp({
-
-        delimiters: ["[[", "]]"],
-
-        data() {
-            return {
-                time: '',
-                hours: '',
-                show_create_form: false,
-
-                msg: '',
-                errors: [],
-            }
-        },
-
-        mounted() {
-            this.get_user_auth();
-        },
-
-        methods: {
-
-            async create_limit_time() {
-
-                this.msg = '';
-                this.errors = [];
-
-                if(!this.time || !this.hours)
-                    return;
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('to_hour', this.time);
-                formdata.append('how_days_hour', this.hours);
-
-                await axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/limit-time/',
-                    formdata,
-                    {
-                        headers: {
-                            'Authorization': `Token ${token.innerText}`,
-                            'Content-type': 'application/json'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.data.status == 200) {
-                        document.getElementById('old_to_hour').innerText = response.data.data.to_hour;
-                        document.getElementById('old_how_days_hour').innerText = response.data.data.how_days_hour;
-
-                        this.msg = response.data.msg;
-                        this.time = '';
-                        this.hours = '';
-                    }
-                })
-                .catch(err => {
-                    if(err.response.data.to_hour) this.errors.push(err.response.data.to_hour[0]);
-                    if(err.response.data.how_days_hour) this.errors.push(err.response.data.how_days_hour[0]);
-                });
-
-            },
-
-            async get_user_auth() {
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('username', username.innerText);
-                formdata.append('password', username.innerText * 2);
-
-                axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/user/get/token/',
-                    formdata,
-                    {    
-                        headers: {
-                            'Content-type': 'application/x-www-form-urlencoded'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.status == 200)
-                        token.innerText = response.data.token;
-                });
-
-            },
-        }
-
-    }).mount('#application');
-
-</script>
 {% endblock %}

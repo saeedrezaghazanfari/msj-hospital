@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import (
     DoctorModel,
-    DoctorInsuranceModel,
     TitleSkillModel,
     DoctorWorkTimeModel,
     DoctorVacationModel,
@@ -12,11 +11,6 @@ from .models import (
 
 class DoctorModel_Admin(admin.ModelAdmin):
     list_display = ['id', 'get_full_name', 'degree', 'skill_title']
-    ordering = ['-id']
-
-
-class DoctorInsuranceModel_Admin(admin.ModelAdmin):
-    list_display = ['__str__']
     ordering = ['-id']
 
 
@@ -50,7 +44,6 @@ class FamousPatientModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(DoctorModel, DoctorModel_Admin)
-admin.site.register(DoctorInsuranceModel, DoctorInsuranceModel_Admin)
 admin.site.register(TitleSkillModel, TitleSkillModel_Admin)
 admin.site.register(DoctorWorkTimeModel, DoctorWorkTimeModel_Admin)
 admin.site.register(DoctorVacationModel, DoctorVacationModel_Admin)

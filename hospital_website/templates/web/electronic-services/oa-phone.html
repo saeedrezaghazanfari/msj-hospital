@@ -12,12 +12,20 @@
     <form method="POST" novalidate>
         {% csrf_token %}
 
-        {{ form.phone.label_tag }}
-        {{ form.phone }}
-        {% for msg in form.phone.errors %}
-        <p style="color: red;">{{ msg }}</p>
-        {% endfor %}
-
+        <div class="box">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% for msg in form.phone.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+    
+    
+            {{ form.captcha.label_tag }}
+            {{ form.captcha }}
+            {% for msg in form.captcha.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+        </div>
 
         <button type="submit">enter and get sms code</button>
     </form>

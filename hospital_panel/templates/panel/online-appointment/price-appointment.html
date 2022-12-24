@@ -71,13 +71,6 @@
                     <p style="color: red;">{{ msg }}</p>
                     {% endfor %}
                 </div>
-                <div>
-                    <p>{{ form.year.label_tag }}</p>
-                    {{ form.year }}
-                    {% for msg in form.year.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
-                </div>
             </div>
             <button type="submit">Create</button>
         </form>
@@ -89,7 +82,6 @@
             <div title="degree">{{ price.degree }}</div>
             <div title="price_free">{{ price.price_free }}</div>
             <div title="price_insurance">{{ price.price_insurance }}</div>
-            <div title="year">{{ price.year }}</div>
         </div>
         {% endfor %}
 

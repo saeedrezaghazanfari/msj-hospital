@@ -10,8 +10,6 @@
 
 {% block content %}
 
-<div id="username" class="d-non">{{ request.user.username }}</div>
-<div id="token" class="d-non"></div>
 
 <div style="display: flex; direction: rtl !important;" id="application">
 
@@ -24,161 +22,38 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
 
-        <div v-if="msg">[[ msg ]]</div>
-        <ul class="box" v-if="errors.length >= 1">
-            <li v-for="error in errors">[[ error ]]</li>
-        </ul>
-
         <h1>Online Appointment - tips</h1>
 
-        <button @click="show_create_tips = !show_create_tips">create +</button>
-
         <div class="box" v-if="show_create_tips">
-            <form @submit.prevent="create_tips" enctype="multipart/form-data">
-                <input type="text" v-model="title" placeholder="title">
-                <textarea v-model="tips" placeholder="tips"></textarea>
-                <button>create +</button>
+            <form method="POST">
+                {% csrf_token %}
+
+                <p>{{ form.title.label_tag }}</p>
+                {{ form.title }}
+                {% for msg in form.title.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+
+                <p>{{ form.tips.label_tag }}</p>
+                {{ form.tips }}
+                {% for msg in form.tips.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <button type="submit">create +</button>
             </form>
         </div>
 
+        {% for tip in tips %}
         <div class="box" v-for="tip in tips_arr" :key="tip.title">  
-            <div>[[ tip.title ]]</div>
-            <div>[[ tip.tips ]]</div>
+            <div>{{ tip.title }}</div>
+            <div>{{ tip.tips }}</div>
         </div>
+        {% endfor %}
 
     </div>
 
 </div>
 
-{% endblock %}
-
-    
-{% block extraScript %}
-<script type="text/javascript" src="{% static 'js/vue3.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
-
-<script>
-
-    Vue.createApp({
-
-        delimiters: ["[[", "]]"],
-
-        data() {
-            return {
-                title: '',
-                tips: '',
-                
-                show_create_tips: false,
-                tips_arr: [],
-
-                msg: '',
-                errors: [],
-            }
-        },
-
-        mounted() {
-            this.get_user_auth();
-        },
-
-        methods: {
-
-            async create_tips() {
-
-                this.msg = '';
-                this.errors = [];
-
-                if(!this.title || !this.tips)
-                    return;
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('title', this.title);
-                formdata.append('tips', this.tips);
-
-                await axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/tips/',
-                    formdata,
-                    {
-                        headers: {
-                            'Authorization': `Token ${token.innerText}`,
-                            'Content-type': 'multipart/form-data'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.data.status == 200) {
-                        this.tips_arr.unshift(response.data.data);
-                        
-                        this.msg = response.data.msg;
-                        this.title = '';
-                        this.tips = '';
-                    }
-                })
-                .catch(err => {
-                    if(err.response.data.title) this.errors.push(err.response.data.title[0]);
-                    if(err.response.data.tips) this.errors.push(err.response.data.tips[0]);
-                });
-
-            },
-
-
-            async get_tips(){
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                axios.get(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/tips/',
-                    {    
-                        headers: {
-                            'Authorization': `Token ${token.innerText}`,
-                            'Content-type': 'application/json'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.status == 200) {
-                        this.tips_arr = response.data.data;
-                    }
-                })
-                .catch(err => {
-                    console.log('ERR: ', err);
-                });
-
-            },
-
-            async get_user_auth() {
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('username', username.innerText);
-                formdata.append('password', username.innerText * 2);
-
-                axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/user/get/token/',
-                    formdata,
-                    {    
-                        headers: {
-                            'Content-type': 'application/x-www-form-urlencoded'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.status == 200) {
-                        token.innerText = response.data.token;
-                        
-                        this.get_tips();
-                    }
-                });
-
-            },
-        }
-
-    }).mount('#application');
-
-</script>
 {% endblock %}

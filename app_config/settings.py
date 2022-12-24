@@ -10,6 +10,7 @@ DEBUG = config('DEBUG')
 ALLOWED_HOSTS = []
 # SECURE_SSL_REDIRECT = False
 
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,8 +33,6 @@ INSTALLED_APPS = [
     'hospital_units.apps.HospitalUnitsConfig',
 
     # Packs
-    'rest_framework',
-    'rest_framework.authtoken',
     'widget_tweaks',
     'captcha',
     'jalali_date',
@@ -139,28 +138,6 @@ CAPTCHA_IMAGE_SIZE = (100, 50)
 
 # payment1
 # payment2
-
-# API
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000'
-# ] 
-
-# DRF
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    # 'DEFAULT_PARSER_CLASSES': (
-    #     # 'rest_framework.parsers.JSONParser',
-    # ),
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ]
-}
-
 
 # jalali date config
 JALALI_DATE_DEFAULTS = {

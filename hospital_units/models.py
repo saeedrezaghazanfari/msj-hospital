@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import PatientModel
 from extentions.utils import (
+    jalali_convertor,
     units_image_path, 
     get_experiment_code, 
     experiment_result_image_path,
@@ -29,7 +30,7 @@ class UnitModel(models.Model):
     address = models.CharField(max_length=255, verbose_name=_('آدرس'))
     work_times = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('ساعات کاری'))
     manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسیول'))
-    manager_phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('شماره مسیول'))
+    manager_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره مسیول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
 
     class Meta:
@@ -58,7 +59,7 @@ class UnitMemberModel(models.Model):
     unit = models.ForeignKey(UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
-    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
+    phone = models.CharField(max_length=100, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     job = models.CharField(max_length=255, verbose_name=_('سمت'))
@@ -86,7 +87,7 @@ class ExprimentResultModel(models.Model):
         ('mamography', _('تصویربرداری (ماموگرافی)')),
         ('sonography', _('تصویربرداری (سونوگرافی)')),
     )
-    type = models.CharField(max_length=20, choices=TYPE_EX, verbose_name=_('نوع نتیجه'))
+    type = models.CharField(max_length=50, choices=TYPE_EX, verbose_name=_('نوع نتیجه'))
     code = models.CharField(max_length=20, unique=True, default=get_experiment_code, verbose_name=_('کد پیگیری'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
@@ -113,22 +114,27 @@ class AppointmentTimeModel(models.Model):
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
     time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
     time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
-    price = models.ForeignKey(to='hospital_setting.PriceAppointmentModel', on_delete=models.SET_NULL, null=True, verbose_name=_('تعرفه'))
+    insurances = models.ManyToManyField(to='hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
     capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(default=0, verbose_name=_('تعداد رزرو شده'))
     tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
+    tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی در پیامک'))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('زمان نوبتدهی')
         verbose_name_plural = _('زمان های نوبتدهی')
 
+    def j_date(self):
+        return jalali_convertor(time=self.date, number=True)
+    j_date.short_description = _('تاریخ روز')
+
     def __str__(self):
         return f'{self.doctor.user.first_name} {self.doctor.user.last_name} - {self.date}'
 
 
 class AppointmentTipModel(models.Model):
-    title = models.CharField(max_length=15, verbose_name=_('عنوان'))
+    title = models.CharField(max_length=50, verbose_name=_('عنوان'))
     tips = models.TextField(verbose_name=_('نکات'))
 
     class Meta:
@@ -140,11 +146,24 @@ class AppointmentTipModel(models.Model):
         return self.title
 
 
+class AppointmentTipSMSModel(models.Model):
+    title = models.CharField(max_length=50, verbose_name=_('عنوان'))
+    tips = models.TextField(verbose_name=_('نکات'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نکات نوبت دهی در پیامک')
+        verbose_name_plural = _('نکات نوبت دهی در پیامک')
+
+    def __str__(self):
+        return self.title
+
+
 class PatientTurnModel(models.Model):
     code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
-    insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, verbose_name=_('بیمه'))
+    insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ قابل پرداخت'))
     prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه ی پزشک دیگر'))
     experiment_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کدرهگیری(کدملی)'))
@@ -180,8 +199,7 @@ class OnlinePaymentModel(models.Model):
 
 
 class LimitTurnTimeModel(models.Model):
-    to_hour = models.PositiveIntegerField(verbose_name=_('تا ساعت چند؟'))
-    how_days_hour = models.PositiveIntegerField(verbose_name=_('چند روز قبل؟ (به ساعت)'))
+    hours = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('تا چند ساعت قبل؟'))
     rules = models.TextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
 
     class Meta:

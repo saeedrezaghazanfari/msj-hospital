@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_appointment, views_doctor, views_api
+from . import views, views_appointment, views_doctor
 
 
 app_name = 'panel'
@@ -37,13 +37,8 @@ urlpatterns = [
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
     path('panel/online-appointment/tips/', views_appointment.oa_tips_page, name='appointment-tips'),
     path('panel/online-appointment/doctor/list/', views_appointment.oa_doctorlist_page, name='appointment-doctorlist'),
+    path('panel/online-appointment/doctor/<int:medicalCode>/times/', views_appointment.oa_doctorlist_time_page, name='appointment-doctorlist-times'),
     path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     path('panel/online-appointment/time/', views_appointment.oa_time_page, name='appointment-time'),
     path('panel/online-appointment/patient/', views_appointment.oa_patient_page, name='appointment-patient'),
-
-    # API
-    path('api/v1/online-appointment/limit-time/', views_api.OnlineAppointmentManager.as_view(), name='appointment-limittime-manager'),
-    path('api/v1/online-appointment/insurances/', views_api.InsurancesManager.as_view(), name='appointment-insurances-manager'),
-    path('api/v1/online-appointment/tips/', views_api.TipsManager.as_view(), name='appointment-tips-manager'),
-    path('api/v1/online-appointment/doctor/list/', views_api.AppointmentDoctorManager.as_view(), name='appointment-doctorlist-manager'),
 ]

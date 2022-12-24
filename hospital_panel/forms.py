@@ -3,11 +3,12 @@ from django import forms
 from hospital_auth.models import User
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
-from hospital_setting.models import PriceAppointmentModel
-from hospital_units.models import AppointmentTimeModel
+from hospital_doctor.models import DoctorModel
+from hospital_setting.models import PriceAppointmentModel, InsuranceModel
+from hospital_units.models import AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
-from extentions.utils import is_fixed_phone, is_email
+from extentions.utils import is_fixed_phone, is_email, is_image
 
 
 # class EditInfoForm(forms.Form):
@@ -66,36 +67,62 @@ from extentions.utils import is_fixed_phone, is_email
 #         return email
 
 
+class LimitTurnTimeForm(forms.ModelForm):
+    class Meta:
+        model = LimitTurnTimeModel
+        fields = ['hours', 'rules']
+
+    def validate_hours(self, value):
+        if value >= 168:
+            raise forms.ValidationError(_('عدد ساعت نباید بزرگتر از 168 یا یک هفته باشد.'))
+        if value < 6:
+            raise forms.ValidationError(_('عدد ساعت نباید کمتر از 6 ساعت باشد.'))
+        return value
+
+
+class InsuranceForm(forms.ModelForm):
+    class Meta:
+        model = InsuranceModel
+        fields = ['title', 'img']
+
+    def validate_title(self, value):
+        if len(value) >= 90:
+            raise forms.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
+        if InsuranceModel.objects.filter(title=value).exists():
+            raise forms.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
+        return value
+
+    def validate_img(self, value):
+        if not is_image(value):
+            raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
+        return value
+
+
+class AppointmentTipForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentTipModel
+        fields = ['title', 'tips']
+
+    def validate_title(self, value):
+        if len(value) >= 90:
+            raise forms.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
+        if AppointmentTipModel.objects.filter(title=value).exists():
+            raise forms.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
+        return value
+
+
 class PriceAppointmentForm(forms.ModelForm):
     class Meta:
         model = PriceAppointmentModel
-        fields = ['title', 'insurance', 'degree', 'price_free', 'price_insurance', 'year']
+        fields = ['insurance', 'degree', 'price']
 
-    def clean_price_free(self):
-        value = self.cleaned_data.get('price_free')
+    def clean_price(self):
+        value = self.cleaned_data.get('price')
         if value == 0:
             raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
         if value < 0:
             raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
         return value
-    
-    def clean_price_insurance(self):
-        value = self.cleaned_data.get('price_insurance')
-        if value == 0:
-            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
-        if value < 0:
-            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
-        return value
-        
-    def clean_year(self):
-        value = self.cleaned_data.get('year')
-        if value == 0:
-            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
-        if value < 0:
-            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
-        return value
-
-
 
 
 class TimeAppointmentForm(forms.ModelForm):
@@ -104,7 +131,7 @@ class TimeAppointmentForm(forms.ModelForm):
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'price', 'capacity', 'tip']
+        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'insurances', 'capacity', 'tip']
 
     def __init__(self, *args, **kwargs):
         super(TimeAppointmentForm, self).__init__(*args, **kwargs)
@@ -138,3 +165,4 @@ class TimeAppointmentForm(forms.ModelForm):
             if int(time_to_str[1]) <= int(time_from_str[1]):
                 raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
         return time_to
+

@@ -1,5 +1,5 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks jalali_tags %}
 {% block title %}{% translate 'خانه' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
@@ -9,9 +9,18 @@
 
     <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar</span></h1>
 
+    <h3>{{ doctor.get_full_name }}</h3>
+    <h3>{{ doctor.degree.title }} - {{ doctor.skill_title.title }}</h3>
+
     {% for time in times %}
     <div class="box">
-        {{ time }}
+        <div title="date">{{ time.date|to_jalali }}</div>
+        <div title="day">{{ time.day }}</div>
+        <div title="time_from">{{ time.time_from }}</div>
+        <div title="time_to">{{ time.time_to }}</div>
+        <div title="capacity">{{ time.capacity }}</div>
+        <div title="reserved">{{ time.reserved }}</div>
+        <a href="{% url 'website:el-oa-info' doctor.medical_code time.id uidb64 token %}">Continue</a>
     </div>
     {% endfor %}
 

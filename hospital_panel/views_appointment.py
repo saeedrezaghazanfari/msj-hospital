@@ -4,8 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel
-from hospital_setting.models import PriceAppointmentModel
+from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel, AppointmentTipModel
+from hospital_setting.models import PriceAppointmentModel, InsuranceModel
+from hospital_doctor.models import DoctorModel, DoctorVacationModel
 from extentions.utils import date_range_list
 from .decorators import online_appointment_required
 from . import forms
@@ -22,32 +23,107 @@ def online_appointment_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_limit_time_page(request):
-    
+    form = forms.LimitTurnTimeForm(request.POST or None)
     limit_time = LimitTurnTimeModel.objects.last()
-    return render(request, 'panel/online-appointment/limittime.html', {
-        'limit_time': limit_time
-    })
+    context = {
+        'limit_time': limit_time,
+        'form': form
+    }
+
+    if request.method == 'POST':
+        if form.is_valid():
+            if LimitTurnTimeModel.objects.exists():
+                LimitTurnTimeModel.objects.all().delete()
+
+            form.save()
+            context['form'] = forms.LimitTurnTimeForm()
+            messages.success(request, _('حد زمانی نوبت اینترنتی با موفقیت تنظیم شد.'))
+            return redirect('panel:appointment-limittime')
+    
+    return render(request, 'panel/online-appointment/limittime.html', context)
 
 
 # url: /panel/online-appointment/insurances/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_insurances_page(request):
-    return render(request, 'panel/online-appointment/insurances.html')
+    form = forms.InsuranceForm(request.POST, request.FILES or None)
+    insurances = InsuranceModel.objects.all()
+    context = {
+        'form': form,
+        'insurances': insurances
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            form.save()
+            context['form'] = forms.InsuranceForm()
+            messages.success(request, _('بیمه ی مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-insurances')
+
+    return render(request, 'panel/online-appointment/insurances.html', context)
 
 
 # url: /panel/online-appointment/tips/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_tips_page(request):
-    return render(request, 'panel/online-appointment/tips.html')
+    form = forms.AppointmentTipForm(request.POST or None)
+    tips = AppointmentTipModel.objects.all()
+    context = {
+        'form': form,
+        'tips': tips
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            form.save()
+            context['form'] = forms.AppointmentTipForm()
+            messages.success(request, _('نکته ی نوبت دهی مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-tips')
+
+    return render(request, 'panel/online-appointment/tips.html', context)
 
 
 # url: /panel/online-appointment/doctor/list/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_doctorlist_page(request):
-    return render(request, 'panel/online-appointment/doctor-list.html')
+    doctors = DoctorModel.objects.filter(is_active=True).all()
+
+    for doctor in doctors:
+        doctor.have_not_accecpted_vac = False
+        if doctor.doctorvacationmodel_set.filter(is_accepted=False).exists():
+            doctor.have_not_accecpted_vac = True
+
+    return render(request, 'panel/online-appointment/doctor-list.html', {
+        'doctors': doctors
+    })
+
+
+# url: /panel/online-appointment/doctor/<int:medicalCode>/times/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_doctorlist_time_page(request, medicalCode):
+
+    if medicalCode and DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
+    
+        doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+        works = doctor.doctorworktimemodel_set.all()
+        vacations = doctor.doctorvacationmodel_set.all()
+
+        # update vacation of doctor
+        if request.GET.get('vid') and DoctorVacationModel.objects.filter(id=request.GET.get('vid')).exists():
+            doc_vac = DoctorVacationModel.objects.get(id=request.GET.get('vid'))
+            doc_vac.is_accepted=True
+            doc_vac.save()
+
+        return render(request, 'panel/online-appointment/doctor-time.html', {
+            'doctor': doctor,
+            'works': works,
+            'vacations': vacations,
+        })
+    return redirect('/404')
 
 
 # url: /panel/online-appointment/price/

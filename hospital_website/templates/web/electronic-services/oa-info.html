@@ -1,0 +1,97 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Add INFO</span></h1>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="box">
+
+            
+            {{ form.insurance.label_tag }}
+            {{ form.insurance }}
+            {% for err in form.insurance.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <br>
+            
+            {{ form.prescription_code.label_tag }}
+            {{ form.prescription_code }}
+            {% for err in form.prescription_code.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <br>
+            
+            {{ form.experiment_code.label_tag }}
+            {{ form.experiment_code }}
+            {% for err in form.experiment_code.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <br>
+
+        </div>
+        <div class="box">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% for err in form.username.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+            <br>
+
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% for err in form.first_name.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+            <br>
+
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% for err in form.last_name.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+            <br>
+
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% for err in form.phone.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+            <br>
+
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+            {% for err in form.gender.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+            <br>
+
+            {{ form.age.label_tag }}
+            {{ form.age }}
+            {% for err in form.age.errors %}
+                <p style="color: red;">{{ err }}</p>
+            {% endfor %}
+
+
+        </div>
+
+        <button type="submit">continue</button>
+    </form>
+
+{% endblock %}
+

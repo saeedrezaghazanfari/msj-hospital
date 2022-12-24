@@ -6,6 +6,7 @@ from .models import (
     ExprimentResultModel,
     AppointmentTimeModel,
     AppointmentTipModel,
+    AppointmentTipSMSModel,
     PatientTurnModel,
     OnlinePaymentModel,
     LimitTurnTimeModel
@@ -68,6 +69,7 @@ admin.site.register(UnitMemberModel, UnitMemberModel_Admin)
 admin.site.register(ExprimentResultModel, ExprimentResultModel_Admin)
 admin.site.register(AppointmentTimeModel, AppointmentTimeModel_Admin)
 admin.site.register(AppointmentTipModel, AppointmentTipModel_Admin)
+admin.site.register(AppointmentTipSMSModel, AppointmentTipModel_Admin)
 admin.site.register(PatientTurnModel, PatientTurnModel_Admin)
 admin.site.register(OnlinePaymentModel, OnlinePaymentModel_Admin)
 admin.site.register(LimitTurnTimeModel, LimitTurnTimeModel_Admin)

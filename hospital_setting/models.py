@@ -187,12 +187,9 @@ class ReportModel(models.Model):
 
 
 class PriceAppointmentModel(models.Model):
-    title = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
     insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
-    price_free = models.PositiveBigIntegerField(verbose_name=_('مبلغ آزاد '))
-    price_insurance = models.PositiveBigIntegerField(verbose_name=_('مبلغ با بیمه'))
-    year = models.IntegerField(verbose_name=_('سال تعرفه'))
+    price = models.PositiveBigIntegerField(default=0, verbose_name=_('مبلغ'))
 
     class Meta:
         ordering = ['-id']
@@ -200,7 +197,7 @@ class PriceAppointmentModel(models.Model):
         verbose_name_plural = _('تعرفه ی نوبت دهی ها')
 
     def __str__(self):
-        return f'{self.title.title} - {self.insurance.title} - {self.degree.title}'
+        return f'{self.insurance.title} - {self.degree.title}'
 
 
 class ResultModel(models.Model):

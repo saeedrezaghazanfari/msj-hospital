@@ -10,9 +10,6 @@
 
 {% block content %}
 
-<div id="username" class="d-non">{{ request.user.username }}</div>
-<div id="token" class="d-non"></div>
-
 <div style="display: flex; direction: rtl !important;" id="application">
 
     <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
@@ -24,161 +21,39 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
 
-        <div v-if="msg">[[ msg ]]</div>
-        <ul class="box" v-if="errors.length >= 1">
-            <li v-for="error in errors">[[ error ]]</li>
-        </ul>
-
         <h1>Online Appointment - insurances</h1>
 
-        <button @click="show_create_insurance = !show_create_insurance">create +</button>
+        <button>create +</button>
 
-        <div class="box" v-if="show_create_insurance">
-            <form @submit.prevent="create_insurance" enctype="multipart/form-data">
-                <input type="text" v-model="title" placeholder="title">
-                <input type="file" @change="insurace_image = $event.target.files[0]" >
-                <button>create +</button>
+        <div class="box">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <p>{{ form.title.label_tag }}</p>
+                {{ form.title }}
+                {% for msg in form.title.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.img.label_tag }}</p>
+                {{ form.img }}
+                {% for msg in form.img.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <button type="submit">create +</button>
             </form>
         </div>
 
-        <div class="box" v-for="insurance in insurances" :key="insurances.title">
-            <div>[[ insurance.title ]]</div>
-            <div><img :src="insurance.img" style="height: 50px; width: 50px;"></div>
+        {% for insurance in insurances %}
+        <div class="box">
+            <div>{{ insurance.title }}</div>
+            <div><img src="{{ insurance.img.url }}" style="height: 50px; width: 50px;"></div>
         </div>
+        {% endfor %}
 
     </div>
 
 </div>
 
-{% endblock %}
-
-    
-{% block extraScript %}
-<script type="text/javascript" src="{% static 'js/vue3.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
-
-<script>
-
-    Vue.createApp({
-
-        delimiters: ["[[", "]]"],
-
-        data() {
-            return {
-                title: '',
-                insurances: [],
-                
-                show_create_insurance: false,
-                insurace_image: '',
-
-                msg: '',
-                errors: [],
-            }
-        },
-
-        mounted() {
-            this.get_user_auth();
-        },
-
-        methods: {
-
-            async create_insurance() {
-
-                this.msg = '';
-                this.errors = [];
-
-                if(!this.title || !this.insurace_image)
-                    return;
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('title', this.title);
-                formdata.append('img', this.insurace_image);
-
-                await axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/insurances/',
-                    formdata,
-                    {
-                        headers: {
-                            'Authorization': `Token ${token.innerText}`,
-                            'Content-type': 'multipart/form-data'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.data.status == 200) {
-                        this.insurances.unshift(response.data.data);
-                        
-                        this.msg = response.data.msg;
-                        this.title = '';
-                        this.img = '';
-                    }
-                })
-                .catch(err => {
-                    if(err.response.data.title) this.errors.push(err.response.data.title[0]);
-                    if(err.response.data.img) this.errors.push(err.response.data.img[0]);
-                });
-
-            },
-
-
-            async get_insurances(){
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                axios.get(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/online-appointment/insurances/',
-                    {    
-                        headers: {
-                            'Authorization': `Token ${token.innerText}`,
-                            'Content-type': 'application/json'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.status == 200) {
-                        this.insurances = response.data.data;
-                    }
-                })
-                .catch(err => {
-                    console.log('ERR: ', err);
-                });
-
-            },
-
-            async get_user_auth() {
-
-                let username = document.getElementById('username');
-                let token = document.getElementById('token');
-
-                let formdata = new FormData();
-                formdata.append('username', username.innerText);
-                formdata.append('password', username.innerText * 2);
-
-                axios.post(
-                    '/' + window.location.pathname[1] + window.location.pathname[2] + '/api/v1/user/get/token/',
-                    formdata,
-                    {    
-                        headers: {
-                            'Content-type': 'application/x-www-form-urlencoded'
-                        }
-                    }
-                )
-                .then((response) => {
-                    if(response.status == 200) {
-                        token.innerText = response.data.token;
-                        
-                        this.get_insurances();
-                    }
-                });
-
-            },
-        }
-
-    }).mount('#application');
-
-</script>
 {% endblock %}

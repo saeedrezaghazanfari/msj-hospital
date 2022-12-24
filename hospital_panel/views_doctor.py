@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -8,7 +6,6 @@ from django.urls import reverse_lazy
 from hospital_doctor.models import DoctorModel
 from .decorators import online_doctor_required
 from .mixins import DoctorRequired
-from . import serializers
 
 
 # url: /panel/doctor/vacation/

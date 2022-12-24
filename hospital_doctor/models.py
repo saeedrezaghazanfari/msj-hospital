@@ -7,10 +7,11 @@ from extentions.utils import famous_profile_image_path, DAYS, TIMES
 
 
 class DoctorModel(models.Model):
-    medical_code = models.CharField(max_length=15, verbose_name=_('کد نظام پزشکی'))
+    medical_code = models.CharField(max_length=15, unique=True, verbose_name=_('کد نظام پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
-    user = models.OneToOneField(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
+    insurances = models.ManyToManyField('hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
     degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
     bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
@@ -26,7 +27,7 @@ class DoctorModel(models.Model):
         verbose_name_plural = _('پزشکان')
 
     def __str__(self):
-        return self.get_full_name()
+        return f'{self.get_full_name()} - {self.skill_title.title}'
 
     def get_full_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
@@ -86,20 +87,6 @@ class DoctorVacationModel(models.Model):
     
     def __str__(self):  
         return self.doctor.get_full_name()
-
-
-class DoctorInsuranceModel(models.Model):
-    doctor = models.ForeignKey(to=DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
-    insurance_exit = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('بیمه ی غیر بیمارستان'))
-    insurance_hospital = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('بیمه ی طرف بیمارستان'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('بیمه ی پزشک')
-        verbose_name_plural = _('بیمه های پزشکان')
-    
-    def __str__(self):  
-        return self.doctor
 
 
 class FamousPatientModel(models.Model):
