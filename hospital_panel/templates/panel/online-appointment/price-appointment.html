@@ -31,58 +31,32 @@
 
         <h1>Online Appointment - price appointment</h1>
 
-        <button id="toggle_form_btn">create +</button>
-
-        <form method="POST" id="create_form" class="d-none" novalidate>
+        {% for price in prices %}
+        <form method="POST" novalidate>
             {% csrf_token %}
             <div class="box">
+
+                <input type="number" name="data" value="{{ price.id }}" class="d-none">
+                
                 <div>
-                    <p>{{ form.title.label_tag }}</p>
-                    {{ form.title }}
-                    {% for msg in form.title.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
+                    {{ price.insurance }}
                 </div>
                 <div>
-                    <p>{{ form.insurance.label_tag }}</p>
-                    {{ form.insurance }}
-                    {% for msg in form.insurance.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
+                    {{ price.degree }}
                 </div>
                 <div>
-                    <p>{{ form.degree.label_tag }}</p>
-                    {{ form.degree }}
-                    {% for msg in form.degree.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
+                    {{ price.price }}
+                    <div id="wrapper_{{ price.id }}" class="d-none wrapper_form">
+                        <input type="number" value="{{ price.price }}" name="price" id="price_id">
+                    </div>
                 </div>
                 <div>
-                    <p>{{ form.price_free.label_tag }}</p>
-                    {{ form.price_free }}
-                    {% for msg in form.price_free.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
-                </div>
-                <div>
-                    <p>{{ form.price_insurance.label_tag }}</p>
-                    {{ form.price_insurance }}
-                    {% for msg in form.price_insurance.errors %}
-                    <p style="color: red;">{{ msg }}</p>
-                    {% endfor %}
+                    <button id="edit_price_{{ price.id }}" class="edit_toggle" onclick="open_edit_price('{{price.id}}')" type="button">edit</button>
+                    <button id="submit_form_{{ price.id }}" class="submit_form d-none" type="submit">UPDATE Table</button>
                 </div>
             </div>
-            <button type="submit">Create</button>
+            
         </form>
-
-        {% for price in prices %}
-        <div class="box">
-            <div title="title">{{ price.title }}</div>
-            <div title="insurance">{{ price.insurance }}</div>
-            <div title="degree">{{ price.degree }}</div>
-            <div title="price_free">{{ price.price_free }}</div>
-            <div title="price_insurance">{{ price.price_insurance }}</div>
-        </div>
         {% endfor %}
 
     </div>
@@ -95,14 +69,20 @@
 {% block extraScript %}
 
 <script>
-    document.getElementById('toggle_form_btn').addEventListener('click', () => {
-        if(document.getElementById('create_form').classList.contains('d-none')){
-            document.getElementById('create_form').classList.remove('d-none')
-        }
-        else {
-            document.getElementById('create_form').classList.add('d-none')
-        }
-    })
+    function open_edit_price(divId) {
+        document.querySelectorAll('.submit_form').forEach(element => {
+            element.classList.add('d-none')
+        });
+        document.querySelectorAll('.wrapper_form').forEach(element => {
+            element.classList.add('d-none')
+        });
+        document.querySelectorAll('.edit_toggle').forEach(element => {
+            element.classList.remove('d-none')
+        });
+        document.getElementById(`wrapper_${divId}`).classList.remove('d-none')
+        document.getElementById(`edit_price_${divId}`).classList.add('d-none');
+        document.getElementById(`submit_form_${divId}`).classList.remove('d-none');
+    }
 </script>
 
 {% endblock %}

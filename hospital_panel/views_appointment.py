@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel, AppointmentTipModel
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
-from hospital_doctor.models import DoctorModel, DoctorVacationModel
+from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
 from extentions.utils import date_range_list
 from .decorators import online_appointment_required
 from . import forms
@@ -131,20 +131,43 @@ def oa_doctorlist_time_page(request, medicalCode):
 @online_appointment_required
 def oa_price_page(request):
 
-    create_form = forms.PriceAppointmentForm(request.POST or None)
+    # create_form = forms.PriceAppointmentForm(request.POST or None)
+    insurances = InsuranceModel.objects.all()
+    degrees = DegreeModel.objects.all()
+
+    for insurance in insurances:
+        for degree in degrees:
+            if not PriceAppointmentModel.objects.filter(insurance=insurance, degree=degree).exists():
+                PriceAppointmentModel.objects.create(
+                    insurance=insurance,
+                    degree=degree,
+                    price=0,
+                )
+
     prices = PriceAppointmentModel.objects.all()
     context = {
         'prices': prices,
-        'form': create_form,
     }
 
     if request.method == 'POST':
-        if create_form.is_valid():
-            create_form.save()
-            context['form'] = forms.PriceAppointmentForm()
+        price = int(request.POST.get('price'))
+        data_id = request.POST.get('data')
 
-            messages.success(request, _('تعرفه ی مورد نظر شما با موفقیت اضافه شد.'))
+        if price == 0:
+            messages.error(request, _('مقدار مبلغ را وارد کنید.'))
             return redirect('panel:appointment-price')
+
+        if price < 0:
+            messages.error(request, _('مقدار این مبلغ نمیتواند منفی باشد.'))
+            return redirect('panel:appointment-price')
+
+        if price and data_id and PriceAppointmentModel.objects.filter(id=data_id).exists():
+            appointment = PriceAppointmentModel.objects.get(id=data_id)
+            appointment.price = price
+            appointment.save()
+
+        messages.success(request, _('تعرفه ی مورد نظر شما با موفقیت بروزرسانی شد.'))
+        return redirect('panel:appointment-price')
 
     return render(request, 'panel/online-appointment/price-appointment.html', context)
 

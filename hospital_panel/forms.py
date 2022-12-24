@@ -111,20 +111,6 @@ class AppointmentTipForm(forms.ModelForm):
         return value
 
 
-class PriceAppointmentForm(forms.ModelForm):
-    class Meta:
-        model = PriceAppointmentModel
-        fields = ['insurance', 'degree', 'price']
-
-    def clean_price(self):
-        value = self.cleaned_data.get('price')
-        if value == 0:
-            raise forms.ValidationError(_('مقدار فیلد را وارد کنید.'))
-        if value < 0:
-            raise forms.ValidationError(_('مقدار این فیلد نمیتواند منفی باشد.'))
-        return value
-
-
 class TimeAppointmentForm(forms.ModelForm):
     date_from = forms.DateField(widget=forms.DateInput())
     date_to = forms.DateField(widget=forms.DateInput())
