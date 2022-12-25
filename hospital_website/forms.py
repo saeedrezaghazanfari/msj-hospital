@@ -101,15 +101,14 @@ class PatientForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput())
     first_name = forms.CharField(widget=forms.TextInput())
     last_name = forms.CharField(widget=forms.TextInput())
-    phone = forms.CharField(widget=forms.TextInput())
     gender = forms.CharField(widget=forms.Select(choices=GENDER_USER))
     age = forms.IntegerField(widget=forms.NumberInput())
 
     class Meta:
         model = PatientTurnModel
         fields = [
-            'insurance', 'prescription_code', 'experiment_code', 'username', 
-            'first_name', 'last_name', 'phone', 'gender', 'age'
+            'prescription_code', 'experiment_code', 'username', 
+            'first_name', 'last_name', 'gender', 'age'
         ]
 
     def clean_username(self):
@@ -131,14 +130,6 @@ class PatientForm(forms.ModelForm):
         if age > 120:
             raise forms.ValidationError(_('عدد سن معتبر نیست.'))
         return age
-
-    def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        if not phone or phone == 0:
-            raise forms.ValidationError(_('شماره تلفن خود را وارد کنید'))
-        if not is_phone(phone):
-            raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))
-        return phone
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
@@ -165,3 +156,14 @@ class PatientForm(forms.ModelForm):
             if i.isdigit():
                 raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
         return last_name
+
+
+
+class CheckRulesForm(forms.Form):
+    check_rules = forms.BooleanField(required=False, widget=forms.widgets.CheckboxInput())
+
+    def clean_check_rules(self):
+        check_rules = self.cleaned_data.get('check_rules')
+        if not check_rules:
+            raise forms.ValidationError(_('تنها در صورتی میتوانید نوبت اینترنتی رزرو کنید که با قوانین و مقررات موافق باشید.'))
+        return check_rules

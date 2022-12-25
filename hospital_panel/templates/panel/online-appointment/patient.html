@@ -35,7 +35,7 @@
         {% for patient in patients %}
         <div class="box">
             <div title="code">{{ patient.code }}</div>
-            <div title="patient">{{ patient.patient }}</div>
+            <div title="patient">{{ patient.patient.username }}</div>
             <div title="appointment">{{ patient.appointment }}</div>
             <div title="insurance">{{ patient.insurance }}</div>
             <div title="price">{{ patient.price }}</div>
@@ -44,8 +44,8 @@
             <div title="turn">{{ patient.turn }}</div>
             <div title="is_paid">{{ patient.is_paid }}</div>
             <div title="is_canceled">{{ patient.is_canceled }}</div>
-            <div title="is_canceled">{{ patient.is_canceled }}</div>
-            <div title="created">{{ patient.created }}</div>
+            <div title="is_returned">{{ patient.is_returned }}</div>
+            <div title="created">{{ patient.created|to_jalali }}</div>
         </div>
         {% endfor %}
 

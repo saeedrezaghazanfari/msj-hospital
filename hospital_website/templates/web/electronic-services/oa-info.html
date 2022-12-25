@@ -9,17 +9,27 @@
 
     <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Add INFO</span></h1>
 
+    <h1>appointment:</h1>
+    <p title="doctor">{{ appointment.doctor }}</p>
+    <p title="degree">{{ appointment.doctor.degree }}</p>
+    <p title="date">{{ appointment.date }}</p>
+    <p title="day">{{ appointment.day }}</p>
+    <p title="time_from">{{ appointment.time_from }}</p>
+    <p title="time_to">{{ appointment.time_to }}</p>
+    <p title="insurances">{% for insurance in appointment.insurances.all %}{{ insurance.title }} - {% endfor %}</p>
+
     <form method="POST" novalidate>
         {% csrf_token %}
 
         <div class="box">
 
-            
-            {{ form.insurance.label_tag }}
-            {{ form.insurance }}
-            {% for err in form.insurance.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
+            <p>insurances:</p>
+            <select name="insurance">
+                <option value="free" selected>Free</option>
+                {% for insurance in insurances %}
+                <option value="{{ insurance.title }}">{{ insurance.title }}</option>
+                {% endfor %}
+            </select>
 
             <br>
             
@@ -40,6 +50,13 @@
             <br>
 
         </div>
+
+        {% if have_folder %}
+        <h3>پرونده ی شما لود شد</h3>
+        {% else %}
+        <h3>اطلاعات خود را وارد کنید</h3>
+        {% endif %}
+        
         <div class="box">
             {{ form.username.label_tag }}
             {{ form.username }}
@@ -65,14 +82,6 @@
 
             <br>
 
-            {{ form.phone.label_tag }}
-            {{ form.phone }}
-            {% for err in form.phone.errors %}
-                <p style="color: red;">{{ err }}</p>
-            {% endfor %}
-
-            <br>
-
             {{ form.gender.label_tag }}
             {{ form.gender }}
             {% for err in form.gender.errors %}
@@ -90,7 +99,10 @@
 
         </div>
 
-        <button type="submit">continue</button>
+
+
+        <button type="submit">next</button>
+        <a href="{% url 'website:el-oa-calendar' appointment.doctor.medical_code uidb64 token %}" type="button">previous</a>
     </form>
 
 {% endblock %}

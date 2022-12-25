@@ -6,10 +6,9 @@ from django.views import generic
 from django.contrib import messages
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
-from hospital_setting.models import PriceAppointmentModel
-from hospital_blog.models import BlogModel
+from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel
-from hospital_units.models import UnitModel, AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel
+from hospital_units.models import AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, OnlinePaymentModel
 from hospital_auth.models import PatientModel
 from . import forms
 from .models import LoginCodePatientModel
@@ -205,24 +204,45 @@ def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
-        
-        form = forms.PatientForm(request.POST or None)
+        # doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+        appointment = AppointmentTimeModel.objects.get(id=int(appointmentID))
+
+        patient_exist = None
+        if PatientModel.objects.filter(phone=code.phone).exists():
+            patient_exist = PatientModel.objects.get(phone=code.phone)
+
+        form = forms.PatientForm(request.POST or None, initial={
+            'username': patient_exist.username if patient_exist else None,
+            'first_name': patient_exist.first_name if patient_exist else None,
+            'last_name': patient_exist.last_name if patient_exist else None,
+            'gender': patient_exist.gender if patient_exist else None,
+            'age': patient_exist.age if patient_exist else None,
+        })
         context = {
-            'form': form
+            'form': form,
+            'have_folder': True if patient_exist else False,
+            'appointment': appointment,
+            'insurances': appointment.insurances.all(),
+            'uidb64': uidb64,
+            'token': token,
         }
 
         if request.method == 'POST':
             if form.is_valid():
 
+                get_insurance = request.POST.get('insurance')
+                insurance_user = None
+                if get_insurance != 'free' and InsuranceModel.objects.filter(title=get_insurance).exists():
+                    insurance_user = InsuranceModel.objects.get(title=get_insurance)
+
                 username = form.cleaned_data.get('username')
-                appointment = AppointmentTimeModel.objects.get(id=int(appointmentID))
                 patient = ''
 
                 if PatientModel.objects.filter(username=username).exists():
                     patient = PatientModel.objects.get(username=username)
                     patient.first_name = form.cleaned_data.get('first_name')
                     patient.last_name = form.cleaned_data.get('last_name')
-                    patient.phone = form.cleaned_data.get('phone')
+                    patient.phone = code.phone
                     patient.gender = form.cleaned_data.get('gender')
                     patient.age = form.cleaned_data.get('age')
                     patient.created = timezone.now()
@@ -232,43 +252,141 @@ def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
                         username=form.cleaned_data.get('username'),
                         first_name=form.cleaned_data.get('first_name'),
                         last_name=form.cleaned_data.get('last_name'),
-                        phone=form.cleaned_data.get('phone'),
+                        phone=code.phone,
                         gender=form.cleaned_data.get('gender'),
                         age=form.cleaned_data.get('age'),
                     )
 
-                insurance = None
-                if form.cleaned_data.get('insurance'):
-                    insurance = form.cleaned_data.get('insurance')
-
+                if PatientTurnModel.objects.filter(patient=patient, appointment=appointment, is_paid=False).exists():
+                    PatientTurnModel.objects.filter(patient=patient, appointment=appointment, is_paid=False).all().delete()
+                    
                 turn = PatientTurnModel(
                     patient=patient,
                     appointment=appointment,
-                    insurance__title=insurance,
+                    insurance=insurance_user,
                     prescription_code=form.cleaned_data.get('prescription_code'),
                     experiment_code=form.cleaned_data.get('experiment_code'),
                 )
 
-                doctor = DoctorModel.objects.get(medicalCode, is_active=True)
-
-                # if doctor have contract to this patient insurance: 
-                if doctor.doctorinsurancemodel_set.filter(insurance_hospital__title=insurance).exists():
-                    price_appointment = PriceAppointmentModel.objects.filter(
-                        insurance__title=insurance,
-                        degree=doctor.degree.title,
-                    ).first()
-
-                    turn.price = price_appointment.price_insurance
-                    # turn.save()
+                if insurance_user:
+                    if PriceAppointmentModel.objects.filter(insurance=insurance_user, degree=appointment.doctor.degree).exists():
+                        price_obj = PriceAppointmentModel.objects.get(insurance=insurance_user, degree=appointment.doctor.degree)
+                        turn.price = price_obj.price
+                        turn.save()
                 else:
-                    price_appointment = PriceAppointmentModel.objects.filter(
-                        degree=doctor.degree.title,
-                    ).first()
+                    if PriceAppointmentModel.objects.filter(insurance=None, degree=appointment.doctor.degree).exists():
+                        price_obj = PriceAppointmentModel.objects.get(insurance=None, degree=appointment.doctor.degree)
+                        turn.price = price_obj.price
+                        turn.save()
 
-                    turn.price = price_appointment.price_free
-                    # turn.save()
+                context['form'] = forms.PatientForm()
+                messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
+                return redirect(f'/electronic/appointment/{turn.id}/{uidb64}/{token}/show-details/')
 
         return render(request, 'web/electronic-services/oa-info.html', context)
 
+    else:
+        return redirect('/404')
+
+
+# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/show-details/
+def eoa_showdetails_page(request, patientTurnId, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
+
+        return render(request, 'web/electronic-services/oa-showdetails.html', {
+            'turn': patient_turn,
+            'uidb64': uidb64,
+            'token': token,
+        })
+    else:
+        return redirect('/404')
+
+
+# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/trust/
+def eoa_trust_page(request, patientTurnId, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        
+        form = forms.CheckRulesForm(request.POST or None)
+        patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
+        limit_time = LimitTurnTimeModel.objects.first()
+
+        context = {
+            'form': form,
+            'turn': patient_turn,
+            'limit_time': limit_time.rules if limit_time else None,
+            'tips': patient_turn.appointment.tip.tips,
+            'uidb64': uidb64,
+            'token': token,
+        }
+
+        if request.method == 'POST':
+            if form.is_valid():
+
+                #TODO send user to payment site
+                # price: patient_turn.price
+                print('you are going to ...')
+                context['form'] = forms.CheckRulesForm()
+
+        return render(request, 'web/electronic-services/oa-trust.html', context)
+    else:
+        return redirect('/404')
+
+
+# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/end/
+def eoa_end_page(request, patientTurnId, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        
+        patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
+
+        # TODO these are lines
+        # patient_turn.is_paid = True
+        # patient_turn.appointment.reserved += 1
+        # patient_turn.appointment.save()
+        # patient_turn.turn = patient_turn.appointment.reserved
+        # patient_turn.save()
+
+        # OnlinePaymentModel.objects.create(
+        #     payer=patient_turn,
+        #     price=patient_turn.price,
+        #     is_success=True,
+        #     code=None #TODO
+        # )
+
+        #TODO SMS to user for code peygiri
+
+        return render(request, 'web/electronic-services/oa-end.html', {
+            'turn': patient_turn,
+        })
     else:
         return redirect('/404')

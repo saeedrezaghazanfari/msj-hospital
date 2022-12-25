@@ -153,6 +153,17 @@ def oa_price_page(request):
                         price=0,
                     )
                 )
+                
+    for degree in degrees:
+        if not PriceAppointmentModel.objects.filter(insurance=None, degree=degree).exists():
+            list_data.append(
+                PriceAppointmentModel(
+                    insurance=None,
+                    degree=degree,
+                    price=0,
+                )
+            )
+
     PriceAppointmentModel.objects.bulk_create(list_data)
 
     prices = PriceAppointmentModel.objects.all()

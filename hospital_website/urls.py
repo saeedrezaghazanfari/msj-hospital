@@ -14,8 +14,7 @@ urlpatterns = [
     path('electronic/appointment/enter-sms-code/<medicalCode>/<uidb64>/<token>', views.eoa_entercode_page, name='el-oa-entercode'),
     path('electronic/appointment/<medicalCode>/<uidb64>/<token>/calendar/', views.eoa_calendar_page, name='el-oa-calendar'),
     path('electronic/appointment/<medicalCode>/<appointmentID>/<uidb64>/<token>/info/', views.eoa_info_page, name='el-oa-info'),
-    
-    # path('electronic/appointment/<uidb64>/<token>/show-price/', views.eoa_showprice_page, name='el-oa-showprice'),
-    # path('electronic/appointment/<uidb64>/<token>/trust/', views.eoa_trust_page, name='el-oa-trust'),
-    # path('electronic/appointment/<uidb64>/<token>/end/', views.eoa_end_page, name='el-oa-end'),
+    path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/show-details/', views.eoa_showdetails_page, name='el-oa-showdetails'),
+    path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/trust/', views.eoa_trust_page, name='el-oa-trust'),
+    path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/end/', views.eoa_end_page, name='el-oa-end'),
 ]
