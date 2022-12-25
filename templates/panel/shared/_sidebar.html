@@ -10,6 +10,10 @@
 <li {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:doctor' %}">doctor manager</a>
 </li>
+<ul {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
+    <li><a href="{% url 'panel:doctor-vacation' %}">send request for Vacation time</a></li>
+</ul>
+<hr>
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:blog' %}">blog manager</a>
 </li>
@@ -21,11 +25,19 @@
 </li>
 <li {% if not request.user.is_expriment_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:experiment' %}">expriment manager</a>
-</li>
+</li>   
 <li {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:appointment' %}">appointment manager</a>
 </li>
-
+<ul {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
+    <li><a href="{% url 'panel:appointment-limittime' %}">limit time before appointment</a></li>
+    <li><a href="{% url 'panel:appointment-insurances' %}">insurances</a></li>
+    <li><a href="{% url 'panel:appointment-tips' %}">tips</a></li>
+    <li><a href="{% url 'panel:appointment-doctorlist' %}">doctors list</a></li>
+    <li><a href="{% url 'panel:appointment-price' %}">price of appointment</a></li>
+    <li><a href="{% url 'panel:appointment-time' %}">Appointment</a></li>
+    <li><a href="{% url 'panel:appointment-patient' %}">patient turns</a></li>
+</ul>
 <hr>
 
 <li>

@@ -1,0 +1,120 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks jalali_tags %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    {% if messages %}
+    <ul>
+        {% for msg in messages %}
+        <li style="color: red;"><p>{{ msg }}</p></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - create time appointment - p2</h1>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="box">
+
+
+                <div>
+                    <select name="insurances" multiple>
+                        {% for insurance in insurances %}
+                        <option value="{{ insurance.title }}">{{ insurance.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <p>{{ form.date_from.label_tag }}</p>
+                    {{ form.date_from }}
+                    {% for msg in form.date_from.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.date_to.label_tag }}</p>
+                    {{ form.date_to }}
+                    {% for msg in form.date_to.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.day.label_tag }}</p>
+                    {{ form.day }}
+                    {% for msg in form.day.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.time_from.label_tag }}</p>
+                    {{ form.time_from }}
+                    {% for msg in form.time_from.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.time_to.label_tag }}</p>
+                    {{ form.time_to }}
+                    {% for msg in form.time_to.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.price.label_tag }}</p>
+                    {{ form.price }}
+                    {% for msg in form.price.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.capacity.label_tag }}</p>
+                    {{ form.capacity }}
+                    {% for msg in form.capacity.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.tip.label_tag }}</p>
+                    {{ form.tip }}
+                    {% for msg in form.tip.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.tip_sms.label_tag }}</p>
+                    {{ form.tip_sms }}
+                    {% for msg in form.tip_sms.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+            <button type="submit">Create</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

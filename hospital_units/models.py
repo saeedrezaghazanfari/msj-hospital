@@ -118,7 +118,7 @@ class AppointmentTimeModel(models.Model):
     capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(default=0, verbose_name=_('تعداد رزرو شده'))
     tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
-    tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی در پیامک'))
+    tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت دهی در پیامک'))
 
     class Meta:
         ordering = ['-id']

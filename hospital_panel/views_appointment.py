@@ -1,10 +1,15 @@
 import calendar
+from django.utils import timezone
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from hospital_units.models import LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel, AppointmentTipModel
+from hospital_units.models import (
+    UnitModel, LimitTurnTimeModel, AppointmentTimeModel, 
+    PatientTurnModel, AppointmentTipModel
+)
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
 from extentions.utils import date_range_list
@@ -53,6 +58,7 @@ def oa_insurances_page(request):
         'form': form,
         'insurances': insurances
     }
+
     if request.method == 'POST':
         if form.is_valid():
 
@@ -74,6 +80,7 @@ def oa_tips_page(request):
         'form': form,
         'tips': tips
     }
+
     if request.method == 'POST':
         if form.is_valid():
 
@@ -135,14 +142,18 @@ def oa_price_page(request):
     insurances = InsuranceModel.objects.all()
     degrees = DegreeModel.objects.all()
 
+    list_data = []
     for insurance in insurances:
         for degree in degrees:
             if not PriceAppointmentModel.objects.filter(insurance=insurance, degree=degree).exists():
-                PriceAppointmentModel.objects.create(
-                    insurance=insurance,
-                    degree=degree,
-                    price=0,
+                list_data.append(
+                    PriceAppointmentModel(
+                        insurance=insurance,
+                        degree=degree,
+                        price=0,
+                    )
                 )
+    PriceAppointmentModel.objects.bulk_create(list_data)
 
     prices = PriceAppointmentModel.objects.all()
     context = {
@@ -176,12 +187,59 @@ def oa_price_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_time_page(request):
-
-    create_form = forms.TimeAppointmentForm(request.POST or None)
-    times = AppointmentTimeModel.objects.all()
-    context = {
+    times = AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all()
+    return render(request, 'panel/online-appointment/time-appointment.html', {
         'times': times,
+    })
+
+
+# url: /panel/online-appointment/time/create/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_time_create1_page(request):
+
+    create_form = forms.Time1AppointmentForm(request.POST or None)
+    context = {
         'form': create_form,
+    }
+
+    if request.method == 'POST':
+        if create_form.is_valid():
+            
+            unit = create_form.cleaned_data.get('unit')
+            doctor = create_form.cleaned_data.get('doctor')
+            if not doctor:
+                return redirect('/404')
+
+            context['form'] = forms.Time1AppointmentForm()
+            if unit:
+                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(unit.id, doctor.id)))
+            return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(0, doctor.id)))
+
+    return render(request, 'panel/online-appointment/time-p1-appointment.html', context)
+
+
+# url: /panel/online-appointment/time/create/<unitID>/<doctorId>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_time_create2_page(request, unitID, doctorId):
+
+    if int(unitID) != 0 and UnitModel.objects.filter(id=unitID).exists():
+        unit = UnitModel.objects.get(id=unitID)
+    elif int(unitID) == 0:
+        unit = None
+    elif not unitID:
+        return redirect('/404')
+
+    if doctorId and DoctorModel.objects.filter(id=doctorId).exists():
+        doctor = DoctorModel.objects.get(id=doctorId)
+    else:
+        return redirect('/404')
+
+    create_form = forms.Time2AppointmentForm(request.POST or None)
+    context = {
+        'form': create_form,
+        'insurances': [insurance for insurance in doctor.insurances.all()]
     }
 
     if request.method == 'POST':
@@ -190,32 +248,36 @@ def oa_time_page(request):
             date_from = create_form.cleaned_data.get('date_from')
             date_to = create_form.cleaned_data.get('date_to')
             range_date = date_range_list(date_from, date_to)
-            time_list = []
+            insurances_list = request.POST.getlist('insurances')
+            insurances_obj = []
+            if len(insurances_list) > 0:
+                for insurance in insurances_list:
+                    if InsuranceModel.objects.filter(title=insurance).exists():
+                        insurances_obj.append(InsuranceModel.objects.get(title=insurance))
 
             for date in range_date:
                 day = calendar.day_name[date.weekday()].lower()
                 
-                time_list.append(
-                    AppointmentTimeModel(
-                        unit=create_form.cleaned_data.get('unit'),
-                        doctor=create_form.cleaned_data.get('doctor'),
-                        date=date,
-                        day=day,
-                        time_from=create_form.cleaned_data.get('time_from'),
-                        time_to=create_form.cleaned_data.get('time_to'),
-                        price=create_form.cleaned_data.get('price'),
-                        capacity=create_form.cleaned_data.get('capacity'),
-                        reserved=0,
-                        tip=create_form.cleaned_data.get('tip'),
-                    )
+                time = AppointmentTimeModel.objects.create(
+                    unit=unit,
+                    doctor=doctor,
+                    date=date,
+                    day=day,
+                    time_from=create_form.cleaned_data.get('time_from'),
+                    time_to=create_form.cleaned_data.get('time_to'),
+                    capacity=create_form.cleaned_data.get('capacity'),
+                    reserved=0,
+                    tip=create_form.cleaned_data.get('tip'),
                 )
+                # add insurances to queryset
+                for item in insurances_obj:
+                    time.insurances.add(item)
 
-            AppointmentTimeModel.objects.bulk_create(time_list)
-            context['form'] = forms.TimeAppointmentForm()
+            context['form'] = forms.Time2AppointmentForm()
             messages.success(request, _('زمان نوبت دهی مورد نظر شما با موفقیت اضافه شد.'))
             return redirect('panel:appointment-time')
 
-    return render(request, 'panel/online-appointment/time-appointment.html', context)
+    return render(request, 'panel/online-appointment/time-p2-appointment.html', context)
 
 
 # url: /panel/online-appointment/patient/

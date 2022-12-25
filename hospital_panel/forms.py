@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from django import forms
 from hospital_auth.models import User
 from captcha.fields import CaptchaField
@@ -111,16 +112,22 @@ class AppointmentTipForm(forms.ModelForm):
         return value
 
 
-class TimeAppointmentForm(forms.ModelForm):
+class Time1AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentTimeModel
+        fields = ['unit', 'doctor']
+
+
+class Time2AppointmentForm(forms.ModelForm):
     date_from = forms.DateField(widget=forms.DateInput())
     date_to = forms.DateField(widget=forms.DateInput())
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'doctor', 'date_from', 'date_to', 'time_from', 'time_to', 'insurances', 'capacity', 'tip']
+        fields = ['date_from', 'date_to', 'time_from', 'time_to', 'capacity', 'tip', 'tip_sms']
 
     def __init__(self, *args, **kwargs):
-        super(TimeAppointmentForm, self).__init__(*args, **kwargs)
+        super(Time2AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['date_from'] = JalaliDateField(label=_('از تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
@@ -132,10 +139,15 @@ class TimeAppointmentForm(forms.ModelForm):
         # )
 
     def clean_date_to(self):
+        from django.utils import timezone
         date_from = self.cleaned_data.get('date_from')
         date_to = self.cleaned_data.get('date_to')
         if date_from > date_to:
             raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
+        # if date_from < timezone.now().date:    #TODO
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        # if date_to < timezone.now().date:
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
         return date_to
     
     def clean_time_to(self):
@@ -151,4 +163,3 @@ class TimeAppointmentForm(forms.ModelForm):
             if int(time_to_str[1]) <= int(time_from_str[1]):
                 raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
         return time_to
-

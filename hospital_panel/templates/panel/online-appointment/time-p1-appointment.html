@@ -30,25 +30,30 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
 
-        <h1>Online Appointment - time appointment</h1>
+        <h1>Online Appointment - create time appointment - p1</h1>
 
-        <a href="{% url 'panel:appointment-timep1' %}">create a new</a>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="box">
 
-        <p>tip: these are times from now on</p>
+                <div>
+                    <p>{{ form.unit.label_tag }}</p>
+                    {{ form.unit }}
+                    {% for msg in form.unit.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p>{{ form.doctor.label_tag }}</p>
+                    {{ form.doctor }}
+                    {% for msg in form.doctor.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
+                </div>
 
-        {% for time in times %}
-        <div class="box">
-            <div title="unit">{% if not time.unit %}پزشکان{% else %}{{ time.unit }}{% endif %}</div>
-            <div title="doctor">{{ time.doctor }}</div>
-            <div title="date">{{ time.date|to_jalali }}</div>
-            <div title="day">{{ time.day }}</div>
-            <div title="time_from">{{ time.time_from }}</div>
-            <div title="time_to">{{ time.time_to }}</div>
-            <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-            <div title="capacity">{{ time.capacity }}</div>
-            <div title="reserved">{{ time.reserved }}</div>
-        </div>
-        {% endfor %}
+            </div>
+            <button type="submit">Continue</button>
+        </form>
 
     </div>
 
