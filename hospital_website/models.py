@@ -6,14 +6,12 @@ from django.dispatch import receiver
 from extentions.utils import get_random_code, jalali_convertor
 
 
-class LoginCodePatientModel(models.Model):    
-    USAGES = (('appointment', _('نوبت اینترنتی')), )
+class LoginCodePatientModel(models.Model):
     phone = models.CharField(max_length=30, verbose_name=_('شماره تلفن'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
     expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'))
     is_use = models.BooleanField(default=False, verbose_name=_('استفاده شده؟'))    
-    usage = models.CharField(max_length=20, choices=USAGES, blank=True, null=True, verbose_name=_('عنوان استفاده ی کد'))
 
     def __str__(self):
         return str(self.id)

@@ -23,6 +23,40 @@
 
         <h1>Home</h1>
 
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="box">
+                <p>{{ form.first_name.label_tag }}</p>
+                {{ form.first_name }}
+                {% for msg in form.first_name.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+    
+                <p>{{ form.last_name.label_tag }}</p>
+                {{ form.last_name }}
+                {% for msg in form.last_name.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+    
+    
+                <p>{{ form.email.label_tag }}</p>
+                {{ form.email }}
+                {% for msg in form.email.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+    
+    
+                <p>{{ form.profile.label_tag }}</p>
+                {{ form.profile }}
+                {% for msg in form.profile.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+            </div>
+
+            <button type="submit">Update</button>
+        </form>
+
     </div>
 
 </div>

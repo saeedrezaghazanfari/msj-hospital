@@ -76,7 +76,6 @@ def eoa_phone_page(request, medicalCode):
 
             code = LoginCodePatientModel.objects.create(
 				phone=phone,
-                usage='appointment'
 			)
 
             print('code: ', code.code) #TODO delete here
@@ -117,8 +116,7 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
 
                 code_enter = LoginCodePatientModel.objects.filter(
                     code=int(form.cleaned_data.get('code')), 
-                    expire_date__gt=timezone.now(), 
-                    usage='appointment', 
+                    expire_date__gt=timezone.now(),
                     is_use=False
                 ).first()
                 

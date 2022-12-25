@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext_lazy as _
+from django.contrib import messages
 from django.urls import reverse_lazy
-# from .forms import EditInfoForm
+from . import forms
 
 
 # url: /panel
@@ -13,7 +15,23 @@ def home_page(request):
 # url: /edit-info
 @login_required(login_url=reverse_lazy('auth:signin'))
 def edit_data(request):
-    return render(request, 'panel/editdata.html', {})
+    form = forms.EditInfoForm(request.POST, request.FILES or None, initial={
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'email': request.user.email,
+    })
+    context = {
+        'form': form,
+    }
+
+    if request.method == 'POST':
+        if form.is_valid():
+            
+
+            messages.success(request, _('اطلاعات حساب کاربری شما با موفقیت تغییر یافت.'))
+            return redirect('')
+
+    return render(request, 'panel/editdata.html', context)
 
 
 # url: /panel/doctor
