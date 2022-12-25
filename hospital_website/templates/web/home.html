@@ -7,17 +7,10 @@
 
 {% block content %}
 
-    {{ gallery_items }}
-    <br>
-    {{ faq_items }}
-    <br>
-    {{ last_blogs }}
-
-    <hr>
-
-    <a href="{% url 'panel:home' %}">panel</a>
-    <br>
-    <a href="{% url 'website:el-oa-home' %}">online appointment, click here!</a>
+    <ul>
+        <li><a href="{% url 'panel:home' %}">panel</a></li>
+        <li><a href="{% url 'website:el-oa-home' %}">online appointment, click here!</a></li>
+    </ul>
 
 {% endblock %}
 

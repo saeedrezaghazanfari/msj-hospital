@@ -160,10 +160,24 @@ def eoa_calendar_page(request, medicalCode, uidb64, token):
         times = AppointmentTimeModel.objects.filter(
             doctor=doctor,#TODO serach for skill - degree
             date__gt=timezone.now(),
-        ).iterator()
+        ).order_by('-date').all()
 
-        # for time in times:
-        #     if time.date < timedelta(hours=24): ٫٫٫٫٫٫٫٫٫٫٫٫٫٫٫٫٫٫
+        limit_time = 24
+        if LimitTurnTimeModel.objects.exists():
+            limit_obj = LimitTurnTimeModel.objects.first()
+            limit_time = limit_obj.hours
+
+        # set limit time for time objects
+        for time in times:
+            time_str = str(time.date)
+            time_list = time_str.split('-')
+            time_mined = f'{time_list[0][2]}{time_list[0][3]}-{time_list[1]}-{time_list[2]}'
+            date_time_obj = datetime.strptime(time_mined, '%y-%m-%d')
+
+            time.is_active = False
+            if date_time_obj > datetime.now():
+                if (date_time_obj - datetime.now()) > timedelta(hours=limit_time):
+                    time.is_active = True
 
         return render(request, 'web/electronic-services/oa-calendar.html', {
             'times': times,

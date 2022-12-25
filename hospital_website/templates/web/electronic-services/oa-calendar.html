@@ -9,8 +9,10 @@
 
     <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar</span></h1>
 
-    <h3>{{ doctor.get_full_name }}</h3>
-    <h3>{{ doctor.degree.title }} - {{ doctor.skill_title.title }}</h3>
+    <div style="text-align: center;">
+        <h3>{{ doctor.get_full_name }}</h3>
+        <h3>{{ doctor.degree.title }} - {{ doctor.skill_title.title }}</h3>
+    </div>
 
     {% for time in times %}
     <div class="box">
@@ -20,7 +22,8 @@
         <div title="time_to">{{ time.time_to }}</div>
         <div title="capacity">{{ time.capacity }}</div>
         <div title="reserved">{{ time.reserved }}</div>
-        <a href="{% url 'website:el-oa-info' doctor.medical_code time.id uidb64 token %}">Continue</a>
+        <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
+        {% if time.is_active %}<a href="{% url 'website:el-oa-info' doctor.medical_code time.id uidb64 token %}">Continue</a>{% endif %}
     </div>
     {% endfor %}
 
