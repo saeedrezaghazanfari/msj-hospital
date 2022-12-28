@@ -28,68 +28,72 @@ def online_appointment_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_limit_time_page(request):
-    form = forms.LimitTurnTimeForm(request.POST or None)
-    limit_time = LimitTurnTimeModel.objects.last()
-    context = {
-        'limit_time': limit_time,
-        'form': form
-    }
 
     if request.method == 'POST':
+        form = forms.LimitTurnTimeForm(request.POST or None)
+
         if form.is_valid():
             if LimitTurnTimeModel.objects.exists():
                 LimitTurnTimeModel.objects.all().delete()
 
             form.save()
-            context['form'] = forms.LimitTurnTimeForm()
+            form = forms.LimitTurnTimeForm()
             messages.success(request, _('حد زمانی نوبت اینترنتی با موفقیت تنظیم شد.'))
             return redirect('panel:appointment-limittime')
     
-    return render(request, 'panel/online-appointment/limittime.html', context)
+    else:
+        form = forms.LimitTurnTimeForm()
+
+    return render(request, 'panel/online-appointment/limittime.html', {
+        'limit_time': LimitTurnTimeModel.objects.last(),
+        'form': form
+    })
 
 
 # url: /panel/online-appointment/insurances/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_insurances_page(request):
-    form = forms.InsuranceForm(request.POST, request.FILES or None)
-    insurances = InsuranceModel.objects.all()
-    context = {
-        'form': form,
-        'insurances': insurances
-    }
 
     if request.method == 'POST':
-        if form.is_valid():
+        form = forms.InsuranceForm(request.POST, request.FILES or None)
 
+        if form.is_valid():
             form.save()
-            context['form'] = forms.InsuranceForm()
+            form = forms.InsuranceForm()
             messages.success(request, _('بیمه ی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-insurances')
 
-    return render(request, 'panel/online-appointment/insurances.html', context)
+    else:
+        form = forms.InsuranceForm()
+
+    return render(request, 'panel/online-appointment/insurances.html', {
+        'form': form,
+        'insurances': InsuranceModel.objects.all()
+    })
 
 
 # url: /panel/online-appointment/tips/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_tips_page(request):
-    form = forms.AppointmentTipForm(request.POST or None)
-    tips = AppointmentTipModel.objects.all()
-    context = {
-        'form': form,
-        'tips': tips
-    }
 
     if request.method == 'POST':
-        if form.is_valid():
+        form = forms.AppointmentTipForm(request.POST or None)
 
+        if form.is_valid():
             form.save()
-            context['form'] = forms.AppointmentTipForm()
+            form = forms.AppointmentTipForm()
             messages.success(request, _('نکته ی نوبت دهی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-tips')
 
-    return render(request, 'panel/online-appointment/tips.html', context)
+    else:
+        form = forms.AppointmentTipForm()
+
+    return render(request, 'panel/online-appointment/tips.html', {
+        'form': form,
+        'tips': AppointmentTipModel.objects.all()
+    })
 
 
 # url: /panel/online-appointment/doctor/list/
@@ -138,7 +142,6 @@ def oa_doctorlist_time_page(request, medicalCode):
 @online_appointment_required
 def oa_price_page(request):
 
-    # create_form = forms.PriceAppointmentForm(request.POST or None)
     insurances = InsuranceModel.objects.all()
     degrees = DegreeModel.objects.all()
 
@@ -209,25 +212,26 @@ def oa_time_page(request):
 @online_appointment_required
 def oa_time_create1_page(request):
 
-    create_form = forms.Time1AppointmentForm(request.POST or None)
-    context = {
-        'form': create_form,
-    }
-
     if request.method == 'POST':
-        if create_form.is_valid():
+        form = forms.Time1AppointmentForm(request.POST or None)
+
+        if form.is_valid():
             
-            unit = create_form.cleaned_data.get('unit')
-            doctor = create_form.cleaned_data.get('doctor')
+            unit = form.cleaned_data.get('unit')
+            doctor = form.cleaned_data.get('doctor')
             if not doctor:
                 return redirect('/404')
 
-            context['form'] = forms.Time1AppointmentForm()
+            form = forms.Time1AppointmentForm()
             if unit:
                 return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(unit.id, doctor.id)))
             return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(0, doctor.id)))
+    else:
+        form = forms.Time1AppointmentForm()
 
-    return render(request, 'panel/online-appointment/time-p1-appointment.html', context)
+    return render(request, 'panel/online-appointment/time-p1-appointment.html', {
+        'form': form,
+    })
 
 
 # url: /panel/online-appointment/time/create/<unitID>/<doctorId>/
@@ -247,17 +251,12 @@ def oa_time_create2_page(request, unitID, doctorId):
     else:
         return redirect('/404')
 
-    create_form = forms.Time2AppointmentForm(request.POST or None)
-    context = {
-        'form': create_form,
-        'insurances': [insurance for insurance in doctor.insurances.all()]
-    }
-
     if request.method == 'POST':
-        if create_form.is_valid():
+        form = forms.Time2AppointmentForm(request.POST or None)
 
-            date_from = create_form.cleaned_data.get('date_from')
-            date_to = create_form.cleaned_data.get('date_to')
+        if form.is_valid():
+            date_from = form.cleaned_data.get('date_from')
+            date_to = form.cleaned_data.get('date_to')
             range_date = date_range_list(date_from, date_to)
             insurances_list = request.POST.getlist('insurances')
             insurances_obj = []
@@ -274,28 +273,33 @@ def oa_time_create2_page(request, unitID, doctorId):
                     doctor=doctor,
                     date=date,
                     day=day,
-                    time_from=create_form.cleaned_data.get('time_from'),
-                    time_to=create_form.cleaned_data.get('time_to'),
-                    capacity=create_form.cleaned_data.get('capacity'),
+                    time_from=form.cleaned_data.get('time_from'),
+                    time_to=form.cleaned_data.get('time_to'),
+                    capacity=form.cleaned_data.get('capacity'),
                     reserved=0,
-                    tip=create_form.cleaned_data.get('tip'),
+                    tip=form.cleaned_data.get('tip'),
                 )
                 # add insurances to queryset
                 for item in insurances_obj:
                     time.insurances.add(item)
 
-            context['form'] = forms.Time2AppointmentForm()
+            form = forms.Time2AppointmentForm()
             messages.success(request, _('زمان نوبت دهی مورد نظر شما با موفقیت اضافه شد.'))
             return redirect('panel:appointment-time')
 
-    return render(request, 'panel/online-appointment/time-p2-appointment.html', context)
+    else:
+        form = forms.Time2AppointmentForm()
+
+    return render(request, 'panel/online-appointment/time-p2-appointment.html', {
+        'form': form,
+        'insurances': [insurance for insurance in doctor.insurances.all()]
+    })
 
 
 # url: /panel/online-appointment/patient/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_patient_page(request):
-    patients = PatientTurnModel.objects.all()
     return render(request, 'panel/online-appointment/patient.html', {
-        'patients': patients
+        'patients': PatientTurnModel.objects.all()
     })

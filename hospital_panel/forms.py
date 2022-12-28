@@ -19,10 +19,11 @@ class EditInfoForm(forms.ModelForm):
             'email': forms.EmailInput({'placeholder': _('ایمیل خود را وارد کنید')}),
         }
 
-    def validate_profile(self, value):
-        if not is_image(value):
+    def clean_profile(self):
+        profile = self.cleaned_data.get('profile')
+        if profile and not is_image(profile):
             raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
-        return value
+        return profile
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
@@ -52,9 +53,7 @@ class EditInfoForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if not email or len(email) == 0:
-            raise forms.ValidationError(_('ایمیل خود را وارد کنید'))
-        if not is_email(email):
+        if email and not is_email(email):
             raise forms.ValidationError(_('الگوی ایمیل شما صحیح نیست'))
         return email
 
@@ -64,12 +63,22 @@ class LimitTurnTimeForm(forms.ModelForm):
         model = LimitTurnTimeModel
         fields = ['hours', 'rules']
 
-    def validate_hours(self, value):
-        if value >= 168:
+    def clean_hours(self):
+        hours = self.cleaned_data.get('hours')
+        if not hours:
+            raise forms.ValidationError(_('عدد ساعت را وارد کنید.'))
+        if hours >= 168:
             raise forms.ValidationError(_('عدد ساعت نباید بزرگتر از 168 یا یک هفته باشد.'))
-        if value < 6:
+        if hours < 6:
             raise forms.ValidationError(_('عدد ساعت نباید کمتر از 6 ساعت باشد.'))
-        return value
+        return hours
+
+    def clean_rules(self):
+        rules = self.cleaned_data.get('rules')
+        if not rules:
+            raise forms.ValidationError(_('قوانین را وارد کنید.'))
+        return rules
+
 
 
 class InsuranceForm(forms.ModelForm):
@@ -77,17 +86,19 @@ class InsuranceForm(forms.ModelForm):
         model = InsuranceModel
         fields = ['title', 'img']
 
-    def validate_title(self, value):
-        if len(value) >= 90:
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) >= 90:
             raise forms.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
-        if InsuranceModel.objects.filter(title=value).exists():
+        if InsuranceModel.objects.filter(title=title).exists():
             raise forms.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
-        return value
+        return title
 
-    def validate_img(self, value):
-        if not is_image(value):
+    def clean_img(self):
+        img = self.cleaned_data.get('img')
+        if not is_image(img):
             raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
-        return value
+        return img
 
 
 class AppointmentTipForm(forms.ModelForm):
@@ -95,12 +106,13 @@ class AppointmentTipForm(forms.ModelForm):
         model = AppointmentTipModel
         fields = ['title', 'tips']
 
-    def validate_title(self, value):
-        if len(value) >= 90:
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) >= 90:
             raise forms.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
-        if AppointmentTipModel.objects.filter(title=value).exists():
+        if AppointmentTipModel.objects.filter(title=title).exists():
             raise forms.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
-        return value
+        return title
 
 
 class Time1AppointmentForm(forms.ModelForm):

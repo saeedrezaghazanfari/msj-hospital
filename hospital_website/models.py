@@ -7,6 +7,11 @@ from extentions.utils import get_random_code, jalali_convertor
 
 
 class LoginCodePatientModel(models.Model):
+    uidb64 = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('uidb64'))
+    token = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('token'))
+    doctor_medical_code = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('کد نظام پزشکی پزشک مربوطه'))
+    appointment_id = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آیدی زمان نوبت دهی انتخاب شده'))
+    patient_turn_id = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آیدی نوبت بیمار'))
     phone = models.CharField(max_length=30, verbose_name=_('شماره تلفن'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))

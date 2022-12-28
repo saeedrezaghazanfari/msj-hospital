@@ -65,14 +65,12 @@ def eoa_phone_page(request, medicalCode):
         return redirect('/404')
         
     doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
-    get_phone = forms.PhoneForm(request.POST or None)
-    context = {
-        'form': get_phone,
-    }
-    if request.method == 'POST':
-        if get_phone.is_valid():
 
-            phone = get_phone.cleaned_data.get('phone')
+    if request.method == 'POST':
+        form = forms.PhoneForm(request.POST or None)
+
+        if form.is_valid():
+            phone = form.cleaned_data.get('phone')
 
             code = LoginCodePatientModel.objects.create(
 				phone=phone,
@@ -90,8 +88,13 @@ def eoa_phone_page(request, medicalCode):
             token = account_activation_phone_token.make_token(code)
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
             return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.medical_code}/{uid}/{token}')
+    
+    else:
+        form = forms.PhoneForm()
 
-    return render(request, 'web/electronic-services/oa-phone.html', context)
+    return render(request, 'web/electronic-services/oa-phone.html', {
+        'form': form,
+    })
 
 
 # url: /electronic/appointment/enter-sms-code/<medicalCode>/<uidb64>/<token>
@@ -108,12 +111,11 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
-        form = forms.EnterCodePhoneForm(request.POST or None)
-        context = {'form': form}
-
+        
         if request.method == 'POST':
-            if form.is_valid():
+            form = forms.EnterCodePhoneForm(request.POST or None)
 
+            if form.is_valid():
                 code_enter = LoginCodePatientModel.objects.filter(
                     code=int(form.cleaned_data.get('code')), 
                     expire_date__gt=timezone.now(),
@@ -124,14 +126,19 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
                     code_enter.is_use = True
                     code_enter.save()
 
-                    context['form'] = forms.EnterCodePhoneForm()
+                    form = forms.EnterCodePhoneForm()
                     return redirect(f'/electronic/appointment/{medicalCode}/{uidb64}/{token}/calendar/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
                     return redirect(f'/electronic/appointment/enter-sms-code/{medicalCode}/{uidb64}/{token}') 
+        
+        else:
+            form = forms.EnterCodePhoneForm()
 
-        return render(request, 'web/electronic-services/oa-entercode.html', context)
+        return render(request, 'web/electronic-services/oa-entercode.html', {
+            'form': form
+        })
     else:
         return redirect('/404')
 
@@ -187,6 +194,7 @@ def eoa_calendar_page(request, medicalCode, uidb64, token):
 
 # url: /electronic/appointment/<medicalCode>/<appointmentID>/<uidb64>/<token>/info/
 def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
+    
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid)
@@ -207,23 +215,9 @@ def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
         if PatientModel.objects.filter(phone=code.phone).exists():
             patient_exist = PatientModel.objects.get(phone=code.phone)
 
-        form = forms.PatientForm(request.POST or None, initial={
-            'username': patient_exist.username if patient_exist else None,
-            'first_name': patient_exist.first_name if patient_exist else None,
-            'last_name': patient_exist.last_name if patient_exist else None,
-            'gender': patient_exist.gender if patient_exist else None,
-            'age': patient_exist.age if patient_exist else None,
-        })
-        context = {
-            'form': form,
-            'have_folder': True if patient_exist else False,
-            'appointment': appointment,
-            'insurances': appointment.insurances.all(),
-            'uidb64': uidb64,
-            'token': token,
-        }
-
         if request.method == 'POST':
+            form = forms.PatientForm(request.POST or None)
+
             if form.is_valid():
 
                 get_insurance = request.POST.get('insurance')
@@ -275,11 +269,27 @@ def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
                         turn.price = price_obj.price
                         turn.save()
 
-                context['form'] = forms.PatientForm()
+                form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
                 return redirect(f'/electronic/appointment/{turn.id}/{uidb64}/{token}/show-details/')
+        
+        else:
+            form = forms.PatientForm(initial={
+                'username': patient_exist.username if patient_exist else None,
+                'first_name': patient_exist.first_name if patient_exist else None,
+                'last_name': patient_exist.last_name if patient_exist else None,
+                'gender': patient_exist.gender if patient_exist else None,
+                'age': patient_exist.age if patient_exist else None,
+            })
 
-        return render(request, 'web/electronic-services/oa-info.html', context)
+        return render(request, 'web/electronic-services/oa-info.html', {
+            'form': form,
+            'have_folder': True if patient_exist else False,
+            'appointment': appointment,
+            'insurances': appointment.insurances.all(),
+            'uidb64': uidb64,
+            'token': token,
+        })
 
     else:
         return redirect('/404')
@@ -311,6 +321,7 @@ def eoa_showdetails_page(request, patientTurnId, uidb64, token):
 
 # url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/trust/
 def eoa_trust_page(request, patientTurnId, uidb64, token):
+
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid)
@@ -323,34 +334,37 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
 
     if account_activation_phone_token.check_token(code, token):
         
-        form = forms.CheckRulesForm(request.POST or None)
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
         limit_time = LimitTurnTimeModel.objects.first()
 
-        context = {
+        if request.method == 'POST':
+            form = forms.CheckRulesForm(request.POST or None)
+
+            if form.is_valid():
+
+                #TODO send user to payment site
+                # price: patient_turn.price
+                print('you are going to ...')
+                form = forms.CheckRulesForm()
+
+        else:
+            form = forms.CheckRulesForm()
+
+        return render(request, 'web/electronic-services/oa-trust.html', {
             'form': form,
             'turn': patient_turn,
             'limit_time': limit_time.rules if limit_time else None,
             'tips': patient_turn.appointment.tip.tips,
             'uidb64': uidb64,
             'token': token,
-        }
-
-        if request.method == 'POST':
-            if form.is_valid():
-
-                #TODO send user to payment site
-                # price: patient_turn.price
-                print('you are going to ...')
-                context['form'] = forms.CheckRulesForm()
-
-        return render(request, 'web/electronic-services/oa-trust.html', context)
+        })
     else:
         return redirect('/404')
 
 
 # url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/end/
 def eoa_end_page(request, patientTurnId, uidb64, token):
+    
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid)

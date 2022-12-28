@@ -142,8 +142,8 @@ def enter_sms_code(request, uidb64, token):
 					login(request, user)
 
 					context['form'] = EnterCodePWForm()
-					messages.success(request, _('به آمپول خوش آمدید'))
-					return redirect('/')
+					messages.success(request, _(' خوش آمدید'))
+					return redirect('panel:home')
 				else:
 					messages.error(request, _('مشکلی در ورود شما بوجود آمد'))
 					return redirect('auth:signin')

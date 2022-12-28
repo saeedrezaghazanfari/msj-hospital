@@ -25,7 +25,7 @@
         <h1>Online Appointment - tips</h1>
 
         <div class="box" v-if="show_create_tips">
-            <form method="POST">
+            <form method="POST" novalidate>
                 {% csrf_token %}
 
                 <p>{{ form.title.label_tag }}</p>
