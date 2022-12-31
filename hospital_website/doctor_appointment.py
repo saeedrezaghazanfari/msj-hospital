@@ -38,6 +38,7 @@ def eoa_doctors_page(request):
                 date__gt=datetime.now(),
                 doctor__is_active=True
             ).values(
+                'doctor__id', 
                 'doctor__medical_code', 
                 'doctor__user__first_name', 
                 'doctor__user__last_name', 
@@ -49,8 +50,8 @@ def eoa_doctors_page(request):
     list_doctors = []
 
     for doctor in doctors:
-        if not doctor['doctor__medical_code'] in list_medicalcode:
-            list_medicalcode.append(doctor['doctor__medical_code'])
+        if not doctor['doctor__id'] in list_medicalcode:
+            list_medicalcode.append(doctor['doctor__id'])
             list_doctors.append(doctor)
 
     return render(request, 'web/electronic-services/oa-doctors.html', {
@@ -58,13 +59,13 @@ def eoa_doctors_page(request):
     })
 
 
-# url: /electronic/appointment/<int:medicalCode>/phone/
-def eoa_phone_page(request, medicalCode):
+# url: /electronic/appointment/<doctorID>/phone/
+def eoa_phone_page(request, doctorID):
 
-    if not medicalCode and not DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
+    if not doctorID and not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
         
-    doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+    doctor = DoctorModel.objects.get(id=doctorID, is_active=True)
 
     if request.method == 'POST':
         form = forms.PhoneForm(request.POST or None)
@@ -87,7 +88,7 @@ def eoa_phone_page(request, medicalCode):
             uid = urlsafe_base64_encode(force_bytes(code.id)) 
             token = account_activation_phone_token.make_token(code)
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
-            return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.medical_code}/{uid}/{token}')
+            return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.id}/{uid}/{token}')
     
     else:
         form = forms.PhoneForm()
@@ -97,8 +98,8 @@ def eoa_phone_page(request, medicalCode):
     })
 
 
-# url: /electronic/appointment/enter-sms-code/<medicalCode>/<uidb64>/<token>
-def eoa_entercode_page(request, medicalCode, uidb64, token):
+# url: /electronic/appointment/enter-sms-code/<doctorID>/<uidb64>/<token>
+def eoa_entercode_page(request, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -107,7 +108,7 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
         code = None
         return redirect('/404')
     
-    if not medicalCode or not DoctorModel.objects.filter(medical_code=int(medicalCode), is_active=True).exists():
+    if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
@@ -127,11 +128,11 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/{medicalCode}/{uidb64}/{token}/calendar/') 
+                    return redirect(f'/electronic/appointment/{doctorID}/{uidb64}/{token}/calendar/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
-                    return redirect(f'/electronic/appointment/enter-sms-code/{medicalCode}/{uidb64}/{token}') 
+                    return redirect(f'/electronic/appointment/enter-sms-code/{doctorID}/{uidb64}/{token}') 
         
         else:
             form = forms.EnterCodePhoneForm()
@@ -143,8 +144,8 @@ def eoa_entercode_page(request, medicalCode, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<medicalCode>/<uidb64>/<token>/calendar/
-def eoa_calendar_page(request, medicalCode, uidb64, token):
+# url: /electronic/appointment/<doctorID>/<uidb64>/<token>/calendar/
+def eoa_calendar_page(request, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -153,14 +154,14 @@ def eoa_calendar_page(request, medicalCode, uidb64, token):
         code = None
         return redirect('/404')
 
-    if not medicalCode or not DoctorModel.objects.filter(medical_code=int(medicalCode), is_active=True).exists():
+    if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
         
-        doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+        doctor = DoctorModel.objects.get(id=doctorID, is_active=True)
         times = AppointmentTimeModel.objects.filter(
-            doctor=doctor,#TODO serach for skill - degree
+            doctor=doctor,      #TODO serach for skill - degree
             date__gt=timezone.now(),
         ).order_by('-date').all()
 
@@ -192,8 +193,8 @@ def eoa_calendar_page(request, medicalCode, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<medicalCode>/<appointmentID>/<uidb64>/<token>/info/
-def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
+# url: /electronic/appointment/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
+def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -202,14 +203,14 @@ def eoa_info_page(request, medicalCode, appointmentID, uidb64, token):
         code = None
         return redirect('/404')
 
-    if not medicalCode or not DoctorModel.objects.filter(medical_code=int(medicalCode), is_active=True).exists():
+    if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
-    if not appointmentID or not AppointmentTimeModel.objects.filter(id=int(appointmentID)).exists():
+    if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
-        # doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
-        appointment = AppointmentTimeModel.objects.get(id=int(appointmentID))
+        # doctor = DoctorModel.objects.get(medical_code=doctorID, is_active=True)
+        appointment = AppointmentTimeModel.objects.get(id=appointmentID)
 
         patient_exist = None
         if PatientModel.objects.filter(phone=code.phone).exists():

@@ -23,7 +23,7 @@
         <div title="capacity">{{ time.capacity }}</div>
         <div title="reserved">{{ time.reserved }}</div>
         <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-        {% if time.is_active %}<a href="{% url 'website:el-oa-info' doctor.medical_code time.id uidb64 token %}">Continue</a>{% endif %}
+        {% if time.is_active %}<a href="{% url 'website:el-oa-info' doctor.id time.id uidb64 token %}">Continue</a>{% endif %}
     </div>
     {% endfor %}
 

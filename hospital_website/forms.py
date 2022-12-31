@@ -34,7 +34,7 @@ class EnterCodePhoneForm(forms.Form):
             raise forms.ValidationError(_('کد پیامک شده را وارد کنید.'))
         if not re.compile(r'(^\d{5}$)').match(code):
             raise forms.ValidationError(_('الگوی کد پیامک شده شما صحیح نیست.'))
-        if not LoginCodePatientModel.objects.filter(code=int(code), expire_date__gt=timezone.now(), usage='appointment', is_use=False).exists():
+        if not LoginCodePatientModel.objects.filter(code=int(code), expire_date__gt=timezone.now(), is_use=False).exists():
             forms.ValidationError(_('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
         return code
 

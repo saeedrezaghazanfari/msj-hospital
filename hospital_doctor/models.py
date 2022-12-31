@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +8,7 @@ from extentions.utils import famous_profile_image_path, DAYS, TIMES
 
 
 class DoctorModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     medical_code = models.CharField(max_length=15, unique=True, verbose_name=_('کد نظام پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))

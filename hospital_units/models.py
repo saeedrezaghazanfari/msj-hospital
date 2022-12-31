@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -108,6 +109,7 @@ class ExprimentResultModel(models.Model):
 
 
 class AppointmentTimeModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     unit = models.ForeignKey(to=UnitModel, blank=True, null=True, on_delete=models.SET_NULL, verbose_name=_('بخش'), help_text=_('اگر مقداری به این قسمت داده نشود در اینصورت بخش پزشکان انتخاب میشود.'))
     doctor = models.ForeignKey(to='hospital_doctor.DoctorModel', on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
     date = models.DateField(default=timezone.now, verbose_name=_('تاریخ روز'))
@@ -160,6 +162,7 @@ class AppointmentTipSMSModel(models.Model):
 
 
 class PatientTurnModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
