@@ -23,6 +23,8 @@
         
         <h1>Online Appointment - doctors</h1>
 
+        <a href="{% url 'panel:appointment-doctorcreate' %}">create a doctor</a>
+
         <div> 
             {% for doctor in doctors %}
             <div class="box">
@@ -35,7 +37,7 @@
                 <div title="is_public">{{ doctor.is_public }}</div>
                 <div title="is_clinic">{{ doctor.is_clinic }}</div>
                 <div title="is_active">{{ doctor.is_active }}</div>
-                <div><a href="{% url 'panel:appointment-doctorlist-times' doctor.medical_code %}">more</a></div>
+                <div><a href="{% url 'panel:appointment-doctorlist-times' doctor.id %}">more</a></div>
             </div>
             {% endfor %}
 

@@ -2,7 +2,8 @@ from django import forms
 from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
-from hospital_units.models import AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel
+from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel
+from hospital_units.models import UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, SubUnitModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -56,6 +57,30 @@ class EditInfoForm(forms.ModelForm):
         if email and not is_email(email):
             raise forms.ValidationError(_('الگوی ایمیل شما صحیح نیست'))
         return email
+
+
+class SkillForm(forms.ModelForm):
+    class Meta:
+        model = TitleSkillModel
+        fields = ['title']
+
+
+class DegreeForm(forms.ModelForm):
+    class Meta:
+        model = DegreeModel
+        fields = ['title']
+
+
+class UnitForm(forms.ModelForm):
+    class Meta:
+        model = UnitModel
+        fields = '__all__'
+
+
+class SubUnitForm(forms.ModelForm):
+    class Meta:
+        model = SubUnitModel
+        fields = '__all__'
 
 
 class LimitTurnTimeForm(forms.ModelForm):
@@ -166,3 +191,9 @@ class Time2AppointmentForm(forms.ModelForm):
             if int(time_to_str[1]) <= int(time_from_str[1]):
                 raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
         return time_to
+
+
+class DoctorForm(forms.ModelForm):
+    class Meta:
+        model = DoctorModel
+        fields = '__all__'

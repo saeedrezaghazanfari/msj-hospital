@@ -1,0 +1,116 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+        
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <p>{{ form.medical_code.label_tag }}</p>
+            {{ form.medical_code }}
+            {% for msg in form.medical_code.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.skill_title.label_tag }}</p>
+            <p><a href="{% url 'panel:appointment-skill' %}">add skill title</a></p>
+            {{ form.skill_title }}
+            {% for msg in form.skill_title.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.user.label_tag }}</p>
+            {{ form.user }}
+            {% for msg in form.user.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.unit.label_tag }}</p>
+            {{ form.unit }}
+            <p><a href="{% url 'panel:appointment-unit' %}">add unit</a></p>
+            {% for msg in form.unit.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.insurances.label_tag }}</p>
+            <p><a href="{% url 'panel:appointment-insurances' %}">add insurance</a></p>
+            {{ form.insurances }}
+            {% for msg in form.insurances.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.degree.label_tag }}</p>
+            <p><a href="{% url 'panel:appointment-degree' %}">add degree</a></p>
+            {{ form.degree }}
+            {% for msg in form.degree.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.position.label_tag }}</p>
+            {{ form.position }}
+            {% for msg in form.position.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.bio.label_tag }}</p>
+            {{ form.bio }}
+            {% for msg in form.bio.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_medicalteam.label_tag }}</p>
+            {{ form.is_medicalteam }}
+            {% for msg in form.is_medicalteam.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_intenational.label_tag }}</p>
+            {{ form.is_intenational }}
+            {% for msg in form.is_intenational.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_public.label_tag }}</p>
+            {{ form.is_public }}
+            {% for msg in form.is_public.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_clinic.label_tag }}</p>
+            {{ form.is_clinic }}
+            {% for msg in form.is_clinic.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_active.label_tag }}</p>
+            {{ form.is_active }}
+            {% for msg in form.is_active.errors %}
+                <p style="color: red;" >{{ msg }}</p>
+            {% endfor %}
+
+            <button type="submit">create</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

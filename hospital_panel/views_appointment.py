@@ -6,9 +6,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
+from hospital_doctor.models import TitleSkillModel
 from hospital_units.models import (
     UnitModel, LimitTurnTimeModel, AppointmentTimeModel, 
-    PatientTurnModel, AppointmentTipModel
+    PatientTurnModel, AppointmentTipModel, SubUnitModel
 )
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
@@ -96,6 +97,98 @@ def oa_tips_page(request):
     })
 
 
+# url: /panel/online-appointment/skill/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_skilltitle_page(request):
+
+    if request.method == 'POST':
+        form = forms.SkillForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            form = forms.SkillForm()
+            messages.success(request, _('تخصص مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-skill')
+
+    else:
+        form = forms.SkillForm()
+
+    return render(request, 'panel/online-appointment/skill.html', {
+        'form': form,
+        'skills': TitleSkillModel.objects.all()
+    })
+
+
+# url: /panel/online-appointment/degree/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_degree_page(request):
+
+    if request.method == 'POST':
+        form = forms.DegreeForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            form = forms.DegreeForm()
+            messages.success(request, _('مدرک مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-degree')
+
+    else:
+        form = forms.DegreeForm()
+
+    return render(request, 'panel/online-appointment/degree.html', {
+        'form': form,
+        'degrees': DegreeModel.objects.all()
+    })
+
+
+# url: /panel/online-appointment/unit/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_unit_page(request):
+
+    if request.method == 'POST':
+        form = forms.UnitForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            form = forms.UnitForm()
+            messages.success(request, _('بخش مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-unit')
+
+    else:
+        form = forms.UnitForm()
+
+    return render(request, 'panel/online-appointment/unit.html', {
+        'form': form,
+        'units': UnitModel.objects.all()
+    })
+
+
+# url: /panel/online-appointment/subunit/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_subunit_page(request):
+
+    if request.method == 'POST':
+        form = forms.SubUnitForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            form = forms.SubUnitForm()
+            messages.success(request, _('زیربخش مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-subunit')
+
+    else:
+        form = forms.SubUnitForm()
+
+    return render(request, 'panel/online-appointment/subunit.html', {
+        'form': form,
+        'subunits': SubUnitModel.objects.all()
+    })
+
+
 # url: /panel/online-appointment/doctor/list/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
@@ -112,15 +205,40 @@ def oa_doctorlist_page(request):
     })
 
 
-# url: /panel/online-appointment/doctor/<int:medicalCode>/times/
+# url: /panel/online-appointment/doctor/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
-def oa_doctorlist_time_page(request, medicalCode):
+def oa_doctorcreate_page(request):
 
-    if medicalCode and DoctorModel.objects.filter(medical_code=medicalCode, is_active=True).exists():
-    
-        doctor = DoctorModel.objects.get(medical_code=medicalCode, is_active=True)
+    if request.method == 'POST':
+        form = forms.DoctorForm(request.POST or None)
+
+        if form.is_valid():
+            ...
+
+    else:
+        form = forms.DoctorForm()
+
+    return render(request, 'panel/online-appointment/doctor-create.html', {
+        'form': form
+    })
+
+
+# url: /panel/online-appointment/doctor/<doctorId>/times/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_doctorlist_time_page(request, doctorId):
+
+    try:
+        DoctorModel.objects.filter(id=doctorId, is_active=True).exists()
+    except:
+        return redirect('/404')
+
+    if doctorId and DoctorModel.objects.filter(id=doctorId, is_active=True).exists():
+
+        doctor = DoctorModel.objects.get(id=doctorId, is_active=True)
         works = doctor.doctorworktimemodel_set.all()
+
         vacations = doctor.doctorvacationmodel_set.all()
 
         # update vacation of doctor

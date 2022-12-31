@@ -1,0 +1,125 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - unit</h1>
+
+        <div class="box" v-if="show_create_tips">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <p>{{ form.category.label_tag }}</p>
+                {{ form.category }}
+                {% for msg in form.category.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.subunit.label_tag }}</p>
+                <p><a href="{% url 'panel:appointment-subunit' %}">SubUnit</a></p>
+                {{ form.subunit }}
+                {% for msg in form.subunit.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.title.label_tag }}</p>
+                {{ form.title }}
+                {% for msg in form.title.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.have_appointment.label_tag }}</p>
+                {{ form.have_appointment }}
+                {% for msg in form.have_appointment.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.desc.label_tag }}</p>
+                {{ form.desc }}
+                {% for msg in form.desc.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.image.label_tag }}</p>
+                {{ form.image }}
+                {% for msg in form.image.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.phone.label_tag }}</p>
+                {{ form.phone }}
+                {% for msg in form.phone.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.inside.label_tag }}</p>
+                {{ form.inside }}
+                {% for msg in form.inside.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.address.label_tag }}</p>
+                {{ form.address }}
+                {% for msg in form.address.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.work_times.label_tag }}</p>
+                {{ form.work_times }}
+                {% for msg in form.work_times.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.manager.label_tag }}</p>
+                {{ form.manager }}
+                {% for msg in form.manager.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.manager_phone.label_tag }}</p>
+                {{ form.manager_phone }}
+                {% for msg in form.manager_phone.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <p>{{ form.email.label_tag }}</p>
+                {{ form.email }}
+                {% for msg in form.email.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+
+                <button type="submit">create +</button>
+            </form>
+        </div>
+
+        {% for skill in skills %}
+        <div class="box" v-for="skill in skills_arr" :key="skill.title">  
+            <div>{{ skill.title }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
