@@ -112,9 +112,11 @@
             </form>
         </div>
 
-        {% for skill in skills %}
-        <div class="box" v-for="skill in skills_arr" :key="skill.title">  
-            <div>{{ skill.title }}</div>
+        {% for unit in units %}
+        <div class="box">  
+            <div title="category">{{ unit.category }}</div>
+            <div title="subunit">{{ unit.subunit }}</div>
+            <div title="title">{{ unit.title }}</div>
         </div>
         {% endfor %}
 

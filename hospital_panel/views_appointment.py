@@ -357,9 +357,9 @@ def oa_time_create1_page(request):
 @online_appointment_required
 def oa_time_create2_page(request, unitID, doctorId):
 
-    if int(unitID) != 0 and UnitModel.objects.filter(id=unitID).exists():
+    if unitID != 0 and UnitModel.objects.filter(id=unitID).exists():
         unit = UnitModel.objects.get(id=unitID)
-    elif int(unitID) == 0:
+    elif unitID == 0:
         unit = None
     elif not unitID:
         return redirect('/404')
