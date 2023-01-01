@@ -418,6 +418,38 @@ def oa_time_create2_page(request, unitID, doctorId):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_patient_page(request):
+
+    if request.GET.get('paid') == 'yes':
+        patients = PatientTurnModel.objects.filter(
+            is_paid=True,
+            appointment__date__gt=timezone.now()
+        ).all()
+
+    elif request.GET.get('paid') == 'no':
+        patients = PatientTurnModel.objects.filter(
+            is_paid=False,
+            appointment__date__gt=timezone.now()
+        ).all()
+
+    elif request.GET.get('returned') == 'yes':
+        patients = PatientTurnModel.objects.filter(
+            is_canceled=True,
+            is_returned=True,
+            appointment__date__gt=timezone.now()
+        ).all()
+
+    elif request.GET.get('returned') == 'no':
+        patients = PatientTurnModel.objects.filter(
+            is_canceled=True,
+            is_returned=False,
+            appointment__date__gt=timezone.now()
+        ).all()
+
+    else:
+        patients = PatientTurnModel.objects.filter(
+            appointment__date__gt=timezone.now()
+        ).all()
+
     return render(request, 'panel/online-appointment/patient.html', {
-        'patients': PatientTurnModel.objects.all()
+        'patients': patients, 
     })

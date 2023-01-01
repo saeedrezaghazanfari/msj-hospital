@@ -32,6 +32,13 @@
 
         <h1>Online Appointment - patient turns</h1>
 
+        <ul>
+            <li><a href="?paid=yes">is_paid = True</a></li>
+            <li><a href="?paid=no">is_paid = False</a></li>
+            <li><a href="?returned=yes">is_returned = True</a></li>
+            <li><a href="?returned=no">is_returned = False</a></li>
+        </ul>
+
         {% for patient in patients %}
         <div class="box">
             <div title="code">{{ patient.code }}</div>
