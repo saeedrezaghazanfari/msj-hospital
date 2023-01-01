@@ -47,6 +47,7 @@
             <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
             <div title="capacity">{{ time.capacity }}</div>
             <div title="reserved">{{ time.reserved }}</div>
+            <div><a href="{% url 'panel:appointment-timeedit' time.id %}">edit</a></div>
         </div>
         {% endfor %}
 

@@ -17,6 +17,8 @@
 </li>
 <ul {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
     <li><a href="{% url 'panel:doctor-vacation' %}">send request for Vacation time</a></li>
+    <li><a href="{% url 'panel:doctor-work' %}">add work time</a></li>
+    <li><a href="{% url 'panel:doctor-insurances' %}">my insurances</a></li>
 </ul>
 <hr>
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>

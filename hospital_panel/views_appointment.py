@@ -325,6 +325,58 @@ def oa_time_page(request):
     })
 
 
+# url: /panel/online-appointment/time/<appointmentID>/edit/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_time_edit_page(request, appointmentID):
+
+    if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
+        return redirect('/404')
+
+    appointment = AppointmentTimeModel.objects.get(id=appointmentID)
+
+    if request.method == 'POST':
+        form = forms.AllAppointmentForm(request.POST or None)
+
+        if form.is_valid():
+
+            if form.cleaned_data.get('unit'):
+                appointment.unit = form.cleaned_data.get('unit')
+            if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
+                appointment.insurances.clear()
+                for item in request.POST.getlist('insurances'):
+                    appointment.insurances.add(InsuranceModel.objects.get(title=item))
+            if form.cleaned_data.get('date'):
+                appointment.date = form.cleaned_data.get('date')
+            if form.cleaned_data.get('time_from'):
+                appointment.time_from = form.cleaned_data.get('time_from')
+            if form.cleaned_data.get('time_to'):
+                appointment.time_to = form.cleaned_data.get('time_to')
+            if form.cleaned_data.get('capacity'):
+                appointment.capacity = form.cleaned_data.get('capacity')
+            if form.cleaned_data.get('tip'):
+                appointment.tip = form.cleaned_data.get('tip')
+            if form.cleaned_data.get('tip_sms'):
+                appointment.tip_sms = form.cleaned_data.get('tip_sms')
+            appointment.save()
+
+            form = forms.AllAppointmentForm()
+            messages.success(request, _('زمان نوبت دهی موردنظر با موفقیت تغییر یافت.'))
+            return redirect('panel:appointment-time')
+
+    else:
+        form = forms.AllAppointmentForm(instance=appointment)
+
+
+    times = AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all()
+    return render(request, 'panel/online-appointment/edit-time-appointment.html', {
+        'times': times,
+        'form': form,
+        'appointment': appointment,
+        'insurances': [insurance for insurance in appointment.doctor.insurances.all()]
+    })
+
+
 # url: /panel/online-appointment/time/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required

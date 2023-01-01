@@ -1,0 +1,76 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks jalali_tags %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+
+        <h1>doctor panel - work</h1>
+
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            
+            <p>{{ form.from_time.label_tag }}</p>
+            {{ form.from_time }}
+            {% for msg in form.from_time.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.day_from.label_tag }}</p>
+            {{ form.day_from }}
+            {% for msg in form.day_from.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.day_to.label_tag }}</p>
+            {{ form.day_to }}
+            {% for msg in form.day_to.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.time_from.label_tag }}</p>
+            {{ form.time_from }}
+            {% for msg in form.time_from.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.time_to.label_tag }}</p>
+            {{ form.time_to }}
+            {% for msg in form.time_to.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <button type="submit">send</button>
+        </form>
+
+
+        {% for work in works %}
+        <div class="box">
+            <div title="day_from"> {{ work.day_from }}</div>
+            <div title="day_to"> {{ work.day_to }}</div>
+            <div title="time_from"> {{ work.time_from }}</div>
+            <div title="time_to"> {{ work.time_to }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

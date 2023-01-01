@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from hospital_doctor.models import DoctorModel, DoctorVacationModel
+from hospital_doctor.models import DoctorModel
 from django.contrib import messages
+from hospital_setting.models import InsuranceModel
 from .decorators import online_doctor_required
-from .mixins import DoctorRequired
+# from .mixins import DoctorRequired
 from . import forms
 
 
@@ -39,3 +40,58 @@ def doctor_vacation_page(request):
         'form': form
     })
 
+
+# url: /panel/doctor/work/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_doctor_required
+def doctor_work_page(request):
+
+    doctor = DoctorModel.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = forms.DoctorWorkForm(request.POST or None)
+
+        if form.is_valid():
+            
+            doctor.doctorworktimemodel_set.create(
+                day_from=form.cleaned_data.get('day_from'),
+                day_to=form.cleaned_data.get('day_to'),
+                time_from=form.cleaned_data.get('time_from'),
+                time_to=form.cleaned_data.get('time_to'),
+            )
+
+            form = forms.DoctorWorkForm()
+            messages.success(request, _('زمان کاری شما با موفقیت ثبت شد.'))
+            return redirect('panel:doctor-work')
+
+    else:
+        form = forms.DoctorWorkForm()
+
+    return render(request, 'panel/doctor/work.html', {
+        'works': doctor.doctorworktimemodel_set.all(),
+        'form': form
+    })
+
+
+# url: /panel/doctor/insurances/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_doctor_required
+def doctor_insurances_page(request):
+
+    doctor = DoctorModel.objects.get(user=request.user)
+
+    if request.method == 'POST':
+
+        if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
+            
+            doctor.insurances.clear()
+            for item in request.POST.getlist('insurances'):
+                doctor.insurances.add(InsuranceModel.objects.get(title=item))
+
+            messages.success(request, _('بیمه های موردنظر با موفقیت برای شما ثبت شدند.'))
+            return redirect('panel:doctor-insurances')
+
+    return render(request, 'panel/doctor/insurances.html', {
+        'insurances': InsuranceModel.objects.all(),
+        'doctor': doctor
+    })

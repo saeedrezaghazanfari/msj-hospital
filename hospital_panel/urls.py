@@ -13,6 +13,8 @@ urlpatterns = [
     # doctor management
     path('panel/doctor', views.doctor_page, name='doctor'),
     path('panel/doctor/vacation/', views_doctor.doctor_vacation_page, name='doctor-vacation'),
+    path('panel/doctor/work/', views_doctor.doctor_work_page, name='doctor-work'),
+    path('panel/doctor/insurances/', views_doctor.doctor_insurances_page, name='doctor-insurances'),
 
 
     # blog management
@@ -45,6 +47,7 @@ urlpatterns = [
     path('panel/online-appointment/doctor/<doctorId>/times/', views_appointment.oa_doctorlist_time_page, name='appointment-doctorlist-times'),
     path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     path('panel/online-appointment/time/', views_appointment.oa_time_page, name='appointment-time'),
+    path('panel/online-appointment/time/<appointmentID>/edit/', views_appointment.oa_time_edit_page, name='appointment-timeedit'),
     path('panel/online-appointment/time/create/', views_appointment.oa_time_create1_page, name='appointment-timep1'),
     path('panel/online-appointment/time/create/<unitID>/<doctorId>/', views_appointment.oa_time_create2_page, name='appointment-timep2'),
     path('panel/online-appointment/patient/', views_appointment.oa_patient_page, name='appointment-patient'),

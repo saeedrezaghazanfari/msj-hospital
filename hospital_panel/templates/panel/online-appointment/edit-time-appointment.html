@@ -1,0 +1,100 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks jalali_tags %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    {% if messages %}
+    <ul>
+        {% for msg in messages %}
+        <li style="color: red;"><p>{{ msg }}</p></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - time appointment</h1>
+
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <p>{{ form.unit.label_tag }}</p>
+            {{ form.unit }}
+            {% for msg in unit.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+                        
+            <div>
+                <p>insurances of " {{ appointment.doctor.get_full_name }} " are:</p>
+                <p> {% for item in appointment.doctor.insurances.all %}{{ item.title }} - {% endfor %}</p>
+
+                <select name="insurances" multiple>
+                    {% for insurance in insurances %}
+                    <option value="{{ insurance.title }}" {% if insurance in appointment.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <p>{{ form.date.label_tag }}</p>
+            {{ form.date }}
+            {% for msg in date.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.time_from.label_tag }}</p>
+            {{ form.time_from }}
+            {% for msg in time_from.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.time_to.label_tag }}</p>
+            {{ form.time_to }}
+            {% for msg in time_to.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.capacity.label_tag }}</p>
+            <p>hint: -1 => doctor is in vacation</p>
+            {{ form.capacity }}
+            {% for msg in capacity.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.tip.label_tag }}</p>
+            {{ form.tip }}
+            {% for msg in tip.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.tip_sms.label_tag }}</p>
+            {{ form.tip_sms }}
+            {% for msg in tip_sms.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+
+            <button type="submit">edit</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

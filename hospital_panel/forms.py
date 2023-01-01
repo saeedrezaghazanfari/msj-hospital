@@ -2,7 +2,7 @@ from django import forms
 from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
-from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel
+from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel, DoctorWorkTimeModel
 from hospital_units.models import UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, SubUnitModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
@@ -193,6 +193,33 @@ class Time2AppointmentForm(forms.ModelForm):
         return time_to
 
 
+class AllAppointmentForm(forms.ModelForm):
+
+    class Meta:
+        model = AppointmentTimeModel
+        fields = ['unit', 'date', 'time_from', 'time_to', 'capacity', 'tip', 'tip_sms']
+
+    def __init__(self, *args, **kwargs):
+        super(AllAppointmentForm, self).__init__(*args, **kwargs)
+        self.fields['date'] = JalaliDateField(label=_('تاریخ'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+
+    def clean_time_to(self):
+        time_from = self.cleaned_data.get('time_from')
+        time_to = self.cleaned_data.get('time_to')
+
+        time_from_str = time_from.split(':')
+        time_to_str = time_to.split(':')
+
+        if int(time_to_str[0]) < int(time_from_str[0]):
+            raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
+        if int(time_to_str[0]) == int(time_from_str[0]):
+            if int(time_to_str[1]) <= int(time_from_str[1]):
+                raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
+        return time_to
+
+
 class DoctorForm(forms.ModelForm):
     class Meta:
         model = DoctorModel
@@ -224,3 +251,11 @@ class DoctorVacationForm(forms.ModelForm):
         # if to_time < timezone.now().date:
         #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
         return to_time
+
+
+
+class DoctorWorkForm(forms.ModelForm):
+    class Meta:
+        model = DoctorWorkTimeModel
+        fields = ['day_from', 'day_to', 'time_from', 'time_to'] 
+
