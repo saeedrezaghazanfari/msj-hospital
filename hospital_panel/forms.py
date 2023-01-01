@@ -2,7 +2,7 @@ from django import forms
 from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
-from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel
+from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel
 from hospital_units.models import UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, SubUnitModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
@@ -197,3 +197,30 @@ class DoctorForm(forms.ModelForm):
     class Meta:
         model = DoctorModel
         fields = '__all__'
+
+
+class DoctorVacationForm(forms.ModelForm):
+    class Meta:
+        model = DoctorVacationModel
+        fields = ['from_time', 'to_time'] 
+
+    def __init__(self, *args, **kwargs):
+        super(DoctorVacationForm, self).__init__(*args, **kwargs)
+        self.fields['from_time'] = JalaliDateField(label=_('از تاریخ'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+        self.fields['to_time'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+
+    def clean_to_time(self):
+        from django.utils import timezone
+        from_time = self.cleaned_data.get('from_time')
+        to_time = self.cleaned_data.get('to_time')
+        if from_time > to_time:
+            raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
+        # if from_time < timezone.now().date:    #TODO
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        # if to_time < timezone.now().date:
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        return to_time

@@ -123,7 +123,7 @@ class AppointmentTimeModel(models.Model):
     tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت دهی در پیامک'))
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-date']
         verbose_name = _('زمان نوبتدهی')
         verbose_name_plural = _('زمان های نوبتدهی')
 
@@ -177,7 +177,7 @@ class PatientTurnModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-created']
         verbose_name = _('نوبت بیمار')
         verbose_name_plural = _('نوبت بیماران')
 
