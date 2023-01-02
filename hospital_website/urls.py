@@ -1,5 +1,10 @@
 from django.urls import path
-from . import views, doctor_appointment
+from . import (
+    views, 
+    doctor_appointment, 
+    lab_appointment, 
+    imaging_appointment
+)
 
 
 app_name = 'website'
@@ -19,4 +24,11 @@ urlpatterns = [
     path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/show-details/', doctor_appointment.eoa_showdetails_page, name='el-oa-showdetails'),
     path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/trust/', doctor_appointment.eoa_trust_page, name='el-oa-trust'),
     path('electronic/appointment/<patientTurnId>/<uidb64>/<token>/end/', doctor_appointment.eoa_end_page, name='el-oa-end'),
+
+    # electronic services - lab
+    path('electronic/appointment/categories/lab/', lab_appointment.eoa_lab_page, name='el-oa-lab'),
+
+        # electronic services - imaging
+    path('electronic/appointment/categories/imaging/', imaging_appointment.eoa_imaging_page, name='el-oa-imaging'),
+
 ]

@@ -54,7 +54,7 @@ def eoa_doctors_page(request):
             list_medicalcode.append(doctor['doctor__id'])
             list_doctors.append(doctor)
 
-    return render(request, 'web/electronic-services/oa-doctors.html', {
+    return render(request, 'web/electronic-services/doctor/oa-doctors.html', {
         'doctors': list_doctors,
     })
 
@@ -93,7 +93,7 @@ def eoa_phone_page(request, doctorID):
     else:
         form = forms.PhoneForm()
 
-    return render(request, 'web/electronic-services/oa-phone.html', {
+    return render(request, 'web/electronic-services/doctor/oa-phone.html', {
         'form': form,
     })
 
@@ -137,7 +137,7 @@ def eoa_entercode_page(request, doctorID, uidb64, token):
         else:
             form = forms.EnterCodePhoneForm()
 
-        return render(request, 'web/electronic-services/oa-entercode.html', {
+        return render(request, 'web/electronic-services/doctor/oa-entercode.html', {
             'form': form
         })
     else:
@@ -182,7 +182,7 @@ def eoa_calendar_page(request, doctorID, uidb64, token):
                 if (date_time_obj - datetime.now()) > timedelta(hours=limit_time):
                     time.is_active = True
 
-        return render(request, 'web/electronic-services/oa-calendar.html', {
+        return render(request, 'web/electronic-services/doctor/oa-calendar.html', {
             'times': times,
             'doctor': doctor,
             'uidb64': uidb64,
@@ -283,7 +283,7 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
                 'age': patient_exist.age if patient_exist else None,
             })
 
-        return render(request, 'web/electronic-services/oa-info.html', {
+        return render(request, 'web/electronic-services/doctor/oa-info.html', {
             'form': form,
             'have_folder': True if patient_exist else False,
             'appointment': appointment,
@@ -311,7 +311,7 @@ def eoa_showdetails_page(request, patientTurnId, uidb64, token):
     if account_activation_phone_token.check_token(code, token):
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
 
-        return render(request, 'web/electronic-services/oa-showdetails.html', {
+        return render(request, 'web/electronic-services/doctor/oa-showdetails.html', {
             'turn': patient_turn,
             'uidb64': uidb64,
             'token': token,
@@ -351,7 +351,7 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
         else:
             form = forms.CheckRulesForm()
 
-        return render(request, 'web/electronic-services/oa-trust.html', {
+        return render(request, 'web/electronic-services/doctor/oa-trust.html', {
             'form': form,
             'turn': patient_turn,
             'limit_time': limit_time.rules if limit_time else None,
@@ -396,7 +396,7 @@ def eoa_end_page(request, patientTurnId, uidb64, token):
 
         #TODO SMS to user for code peygiri
 
-        return render(request, 'web/electronic-services/oa-end.html', {
+        return render(request, 'web/electronic-services/doctor/oa-end.html', {
             'turn': patient_turn,
         })
     else:
