@@ -16,8 +16,19 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from hospital_auth.tokens import account_activation_phone_token
 
 
-# url: /electronic/appointment/categories/lab/
+# url: /electronic/appointment/lab/
 def eoa_lab_page(request):
-
     return render(request, 'web/electronic-services/lab/oa-home.html', {})
 
+
+# url: /electronic/appointment/lab/list/
+def eoa_lablist_page(request):
+    
+    lab_appointments = AppointmentTimeModel.objects.filter(
+        unit__category='paraclinic',
+        date__gt=timezone.now(),
+    ).all()
+
+    return render(request, 'web/electronic-services/lab/oa-lablist.html', {
+        'labs': lab_appointments,
+    })

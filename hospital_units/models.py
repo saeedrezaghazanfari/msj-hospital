@@ -15,15 +15,8 @@ from extentions.utils import (
 
 
 class UnitModel(models.Model):
-    CATEGORY_UNITS = (
-        ('medical', _('درمانی')), 
-        ('paraclinic', _('پاراکلینیک')), 
-        ('official', _('غیردرمانی')),
-    )
-    category = models.CharField(max_length=255, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     subunit = models.ForeignKey(to='SubUnitModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان بخش'))
     title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام'))
-    have_appointment = models.BooleanField(default=False, verbose_name=_('امکان نوبت دهی آنلاین دارد؟'))
     desc = models.TextField(verbose_name=_('متن'))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
@@ -40,10 +33,16 @@ class UnitModel(models.Model):
         verbose_name_plural = _('بخش ها')
 
     def __str__(self):
-        return f'{self.category} - {self.subunit.title}'
+        return f'{self.subunit.category} * {self.subunit.title} * {self.title}'
 
 
 class SubUnitModel(models.Model):
+    CATEGORY_UNITS = (
+        ('medical', _('درمانی')), 
+        ('paraclinic', _('پاراکلینیک')), 
+        ('official', _('غیردرمانی')),
+    )
+    category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = models.CharField(max_length=255, verbose_name=_('نام'))
 
     class Meta:
@@ -52,7 +51,7 @@ class SubUnitModel(models.Model):
         verbose_name_plural = _('عناوین بخش')
 
     def __str__(self):
-        return self.title
+        return f'{self.category} * {self.title}'
 
 
 class UnitMemberModel(models.Model):

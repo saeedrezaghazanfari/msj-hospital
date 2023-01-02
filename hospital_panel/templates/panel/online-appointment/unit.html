@@ -114,8 +114,8 @@
 
         {% for unit in units %}
         <div class="box">  
-            <div title="category">{{ unit.category }}</div>
-            <div title="subunit">{{ unit.subunit }}</div>
+            <div title="subunit">{{ unit.subunit.category }}</div>
+            <div title="subunit">{{ unit.subunit.title }}</div>
             <div title="title">{{ unit.title }}</div>
         </div>
         {% endfor %}

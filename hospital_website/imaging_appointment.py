@@ -16,8 +16,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from hospital_auth.tokens import account_activation_phone_token
 
 
-# url: /electronic/appointment/categories/imaging/
+# url: /electronic/appointment/imaging/
 def eoa_imaging_page(request):
-
+    
     return render(request, 'web/electronic-services/imaging/oa-home.html', {})
 

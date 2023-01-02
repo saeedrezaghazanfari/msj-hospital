@@ -14,14 +14,14 @@ from .models import (
 
 
 class UnitModel_Admin(admin.ModelAdmin):
-    list_display = ['category', 'subunit', 'title']
-    search_fields = ['category', 'subunit', 'title']
+    list_display = ['subunit', 'title']
+    search_fields = ['subunit', 'title']
     ordering = ['-id']
 
 
 class SubUnitModel_Admin(admin.ModelAdmin):
-    list_display = ['title']
-    search_fields = ['title']
+    list_display = ['category', 'title']
+    search_fields = ['category', 'title']
     ordering = ['-id']
 
 

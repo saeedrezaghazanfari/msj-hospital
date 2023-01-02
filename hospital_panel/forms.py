@@ -80,7 +80,16 @@ class UnitForm(forms.ModelForm):
 class SubUnitForm(forms.ModelForm):
     class Meta:
         model = SubUnitModel
-        fields = '__all__'
+        fields = ['category', 'title']
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title') 
+        category = self.cleaned_data.get('category') 
+        if SubUnitModel.objects.filter(category=category, title=title).exists():
+            raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
+        if SubUnitModel.objects.filter(title=title).exists():
+            raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
+        return title
 
 
 class LimitTurnTimeForm(forms.ModelForm):

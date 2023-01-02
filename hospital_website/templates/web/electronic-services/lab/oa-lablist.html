@@ -1,0 +1,22 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks jalali_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > lab > list</span></h1>
+
+    {% for time in lab_appointments %}
+    <div class="box">
+        <div>{{ time.unit.subunit }}</div>
+        <div>{{ time.unit.title }}</div>
+        <div>{{ time.doctor.get_full_name }}</div>
+        <div><a href="">show calendar</a></div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+

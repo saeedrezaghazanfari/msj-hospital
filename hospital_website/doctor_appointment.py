@@ -31,7 +31,7 @@ def eoa_categories_page(request):
     return render(request, 'web/electronic-services/oa-categories.html', {})
 
 
-# url: /electronic/appointment/categories/doctors/
+# url: /electronic/appointment/doctors/
 def eoa_doctors_page(request):
     doctors = AppointmentTimeModel.objects.filter(
                 unit__isnull=True,
@@ -59,7 +59,7 @@ def eoa_doctors_page(request):
     })
 
 
-# url: /electronic/appointment/<doctorID>/phone/
+# url: /electronic/appointment/doctors/<doctorID>/phone/
 def eoa_phone_page(request, doctorID):
 
     if not doctorID and not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
@@ -88,7 +88,7 @@ def eoa_phone_page(request, doctorID):
             uid = urlsafe_base64_encode(force_bytes(code.id)) 
             token = account_activation_phone_token.make_token(code)
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
-            return redirect(f'/{get_language()}/electronic/appointment/enter-sms-code/{doctor.id}/{uid}/{token}')
+            return redirect(f'/{get_language()}/electronic/appointment/doctors/enter-sms-code/{doctor.id}/{uid}/{token}')
     
     else:
         form = forms.PhoneForm()
@@ -98,7 +98,7 @@ def eoa_phone_page(request, doctorID):
     })
 
 
-# url: /electronic/appointment/enter-sms-code/<doctorID>/<uidb64>/<token>
+# url: /electronic/appointment/doctors/enter-sms-code/<doctorID>/<uidb64>/<token>
 def eoa_entercode_page(request, doctorID, uidb64, token):
 
     try:
@@ -128,11 +128,11 @@ def eoa_entercode_page(request, doctorID, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/{doctorID}/{uidb64}/{token}/calendar/') 
+                    return redirect(f'/electronic/appointment/doctors/{doctorID}/{uidb64}/{token}/calendar/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
-                    return redirect(f'/electronic/appointment/enter-sms-code/{doctorID}/{uidb64}/{token}') 
+                    return redirect(f'/electronic/appointment/doctors/enter-sms-code/{doctorID}/{uidb64}/{token}') 
         
         else:
             form = forms.EnterCodePhoneForm()
@@ -144,7 +144,7 @@ def eoa_entercode_page(request, doctorID, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<doctorID>/<uidb64>/<token>/calendar/
+# url: /electronic/appointment/doctors/<doctorID>/<uidb64>/<token>/calendar/
 def eoa_calendar_page(request, doctorID, uidb64, token):
 
     try:
@@ -161,6 +161,7 @@ def eoa_calendar_page(request, doctorID, uidb64, token):
         
         doctor = DoctorModel.objects.get(id=doctorID, is_active=True)
         times = AppointmentTimeModel.objects.filter(
+            unit__isnull=True,
             doctor=doctor,      #TODO serach for skill - degree
             date__gt=timezone.now(),
         ).order_by('-date').all()
@@ -193,7 +194,7 @@ def eoa_calendar_page(request, doctorID, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
+# url: /electronic/appointment/doctors/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
 def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
     
     try:
@@ -272,7 +273,7 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
 
                 form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
-                return redirect(f'/electronic/appointment/{turn.id}/{uidb64}/{token}/show-details/')
+                return redirect(f'/electronic/appointment/doctors/{turn.id}/{uidb64}/{token}/show-details/')
         
         else:
             form = forms.PatientForm(initial={
@@ -296,7 +297,7 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/show-details/
+# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/show-details/
 def eoa_showdetails_page(request, patientTurnId, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -320,7 +321,7 @@ def eoa_showdetails_page(request, patientTurnId, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/trust/
+# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/trust/
 def eoa_trust_page(request, patientTurnId, uidb64, token):
 
     try:
@@ -363,7 +364,7 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<patientTurnId>/<uidb64>/<token>/end/
+# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/end/
 def eoa_end_page(request, patientTurnId, uidb64, token):
     
     try:

@@ -171,6 +171,39 @@ def oa_unit_page(request):
 @online_appointment_required
 def oa_subunit_page(request):
 
+    paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویر برداری سی تی اسکن ', 'تصویربرداری رادیوگرافی ساده ', 'تصویر برداری رادیوگرافی تخصصی ', 'تصویربرداری ماموگرافی ', 'تصویر برداری سونوگرافی']
+    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'ccu', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU پزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
+    officials = ['مدیریت و ریاست', 'حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی تی', 'تاسیسات', 'لنژری', 'آشپزحانه', 'تجهیزات پزشگی', 'بهداشت حرفه ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
+
+    paraclinics_list = []
+    medicals_list = []
+    officials_list = []
+
+    for item in paraclinics:
+        if not SubUnitModel.objects.filter(category='paraclinic', title=item).exists():
+            paraclinics_list.append(
+                SubUnitModel(category='paraclinic', title=item)
+            )
+
+    for item in medicals:
+        if not SubUnitModel.objects.filter(category='medical', title=item).exists():
+            medicals_list.append(
+                SubUnitModel(category='medical', title=item)
+            )
+
+    for item in officials:
+        if not SubUnitModel.objects.filter(category='official', title=item).exists():
+            officials_list.append(
+                SubUnitModel(category='official', title=item)
+            )
+
+    if len(paraclinics_list) > 0:
+        SubUnitModel.objects.bulk_create(paraclinics_list)
+    if len(medicals_list) > 0:
+        SubUnitModel.objects.bulk_create(medicals_list)
+    if len(officials_list) > 0:
+        SubUnitModel.objects.bulk_create(officials_list)
+
     if request.method == 'POST':
         form = forms.SubUnitForm(request.POST or None)
 
@@ -319,7 +352,32 @@ def oa_price_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_time_page(request):
-    times = AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all()
+    
+    if request.GET.get('type') == 'doctors':
+        times = AppointmentTimeModel.objects.filter(
+            unit=None,
+            date__gt=timezone.now()
+        ).all()
+
+    if request.GET.get('type') == 'labs':
+        times = AppointmentTimeModel.objects.filter(
+            unit__subunit__category='paraclinic',
+            unit__subunit__title='آزمایشگاه',
+            date__gt=timezone.now()
+        ).all()
+
+    if request.GET.get('type') == 'imaging':
+        times = AppointmentTimeModel.objects.filter(
+            unit__subunit__category='paraclinic',
+            unit__subunit__title='تصویربرداری',
+            date__gt=timezone.now()
+        ).all()
+
+    else:
+        times = AppointmentTimeModel.objects.filter(
+            date__gt=timezone.now()
+        ).all()
+    
     return render(request, 'panel/online-appointment/time-appointment.html', {
         'times': times,
     })
@@ -342,6 +400,8 @@ def oa_time_edit_page(request, appointmentID):
 
             if form.cleaned_data.get('unit'):
                 appointment.unit = form.cleaned_data.get('unit')
+            else:
+                appointment.unit = None
             if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
                 appointment.insurances.clear()
                 for item in request.POST.getlist('insurances'):
