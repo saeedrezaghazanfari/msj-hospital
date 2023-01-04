@@ -9,17 +9,19 @@
 
     <h1>Online Appointment - <span style="color: red;">Home > Categories</span></h1>
 
-    <div class="box">
-        <a href="{% url 'website:el-oal-lab' %}">lab</a>
-    </div>
+    {% for unit in units %}
+        <div class="box">
+            <div>
+                {% if unit.unit.icon %}<img src="{{ unit.unit.icon.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}
+                {% if unit.category_slug %}
+                <a href="{% url 'website:oa-unit' unit.category_slug %}">{{ unit.subunit.title }}</a>
+                {% else %}
+                <a href="{% url 'website:oa-unit' 'doctors' %}">پزشکان</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 
-    <div class="box">
-        <a href="{% url 'website:el-oai-imaging' %}">imaging</a>
-    </div>
-
-    <div class="box">
-        <a href="{% url 'website:el-oad-doctors' %}">doctors</a>
-    </div>
 
 {% endblock %}
 

@@ -212,13 +212,8 @@ class AllAppointmentForm(forms.ModelForm):
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'date', 'time_from', 'time_to', 'capacity', 'tip', 'tip_sms']
+        fields = ['unit', 'time_from', 'time_to', 'capacity', 'tip', 'tip_sms']
 
-    def __init__(self, *args, **kwargs):
-        super(AllAppointmentForm, self).__init__(*args, **kwargs)
-        self.fields['date'] = JalaliDateField(label=_('تاریخ'), # date format is  "yyyy-mm-dd"
-            widget=AdminJalaliDateWidget
-        )
 
     def clean_time_to(self):
         time_from = self.cleaned_data.get('time_from')

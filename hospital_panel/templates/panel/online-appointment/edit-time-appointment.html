@@ -52,12 +52,6 @@
                 </select>
             </div>
 
-            <p>{{ form.date.label_tag }}</p>
-            {{ form.date }}
-            {% for msg in date.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-            
             <p>{{ form.time_from.label_tag }}</p>
             {{ form.time_from }}
             {% for msg in time_from.errors %}

@@ -20,8 +20,8 @@ class UnitModel_Admin(admin.ModelAdmin):
 
 
 class SubUnitModel_Admin(admin.ModelAdmin):
-    list_display = ['category', 'title']
-    search_fields = ['category', 'title']
+    list_display = ['slug', 'category', 'title']
+    search_fields = ['slug', 'category', 'title']
     ordering = ['-id']
 
 

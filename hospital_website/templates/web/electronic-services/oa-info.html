@@ -102,7 +102,7 @@
 
 
         <button type="submit">next</button>
-        <a href="{% url 'website:el-oad-calendar' appointment.doctor.id uidb64 token %}" type="button">previous</a>
+        <a href="{% url 'website:oa-calendar' unitSlug appointment.doctor.id uidb64 token %}" type="button">previous</a>
     </form>
 
 {% endblock %}

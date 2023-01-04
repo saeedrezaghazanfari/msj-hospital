@@ -149,7 +149,7 @@ def oa_degree_page(request):
 def oa_unit_page(request):
 
     if request.method == 'POST':
-        form = forms.UnitForm(request.POST or None)
+        form = forms.UnitForm(request.POST, request.FILES or None)
 
         if form.is_valid():
             form.save()
@@ -172,7 +172,7 @@ def oa_unit_page(request):
 def oa_subunit_page(request):
 
     paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویر برداری']
-    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'ccu', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU پزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
+    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'ccu', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU بزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
     officials = ['مدیریت و ریاست', 'حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی تی', 'تاسیسات', 'لنژری', 'آشپزحانه', 'تجهیزات پزشگی', 'بهداشت حرفه ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
 
     paraclinics_list = []
@@ -406,8 +406,6 @@ def oa_time_edit_page(request, appointmentID):
                 appointment.insurances.clear()
                 for item in request.POST.getlist('insurances'):
                     appointment.insurances.add(InsuranceModel.objects.get(title=item))
-            if form.cleaned_data.get('date'):
-                appointment.date = form.cleaned_data.get('date')
             if form.cleaned_data.get('time_from'):
                 appointment.time_from = form.cleaned_data.get('time_from')
             if form.cleaned_data.get('time_to'):

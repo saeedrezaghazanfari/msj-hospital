@@ -225,6 +225,12 @@ def units_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"units/{final_name}"
 
+# ######### for hospital units ICON ######### #
+def units_icon_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"units-icon/{final_name}"
+
 # ######### for insurance images ######### #
 def insurance_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)

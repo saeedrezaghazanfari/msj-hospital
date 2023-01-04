@@ -25,7 +25,7 @@
         <h1>Online Appointment - unit</h1>
 
         <div class="box" v-if="show_create_tips">
-            <form method="POST" novalidate>
+            <form method="POST" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <p>{{ form.category.label_tag }}</p>
@@ -107,6 +107,17 @@
                 <p style="color: red;">{{ msg }}</p>
                 {% endfor %}
 
+                <p>{{ form.have_2_box.label_tag }}</p>
+                {{ form.have_2_box }}
+                {% for msg in form.have_2_box.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+                
+                <p>{{ form.icon.label_tag }}</p>
+                {{ form.icon }}
+                {% for msg in form.icon.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
 
                 <button type="submit">create +</button>
             </form>

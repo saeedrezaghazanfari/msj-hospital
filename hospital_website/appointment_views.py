@@ -6,7 +6,7 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel
-from hospital_units.models import AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, OnlinePaymentModel
+from hospital_units.models import AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, SubUnitModel
 from hospital_auth.models import PatientModel
 from . import forms
 from .models import LoginCodePatientModel
@@ -28,40 +28,83 @@ def eoa_home_page(request):
 
 # url: /electronic/appointment/categories/
 def eoa_categories_page(request):
-    return render(request, 'web/electronic-services/oa-categories.html', {})
+
+    unit_list_index = []
+    unit_list = ['doctors']
+    times = AppointmentTimeModel.objects.filter(
+        unit__subunit__category='paraclinic',
+        date__gt=datetime.now(),
+        doctor__is_active=True
+    ).iterator()
+
+    for time in times:
+        if time.unit and not time.unit.subunit.title in unit_list_index:
+            unit_list_index.append(time.unit.subunit.title)
+            unit_list.append(time.unit)
+
+    return render(request, 'web/electronic-services/oa-categories.html', {
+        'units': unit_list
+    })
 
 
-# url: /electronic/appointment/doctors/
-def eoa_doctors_page(request):
-    doctors = AppointmentTimeModel.objects.filter(
-                unit__isnull=True,
-                date__gt=datetime.now(),
-                doctor__is_active=True
-            ).values(
-                'doctor__id', 
-                'doctor__medical_code', 
-                'doctor__user__first_name', 
-                'doctor__user__last_name', 
-                'doctor__skill_title__title', 
-                'doctor__degree__title', 
-            ).iterator()
-
+# url: /electronic/appointment/<unitSlug>/
+def eoa_unit_page(request, unitSlug):
+    
     list_medicalcode = []
     list_doctors = []
+    subunit = None
+
+    # doctors
+    if unitSlug == 'doctors':
+
+        doctors = AppointmentTimeModel.objects.filter(
+            unit__isnull=True,
+            date__gt=datetime.now(),
+            doctor__is_active=True
+        ).values(
+            'doctor__id',
+            'doctor__user__first_name', 
+            'doctor__user__last_name', 
+            'doctor__skill_title__title', 
+            'doctor__degree__title', 
+        ).iterator()
+
+    # no doctors
+    elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug).exists():
+
+        subunit = SubUnitModel.objects.get(slug=unitSlug)
+        doctors = AppointmentTimeModel.objects.filter(
+            unit__subunit=subunit,
+            date__gt=datetime.now(),
+            doctor__is_active=True
+        ).values(
+            'doctor__id',
+            'doctor__user__first_name', 
+            'doctor__user__last_name', 
+            'doctor__skill_title__title', 
+            'doctor__degree__title', 
+        ).iterator()
+
+    else:
+        return redirect('/404')
 
     for doctor in doctors:
         if not doctor['doctor__id'] in list_medicalcode:
             list_medicalcode.append(doctor['doctor__id'])
             list_doctors.append(doctor)
 
-    return render(request, 'web/electronic-services/doctor/oa-doctors.html', {
+    return render(request, 'web/electronic-services/oa-doctors.html', {
         'doctors': list_doctors,
+        'header': subunit.title if subunit else _('doctors'),
+        'unitSlug': unitSlug,
     })
 
 
-# url: /electronic/appointment/doctors/<doctorID>/phone/
-def eoa_phone_page(request, doctorID):
+# url: /electronic/appointment/<unitSlug>/<doctorID>/phone/
+def eoa_phone_page(request, unitSlug, doctorID):
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not doctorID and not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
         
@@ -88,18 +131,18 @@ def eoa_phone_page(request, doctorID):
             uid = urlsafe_base64_encode(force_bytes(code.id)) 
             token = account_activation_phone_token.make_token(code)
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
-            return redirect(f'/{get_language()}/electronic/appointment/doctors/enter-sms-code/{doctor.id}/{uid}/{token}')
+            return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/enter-sms-code/{doctor.id}/{uid}/{token}')
     
     else:
         form = forms.PhoneForm()
 
-    return render(request, 'web/electronic-services/doctor/oa-phone.html', {
+    return render(request, 'web/electronic-services/oa-phone.html', {
         'form': form,
     })
 
 
-# url: /electronic/appointment/doctors/enter-sms-code/<doctorID>/<uidb64>/<token>
-def eoa_entercode_page(request, doctorID, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/enter-sms-code/<doctorID>/<uidb64>/<token>
+def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -108,6 +151,8 @@ def eoa_entercode_page(request, doctorID, uidb64, token):
         code = None
         return redirect('/404')
     
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
 
@@ -128,24 +173,24 @@ def eoa_entercode_page(request, doctorID, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/doctors/{doctorID}/{uidb64}/{token}/calendar/') 
+                    return redirect(f'/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/calendar/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
-                    return redirect(f'/electronic/appointment/doctors/enter-sms-code/{doctorID}/{uidb64}/{token}') 
+                    return redirect(f'/electronic/appointment/{unitSlug}/enter-sms-code/{doctorID}/{uidb64}/{token}') 
         
         else:
             form = forms.EnterCodePhoneForm()
 
-        return render(request, 'web/electronic-services/doctor/oa-entercode.html', {
+        return render(request, 'web/electronic-services/oa-entercode.html', {
             'form': form
         })
     else:
         return redirect('/404')
 
 
-# url: /electronic/appointment/doctors/<doctorID>/<uidb64>/<token>/calendar/
-def eoa_calendar_page(request, doctorID, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<doctorID>/<uidb64>/<token>/calendar/
+def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -154,17 +199,30 @@ def eoa_calendar_page(request, doctorID, uidb64, token):
         code = None
         return redirect('/404')
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
         
         doctor = DoctorModel.objects.get(id=doctorID, is_active=True)
-        times = AppointmentTimeModel.objects.filter(
-            unit__isnull=True,
-            doctor=doctor,      #TODO serach for skill - degree
-            date__gt=timezone.now(),
-        ).order_by('-date').all()
+        times = None
+
+        if unitSlug == 'doctors':
+            times = AppointmentTimeModel.objects.filter(
+                unit__isnull=True,
+                doctor=doctor,      #TODO serach for skill - degree
+                date__gt=timezone.now(),
+            ).order_by('-date').all()
+
+        elif SubUnitModel.objects.filter(slug=unitSlug).exists():
+            times = AppointmentTimeModel.objects.filter(
+                unit__subunit__slug=unitSlug,
+                doctor=doctor,      #TODO serach for skill - degree
+                date__gt=timezone.now(),
+            ).order_by('-date').all()
+
 
         limit_time = 24
         if LimitTurnTimeModel.objects.exists():
@@ -183,19 +241,20 @@ def eoa_calendar_page(request, doctorID, uidb64, token):
                 if (date_time_obj - datetime.now()) > timedelta(hours=limit_time):
                     time.is_active = True
 
-        return render(request, 'web/electronic-services/doctor/oa-calendar.html', {
+        return render(request, 'web/electronic-services/oa-calendar.html', {
             'times': times,
             'doctor': doctor,
             'uidb64': uidb64,
             'token': token,
+            'unitSlug': unitSlug
         })
 
     else:
         return redirect('/404')
 
 
-# url: /electronic/appointment/doctors/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
-def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
+def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -204,6 +263,8 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
         code = None
         return redirect('/404')
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
         return redirect('/404')
     if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
@@ -273,7 +334,7 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
 
                 form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
-                return redirect(f'/electronic/appointment/doctors/{turn.id}/{uidb64}/{token}/show-details/')
+                return redirect(f'/electronic/appointment/{unitSlug}/{turn.id}/{uidb64}/{token}/show-details/')
         
         else:
             form = forms.PatientForm(initial={
@@ -284,21 +345,22 @@ def eoa_info_page(request, doctorID, appointmentID, uidb64, token):
                 'age': patient_exist.age if patient_exist else None,
             })
 
-        return render(request, 'web/electronic-services/doctor/oa-info.html', {
+        return render(request, 'web/electronic-services/oa-info.html', {
             'form': form,
             'have_folder': True if patient_exist else False,
             'appointment': appointment,
             'insurances': appointment.insurances.all(),
             'uidb64': uidb64,
             'token': token,
+            'unitSlug': unitSlug
         })
 
     else:
         return redirect('/404')
 
 
-# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/show-details/
-def eoa_showdetails_page(request, patientTurnId, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/
+def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid)
@@ -306,23 +368,26 @@ def eoa_showdetails_page(request, patientTurnId, uidb64, token):
         code = None
         return redirect('/404')
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
         return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
 
-        return render(request, 'web/electronic-services/doctor/oa-showdetails.html', {
+        return render(request, 'web/electronic-services/oa-showdetails.html', {
             'turn': patient_turn,
             'uidb64': uidb64,
             'token': token,
+            'unitSlug': unitSlug
         })
     else:
         return redirect('/404')
 
 
-# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/trust/
-def eoa_trust_page(request, patientTurnId, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/
+def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -331,6 +396,8 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
         code = None
         return redirect('/404')
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
         return redirect('/404')
 
@@ -352,7 +419,7 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
         else:
             form = forms.CheckRulesForm()
 
-        return render(request, 'web/electronic-services/doctor/oa-trust.html', {
+        return render(request, 'web/electronic-services/oa-trust.html', {
             'form': form,
             'turn': patient_turn,
             'limit_time': limit_time.rules if limit_time else None,
@@ -364,8 +431,8 @@ def eoa_trust_page(request, patientTurnId, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/doctors/<patientTurnId>/<uidb64>/<token>/end/
-def eoa_end_page(request, patientTurnId, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/end/
+def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -374,6 +441,8 @@ def eoa_end_page(request, patientTurnId, uidb64, token):
         code = None
         return redirect('/404')
 
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
         return redirect('/404')
 
@@ -397,7 +466,7 @@ def eoa_end_page(request, patientTurnId, uidb64, token):
 
         #TODO SMS to user for code peygiri
 
-        return render(request, 'web/electronic-services/doctor/oa-end.html', {
+        return render(request, 'web/electronic-services/oa-end.html', {
             'turn': patient_turn,
         })
     else:

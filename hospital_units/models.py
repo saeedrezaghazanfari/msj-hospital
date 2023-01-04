@@ -6,16 +6,18 @@ from hospital_auth.models import PatientModel
 from extentions.utils import (
     jalali_convertor,
     units_image_path, 
+    units_icon_image_path,
     get_experiment_code, 
     experiment_result_image_path,
     code_patient_turn,
     DAYS, TIMES,
     unit_member_image_path,
+    get_links_code,
 )
 
 
 class UnitModel(models.Model):
-    # id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     subunit = models.ForeignKey(to='SubUnitModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان بخش'))
     title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))
@@ -27,22 +29,30 @@ class UnitModel(models.Model):
     manager = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسیول'))
     manager_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره مسیول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
+    icon = models.ImageField(upload_to=units_icon_image_path, blank=True, null=True, verbose_name=_('آیکون بخش'))
+    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو مرحله ای است؟'))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('بخش')
         verbose_name_plural = _('بخش ها')
 
+    def category_slug(self):
+        return self.subunit.slug
+
     def __str__(self):
-        return f'{self.subunit.category} * {self.subunit.title} * {self.title}'
+        if self.title:
+            return f'{self.subunit.title} ({self.title})'
+        return f'{self.subunit.title}'
 
 
-class SubUnitModel(models.Model):
+class SubUnitModel(models.Model): #TODO
     CATEGORY_UNITS = (
         ('medical', _('درمانی')), 
         ('paraclinic', _('پاراکلینیک')), 
         ('official', _('غیردرمانی')),
     )
+    slug = models.SlugField(default=get_links_code, unique=True, verbose_name=_('نمایش در url'))
     category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = models.CharField(max_length=255, verbose_name=_('نام'))
 
@@ -52,7 +62,7 @@ class SubUnitModel(models.Model):
         verbose_name_plural = _('عناوین بخش')
 
     def __str__(self):
-        return f'{self.category} * {self.title}'
+        return f'{self.title}'
 
 
 class UnitMemberModel(models.Model):
@@ -123,7 +133,7 @@ class AppointmentTimeModel(models.Model):
     tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت دهی در پیامک'))
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
         verbose_name = _('زمان نوبتدهی')
         verbose_name_plural = _('زمان های نوبتدهی')
 
@@ -212,3 +222,4 @@ class LimitTurnTimeModel(models.Model):
 
     def __str__(self):
         return str(_('این جدول باید یک مقدار داشته باشد.'))
+
