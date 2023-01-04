@@ -14,7 +14,7 @@
         <div>{{ doctor.doctor__user__first_name }} {{ doctor.doctor__user__last_name }}</div>
         <div>{{ doctor.doctor__skill_title__title }}</div>
         <div>{{ doctor.doctor__degree__title }}</div>
-        <div><a href="{% url 'website:el-oa-phone' doctor.doctor__id %}">view</a></div>
+        <div><a href="{% url 'website:el-oad-phone' doctor.doctor__id %}">view</a></div>
     </div>
     {% endfor %}
 

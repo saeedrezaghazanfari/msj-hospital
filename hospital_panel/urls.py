@@ -48,7 +48,8 @@ urlpatterns = [
     path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     path('panel/online-appointment/time/', views_appointment.oa_time_page, name='appointment-time'),
     path('panel/online-appointment/time/<appointmentID>/edit/', views_appointment.oa_time_edit_page, name='appointment-timeedit'),
-    path('panel/online-appointment/time/create/', views_appointment.oa_time_create1_page, name='appointment-timep1'),
+    path('panel/online-appointment/time/create/', views_appointment.oa_time_create0_page, name='appointment-timep0'),
+    path('panel/online-appointment/time/create/<unitID>/', views_appointment.oa_time_create1_page, name='appointment-timep1'),
     path('panel/online-appointment/time/create/<unitID>/<doctorId>/', views_appointment.oa_time_create2_page, name='appointment-timep2'),
     path('panel/online-appointment/patient/', views_appointment.oa_patient_page, name='appointment-patient'),
 ]

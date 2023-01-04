@@ -15,6 +15,7 @@ from extentions.utils import (
 
 
 class UnitModel(models.Model):
+    # id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     subunit = models.ForeignKey(to='SubUnitModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان بخش'))
     title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام'))
     desc = models.TextField(verbose_name=_('متن'))

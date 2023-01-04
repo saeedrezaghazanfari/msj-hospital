@@ -171,7 +171,7 @@ def oa_unit_page(request):
 @online_appointment_required
 def oa_subunit_page(request):
 
-    paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویر برداری سی تی اسکن ', 'تصویربرداری رادیوگرافی ساده ', 'تصویر برداری رادیوگرافی تخصصی ', 'تصویربرداری ماموگرافی ', 'تصویر برداری سونوگرافی']
+    paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویر برداری']
     medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'ccu', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU پزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
     officials = ['مدیریت و ریاست', 'حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی تی', 'تاسیسات', 'لنژری', 'آشپزحانه', 'تجهیزات پزشگی', 'بهداشت حرفه ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
 
@@ -427,7 +427,6 @@ def oa_time_edit_page(request, appointmentID):
     else:
         form = forms.AllAppointmentForm(instance=appointment)
 
-
     times = AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all()
     return render(request, 'panel/online-appointment/edit-time-appointment.html', {
         'times': times,
@@ -440,27 +439,56 @@ def oa_time_edit_page(request, appointmentID):
 # url: /panel/online-appointment/time/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
-def oa_time_create1_page(request):
+def oa_time_create0_page(request):
 
     if request.method == 'POST':
-        form = forms.Time1AppointmentForm(request.POST or None)
+        form = forms.Time0AppointmentForm(request.POST or None)
 
         if form.is_valid():
-            
             unit = form.cleaned_data.get('unit')
-            doctor = form.cleaned_data.get('doctor')
-            if not doctor:
-                return redirect('/404')
+            form = forms.Time0AppointmentForm()
 
-            form = forms.Time1AppointmentForm()
             if unit:
-                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(unit.id, doctor.id)))
-            return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(0, doctor.id)))
+                return HttpResponseRedirect(reverse('panel:appointment-timep1', args=(unit.id,)))
+            return HttpResponseRedirect(reverse('panel:appointment-timep1', args=('none',)))
     else:
-        form = forms.Time1AppointmentForm()
+        form = forms.Time0AppointmentForm()
+
+    return render(request, 'panel/online-appointment/time-p0-appointment.html', {
+        'form': form,
+    })
+
+
+# url: /panel/online-appointment/time/create/<unitID>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_time_create1_page(request, unitID):
+
+    if unitID != 'none' and UnitModel.objects.filter(id=unitID).exists():
+        unit = UnitModel.objects.get(id=unitID)
+    elif unitID == 'none':
+        unit = None
+    elif not unitID:
+        return redirect('/404')
+
+    if request.method == 'POST':
+        
+        if request.POST.get('doctor'):
+
+            doctor = None
+            if DoctorModel.objects.filter(id=request.POST.get('doctor')).exists():
+                doctor = DoctorModel.objects.get(id=request.POST.get('doctor'))
+
+            if doctor and unit:
+                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(unit.id, doctor.id)))
+            elif doctor and not unit:
+                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=('none', doctor.id)))            
+            else:
+                messages.error(request, _('باید حداقل یکی از فیلد ها مقدار داشته باشد.'))
+                return redirect('panel:appointment-timep1')
 
     return render(request, 'panel/online-appointment/time-p1-appointment.html', {
-        'form': form,
+        'doctors': DoctorModel.objects.filter(is_active=True).all(), 
     })
 
 
@@ -469,16 +497,16 @@ def oa_time_create1_page(request):
 @online_appointment_required
 def oa_time_create2_page(request, unitID, doctorId):
 
-    if unitID != 0 and UnitModel.objects.filter(id=unitID).exists():
+    if unitID != 'none' and UnitModel.objects.filter(id=unitID).exists():
         unit = UnitModel.objects.get(id=unitID)
-    elif unitID == 0:
+    elif unitID == 'none':
         unit = None
     elif not unitID:
         return redirect('/404')
 
-    if doctorId and DoctorModel.objects.filter(id=doctorId).exists():
-        doctor = DoctorModel.objects.get(id=doctorId)
-    else:
+    if doctorId != 'none' and DoctorModel.objects.filter(is_active=True, id=doctorId).exists():
+        doctor = DoctorModel.objects.get(is_active=True, id=doctorId)
+    elif doctorId == 'none' or not doctorId:
         return redirect('/404')
 
     if request.method == 'POST':

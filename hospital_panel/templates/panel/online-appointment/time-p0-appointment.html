@@ -30,22 +30,21 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
 
-        <h1>Online Appointment - create time appointment - p1</h1>
+        <h1>Online Appointment - create time appointment - p0</h1>
 
         <form method="POST" novalidate>
             {% csrf_token %}
             <div class="box">
 
                 <div>
-                    <select name="doctor">
-                        {% for doctor in doctors %}
-                        <option value="{{ doctor.id }}">{{ doctor }}</option>
-                        {% endfor %}
-                    </select>
+                    <p>{{ form.unit.label_tag }}</p>
+                    {{ form.unit }}
+                    {% for msg in form.unit.errors %}
+                    <p style="color: red;">{{ msg }}</p>
+                    {% endfor %}
                 </div>
 
             </div>
-
             <button type="submit">Continue</button>
         </form>
 

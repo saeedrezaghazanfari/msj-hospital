@@ -149,10 +149,16 @@ class AppointmentTipForm(forms.ModelForm):
         return title
 
 
+class Time0AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentTimeModel
+        fields = ['unit']
+
+
 class Time1AppointmentForm(forms.ModelForm):
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'doctor']
+        fields = ['doctor']
 
 
 class Time2AppointmentForm(forms.ModelForm):

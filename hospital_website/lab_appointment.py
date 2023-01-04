@@ -25,9 +25,11 @@ def eoa_lab_page(request):
 def eoa_lablist_page(request):
     
     lab_appointments = AppointmentTimeModel.objects.filter(
-        unit__category='paraclinic',
+        unit__subunit__category='paraclinic',
         date__gt=timezone.now(),
     ).all()
+
+    print(lab_appointments)
 
     return render(request, 'web/electronic-services/lab/oa-lablist.html', {
         'labs': lab_appointments,
