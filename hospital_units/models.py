@@ -30,7 +30,6 @@ class UnitModel(models.Model):
     manager_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره مسیول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     icon = models.ImageField(upload_to=units_icon_image_path, blank=True, null=True, verbose_name=_('آیکون بخش'))
-    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو مرحله ای است؟'))
 
     class Meta:
         ordering = ['-id']
@@ -55,6 +54,7 @@ class SubUnitModel(models.Model): #TODO
     slug = models.SlugField(default=get_links_code, unique=True, verbose_name=_('نمایش در url'))
     category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = models.CharField(max_length=255, verbose_name=_('نام'))
+    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو مرحله ای است؟'))
 
     class Meta:
         ordering = ['-id']

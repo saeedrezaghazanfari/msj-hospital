@@ -1,0 +1,21 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > Router</span></h1>
+
+    <div class="box">
+        <a href="{% url 'website:oa-unit' unitSlug %}">you know type of lab</a>
+    </div>
+
+    <div class="box">
+        <a href="{% url 'website:oa-electropres' unitSlug %}">you NOT know type of lab - you have electronic prescription</a>
+    </div>
+
+{% endblock %}
+

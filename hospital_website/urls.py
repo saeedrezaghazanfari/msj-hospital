@@ -14,6 +14,8 @@ urlpatterns = [
     # electronic services: online appointment
     path('electronic/appointment/', appointment_views.eoa_home_page, name='oa-home'),
     path('electronic/appointment/categories/', appointment_views.eoa_categories_page, name='oa-categories'),
+    path('electronic/appointment/<unitSlug>/router/', appointment_views.eoa_router_page, name='oa-router'),
+    path('electronic/appointment/<unitSlug>/e-prescription/', appointment_views.eoa_electronic_pres_page, name='oa-electropres'),
     path('electronic/appointment/<unitSlug>/', appointment_views.eoa_unit_page, name='oa-unit'),
     path('electronic/appointment/<unitSlug>/<doctorID>/phone/', appointment_views.eoa_phone_page, name='oa-phone'),
     path('electronic/appointment/<unitSlug>/enter-sms-code/<doctorID>/<uidb64>/<token>', appointment_views.eoa_entercode_page, name='oa-entercode'),

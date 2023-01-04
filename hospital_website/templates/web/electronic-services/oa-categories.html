@@ -12,11 +12,11 @@
     {% for unit in units %}
         <div class="box">
             <div>
-                {% if unit.unit.icon %}<img src="{{ unit.unit.icon.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}
+                {% if unit.icon %}<img src="{{ unit.icon.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}
                 {% if unit.category_slug %}
-                <a href="{% url 'website:oa-unit' unit.category_slug %}">{{ unit.subunit.title }}</a>
+                <a href="{% url 'website:oa-router' unit.category_slug %}">{{ unit.subunit.title }}</a>
                 {% else %}
-                <a href="{% url 'website:oa-unit' 'doctors' %}">پزشکان</a>
+                <a href="{% url 'website:oa-router' 'doctors' %}">پزشکان</a>
                 {% endif %}
             </div>
         </div>

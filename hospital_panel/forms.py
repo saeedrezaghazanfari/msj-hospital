@@ -80,7 +80,7 @@ class UnitForm(forms.ModelForm):
 class SubUnitForm(forms.ModelForm):
     class Meta:
         model = SubUnitModel
-        fields = ['category', 'title']
+        fields = ['category', 'title', 'have_2_box']
 
     def clean_title(self):
         title = self.cleaned_data.get('title') 

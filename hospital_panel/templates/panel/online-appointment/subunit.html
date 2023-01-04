@@ -41,6 +41,15 @@
                 <p style="color: red;">{{ msg }}</p>
                 {% endfor %}
 
+                <p>{{ form.have_2_box.label_tag }}</p>
+                {{ form.have_2_box }}
+                {% for msg in form.have_2_box.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+                
+                <br>
+                <br>
+
                 <button type="submit">create +</button>
             </form>
         </div>
@@ -49,6 +58,7 @@
         <div class="box">  
             <div>{{ subunit.category }}</div>
             <div>{{ subunit.title }}</div>
+            <div>{{ subunit.have_2_box }}</div>
         </div>
         {% endfor %}
 

@@ -47,6 +47,38 @@ def eoa_categories_page(request):
     })
 
 
+# url: /electronic/appointment/<unitSlug>/router/
+def eoa_router_page(request, unitSlug):
+    
+    if unitSlug == 'doctors':
+        return redirect(f'/electronic/appointment/{unitSlug}/')
+    elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug, have_2_box=True).exists():
+        return render(request, 'web/electronic-services/oa-router.html', {
+            'unitSlug': unitSlug,
+        })
+    return redirect('/404')
+
+
+# url: /electronic/appointment/<unitSlug>/e-prescription/
+def eoa_electronic_pres_page(request, unitSlug):
+
+    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
+
+    # patient = PatientModel.objects.create(
+    #     username=form.cleaned_data.get('username'),
+    #     first_name=form.cleaned_data.get('first_name'),
+    #     last_name=form.cleaned_data.get('last_name'),
+    #     phone=code.phone,
+    #     gender=form.cleaned_data.get('gender'),
+    #     age=form.cleaned_data.get('age'),
+    # )
+    
+    return render(request, 'web/electronic-services/oa-router.html', {
+        'unitSlug': unitSlug,
+    })
+
+
 # url: /electronic/appointment/<unitSlug>/
 def eoa_unit_page(request, unitSlug):
     
@@ -73,6 +105,7 @@ def eoa_unit_page(request, unitSlug):
     elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug).exists():
 
         subunit = SubUnitModel.objects.get(slug=unitSlug)
+        
         doctors = AppointmentTimeModel.objects.filter(
             unit__subunit=subunit,
             date__gt=datetime.now(),
@@ -88,10 +121,11 @@ def eoa_unit_page(request, unitSlug):
     else:
         return redirect('/404')
 
-    for doctor in doctors:
-        if not doctor['doctor__id'] in list_medicalcode:
-            list_medicalcode.append(doctor['doctor__id'])
-            list_doctors.append(doctor)
+    if doctors:
+        for doctor in doctors:
+            if not doctor['doctor__id'] in list_medicalcode:
+                list_medicalcode.append(doctor['doctor__id'])
+                list_doctors.append(doctor)
 
     return render(request, 'web/electronic-services/oa-doctors.html', {
         'doctors': list_doctors,
