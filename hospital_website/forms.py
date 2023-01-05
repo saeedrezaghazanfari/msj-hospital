@@ -5,7 +5,7 @@ from hospital_auth.models import User, PatientModel
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel
-from hospital_units.models import AppointmentTimeModel, PatientTurnModel
+from hospital_units.models import AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from .models import LoginCodePatientModel
@@ -158,6 +158,77 @@ class PatientForm(forms.ModelForm):
         return last_name
 
 
+class ElectronicPrescriptionForm(forms.ModelForm):
+    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+
+    username = forms.CharField(widget=forms.TextInput())
+    first_name = forms.CharField(widget=forms.TextInput())
+    last_name = forms.CharField(widget=forms.TextInput())
+    gender = forms.CharField(widget=forms.Select(choices=GENDER_USER))
+    age = forms.IntegerField(widget=forms.NumberInput())
+
+    class Meta:
+        model = ElectronicPrescriptionModel
+        fields = [
+            'experiment_code', 'username', 
+            'first_name', 'last_name', 'gender', 'age'
+        ]
+
+    def clean_experiment_code(self):
+        experiment_code = self.cleaned_data.get('experiment_code')
+        if not experiment_code:
+            raise forms.ValidationError(_('کدرهگیری خود را وارد کنید'))
+        if not experiment_code.isdigit():
+            raise forms.ValidationError(_('کدرهگیری باید شامل اعداد باشد'))
+        if not is_national_code(experiment_code):
+            raise forms.ValidationError(_('الگوی کدرهگیری شما صحیح نیست'))
+        return experiment_code
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username:
+            raise forms.ValidationError(_('کدملی خود را وارد کنید'))
+        if not username.isdigit():
+            raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
+        if not is_national_code(username):
+            raise forms.ValidationError(_('الگوی کدملی شما صحیح نیست'))
+        return username
+
+    def clean_age(self):
+        age = self.cleaned_data.get('age')
+        if not age:
+            raise forms.ValidationError(_('سن خود را وارد کنید'))
+        if age < 0:
+            raise forms.ValidationError(_('سن نباید منفی باشد.'))
+        if age > 120:
+            raise forms.ValidationError(_('عدد سن معتبر نیست.'))
+        return age
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if not first_name:
+            raise forms.ValidationError(_('نام خود را وارد کنید'))
+        if len(first_name) <= 1:
+            raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
+        if len(first_name) >= 20:
+            raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
+        for i in first_name:
+            if i.isdigit():
+                raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
+        return first_name
+    
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if not last_name:
+            raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
+        if len(last_name) <= 1:
+            raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
+        if len(last_name) >= 25:
+            raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
+        for i in last_name:
+            if i.isdigit():
+                raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
+        return last_name
 
 class CheckRulesForm(forms.Form):
     check_rules = forms.BooleanField(required=False, widget=forms.widgets.CheckboxInput())

@@ -1,0 +1,61 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Home > ePrescription</span></h1>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="box">
+            
+            {{ form.experiment_code.label_tag }}
+            {{ form.experiment_code }}
+            {% for msg in form.experiment_code.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% for msg in form.username.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% for msg in form.first_name.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% for msg in form.last_name.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+            {% for msg in form.gender.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.age.label_tag }}
+            {{ form.age }}
+            {% for msg in form.age.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+
+
+        </div>
+
+        <button type="submit">enter and get sms code</button>
+    </form>
+
+{% endblock %}
+

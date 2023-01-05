@@ -6,7 +6,9 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel
-from hospital_units.models import AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, SubUnitModel
+from hospital_units.models import (
+    AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, SubUnitModel, ElectronicPrescriptionModel
+)
 from hospital_auth.models import PatientModel
 from . import forms
 from .models import LoginCodePatientModel
@@ -59,25 +61,182 @@ def eoa_router_page(request, unitSlug):
     return redirect('/404')
 
 
-# url: /electronic/appointment/<unitSlug>/e-prescription/
-def eoa_electronic_pres_page(request, unitSlug):
+# url: /electronic/appointment/e-prescription/<unitSlug>/phone/
+def eoa_phone_epresc_page(request, unitSlug):
 
-    if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
+    if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
         return redirect('/404')
 
-    # patient = PatientModel.objects.create(
-    #     username=form.cleaned_data.get('username'),
-    #     first_name=form.cleaned_data.get('first_name'),
-    #     last_name=form.cleaned_data.get('last_name'),
-    #     phone=code.phone,
-    #     gender=form.cleaned_data.get('gender'),
-    #     age=form.cleaned_data.get('age'),
-    # )
+    if request.method == 'POST':
+        form = forms.PhoneForm(request.POST or None)
+
+        if form.is_valid():
+            phone = form.cleaned_data.get('phone')
+
+            code = LoginCodePatientModel.objects.create(
+				phone=phone,
+			)
+
+            print('code: ', code.code) #TODO delete here
+
+			# + send sms: send code.code #TODO
+			# a = requests.get(
+			# 	f'https://api.kavenegar.com/v1/{settings.KAVENEGAR_APIKEY}/verify/lookup.json?receptor={phone}&token={code.code}&template=signin'
+			# )
+			# - sending sms
+
+            uid = urlsafe_base64_encode(force_bytes(code.id)) 
+            token = account_activation_phone_token.make_token(code)
+            messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
+            return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/enter-sms-code/{uid}/{token}')
     
-    return render(request, 'web/electronic-services/oa-router.html', {
-        'unitSlug': unitSlug,
+    else:
+        form = forms.PhoneForm()
+
+    return render(request, 'web/electronic-services/oa-phone.html', {
+        'form': form,
     })
 
+
+# url: /electronic/appointment/e-prescription/<unitSlug>/enter-sms-code/<uidb64>/<token>/
+def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+    
+    if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+        
+        if request.method == 'POST':
+            form = forms.EnterCodePhoneForm(request.POST or None)
+
+            if form.is_valid():
+                code_enter = LoginCodePatientModel.objects.filter(
+                    code=int(form.cleaned_data.get('code')), 
+                    expire_date__gt=timezone.now(),
+                    is_use=False
+                ).first()
+                
+                if code_enter:
+                    code_enter.is_use = True
+                    code_enter.save()
+
+                    form = forms.EnterCodePhoneForm()
+                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/e-prescription/') 
+
+                else:
+                    messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
+                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/enter-sms-code/{uidb64}/{token}') 
+        
+        else:
+            form = forms.EnterCodePhoneForm()
+
+        return render(request, 'web/electronic-services/oa-entercode.html', {
+            'form': form
+        })
+    else:
+        return redirect('/404')
+
+
+# url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/form/
+def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
+
+    if account_activation_phone_token.check_token(code, token):
+
+        patient_exist = None
+        if PatientModel.objects.filter(phone=code.phone).exists():
+            patient_exist = PatientModel.objects.get(phone=code.phone)
+
+        if request.method == 'POST':
+            form = forms.ElectronicPrescriptionForm(request.POST or None)
+
+            if form.is_valid():
+
+                username = form.cleaned_data.get('username')
+                patient = ''
+
+                if PatientModel.objects.filter(username=username).exists():
+                    patient = PatientModel.objects.get(username=username)
+                    patient.first_name = form.cleaned_data.get('first_name')
+                    patient.last_name = form.cleaned_data.get('last_name')
+                    patient.phone = code.phone
+                    patient.gender = form.cleaned_data.get('gender')
+                    patient.age = form.cleaned_data.get('age')
+                    patient.created = timezone.now()
+                    patient.save()
+                else:
+                    patient = PatientModel.objects.create(
+                        username=form.cleaned_data.get('username'),
+                        first_name=form.cleaned_data.get('first_name'),
+                        last_name=form.cleaned_data.get('last_name'),
+                        phone=code.phone,
+                        gender=form.cleaned_data.get('gender'),
+                        age=form.cleaned_data.get('age'),
+                    )
+
+                if ElectronicPrescriptionModel.objects.filter(patient=patient, is_send=False).exists():
+                    messages.info(request, _('شما یک درخواست بررسی نشده از قبل دارید.'))
+                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/')
+
+                ElectronicPrescriptionModel.objects.create(
+                    patient=patient,
+                    experiment_code=form.cleaned_data.get('experiment_code'),
+                )
+
+                form = forms.ElectronicPrescriptionForm()
+                messages.success(request, _('درخواست شما با موفقیت ارسال شد. بعد از بررسی درخواست شما یک پیامک ارسال خواهد شد. ممنون از صبر و شکیبایی شما.'))
+                return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/show-details/')
+        
+        else:
+            form = forms.ElectronicPrescriptionForm(initial={
+                'username': patient_exist.username if patient_exist else None,
+                'first_name': patient_exist.first_name if patient_exist else None,
+                'last_name': patient_exist.last_name if patient_exist else None,
+                'gender': patient_exist.gender if patient_exist else None,
+                'age': patient_exist.age if patient_exist else None,
+            })
+
+        return render(request, 'web/electronic-services/oa-prescription.html', {
+            'form': form,
+            'have_folder': True if patient_exist else False,
+            'uidb64': uidb64,
+            'token': token,
+            'unitSlug': unitSlug
+        })
+    return redirect('/404')
+
+
+# url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/show-details/
+def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        code = LoginCodePatientModel.objects.get(id=uid)
+    except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
+        code = None
+        return redirect('/404')
+
+    if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
+        return redirect('/404')
+    if account_activation_phone_token.check_token(code, token):
+        return render(request, 'web/electronic-services/oa-showdetails-pres.html')
+    return redirect('/403')
+    
 
 # url: /electronic/appointment/<unitSlug>/
 def eoa_unit_page(request, unitSlug):
@@ -175,7 +334,7 @@ def eoa_phone_page(request, unitSlug, doctorID):
     })
 
 
-# url: /electronic/appointment/<unitSlug>/enter-sms-code/<doctorID>/<uidb64>/<token>
+# url: /electronic/appointment/<unitSlug>/enter-sms-code/<doctorID>/<uidb64>/<token>/
 def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
 
     try:

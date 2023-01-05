@@ -195,6 +195,25 @@ class PatientTurnModel(models.Model):
         return f'{self.patient.first_name} {self.patient.last_name}'
 
 
+class ElectronicPrescriptionModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+    code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
+    patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
+    unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('بخش'))
+    experiment_code = models.CharField(max_length=30, verbose_name=_('کدرهگیری(کدملی)'))
+    selected_date = models.DateTimeField(blank=True, null=True, verbose_name=_('زمان و تاریخ نوبت'))
+    created = models.DateTimeField(auto_now_add=True)
+    is_send = models.BooleanField(default=False, verbose_name=_('آیا این نوبت ثبت شده است؟'))
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name = _('نوبت نسخه ی الکترونیکی بیمار')
+        verbose_name_plural = _('نوبت نسخه ی الکترونیکی بیماران')
+
+    def __str__(self):
+        return f'{self.patient.first_name} {self.patient.last_name}'
+
+
 class OnlinePaymentModel(models.Model):
     payer = models.ForeignKey(to=PatientTurnModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پرداخت کننده'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ پرداختی'))

@@ -49,6 +49,9 @@ class PatientModel(models.Model):
     age = models.PositiveIntegerField(verbose_name=_('سن'))
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.get_full_name()
+
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
@@ -78,6 +81,9 @@ class IPDModel(models.Model):
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
+
+    def __str__(self):
+        return self.get_full_name()
 
     class Meta:
         ordering = ['-id']

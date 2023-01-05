@@ -8,6 +8,7 @@ from .models import (
     AppointmentTipModel,
     AppointmentTipSMSModel,
     PatientTurnModel,
+    ElectronicPrescriptionModel,
     OnlinePaymentModel,
     LimitTurnTimeModel
 )
@@ -52,6 +53,11 @@ class PatientTurnModel_Admin(admin.ModelAdmin):
     search_fields = ['code', 'appointment']
     ordering = ['-id']
 
+class ElectronicPrescriptionModel_Admin(admin.ModelAdmin):
+    list_display = ['code', 'patient', 'unit', 'is_send']
+    search_fields = ['code', 'patient', 'unit', 'is_send']
+    ordering = ['-id']
+
 class OnlinePaymentModel_Admin(admin.ModelAdmin):
     list_display = ['payer', 'price', 'is_success', 'code']
     search_fields = ['payer', 'price', 'code']
@@ -71,5 +77,6 @@ admin.site.register(AppointmentTimeModel, AppointmentTimeModel_Admin)
 admin.site.register(AppointmentTipModel, AppointmentTipModel_Admin)
 admin.site.register(AppointmentTipSMSModel, AppointmentTipModel_Admin)
 admin.site.register(PatientTurnModel, PatientTurnModel_Admin)
+admin.site.register(ElectronicPrescriptionModel, ElectronicPrescriptionModel_Admin)
 admin.site.register(OnlinePaymentModel, OnlinePaymentModel_Admin)
 admin.site.register(LimitTurnTimeModel, LimitTurnTimeModel_Admin)
