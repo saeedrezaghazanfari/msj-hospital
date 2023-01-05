@@ -236,7 +236,7 @@ def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
     if account_activation_phone_token.check_token(code, token):
         return render(request, 'web/electronic-services/oa-showdetails-pres.html')
     return redirect('/403')
-    
+
 
 # url: /electronic/appointment/<unitSlug>/
 def eoa_unit_page(request, unitSlug):
@@ -664,3 +664,25 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
         })
     else:
         return redirect('/404')
+
+
+# url: /electronic/appointment/e-turn/
+def eoa_followturn_page(request):
+
+    turn = None
+
+    if request.method == 'POST':
+        form = forms.FollowUpTurnForm(request.POST or None)
+
+        if form.is_valid():
+            if not PatientTurnModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
+                return redirect('/404')
+            turn = PatientTurnModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
+    else:
+        form = forms.FollowUpTurnForm()
+
+    return render(request, 'web/electronic-services/oa-followup-turn.html', {
+        'form': form,
+        'turn': turn
+    })
+

@@ -12,6 +12,8 @@ urlpatterns = [
     path('', views.home_page, name='home'),
 
     # electronic services: online appointment
+    path('electronic/appointment/e-turn/', appointment_views.eoa_followturn_page, name='oa-followupturn'),
+    
     path('electronic/appointment/', appointment_views.eoa_home_page, name='oa-home'),
     path('electronic/appointment/categories/', appointment_views.eoa_categories_page, name='oa-categories'),
     path('electronic/appointment/<unitSlug>/router/', appointment_views.eoa_router_page, name='oa-router'),
@@ -29,8 +31,5 @@ urlpatterns = [
     path('electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/', appointment_views.eoa_showdetails_page, name='oa-showdetails'),
     path('electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/', appointment_views.eoa_trust_page, name='oa-trust'),
     path('electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/end/', appointment_views.eoa_end_page, name='oa-end'),
-
-    # path('electronic/appointment/response/enter/', appointment_views.eoa_response_enter_page, name='oa-response-enter'),
-    # path('electronic/appointment/response/', appointment_views.eoa_response_page, name='oa-response'),
 
 ]

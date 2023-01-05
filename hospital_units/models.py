@@ -197,8 +197,8 @@ class PatientTurnModel(models.Model):
 
 class ElectronicPrescriptionModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-    code = models.CharField(max_length=15, default=code_patient_turn, verbose_name=_('کد پیگیری نوبت'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
+    doctor = models.ForeignKey(to='hospital_doctor.DoctorModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('پزشک'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('بخش'))
     experiment_code = models.CharField(max_length=30, verbose_name=_('کدرهگیری(کدملی)'))
     selected_date = models.DateTimeField(blank=True, null=True, verbose_name=_('زمان و تاریخ نوبت'))

@@ -1,0 +1,52 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Online Appointment - <span style="color: red;">Follow up turn</span></h1>
+
+    {% if not turn %}
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        {{ form.phone.label_tag }}
+        {{ form.phone }}
+        {% for msg in form.phone.errors %}
+        <p style="color: red;">{{ msg }}</p>
+        {% endfor %}
+
+        {{ form.code.label_tag }}
+        {{ form.code }}
+        {% for msg in form.code.errors %}
+        <p style="color: red;">{{ msg }}</p>
+        {% endfor %}
+
+        <button type="submit">click</button>
+    </form>
+
+    {% else %}
+    <div class="box">
+
+        <div title="code">{{ turn.code }}</div>
+        <div title="patient">{{ turn.patient }}</div>
+        <div title="appointment">{{ turn.appointment }}</div>
+        <div title="insurance">{{ turn.insurance }}</div>
+        <div title="price">{{ turn.price }}</div>
+        <div title="prescription_code">{{ turn.prescription_code }}</div>
+        <div title="experiment_code">{{ turn.experiment_code }}</div>
+        <div title="turn">{{ turn.turn }}</div>
+        <div title="is_paid">{{ turn.is_paid }}</div>
+        <div title="is_canceled">{{ turn.is_canceled }}</div>
+        <div title="is_returned">{{ turn.is_returned }}</div>
+        <div title="created">{{ turn.created }}</div>
+    </div>
+
+    {% endif %}
+
+{% endblock %}
+

@@ -54,8 +54,8 @@ class PatientTurnModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 class ElectronicPrescriptionModel_Admin(admin.ModelAdmin):
-    list_display = ['code', 'patient', 'unit', 'is_send']
-    search_fields = ['code', 'patient', 'unit', 'is_send']
+    list_display = ['patient', 'unit', 'is_send']
+    search_fields = ['patient', 'unit', 'is_send']
     ordering = ['-id']
 
 class OnlinePaymentModel_Admin(admin.ModelAdmin):

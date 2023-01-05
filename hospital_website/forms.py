@@ -238,3 +238,31 @@ class CheckRulesForm(forms.Form):
         if not check_rules:
             raise forms.ValidationError(_('تنها در صورتی میتوانید نوبت اینترنتی رزرو کنید که با قوانین و مقررات موافق باشید.'))
         return check_rules
+
+
+class FollowUpTurnForm(forms.Form):
+    phone = forms.CharField(widget=forms.TextInput())
+    code = forms.CharField(widget=forms.TextInput())
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if not phone or phone == 0 or len(phone) == 0:
+            raise forms.ValidationError(_('تلفن همراه خود را وارد کنید.'))
+        if not is_phone(phone):
+            raise forms.ValidationError(_('الگوی تلفن همراه شما صحیح نیست.'))
+        if not PatientTurnModel.objects.filter(patient__phone=phone).exists():
+            raise forms.ValidationError(_('شماره ی همراه شما در لیست وجود ندارد.'))
+        return phone
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        if not code:
+            raise forms.ValidationError(_('کدپیگیری خود را وارد کنید.'))
+        if not code.isdigit():
+            raise forms.ValidationError(_('کدپیگیری باید شامل اعداد باشد.'))
+        if not is_national_code(code):
+            raise forms.ValidationError(_('الگوی کدپیگیری شما صحیح نیست.'))
+        if not PatientTurnModel.objects.filter(code=code).exists():
+            raise forms.ValidationError(_('کدپیگیری شما در لیست وجود ندارد.'))
+        return code
+
