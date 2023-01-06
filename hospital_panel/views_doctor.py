@@ -25,6 +25,8 @@ def doctor_vacation_page(request):
         if form.is_valid():
             
             doctor.doctorvacationmodel_set.create(
+                from_date=form.cleaned_data.get('from_date'),
+                to_date=form.cleaned_data.get('to_date'),
                 from_time=form.cleaned_data.get('from_time'),
                 to_time=form.cleaned_data.get('to_time'),
                 is_accepted=False,

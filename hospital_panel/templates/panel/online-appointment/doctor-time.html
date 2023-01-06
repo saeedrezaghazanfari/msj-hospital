@@ -56,9 +56,10 @@
         <h1>vacation</h1>
         {% for vacation in vacations %}
         <div class="box"> 
+            <div title="from_date">{{ vacation.from_date }}</div>
+            <div title="to_date">{{ vacation.to_date }}</div>
             <div title="from_time">{{ vacation.from_time }}</div>
             <div title="to_time">{{ vacation.to_time }}</div>
-            <div title="is_accepted">{{ vacation.is_accepted }}</div>
             {% if not vacation.is_accepted %}<div><a href="?vid={{ vacation.id }}">accept?</a></div>{% endif %}
         </div>
         {% endfor %}

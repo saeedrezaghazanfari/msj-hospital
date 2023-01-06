@@ -26,6 +26,18 @@
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             
+            <p>{{ form.from_date.label_tag }}</p>
+            {{ form.from_date }}
+            {% for msg in form.from_date.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+            
+            <p>{{ form.to_date.label_tag }}</p>
+            {{ form.to_date }}
+            {% for msg in form.to_date.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
             <p>{{ form.from_time.label_tag }}</p>
             {{ form.from_time }}
             {% for msg in form.from_time.errors %}
@@ -38,16 +50,16 @@
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 
-
             <button type="submit">send</button>
         </form>
 
 
         {% for vacation in vacations %}
         <div class="box">
+            <div title="from_date">{{ vacation.from_date|to_jalali }}</div>
+            <div title="to_date">{{ vacation.to_date|to_jalali }}</div>
             <div title="from_time">{{ vacation.from_time }}</div>
             <div title="to_time">{{ vacation.to_time }}</div>
-            <div title="is_accepted">{{ vacation.is_accepted }}</div>
         </div>
         {% endfor %}
 

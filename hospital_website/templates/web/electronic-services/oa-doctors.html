@@ -9,6 +9,13 @@
 
     <h1>Online Appointment - <span style="color: red;">Home > {{ header }}</span></h1>
 
+    <ul>
+        <li><a href="?type=all">همه</a></li>
+        <li><a href="?type=expert">متخصص</a></li>
+        <li><a href="?type=specialty">فوق تخصص</a></li>
+        <li><a href="?type=fellowship">فلوشیپ</a></li>
+    </ul>
+
     {% for doctor in doctors %}
     <div class="box">
         <div>{{ doctor.doctor__user__first_name }} {{ doctor.doctor__user__last_name }}</div>

@@ -258,27 +258,41 @@ class DoctorForm(forms.ModelForm):
 class DoctorVacationForm(forms.ModelForm):
     class Meta:
         model = DoctorVacationModel
-        fields = ['from_time', 'to_time'] 
+        fields = ['from_date', 'to_date', 'from_time', 'to_time'] 
 
     def __init__(self, *args, **kwargs):
         super(DoctorVacationForm, self).__init__(*args, **kwargs)
-        self.fields['from_time'] = JalaliDateField(label=_('از تاریخ'), # date format is  "yyyy-mm-dd"
+        self.fields['from_date'] = JalaliDateField(label=_('از تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
-        self.fields['to_time'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
+        self.fields['to_date'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
 
-    def clean_to_time(self):
+    def clean_to_date(self):
         from django.utils import timezone
+        from_date = self.cleaned_data.get('from_date')
+        to_date = self.cleaned_data.get('to_date')
+        if from_date > to_date:
+            raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
+        # if from_date < timezone.now().date:    #TODO
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        # if to_date < timezone.now().date:
+        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        return to_date
+
+    def clean_to_time(self):
         from_time = self.cleaned_data.get('from_time')
         to_time = self.cleaned_data.get('to_time')
-        if from_time > to_time:
-            raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
-        # if from_time < timezone.now().date:    #TODO
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
-        # if to_time < timezone.now().date:
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+
+        from_time_str = from_time.split(':')
+        to_time_str = to_time.split(':')
+
+        if int(to_time_str[0]) < int(from_time_str[0]):
+            raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
+        if int(to_time_str[0]) == int(from_time_str[0]):
+            if int(to_time_str[1]) <= int(from_time_str[1]):
+                raise forms.ValidationError(_('ساعت مقصد نباید از ساعت مبدا کوچکتر باشد.'))
         return to_time
 
 

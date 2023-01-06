@@ -249,34 +249,120 @@ def eoa_unit_page(request, unitSlug):
     # doctors
     if unitSlug == 'doctors':
 
-        doctors = AppointmentTimeModel.objects.filter(
-            unit__isnull=True,
-            date__gt=datetime.now(),
-            doctor__is_active=True
-        ).values(
-            'doctor__id',
-            'doctor__user__first_name', 
-            'doctor__user__last_name', 
-            'doctor__skill_title__title', 
-            'doctor__degree__title', 
-        ).iterator()
+        if request.GET.get('type') == 'all' or not request.GET.get('type'):
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__isnull=True,
+                date__gt=datetime.now(),
+                doctor__is_active=True
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+
+        elif request.GET.get('type') == 'expert':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__isnull=True,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='متخصص'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+
+        elif request.GET.get('type') == 'specialty':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__isnull=True,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='فوق تخصص'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+        
+        elif request.GET.get('type') == 'fellowship':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__isnull=True,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='فلوشیپ'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
 
     # no doctors
     elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug).exists():
 
         subunit = SubUnitModel.objects.get(slug=unitSlug)
-        
-        doctors = AppointmentTimeModel.objects.filter(
-            unit__subunit=subunit,
-            date__gt=datetime.now(),
-            doctor__is_active=True
-        ).values(
-            'doctor__id',
-            'doctor__user__first_name', 
-            'doctor__user__last_name', 
-            'doctor__skill_title__title', 
-            'doctor__degree__title', 
-        ).iterator()
+
+        if request.GET.get('type') == 'all' or not request.GET.get('type'):
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__subunit=subunit,
+                date__gt=datetime.now(),
+                doctor__is_active=True
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+
+        elif request.GET.get('type') == 'expert':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__subunit=subunit,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='متخصص'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+
+        elif request.GET.get('type') == 'specialty':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__subunit=subunit,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='فوق تخصص'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
+
+        elif request.GET.get('type') == 'fellowship':
+            doctors = AppointmentTimeModel.objects.filter(
+                unit__subunit=subunit,
+                date__gt=datetime.now(),
+                doctor__is_active=True,
+                doctor__degree__title='فلوشیپ'
+            ).values(
+                'doctor__id',
+                'doctor__user__first_name', 
+                'doctor__user__last_name', 
+                'doctor__skill_title__title', 
+                'doctor__degree__title', 
+            ).iterator()
 
     else:
         return redirect('/404')

@@ -78,8 +78,10 @@ class DoctorWorkTimeModel(models.Model):
 
 class DoctorVacationModel(models.Model):
     doctor = models.ForeignKey(DoctorModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
-    from_time = models.DateField(default=timezone.now, verbose_name=_('از تاریخ'))
-    to_time = models.DateField(default=timezone.now, verbose_name=_('تا تاریخ'))
+    from_date = models.DateField(default=timezone.now, verbose_name=_('از تاریخ'))
+    to_date = models.DateField(default=timezone.now, verbose_name=_('تا تاریخ'))
+    from_time = models.CharField(max_length=15, default='9:00', choices=TIMES, verbose_name=_('از ساعت'))
+    to_time = models.CharField(max_length=15, default='12:00', choices=TIMES, verbose_name=_('تا ساعت'))
     is_accepted = models.BooleanField(default=False, verbose_name=_('آیا تایید شده است؟'))
 
     class Meta:
