@@ -103,7 +103,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -120,6 +120,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
                 code_enter = LoginCodePatientModel.objects.filter(
                     code=int(form.cleaned_data.get('code')), 
                     expire_date__gt=timezone.now(),
+                    expire_mission__gt=timezone.now(),
                     is_use=False
                 ).first()
                 
@@ -149,7 +150,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -226,7 +227,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -310,7 +311,7 @@ def eoa_phone_page(request, unitSlug, doctorID):
             phone = form.cleaned_data.get('phone')
 
             code = LoginCodePatientModel.objects.create(
-				phone=phone,
+				phone=phone
 			)
 
             print('code: ', code.code) #TODO delete here
@@ -339,7 +340,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -358,6 +359,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
                 code_enter = LoginCodePatientModel.objects.filter(
                     code=int(form.cleaned_data.get('code')), 
                     expire_date__gt=timezone.now(),
+                    expire_mission__gt=timezone.now(),
                     is_use=False
                 ).first()
                 
@@ -387,7 +389,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -451,7 +453,7 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -556,7 +558,7 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -584,7 +586,7 @@ def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -629,7 +631,7 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
