@@ -38,6 +38,7 @@ urlpatterns = [
     path('panel/online-appointment/limit-time/', views_appointment.oa_limit_time_page, name='appointment-limittime'),
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
     path('panel/online-appointment/tips/', views_appointment.oa_tips_page, name='appointment-tips'),
+    path('panel/online-appointment/tips/sms/', views_appointment.oa_smstips_page, name='appointment-smstips'),
     path('panel/online-appointment/skill/', views_appointment.oa_skilltitle_page, name='appointment-skill'),
     path('panel/online-appointment/degree/', views_appointment.oa_degree_page, name='appointment-degree'),
     path('panel/online-appointment/unit/', views_appointment.oa_unit_page, name='appointment-unit'),
@@ -52,4 +53,6 @@ urlpatterns = [
     path('panel/online-appointment/time/create/<unitID>/', views_appointment.oa_time_create1_page, name='appointment-timep1'),
     path('panel/online-appointment/time/create/<unitID>/<doctorId>/', views_appointment.oa_time_create2_page, name='appointment-timep2'),
     path('panel/online-appointment/patient/', views_appointment.oa_patient_page, name='appointment-patient'),
+    path('panel/online-appointment/e-turn/', views_appointment.oa_eturn_list_page, name='appointment-eturnlist'),
+    path('panel/online-appointment/e-turn/<eturnID>/', views_appointment.oa_eturn_check_page, name='appointment-eturncheck'),
 ]

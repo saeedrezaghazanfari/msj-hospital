@@ -1,0 +1,59 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - sms tips</h1>
+
+        <div class="box" v-if="show_create_tips">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <p>{{ form.title.label_tag }}</p>
+                {{ form.title }}
+                {% for msg in form.title.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+
+                <p>{{ form.tips.label_tag }}</p>
+                {{ form.tips }}
+                {% for msg in form.tips.errors %}
+                <p style="color: red;">{{ msg }}</p>
+                {% endfor %}
+
+                <button type="submit">create +</button>
+            </form>
+        </div>
+
+        {% for tip in tips %}
+        <div class="box" v-for="tip in tips_arr" :key="tip.title">  
+            <div>{{ tip.title }}</div>
+            <div>{{ tip.tips }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

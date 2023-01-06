@@ -1,0 +1,41 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;" id="application">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+
+        <h1>Online Appointment - eturns</h1>
+
+        {% for turn in turns %}
+        <div class="box">
+            <div title="patient">{{ turn.patient }}</div>
+            <div title="doctor">{{ turn.doctor }}</div>
+            <div title="unit">{{ turn.unit }}</div>
+            <div title="experiment_code">{{ turn.experiment_code }}</div>
+            <div title="created">{{ turn.created }}</div>
+            <div><a href="{% url 'panel:appointment-eturncheck' turn.id %}">check</a></div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

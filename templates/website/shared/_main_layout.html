@@ -30,6 +30,15 @@
 </head>
 <body>
 
+    {% if messages %}
+    <ul>
+        {% for msg in messages %}
+        <li style="color: red;"><p>{{ msg }}</p></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
     {% include 'website/shared/_header.html' %}
 
     {% block content %}{% endblock %}

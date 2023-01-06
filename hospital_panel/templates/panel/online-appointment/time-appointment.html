@@ -12,15 +12,6 @@
 
 <div style="display: flex; direction: rtl !important;" id="application">
 
-    {% if messages %}
-    <ul>
-        {% for msg in messages %}
-        <li style="color: red;"><p>{{ msg }}</p></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-
     <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
         <ul>
             
@@ -37,6 +28,7 @@
         <p>tip: these are times from now on</p>
 
         <p><a href="?type=all">all</a></p>
+        <p><a href="?type=clinics">list of clinics</a></p>
         <p><a href="?type=doctors">list of doctors</a></p>
         <p><a href="?type=labs">list of labs</a></p>
         <p><a href="?type=imaging">list of imaging</a></p>

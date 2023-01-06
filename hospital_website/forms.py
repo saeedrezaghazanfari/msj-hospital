@@ -1,7 +1,6 @@
 import re
 from django.utils import timezone
 from django import forms
-from hospital_auth.models import User, PatientModel
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel

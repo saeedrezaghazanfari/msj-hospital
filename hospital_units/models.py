@@ -201,7 +201,8 @@ class ElectronicPrescriptionModel(models.Model):
     doctor = models.ForeignKey(to='hospital_doctor.DoctorModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('پزشک'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('بخش'))
     experiment_code = models.CharField(max_length=30, verbose_name=_('کدرهگیری(کدملی)'))
-    selected_date = models.DateTimeField(blank=True, null=True, verbose_name=_('زمان و تاریخ نوبت'))
+    selected_date = models.DateField(blank=True, null=True, verbose_name=_('تاریخ نوبت'))
+    selected_time = models.CharField(max_length=15, blank=True, null=True, choices=TIMES, verbose_name=_('ساعت'))
     created = models.DateTimeField(auto_now_add=True)
     is_send = models.BooleanField(default=False, verbose_name=_('آیا این نوبت ثبت شده است؟'))
 

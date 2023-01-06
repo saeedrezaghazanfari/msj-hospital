@@ -9,7 +9,7 @@ from django.contrib import messages
 from hospital_doctor.models import TitleSkillModel
 from hospital_units.models import (
     UnitModel, LimitTurnTimeModel, AppointmentTimeModel, 
-    PatientTurnModel, AppointmentTipModel, SubUnitModel
+    PatientTurnModel, AppointmentTipModel, SubUnitModel, ElectronicPrescriptionModel, AppointmentTipSMSModel
 )
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
@@ -97,6 +97,29 @@ def oa_tips_page(request):
     })
 
 
+# url: /panel/online-appointment/tips/sms/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_smstips_page(request):
+
+    if request.method == 'POST':
+        form = forms.AppointmentTipSMSForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            form = forms.AppointmentTipSMSForm()
+            messages.success(request, _('نکته ی نوبت دهی پیامکی مورد نظر با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-smstips')
+
+    else:
+        form = forms.AppointmentTipSMSForm()
+
+    return render(request, 'panel/online-appointment/sms-tips.html', {
+        'form': form,
+        'tips': AppointmentTipSMSModel.objects.all()
+    })
+
+
 # url: /panel/online-appointment/skill/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
@@ -181,9 +204,14 @@ def oa_subunit_page(request):
 
     for item in paraclinics:
         if not SubUnitModel.objects.filter(category='paraclinic', title=item).exists():
-            paraclinics_list.append(
-                SubUnitModel(category='paraclinic', title=item)
-            )
+            if item == 'آزمایشگاه' or item == 'تصویر برداری':
+                paraclinics_list.append(
+                    SubUnitModel(category='paraclinic', title=item, have_2_box=True)
+                )
+            else:
+                paraclinics_list.append(
+                    SubUnitModel(category='paraclinic', title=item)
+                )
 
     for item in medicals:
         if not SubUnitModel.objects.filter(category='medical', title=item).exists():
@@ -247,7 +275,9 @@ def oa_doctorcreate_page(request):
         form = forms.DoctorForm(request.POST or None)
 
         if form.is_valid():
-            ...
+            form.save()
+            messages.success(request, _('پزشک با موفقیت اضافه شد.'))
+            return redirect('panel:appointment-doctorlist')
 
     else:
         form = forms.DoctorForm()
@@ -362,7 +392,13 @@ def oa_time_page(request):
     if request.GET.get('type') == 'labs':
         times = AppointmentTimeModel.objects.filter(
             unit__subunit__category='paraclinic',
-            unit__subunit__title='آزمایشگاه',
+            unit__subunit__title__iexact='آزمایشگاه',
+            date__gt=timezone.now()
+        ).all()
+
+    if request.GET.get('type') == 'clinics':
+        times = AppointmentTimeModel.objects.filter(
+            unit__subunit__category='medical',
             date__gt=timezone.now()
         ).all()
 
@@ -373,7 +409,7 @@ def oa_time_page(request):
             date__gt=timezone.now()
         ).all()
 
-    else:
+    elif not request.GET.get('type') or request.GET.get('type') == 'all':
         times = AppointmentTimeModel.objects.filter(
             date__gt=timezone.now()
         ).all()
@@ -590,4 +626,53 @@ def oa_patient_page(request):
 
     return render(request, 'panel/online-appointment/patient.html', {
         'patients': patients, 
+    })
+
+
+# url: /panel/online-appointment/e-turn/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_eturn_list_page(request):
+
+    turns = ElectronicPrescriptionModel.objects.filter(is_send=False).all()
+    return render(request, 'panel/online-appointment/eturns.html', {
+        'turns': turns, 
+    })
+
+
+# url: /panel/online-appointment/e-turn/<eturnID>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_eturn_check_page(request, eturnID):
+
+    if eturnID and ElectronicPrescriptionModel.objects.filter(id=eturnID).exists():
+        turn = ElectronicPrescriptionModel.objects.get(id=eturnID)
+
+    if request.method == 'POST':
+        form = forms.ElectronicPrescriptionForm(request.POST or None)
+
+        if form.is_valid():
+            
+            if not form.cleaned_data.get('doctor') or not form.cleaned_data.get('unit'):
+                messages.error(request, _('باید تمامی فیلدها مقدار داشته باشند.'))
+                return redirect(f'/panel/online-appointment/e-turn/{eturnID}/')
+
+            turn.doctor = form.cleaned_data.get('doctor')
+            turn.unit = form.cleaned_data.get('unit')
+            turn.selected_date = form.cleaned_data.get('selected_date')
+            turn.selected_time = form.cleaned_data.get('selected_time')
+            turn.is_send = True
+            turn.save()
+
+            # TODO  send sms to patient
+
+            messages.success(request, _('...'))
+            return redirect('panel:appointment-eturnlist')
+    
+    else:
+        form = forms.ElectronicPrescriptionForm()
+
+    return render(request, 'panel/online-appointment/eturns-check.html', {
+        'form': form,
+        'turn': turn
     })

@@ -12,7 +12,7 @@ urlpatterns = [
     path('', views.home_page, name='home'),
 
     # electronic services: online appointment
-    path('electronic/appointment/e-turn/', appointment_views.eoa_followturn_page, name='oa-followupturn'),
+    path('electronic/appointment/turn/', appointment_views.eoa_followturn_page, name='oa-followupturn'),
     
     path('electronic/appointment/', appointment_views.eoa_home_page, name='oa-home'),
     path('electronic/appointment/categories/', appointment_views.eoa_categories_page, name='oa-categories'),

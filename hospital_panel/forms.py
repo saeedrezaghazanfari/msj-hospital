@@ -3,7 +3,9 @@ from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
 from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel, DoctorWorkTimeModel
-from hospital_units.models import UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, SubUnitModel
+from hospital_units.models import (
+    UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel
+)
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -149,6 +151,20 @@ class AppointmentTipForm(forms.ModelForm):
         return title
 
 
+class AppointmentTipSMSForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentTipSMSModel
+        fields = ['title', 'tips']
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) >= 90:
+            raise forms.ValidationError(_('مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد.'))
+        if AppointmentTipModel.objects.filter(title=title).exists():
+            raise forms.ValidationError(_('شما قبلا یک مقدار شبیه به این داده ثبت کرده اید.'))
+        return title
+
+
 class Time0AppointmentForm(forms.ModelForm):
     class Meta:
         model = AppointmentTimeModel
@@ -263,9 +279,21 @@ class DoctorVacationForm(forms.ModelForm):
         return to_time
 
 
-
 class DoctorWorkForm(forms.ModelForm):
     class Meta:
         model = DoctorWorkTimeModel
         fields = ['day_from', 'day_to', 'time_from', 'time_to'] 
 
+
+class ElectronicPrescriptionForm(forms.ModelForm):
+    selected_date = forms.DateField(widget=forms.DateInput())
+
+    class Meta:
+        model = ElectronicPrescriptionModel
+        fields = ['doctor', 'unit', 'selected_date', 'selected_time'] 
+
+    def __init__(self, *args, **kwargs):
+        super(ElectronicPrescriptionForm, self).__init__(*args, **kwargs)
+        self.fields['selected_date'] = JalaliDateField(label=_('تاریخ حضور'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
