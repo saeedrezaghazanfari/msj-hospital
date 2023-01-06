@@ -8,12 +8,13 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from hospital_doctor.models import TitleSkillModel
 from hospital_units.models import (
-    UnitModel, LimitTurnTimeModel, AppointmentTimeModel, 
-    PatientTurnModel, AppointmentTipModel, SubUnitModel, ElectronicPrescriptionModel, AppointmentTipSMSModel
+    UnitModel, LimitTurnTimeModel, AppointmentTimeModel, PatientTurnModel, 
+    AppointmentTipModel, SubUnitModel, ElectronicPrescriptionModel, AppointmentTipSMSModel
 )
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
 from extentions.utils import date_range_list
+from jalali_date import date2jalali
 from .decorators import online_appointment_required
 from . import forms
 
@@ -666,7 +667,25 @@ def oa_eturn_check_page(request, eturnID):
 
             # TODO  send sms to patient
 
-            messages.success(request, _('...'))
+            pg = 'آقای'
+            dg = 'آقای'
+            jalali_selected_date = date2jalali(turn.selected_date).strftime('%y/%m/%d')
+
+            
+            if turn.patient.gender == 'female':
+                pg = 'خانم'
+            if turn.doctor.user.gender == 'female':
+                dg = 'خانم'
+
+            msg = f"""
+            جناب {pg} {turn.patient.get_full_name()}، به اطلاع می‌رساند که نوبت شما جهت معاینه توسط
+             جناب {dg} دکتر {turn.doctor.user.get_full_name()} {turn.doctor.degree} {turn.doctor.skill_title.title}، تاریخ {jalali_selected_date} ساعت {turn.selected_time} در محل
+             بیمارستان موسی‌ابن‌جعفر، {turn.unit.address} می‌باشد. لطفا 15 دقیقه قبل از ساعت مذکور در 
+            محل پذیرش بیمارستان حضور داشته باشید، در غیراینصورت به منزله انصراف خواهد بود. با تشکر
+            """
+            print(msg)
+
+            messages.success(request, _('.....'))
             return redirect('panel:appointment-eturnlist')
     
     else:

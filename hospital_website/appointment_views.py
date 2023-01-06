@@ -128,7 +128,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/e-prescription/') 
+                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
