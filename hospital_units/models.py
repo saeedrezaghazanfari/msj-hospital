@@ -90,24 +90,14 @@ class UnitMemberModel(models.Model):
 
 
 class ExprimentResultModel(models.Model):
-    TYPE_EX = (
-        ('experiment', _('آزمایش')), 
-        ('ctscan', _('تصویربرداری (سی تی اسکن)')),
-        ('radiography_simple', _('تصویربرداری (رادیوگرافی ساده)')),
-        ('radiography_special', _('تصویربرداری (رادیوگرافی تخصصی)')),
-        ('mamography', _('تصویربرداری (ماموگرافی)')),
-        ('sonography', _('تصویربرداری (سونوگرافی)')),
-    )
-    type = models.CharField(max_length=50, choices=TYPE_EX, verbose_name=_('نوع نتیجه'))
     code = models.CharField(max_length=20, unique=True, default=get_experiment_code, verbose_name=_('کد پیگیری'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
-    insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, null=True, verbose_name=_('بیمه'))
-    is_show_send_sms = models.BooleanField(default=False, verbose_name=_('بعد از ذخیره کردن آیا نمایش داده شود و پیامک به کاربر ارسال شود؟'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان آزمایش'))
-    result = models.CharField(max_length=255, verbose_name=_('جواب آزمایش'))
-    image = models.ImageField(upload_to=experiment_result_image_path, verbose_name=_('تصویر آزمایش'))
-    date = models.DateTimeField(default=timezone.now, verbose_name=_('زمان ثبت نتیجه'))
+    result = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('جواب آزمایش'))
+    image = models.ImageField(upload_to=experiment_result_image_path, blank=True, null=True, verbose_name=_('تصویر آزمایش'))
+    date = models.DateField(blank=True, null=True, verbose_name=_('زمان ثبت نتیجه'))
+    is_sent_sms = models.BooleanField(default=False, verbose_name=_('بعد از ذخیره کردن آیا نمایش داده شود و پیامک به کاربر ارسال شود؟'))
 
     class Meta:
         ordering = ['-id']

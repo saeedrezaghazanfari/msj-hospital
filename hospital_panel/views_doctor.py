@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -5,6 +6,7 @@ from django.urls import reverse_lazy
 from hospital_doctor.models import DoctorModel
 from django.contrib import messages
 from hospital_setting.models import InsuranceModel
+from hospital_units.models import PatientTurnModel
 from .decorators import online_doctor_required
 # from .mixins import DoctorRequired
 from . import forms
@@ -94,4 +96,21 @@ def doctor_insurances_page(request):
     return render(request, 'panel/doctor/insurances.html', {
         'insurances': InsuranceModel.objects.all(),
         'doctor': doctor
+    })
+
+
+# url: /panel/doctor/patients/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_doctor_required
+def doctor_patients_page(request):
+
+    patients = PatientTurnModel.objects.filter(
+        is_paid=True,
+        is_canceled=False,
+        appointment__doctor=DoctorModel.objects.get(user=request.user),
+        appointment__date__gt=timezone.now()
+    ).all()
+
+    return render(request, 'panel/doctor/patients.html', {
+        'patients': patients
     })

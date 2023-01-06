@@ -259,8 +259,6 @@ class FollowUpTurnForm(forms.Form):
             raise forms.ValidationError(_('کدپیگیری خود را وارد کنید.'))
         if not code.isdigit():
             raise forms.ValidationError(_('کدپیگیری باید شامل اعداد باشد.'))
-        if not is_national_code(code):
-            raise forms.ValidationError(_('الگوی کدپیگیری شما صحیح نیست.'))
         if not PatientTurnModel.objects.filter(code=code).exists():
             raise forms.ValidationError(_('کدپیگیری شما در لیست وجود ندارد.'))
         return code

@@ -1,0 +1,102 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+        <h1>list of experiment</h1>
+
+        <h2>create</h2>
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <p>{{ form.selected_time.label_tag }}</p>
+            {{ form.selected_time }}
+            {% for msg in form.selected_time.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.patient.label_tag }}</p>
+            {{ form.patient }}
+            {% for msg in form.patient.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.unit.label_tag }}</p>
+            {{ form.unit }}
+            {% for msg in form.unit.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.title.label_tag }}</p>
+            {{ form.title }}
+            {% for msg in form.title.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.result.label_tag }}</p>
+            {{ form.result }}
+            {% for msg in form.result.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.image.label_tag }}</p>
+            {{ form.image }}
+            {% for msg in form.image.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.date.label_tag }}</p>
+            {{ form.date }}
+            {% for msg in form.date.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+            <p>{{ form.is_sent_sms.label_tag }}</p>
+            {{ form.is_sent_sms }}
+            {% for msg in form.is_sent_sms.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
+
+            <button type="submit">create</button>
+        </form>
+
+        <h2>list</h2>
+        {% for result in results %}
+        <div class="box">
+            <div title="type">{{ result.type }}</div>
+            <div title="code">{{ result.code }}</div>
+            <div title="patient">{{ result.patient }}</div>
+            <div title="unit">{{ result.unit }}</div>
+            <div title="insurance">{{ result.insurance }}</div>
+            <div title="is_show_send_sms">{{ result.is_show_send_sms }}</div>
+            <div title="title">{{ result.title }}</div>
+            <div title="result">{{ result.result }}</div>
+            {% if result.image %}<div title="image"><a href="{{ result.image.url }}">img</a></div>{% endif %}
+            <div title="date">{{ result.date }}</div>
+            <div title="sent+sms">{{ result.is_sent_sms }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

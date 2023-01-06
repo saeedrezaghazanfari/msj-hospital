@@ -2,9 +2,12 @@ from django import forms
 from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
-from hospital_doctor.models import DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel, DoctorWorkTimeModel
+from hospital_doctor.models import (
+    DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel, DoctorWorkTimeModel
+)
 from hospital_units.models import (
-    UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel
+    UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, 
+    AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
@@ -295,5 +298,19 @@ class ElectronicPrescriptionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ElectronicPrescriptionForm, self).__init__(*args, **kwargs)
         self.fields['selected_date'] = JalaliDateField(label=_('تاریخ حضور'), # date format is  "yyyy-mm-dd"
+            widget=AdminJalaliDateWidget
+        )
+
+
+class ExprimentResultForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput())
+
+    class Meta:
+        model = ExprimentResultModel
+        fields = ['patient', 'unit', 'title', 'result', 'image', 'date', 'is_sent_sms']
+
+    def __init__(self, *args, **kwargs):
+        super(ExprimentResultForm, self).__init__(*args, **kwargs)
+        self.fields['date'] = JalaliDateField(label=_('تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )

@@ -32,8 +32,8 @@ class UnitMemberModel_Admin(admin.ModelAdmin):
 
 
 class ExprimentResultModel_Admin(admin.ModelAdmin):
-    list_display = ['code', 'type', 'patient', 'unit']
-    search_fields = ['code', 'type', 'patient', 'unit']
+    list_display = ['code', 'patient', 'unit']
+    search_fields = ['code', 'patient', 'unit']
     ordering = ['-id']
 
 

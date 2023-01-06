@@ -666,7 +666,7 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/e-turn/
+# url: /electronic/appointment/turn/
 def eoa_followturn_page(request):
 
     turn = None

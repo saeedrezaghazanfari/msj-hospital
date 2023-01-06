@@ -1,0 +1,40 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks jalali_tags %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+
+        <h1>doctor panel - patients</h1>
+
+        {% for patient in patients %}
+        <div class="box">
+            <div title="patient">{{ patient.patient }}</div>
+            <div title="price">{{ patient.price }}</div>
+            <div title="prescription_code">{{ patient.prescription_code }}</div>
+            <div title="experiment_code">{{ patient.experiment_code }}</div>
+            <div title="turn">{{ patient.turn }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

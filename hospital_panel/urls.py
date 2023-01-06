@@ -1,40 +1,44 @@
 from django.urls import path
-from . import views, views_appointment, views_doctor
+from . import (
+    views, views_appointment, views_doctor, views_experiment
+)
 
 
 app_name = 'panel'
 urlpatterns = [
     
     # Real pathes
-    path('panel', views.home_page, name='home'),
-    path('panel/edit-info', views.edit_data, name='editdata'),
+    path('panel/', views.home_page, name='home'),
+    path('panel/edit-info/', views.edit_data, name='editdata'),
 
 
     # doctor management
-    path('panel/doctor', views.doctor_page, name='doctor'),
+    path('panel/doctor/', views.doctor_page, name='doctor'),
     path('panel/doctor/vacation/', views_doctor.doctor_vacation_page, name='doctor-vacation'),
     path('panel/doctor/work/', views_doctor.doctor_work_page, name='doctor-work'),
     path('panel/doctor/insurances/', views_doctor.doctor_insurances_page, name='doctor-insurances'),
+    path('panel/doctor/patients/', views_doctor.doctor_patients_page, name='doctor-patients'),
 
 
     # blog management
-    path('panel/blog', views.blog_page, name='blog'),
+    path('panel/blog/', views.blog_page, name='blog'),
 
 
     # news management
-    path('panel/news', views.news_page, name='news'),
+    path('panel/news/', views.news_page, name='news'),
 
 
     # note management
-    path('panel/notes', views.notes_page, name='notes'),
+    path('panel/notes/', views.notes_page, name='notes'),
 
 
     # experiment management
-    path('panel/experiment', views.experiment_page, name='experiment'),
+    path('panel/experiment/', views.experiment_page, name='experiment'),
+    path('panel/experiment/list/', views_experiment.experiment_list_page, name='experiment-list'),
 
 
     # online appointment management
-    path('panel/online-appointment', views_appointment.online_appointment_page, name='appointment'), 
+    path('panel/online-appointment/', views_appointment.online_appointment_page, name='appointment'),
     path('panel/online-appointment/limit-time/', views_appointment.oa_limit_time_page, name='appointment-limittime'),
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),
     path('panel/online-appointment/tips/', views_appointment.oa_tips_page, name='appointment-tips'),
