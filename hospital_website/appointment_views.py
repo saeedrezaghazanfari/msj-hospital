@@ -493,19 +493,19 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
         if unitSlug == 'doctors':
             times = AppointmentTimeModel.objects.filter(
                 unit__isnull=True,
-                doctor=doctor,      #TODO serach for skill - degree
+                doctor=doctor,
                 date__gt=timezone.now(),
-            ).order_by('-date').all()
+            ).order_by('date').all()
 
         elif SubUnitModel.objects.filter(slug=unitSlug).exists():
             times = AppointmentTimeModel.objects.filter(
                 unit__subunit__slug=unitSlug,
-                doctor=doctor,      #TODO serach for skill - degree
+                doctor=doctor,
                 date__gt=timezone.now(),
-            ).order_by('-date').all()
+            ).order_by('date').all()
 
 
-        limit_time = 24
+        limit_time = 12
         if LimitTurnTimeModel.objects.exists():
             limit_obj = LimitTurnTimeModel.objects.first()
             limit_time = limit_obj.hours
@@ -515,7 +515,11 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
             time_str = str(time.date)
             time_list = time_str.split('-')
             time_mined = f'{time_list[0][2]}{time_list[0][3]}-{time_list[1]}-{time_list[2]}'
-            date_time_obj = datetime.strptime(time_mined, '%y-%m-%d')
+            time_splited = time.time_from.split(':')
+            date_time_obj = datetime.strptime(time_mined, '%y-%m-%d').replace(
+                hour=int(time_splited[0]), 
+                minute=int(time_splited[1])
+            )
 
             time.is_active = False
             if date_time_obj > datetime.now():
