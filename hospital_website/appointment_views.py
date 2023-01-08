@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel
 from hospital_units.models import (
-    AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, SubUnitModel, ElectronicPrescriptionModel
+    AppointmentTimeModel, PatientTurnModel, LimitTurnTimeModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
 from hospital_auth.models import PatientModel
 from . import forms
@@ -778,3 +778,23 @@ def eoa_followturn_page(request):
         'turn': turn
     })
 
+
+# url: /electronic/appointment/result/
+def eoa_followresult_page(request):
+
+    result = None
+
+    if request.method == 'POST':
+        form = forms.FollowUpResultForm(request.POST or None)
+
+        if form.is_valid():
+            if not ExprimentResultModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
+                return redirect('/404')
+            result = ExprimentResultModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
+    else:
+        form = forms.FollowUpResultForm()
+
+    return render(request, 'web/electronic-services/oa-followup-result.html', {
+        'form': form,
+        'result': result
+    })

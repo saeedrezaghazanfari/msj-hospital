@@ -44,7 +44,7 @@ def oa_limit_time_page(request):
             return redirect('panel:appointment-limittime')
     
     else:
-        form = forms.LimitTurnTimeForm()
+        form = forms.LimitTurnTimeForm(instance=LimitTurnTimeModel.objects.first())
 
     return render(request, 'panel/online-appointment/limittime.html', {
         'limit_time': LimitTurnTimeModel.objects.last(),
@@ -383,6 +383,8 @@ def oa_price_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_appointment_required
 def oa_time_page(request):
+
+    times = None
     
     if request.GET.get('type') == 'doctors':
         times = AppointmentTimeModel.objects.filter(
@@ -390,20 +392,14 @@ def oa_time_page(request):
             date__gt=timezone.now()
         ).all()
 
-    if request.GET.get('type') == 'labs':
+    elif request.GET.get('type') == 'labs':
         times = AppointmentTimeModel.objects.filter(
             unit__subunit__category='paraclinic',
             unit__subunit__title__iexact='آزمایشگاه',
             date__gt=timezone.now()
         ).all()
 
-    if request.GET.get('type') == 'clinics':
-        times = AppointmentTimeModel.objects.filter(
-            unit__subunit__category='medical',
-            date__gt=timezone.now()
-        ).all()
-
-    if request.GET.get('type') == 'imaging':
+    elif request.GET.get('type') == 'imaging':
         times = AppointmentTimeModel.objects.filter(
             unit__subunit__category='paraclinic',
             unit__subunit__title='تصویربرداری',
@@ -671,7 +667,6 @@ def oa_eturn_check_page(request, eturnID):
             dg = 'آقای'
             jalali_selected_date = date2jalali(turn.selected_date).strftime('%y/%m/%d')
 
-            
             if turn.patient.gender == 'female':
                 pg = 'خانم'
             if turn.doctor.user.gender == 'female':

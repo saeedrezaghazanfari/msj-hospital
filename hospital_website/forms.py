@@ -4,7 +4,9 @@ from django import forms
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel
-from hospital_units.models import AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel
+from hospital_units.models import (
+    AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel, ExprimentResultModel
+)
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from .models import LoginCodePatientModel
@@ -263,3 +265,27 @@ class FollowUpTurnForm(forms.Form):
             raise forms.ValidationError(_('کدپیگیری شما در لیست وجود ندارد.'))
         return code
 
+
+class FollowUpResultForm(forms.Form):
+    phone = forms.CharField(widget=forms.TextInput())
+    code = forms.CharField(widget=forms.TextInput())
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if not phone or phone == 0 or len(phone) == 0:
+            raise forms.ValidationError(_('تلفن همراه خود را وارد کنید.'))
+        if not is_phone(phone):
+            raise forms.ValidationError(_('الگوی تلفن همراه شما صحیح نیست.'))
+        if not ExprimentResultModel.objects.filter(patient__phone=phone).exists():
+            raise forms.ValidationError(_('شماره ی همراه شما در لیست وجود ندارد.'))
+        return phone
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        if not code:
+            raise forms.ValidationError(_('کدپیگیری خود را وارد کنید.'))
+        if not code.isdigit():
+            raise forms.ValidationError(_('کدپیگیری باید شامل اعداد باشد.'))
+        if not ExprimentResultModel.objects.filter(code=code).exists():
+            raise forms.ValidationError(_('کدپیگیری شما در لیست وجود ندارد.'))
+        return code

@@ -28,12 +28,12 @@
         <p>tip: these are times from now on</p>
 
         <p><a href="?type=all">all</a></p>
-        <p><a href="?type=clinics">list of clinics</a></p>
         <p><a href="?type=doctors">list of doctors</a></p>
         <p><a href="?type=labs">list of labs</a></p>
         <p><a href="?type=imaging">list of imaging</a></p>
 
         {% for time in times %}
+
         <div class="box">
             <div title="unit">{% if not time.unit %}پزشکان{% else %}{{ time.unit }}{% endif %}</div>
             <div title="doctor">{{ time.doctor }}</div>
@@ -46,6 +46,7 @@
             <div title="reserved">{{ time.reserved }}</div>
             <div><a href="{% url 'panel:appointment-timeedit' time.id %}">edit</a></div>
         </div>
+        
         {% endfor %}
 
     </div>
