@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import (
     NotificationModel,
-    NotificationUserModel,
     PatientSightModel,
     BeneficiaryCommentModel,
     ContactUsModel,
@@ -15,13 +14,8 @@ from .models import (
 
 
 class NotificationModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'is_from_boss', 'j_publish_time']
+    list_display = ['title', 'is_from_boss', 'is_published', 'user']
     search_fields = ['title']
-    ordering = ['-id']
-
-
-class NotificationUserModel_Admin(admin.ModelAdmin):
-    list_display = ['id']
     ordering = ['-id']
 
 
@@ -79,7 +73,6 @@ class WorkshopModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(NotificationModel, NotificationModel_Admin)
-admin.site.register(NotificationUserModel, NotificationUserModel_Admin)
 admin.site.register(PatientSightModel, PatientSightModel_Admin)
 admin.site.register(BeneficiaryCommentModel, BeneficiaryCommentModel_Admin)
 admin.site.register(ContactUsModel, ContactUsModel_Admin)

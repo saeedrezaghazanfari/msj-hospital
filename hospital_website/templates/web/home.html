@@ -1,5 +1,5 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks web_tags %}
 {% block title %}{% translate 'خانه' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
@@ -11,6 +11,15 @@
         <li><a href="{% url 'panel:home' %}">panel</a></li>
         <li><a href="{% url 'website:oa-home' %}">online appointment, click here!</a></li>
     </ul>
+    {% get_user_notif request.user as notifications %}
+
+    {% for notification in notifications %}
+        <div class="box">
+            <div title="title">{{ notification.title }}</div>
+            <div title="description">{{ notification.description }}</div>
+            <div><a href="{% url 'website:read-notif' notification.id %}?route={{ request.path }}">read</a></div>
+        </div>
+        {% endfor %}
 
 {% endblock %}
 

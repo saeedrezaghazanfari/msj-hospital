@@ -10,6 +10,7 @@ urlpatterns = [
     
     # Real
     path('', views.home_page, name='home'),
+    path('read/notification/<notificationID>/', views.read_notification, name='read-notif'),
 
     # electronic services: online appointment
     path('electronic/appointment/turn/', appointment_views.eoa_followturn_page, name='oa-followupturn'),

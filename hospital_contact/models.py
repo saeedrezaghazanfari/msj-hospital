@@ -1,4 +1,4 @@
-from email.policy import default
+import uuid 
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -16,10 +16,13 @@ from extentions.utils import (
 
 
 class NotificationModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     description = models.CharField(max_length=500, verbose_name=_('متن'))
     is_from_boss = models.BooleanField(default=False, verbose_name=_('آیا این متن از سمت ریاست است؟'))
-    publish_time = models.DateTimeField(default=timezone.now, verbose_name=_('زمان انتشار پست'))
+    is_published = models.BooleanField(default=False, verbose_name=_('منتشر شود؟'))
+    is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -29,25 +32,7 @@ class NotificationModel(models.Model):
 
     def __str__(self):
         return self.title
-
-    def j_publish_time(self):
-        return jalali_convertor(time=self.publish_time, output='j_date')
-    j_publish_time.short_description = _('تاریخ انتشار')
-
-
-class NotificationUserModel(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
-    notification = models.ForeignKey(to=NotificationModel, null=True, on_delete=models.SET_NULL, verbose_name=_('اعلان'))
-    is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('اعلان برای کاربر')
-        verbose_name_plural = _('اعلان برای کاربران')
-
-    def __str__(self):
-        return str(self.id)
-
+        
 
 class PatientSightModel(models.Model):
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
