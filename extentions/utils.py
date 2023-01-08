@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from . import jalali
 from datetime import timedelta
+from django.utils.translation import get_language
 import os, re
 from random import randint, choice
 
@@ -57,40 +58,42 @@ def date_range_list(start_date, end_date):
     return date_list
 
 def jalali_convertor(time, output='date_time', number=False):
-    jmonth = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
-    intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    time = timezone.localtime(time)
+    if get_language() == 'fa':
+        jmonth = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+        intmonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        time = timezone.localtime(time)
 
-    time_to_str = f'{time.year} {time.month} {time.day}'
-    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
-    time_to_list = list(time_to_tuple)
-    for index, month in enumerate(jmonth):
-        if time_to_list[1] == index + 1:
-            time_to_list[1] = month
-            break
-    if number == True:
-        time_to_list_num = list(time_to_tuple)
-        for index, month in enumerate(intmonth):
-            if time_to_list_num[1] == index + 1:
-                time_to_list_num[1] = month
+        time_to_str = f'{time.year} {time.month} {time.day}'
+        time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+        time_to_list = list(time_to_tuple)
+        for index, month in enumerate(jmonth):
+            if time_to_list[1] == index + 1:
+                time_to_list[1] = month
                 break
+        if number == True:
+            time_to_list_num = list(time_to_tuple)
+            for index, month in enumerate(intmonth):
+                if time_to_list_num[1] == index + 1:
+                    time_to_list_num[1] = month
+                    break
 
-    if output == 'date_time':        # ۲۱ دی ۱۴۰۰, ساعت ۲۱:۲۸
-        output = f'{time_to_list[2]} {time_to_list[1]} {time_to_list[0]}, ساعت {time.hour}:{time.minute}'
-        return persian_numbers(output)
-    elif output == 'j_date':         # ۲۱ دی ۱۴۰۰
-        output = f'{time_to_list[2]} {time_to_list[1]} {time_to_list[0]}'
-        return persian_numbers(output)
-    elif output == 'date' and number == True:           # ۲۱ - ۱۰ - ۱۴۰۰
-        output = f'{time_to_list_num[2]} - {time_to_list_num[1]} - {time_to_list_num[0]}'
-        return persian_numbers(output)
-    elif output == 'j_month':        # دی 
-        return persian_numbers(time_to_list[1])
-    elif output == 'time':        # ۲۱:۲۸ 
-        return persian_numbers(f'{time.hour}:{time.minute}')
+        if output == 'date_time':        # ۲۱ دی ۱۴۰۰, ساعت ۲۱:۲۸
+            output = f'{time_to_list[2]} {time_to_list[1]} {time_to_list[0]}, ساعت {time.hour}:{time.minute}'
+            return persian_numbers(output)
+        elif output == 'j_date':         # ۲۱ دی ۱۴۰۰
+            output = f'{time_to_list[2]} {time_to_list[1]} {time_to_list[0]}'
+            return persian_numbers(output)
+        elif output == 'date' and number == True:           # ۲۱ - ۱۰ - ۱۴۰۰
+            output = f'{time_to_list_num[2]} - {time_to_list_num[1]} - {time_to_list_num[0]}'
+            return persian_numbers(output)
+        elif output == 'j_month':        # دی 
+            return persian_numbers(time_to_list[1])
+        elif output == 'time':        # ۲۱:۲۸ 
+            return persian_numbers(f'{time.hour}:{time.minute}')
+        else:
+            return 'No OutPut!'
     else:
-        return 'No OutPut!'
-
+        return time
 
 def persian_numbers(myStr):
     numbers = {'0': '۰', '1': '۱', '2': '۲', '3': '۳', '4': '۴', '5': '۵', '6': '۶', '7': '۷', '8': '۸', '9': '۹'}

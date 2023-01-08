@@ -45,7 +45,7 @@ class UnitModel(models.Model):
         return f'{self.subunit.title}'
 
 
-class SubUnitModel(models.Model): #TODO
+class SubUnitModel(models.Model):
     CATEGORY_UNITS = (
         ('medical', _('درمانی')), 
         ('paraclinic', _('پاراکلینیک')), 

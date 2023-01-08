@@ -15,7 +15,7 @@ from extentions.utils import (
 )
 
 
-class NotificationModel(models.Model): #TODO is_from_boss fk to riast
+class NotificationModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     description = models.CharField(max_length=500, verbose_name=_('متن'))
     is_from_boss = models.BooleanField(default=False, verbose_name=_('آیا این متن از سمت ریاست است؟'))
