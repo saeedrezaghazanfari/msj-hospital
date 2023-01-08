@@ -12,6 +12,7 @@ from extentions.utils import (
     insurance_image_path,
     report_image_path,
     news_letter_image_path,
+    ancient_image_path
 )
 
 
@@ -304,3 +305,22 @@ class PriceSurgrayModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class AncientsModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    image = models.ImageField(upload_to=ancient_image_path, verbose_name=_('تصویر'))
+    full_name = models.CharField(max_length=255, verbose_name=_('نام پزشک مرحوم'))
+    description = models.TextField(verbose_name=_('متن'))
+    gallery = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('گالری'))
+    video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('گذشتگان بیمارستان')
+        verbose_name_plural = _('گذشتگان بیمارستان')
+
+    def __str__(self):
+        return self.full_name
+
+

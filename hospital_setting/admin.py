@@ -19,7 +19,8 @@ from .models import (
     ContactInfoModel,
     PriceServiceModel,
     PriceBedModel,
-    PriceSurgrayModel
+    PriceSurgrayModel,
+    AncientsModel
 )
 
 
@@ -135,6 +136,11 @@ class PriceSurgrayModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class AncientsModel_Admin(admin.ModelAdmin):
+    list_display = ['title', 'full_name']
+    ordering = ['-id']
+
+
 admin.site.register(SettingModel, SettingModel_Admin)
 admin.site.register(CostModel, CostModel_Admin)
 admin.site.register(HospitalPoliticModel, HospitalPoliticModel_Admin)
@@ -154,3 +160,4 @@ admin.site.register(ContactInfoModel, ContactInfoModel_Admin)
 admin.site.register(PriceServiceModel, PriceServiceModel_Admin)
 admin.site.register(PriceBedModel, PriceBedModel_Admin)
 admin.site.register(PriceSurgrayModel, PriceSurgrayModel_Admin)
+admin.site.register(AncientsModel, AncientsModel_Admin)

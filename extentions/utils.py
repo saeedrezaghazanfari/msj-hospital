@@ -294,6 +294,12 @@ def ipd_doc_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"ipd-document/{final_name}"
 
+# ######### for ancient ######### #
+def ancient_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"ancient/{final_name}"
+
 
 # =============== end static path
 
