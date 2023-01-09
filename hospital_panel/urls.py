@@ -1,6 +1,7 @@
 from django.urls import path
 from . import (
-    views, views_appointment, views_doctor, views_experiment
+    views, views_appointment, views_doctor, 
+    views_experiment, views_blog, views_news, views_notes
 )
 
 
@@ -13,7 +14,7 @@ urlpatterns = [
 
 
     # doctor management
-    path('panel/doctor/', views.doctor_page, name='doctor'),
+    path('panel/doctor/', views_doctor.doctor_page, name='doctor'),
     path('panel/doctor/vacation/', views_doctor.doctor_vacation_page, name='doctor-vacation'),
     path('panel/doctor/work/', views_doctor.doctor_work_page, name='doctor-work'),
     path('panel/doctor/insurances/', views_doctor.doctor_insurances_page, name='doctor-insurances'),
@@ -21,19 +22,19 @@ urlpatterns = [
 
 
     # blog management
-    path('panel/blog/', views.blog_page, name='blog'),
+    path('panel/blog/', views_blog.blog_page, name='blog'),
 
 
     # news management
-    path('panel/news/', views.news_page, name='news'),
+    path('panel/news/', views_news.news_page, name='news'),
 
 
     # note management
-    path('panel/notes/', views.notes_page, name='notes'),
+    path('panel/notes/', views_notes.notes_page, name='notes'),
 
 
     # experiment management
-    path('panel/experiment/', views.experiment_page, name='experiment'),
+    path('panel/experiment/', views_experiment.experiment_page, name='experiment'),
     path('panel/experiment/list/', views_experiment.experiment_list_page, name='experiment-list'),
 
 

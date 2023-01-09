@@ -33,3 +33,36 @@ def experiment_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
     if function:
         return actual_decorator(function)
     return actual_decorator
+
+
+def blog_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+    actual_decorator = user_passes_test(
+        lambda u: u.is_blog_manager,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name,
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
+
+def news_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+    actual_decorator = user_passes_test(
+        lambda u: u.is_news_manager,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name,
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
+
+def note_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+    actual_decorator = user_passes_test(
+        lambda u: u.is_note_manager,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name,
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator

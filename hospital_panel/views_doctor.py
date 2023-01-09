@@ -12,6 +12,13 @@ from .decorators import online_doctor_required
 from . import forms
 
 
+# url: /panel/doctor/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_doctor_required
+def doctor_page(request):
+    return render(request, 'panel/doctor/home.html', {})
+
+
 # url: /panel/doctor/vacation/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_doctor_required

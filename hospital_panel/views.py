@@ -41,33 +41,3 @@ def edit_data(request):
         'form': form
     })
 
-
-# url: /panel/doctor
-@login_required(login_url=reverse_lazy('auth:signin'))
-def doctor_page(request):
-    return render(request, 'panel/doctor/home.html', {})
-
-
-# url: /panel/blog
-@login_required(login_url=reverse_lazy('auth:signin'))
-def blog_page(request):
-    return render(request, 'panel/blog/home.html', {})
-
-
-# url: /panel/news
-@login_required(login_url=reverse_lazy('auth:signin'))
-def news_page(request):
-    return render(request, 'panel/news/home.html', {})
-
-
-# url: /panel/notes
-@login_required(login_url=reverse_lazy('auth:signin'))
-def notes_page(request):
-    return render(request, 'panel/notes/home.html', {})
-
-
-# url: /panel/experiment
-@login_required(login_url=reverse_lazy('auth:signin'))
-def experiment_page(request):
-    return render(request, 'panel/experiment/home.html', {})
-

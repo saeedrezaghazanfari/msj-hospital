@@ -15,6 +15,13 @@ from .decorators import experiment_required
 from . import forms
 
 
+# url: /panel/experiment/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@experiment_required(login_url='/403')
+def experiment_page(request):
+    return render(request, 'panel/experiment/home.html', {})
+
+
 # url: /panel/experiment/list/
 @login_required(login_url=reverse_lazy('auth:signin'))
 @experiment_required(login_url='/403')
