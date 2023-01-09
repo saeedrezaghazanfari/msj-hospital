@@ -68,8 +68,8 @@ class SubUnitModel(models.Model):
 class UnitMemberModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     unit = models.ForeignKey(UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
-    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    firstname = models.CharField(max_length=100, verbose_name=_('نام'))
+    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=100, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
@@ -82,7 +82,7 @@ class UnitMemberModel(models.Model):
         verbose_name_plural = _('اعضای بخش ها')
 
     def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.firstname} {self.lastname}'
     get_full_name.short_description = _('نام و نام خانوادگی')
 
     def __str__(self):
@@ -132,7 +132,7 @@ class AppointmentTimeModel(models.Model):
     j_date.short_description = _('تاریخ روز')
 
     def __str__(self):
-        return f'{self.doctor.user.first_name} {self.doctor.user.last_name} - {self.date}'
+        return f'{self.doctor.user.firstname} {self.doctor.user.lastname} - {self.date}'
 
 
 class AppointmentTipModel(models.Model):
@@ -182,7 +182,7 @@ class PatientTurnModel(models.Model):
         verbose_name_plural = _('نوبت بیماران')
 
     def __str__(self):
-        return f'{self.patient.first_name} {self.patient.last_name}'
+        return f'{self.patient.firstname} {self.patient.lastname}'
 
 
 class ElectronicPrescriptionModel(models.Model):
@@ -202,7 +202,7 @@ class ElectronicPrescriptionModel(models.Model):
         verbose_name_plural = _('نوبت نسخه ی الکترونیکی بیماران')
 
     def __str__(self):
-        return f'{self.patient.first_name} {self.patient.last_name}'
+        return f'{self.patient.firstname} {self.patient.lastname}'
 
 
 class OnlinePaymentModel(models.Model):

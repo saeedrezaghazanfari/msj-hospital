@@ -32,7 +32,7 @@ class DoctorModel(models.Model):
         return f'{self.get_full_name()} - {self.skill_title.title}'
 
     def get_full_name(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.user.firstname} {self.user.lastname}'
     get_full_name.short_description = _('نام پزشک')
 
 
@@ -94,8 +94,8 @@ class DoctorVacationModel(models.Model):
 
 
 class FamousPatientModel(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    firstname = models.CharField(max_length=100, verbose_name=_('نام'))
+    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
     desc = models.TextField(verbose_name=_('متن'))
 
@@ -105,4 +105,4 @@ class FamousPatientModel(models.Model):
         verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
     
     def __str__(self):  
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.firstname} {self.lastname}'

@@ -22,9 +22,12 @@
     <li><a href="{% url 'panel:doctor-patients' %}">patients</a></li>
 </ul>
 <hr>
+{% comment %}
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:blog' %}">blog manager</a>
+    <a href="{% url 'panel:blog-list' %}">blog manager</a>
 </li>
+<hr>
+{% endcomment %}
 <li {% if not request.user.is_news_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:news' %}">news manager</a>
 </li>

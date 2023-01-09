@@ -11,8 +11,8 @@ from .models import (
 
 class AdminUser(UserAdmin):
     UserAdmin.fieldsets[1][1]['fields'] = (
-        'first_name',
-        'last_name',
+        'firstname',
+        'lastname',
         'phone',
         'gender',
         'profile',

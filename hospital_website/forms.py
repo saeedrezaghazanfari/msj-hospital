@@ -100,8 +100,8 @@ class PatientForm(forms.ModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
 
     username = forms.CharField(widget=forms.TextInput())
-    first_name = forms.CharField(widget=forms.TextInput())
-    last_name = forms.CharField(widget=forms.TextInput())
+    firstname = forms.CharField(widget=forms.TextInput())
+    lastname = forms.CharField(widget=forms.TextInput())
     gender = forms.CharField(widget=forms.Select(choices=GENDER_USER))
     age = forms.IntegerField(widget=forms.NumberInput())
 
@@ -109,7 +109,7 @@ class PatientForm(forms.ModelForm):
         model = PatientTurnModel
         fields = [
             'prescription_code', 'experiment_code', 'username', 
-            'first_name', 'last_name', 'gender', 'age'
+            'firstname', 'lastname', 'gender', 'age'
         ]
 
     def clean_username(self):
@@ -132,39 +132,39 @@ class PatientForm(forms.ModelForm):
             raise forms.ValidationError(_('عدد سن معتبر نیست.'))
         return age
 
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not first_name:
+    def clean_firstname(self):
+        firstname = self.cleaned_data.get('firstname')
+        if not firstname:
             raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(first_name) <= 1:
+        if len(firstname) <= 1:
             raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(first_name) >= 20:
+        if len(firstname) >= 20:
             raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in first_name:
+        for i in firstname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return first_name
+        return firstname
     
-    def clean_last_name(self):
-        last_name = self.cleaned_data.get('last_name')
-        if not last_name:
+    def clean_lastname(self):
+        lastname = self.cleaned_data.get('lastname')
+        if not lastname:
             raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(last_name) <= 1:
+        if len(lastname) <= 1:
             raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(last_name) >= 25:
+        if len(lastname) >= 25:
             raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in last_name:
+        for i in lastname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return last_name
+        return lastname
 
 
 class ElectronicPrescriptionForm(forms.ModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
 
     username = forms.CharField(widget=forms.TextInput())
-    first_name = forms.CharField(widget=forms.TextInput())
-    last_name = forms.CharField(widget=forms.TextInput())
+    firstname = forms.CharField(widget=forms.TextInput())
+    lastname = forms.CharField(widget=forms.TextInput())
     gender = forms.CharField(widget=forms.Select(choices=GENDER_USER))
     age = forms.IntegerField(widget=forms.NumberInput())
 
@@ -172,7 +172,7 @@ class ElectronicPrescriptionForm(forms.ModelForm):
         model = ElectronicPrescriptionModel
         fields = [
             'experiment_code', 'username', 
-            'first_name', 'last_name', 'gender', 'age'
+            'firstname', 'lastname', 'gender', 'age'
         ]
 
     def clean_experiment_code(self):
@@ -205,31 +205,31 @@ class ElectronicPrescriptionForm(forms.ModelForm):
             raise forms.ValidationError(_('عدد سن معتبر نیست.'))
         return age
 
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not first_name:
+    def clean_firstname(self):
+        firstname = self.cleaned_data.get('firstname')
+        if not firstname:
             raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(first_name) <= 1:
+        if len(firstname) <= 1:
             raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(first_name) >= 20:
+        if len(firstname) >= 20:
             raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in first_name:
+        for i in firstname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return first_name
+        return firstname
     
-    def clean_last_name(self):
-        last_name = self.cleaned_data.get('last_name')
-        if not last_name:
+    def clean_lastname(self):
+        lastname = self.cleaned_data.get('lastname')
+        if not lastname:
             raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(last_name) <= 1:
+        if len(lastname) <= 1:
             raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(last_name) >= 25:
+        if len(lastname) >= 25:
             raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in last_name:
+        for i in lastname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return last_name
+        return lastname
 
 class CheckRulesForm(forms.Form):
     check_rules = forms.BooleanField(required=False, widget=forms.widgets.CheckboxInput())

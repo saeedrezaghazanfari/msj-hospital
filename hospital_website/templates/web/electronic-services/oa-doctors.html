@@ -18,7 +18,7 @@
 
     {% for doctor in doctors %}
     <div class="box">
-        <div>{{ doctor.doctor__user__first_name }} {{ doctor.doctor__user__last_name }}</div>
+        <div>{{ doctor.doctor__user__firstname }} {{ doctor.doctor__user__lastname }}</div>
         <div>{{ doctor.doctor__skill_title__title }}</div>
         <div>{{ doctor.doctor__degree__title }}</div>
         <div><a href="{% url 'website:oa-phone' unitSlug doctor.doctor__id %}">view</a></div>

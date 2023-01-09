@@ -5,3 +5,10 @@ this is a project for msj hospital. in progress...
 
 - add sms tip to sms msg
 - config all sms 
+
+
+<!-- blog -->
+- tag
+- category
+- gallery
+- blog

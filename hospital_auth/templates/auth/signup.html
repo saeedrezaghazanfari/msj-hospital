@@ -23,14 +23,14 @@
 
         <div class="wrapper__field mt-1">
             <label for="name_input_id">{% translate 'نام' %}</label>
-            {% render_field form.first_name id="name_input_id" %}
-            {% for msg in form.first_name.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+            {% render_field form.firstname id="name_input_id" %}
+            {% for msg in form.firstname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
         </div>
 
         <div class="wrapper__field">
             <label for="family_input_id">{% translate 'نام خانوادگی' %}</label>
-            {% render_field form.last_name id="family_input_id" %}
-            {% for msg in form.last_name.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+            {% render_field form.lastname id="family_input_id" %}
+            {% for msg in form.lastname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
         </div>
 
         <div class="wrapper__field">

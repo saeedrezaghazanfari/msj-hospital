@@ -61,7 +61,7 @@ class NewsModel(models.Model):
         return None
 
     def get_full_name(self):
-        return f'{self.writer.user.first_name} {self.writer.user.last_name}'
+        return f'{self.writer.user.firstname} {self.writer.user.lastname}'
     get_full_name.short_description = _('نام نویسنده')
 
 

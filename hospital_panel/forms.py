@@ -9,6 +9,7 @@ from hospital_units.models import (
     UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, 
     AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
+from hospital_blog.models import BlogModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -18,10 +19,10 @@ class EditInfoForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'profile']
+        fields = ['firstname', 'lastname', 'email', 'profile']
         widgets = {
-            'first_name': forms.TextInput({'placeholder': _('نام خود را وارد کنید')}),
-            'last_name': forms.TextInput({'placeholder': _('نام خانوادگی خود را وارد کنید')}),
+            'firstname': forms.TextInput({'placeholder': _('نام خود را وارد کنید')}),
+            'lastname': forms.TextInput({'placeholder': _('نام خانوادگی خود را وارد کنید')}),
             'email': forms.EmailInput({'placeholder': _('ایمیل خود را وارد کنید')}),
         }
 
@@ -31,31 +32,31 @@ class EditInfoForm(forms.ModelForm):
             raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
         return profile
 
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not first_name:
+    def clean_firstname(self):
+        firstname = self.cleaned_data.get('firstname')
+        if not firstname:
             raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(first_name) <= 1:
+        if len(firstname) <= 1:
             raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(first_name) >= 20:
+        if len(firstname) >= 20:
             raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in first_name:
+        for i in firstname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return first_name
+        return firstname
     
-    def clean_last_name(self):
-        last_name = self.cleaned_data.get('last_name')
-        if not last_name:
+    def clean_lastname(self):
+        lastname = self.cleaned_data.get('lastname')
+        if not lastname:
             raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(last_name) <= 1:
+        if len(lastname) <= 1:
             raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(last_name) >= 25:
+        if len(lastname) >= 25:
             raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in last_name:
+        for i in lastname:
             if i.isdigit():
                 raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return last_name
+        return lastname
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -328,3 +329,12 @@ class ExprimentResultForm(forms.ModelForm):
         self.fields['date'] = JalaliDateField(label=_('تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
+
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = BlogModel
+        fields = [
+            'image', 'pdf', 'qr_img', 'video_link', 'categories', 'tags', 'title', 'read_time', 'desc', 'short_desc', 'is_publish', 'is_likeable', 'is_dislikeable', 'is_commentable', 'gallery', 'units'
+        ]
+

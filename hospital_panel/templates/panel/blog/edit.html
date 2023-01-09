@@ -21,11 +21,9 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
 
-        <h1>blog - list</h1>
+        <h1>blog - edit</h1>
 
         <a href="{% url 'panel:blog-create' %}">create a new blog</a>
-
-        <h1>your blogs</h1>
 
         {% for blog in blogs %}
         <div class="box">
@@ -40,14 +38,14 @@
             <div title="read_time">{{ blog.read_time }}</div>
             <div title="desc">{{ blog.desc }}</div>
             <div title="short_desc">{{ blog.short_desc }}</div>
+            <div title="is_publish">{{ blog.is_publish }}</div>
             <div title="is_emailed">{{ blog.is_emailed }}</div>
+            <div title="is_activate">{{ blog.is_activate }}</div>
             <div title="is_likeable">{{ blog.is_likeable }}</div>
             <div title="is_dislikeable">{{ blog.is_dislikeable }}</div>
             <div title="is_commentable">{{ blog.is_commentable }}</div>
             <div title="gallery">{{ blog.gallery }}</div>
             <div title="units">{{ blog.units }}</div>
-            <div title="is_publish">{{ blog.is_publish }}</div>
-            <div title="is_activate">{{ blog.is_activate }}</div>
         </div>
         {% endfor %}
 

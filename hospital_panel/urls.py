@@ -22,7 +22,9 @@ urlpatterns = [
 
 
     # blog management
-    path('panel/blog/', views_blog.blog_page, name='blog'),
+    path('panel/blog/', views_blog.blog_page, name='blog-list'),
+    path('panel/blog/create/', views_blog.blog_create_page, name='blog-create'),
+    path('panel/blog/edit/<blogSlug>/', views_blog.blog_edit_page, name='blog-edit'),
 
 
     # news management

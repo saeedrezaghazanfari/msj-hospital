@@ -26,8 +26,8 @@
         <div style="text-align: center;">
             {% if request.user.profile %}<img src="{{ request.user.profile.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}
             <p>username: {{ request.user.username }}</p>
-            <p>first_name: {{ request.user.first_name }}</p>
-            <p>last_name: {{ request.user.last_name }}</p>
+            <p>firstname: {{ request.user.firstname }}</p>
+            <p>lastname: {{ request.user.lastname }}</p>
             <p>phone: {{ request.user.phone }}</p>
             <p>email: {{ request.user.email }}</p>
             <p>gender: {{ request.user.gender }}</p>

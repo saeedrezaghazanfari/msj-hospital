@@ -50,8 +50,8 @@ class PatientSightModel(models.Model):
 
 
 class BeneficiaryCommentModel(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    firstname = models.CharField(max_length=100, verbose_name=_('نام'))
+    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     desc = models.TextField(verbose_name=_('متن'))
     bio = models.TextField(blank=True, null=True, verbose_name=_('بیوگرافی'))
     created = models.DateTimeField(auto_now_add=True)
@@ -62,7 +62,7 @@ class BeneficiaryCommentModel(models.Model):
         verbose_name_plural = _('نظرات ذینفعان')
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.firstname} {self.lastname}'
 
 
 class ContactUsModel(models.Model):
@@ -90,8 +90,8 @@ class ContactUsModel(models.Model):
 class CriticismSuggestionModel(models.Model):
     code = models.CharField(default=criticic_suggestion_code, max_length=20, verbose_name=_('کد پیگیری'))
     message = models.TextField(verbose_name=_('متن ارتباط'))
-    first_name = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
+    firstname = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
+    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
@@ -176,8 +176,8 @@ class HireFormModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی شده است؟'))
 
-    first_name = models.CharField(max_length=50, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
+    firstname = models.CharField(max_length=50, verbose_name=_('نام'))
+    lastname = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
     father = models.CharField(max_length=50, verbose_name=_('نام پدر'))
     national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
     national_number = models.CharField(max_length=20, verbose_name=_('شماره شناسنامه'))

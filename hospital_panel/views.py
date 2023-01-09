@@ -22,8 +22,8 @@ def edit_data(request):
 
         if form.is_valid():
             user = request.user
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
+            user.firstname = form.cleaned_data.get('firstname')
+            user.lastname = form.cleaned_data.get('lastname')
             if form.cleaned_data.get('email'):
                 user.email = form.cleaned_data.get('email')
             if form.cleaned_data.get('profile'):
