@@ -6,13 +6,14 @@ from .models import (
     PatientModel,
     IPDModel,
     LoginCodeModel, 
+    UserFullNameModel
 )
 
 
 class AdminUser(UserAdmin):
     UserAdmin.fieldsets[1][1]['fields'] = (
-        'firstname',
-        'lastname',
+        # 'first_name',
+        # 'last_name',
         'phone',
         'gender',
         'profile',
@@ -35,6 +36,11 @@ class AdminUser(UserAdmin):
     ordering = ['-id']
 
 
+class UserFullNameModel_Admin(admin.ModelAdmin):
+    list_display = ['user', 'first_name', 'last_name']
+    ordering = ['-id']
+
+
 class PatientModel_Admin(admin.ModelAdmin):
     list_display = ['username', 'gender', 'age']
     search_field = ['username', 'gender', 'age']
@@ -53,6 +59,7 @@ class LoginCodeModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(User, AdminUser)
+admin.site.register(UserFullNameModel, UserFullNameModel_Admin)
 admin.site.register(PatientModel, PatientModel_Admin)
 admin.site.register(IPDModel, IPDModel_Admin)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)

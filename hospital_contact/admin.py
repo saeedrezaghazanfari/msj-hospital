@@ -37,8 +37,8 @@ class ContactUsModel_Admin(admin.ModelAdmin):
 
 
 class CriticismSuggestionModel_Admin(admin.ModelAdmin):
-    list_display = ['firstname', 'lastname', 'national_code', 'unit']
-    search_fields = ['firstname', 'lastname', 'national_code']
+    list_display = ['first_name', 'first_name', 'national_code', 'unit']
+    search_fields = ['first_name', 'first_name', 'national_code']
     ordering = ['-id']
 
 

@@ -26,15 +26,15 @@
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 
-            {{ form.firstname.label_tag }}
-            {{ form.firstname }}
-            {% for msg in form.firstname.errors %}
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% for msg in form.first_name.errors %}
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 
-            {{ form.lastname.label_tag }}
-            {{ form.lastname }}
-            {% for msg in form.lastname.errors %}
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% for msg in form.last_name.errors %}
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 

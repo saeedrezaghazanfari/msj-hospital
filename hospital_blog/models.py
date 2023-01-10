@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.db import models
+from translated_fields import TranslatedField
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
@@ -24,7 +25,7 @@ class BlogModelManager(models.Manager):
 
 
 class MedicalNoteModel(models.Model):
-    text = models.TextField(max_length=400, verbose_name=_('متن'))
+    text = TranslatedField(models.TextField(max_length=400, verbose_name=_('متن')))
     is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -39,7 +40,7 @@ class MedicalNoteModel(models.Model):
 
 class PampheletModel(models.Model):
     image = models.ImageField(upload_to=pamphelet_image_path, verbose_name=_('تصویر'))
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -53,7 +54,7 @@ class PampheletModel(models.Model):
 
 class CreditEduModel(models.Model):
     slug = models.SlugField(unique=True, default=get_credit_edu_code, verbose_name=_('مقدار در url'))
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=credit_edu_image_path, verbose_name=_('تصویر'))
 
     class Meta:
@@ -74,10 +75,10 @@ class BlogModel(models.Model):
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
-    desc = models.TextField(verbose_name=_('متن مقاله'))
-    short_desc = models.CharField(max_length=500, verbose_name=_('متن کوتاه'))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن مقاله')))
+    short_desc = TranslatedField(models.CharField(max_length=500, verbose_name=_('متن کوتاه')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
     is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_activate = models.BooleanField(default=False, verbose_name=_('آیا پست از نظر تولید کننده محتوا تایید شده است؟'))
@@ -119,7 +120,7 @@ class BlogModel(models.Model):
 
 
 class BlogGalleryModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=blog_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 
@@ -155,7 +156,7 @@ class BlogCommentModel(models.Model):
 
 
 class CategoryModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
 
     class Meta:
         ordering = ['-id']
@@ -167,7 +168,7 @@ class CategoryModel(models.Model):
 
 
 class TagModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
 
     class Meta:
         ordering = ['-id']

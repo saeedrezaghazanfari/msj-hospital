@@ -174,8 +174,8 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
                 if PatientModel.objects.filter(username=username).exists():
                     patient = PatientModel.objects.get(username=username)
-                    patient.firstname = form.cleaned_data.get('firstname')
-                    patient.lastname = form.cleaned_data.get('lastname')
+                    patient.first_name = form.cleaned_data.get('first_name')
+                    patient.last_name = form.cleaned_data.get('last_name')
                     patient.phone = code.phone
                     patient.gender = form.cleaned_data.get('gender')
                     patient.age = form.cleaned_data.get('age')
@@ -184,8 +184,8 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
                 else:
                     patient = PatientModel.objects.create(
                         username=form.cleaned_data.get('username'),
-                        firstname=form.cleaned_data.get('firstname'),
-                        lastname=form.cleaned_data.get('lastname'),
+                        first_name=form.cleaned_data.get('first_name'),
+                        last_name=form.cleaned_data.get('last_name'),
                         phone=code.phone,
                         gender=form.cleaned_data.get('gender'),
                         age=form.cleaned_data.get('age'),
@@ -207,8 +207,8 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
         else:
             form = forms.ElectronicPrescriptionForm(initial={
                 'username': patient_exist.username if patient_exist else None,
-                'firstname': patient_exist.firstname if patient_exist else None,
-                'lastname': patient_exist.lastname if patient_exist else None,
+                'first_name': patient_exist.first_name if patient_exist else None,
+                'last_name': patient_exist.last_name if patient_exist else None,
                 'gender': patient_exist.gender if patient_exist else None,
                 'age': patient_exist.age if patient_exist else None,
             })
@@ -578,8 +578,8 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 
                 if PatientModel.objects.filter(username=username).exists():
                     patient = PatientModel.objects.get(username=username)
-                    patient.firstname = form.cleaned_data.get('firstname')
-                    patient.lastname = form.cleaned_data.get('lastname')
+                    patient.first_name = form.cleaned_data.get('first_name')
+                    patient.last_name = form.cleaned_data.get('last_name')
                     patient.phone = code.phone
                     patient.gender = form.cleaned_data.get('gender')
                     patient.age = form.cleaned_data.get('age')
@@ -588,8 +588,8 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
                 else:
                     patient = PatientModel.objects.create(
                         username=form.cleaned_data.get('username'),
-                        firstname=form.cleaned_data.get('firstname'),
-                        lastname=form.cleaned_data.get('lastname'),
+                        first_name=form.cleaned_data.get('first_name'),
+                        last_name=form.cleaned_data.get('last_name'),
                         phone=code.phone,
                         gender=form.cleaned_data.get('gender'),
                         age=form.cleaned_data.get('age'),
@@ -624,8 +624,8 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
         else:
             form = forms.PatientForm(initial={
                 'username': patient_exist.username if patient_exist else None,
-                'firstname': patient_exist.firstname if patient_exist else None,
-                'lastname': patient_exist.lastname if patient_exist else None,
+                'first_name': patient_exist.first_name if patient_exist else None,
+                'last_name': patient_exist.last_name if patient_exist else None,
                 'gender': patient_exist.gender if patient_exist else None,
                 'age': patient_exist.age if patient_exist else None,
             })

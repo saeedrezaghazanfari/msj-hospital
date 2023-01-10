@@ -12,6 +12,8 @@ class SignUpForm(forms.ModelForm):
         choices=GENDER_USER, 
         widget=forms.RadioSelect(attrs={'name': 'gender_radio', 'checked': 'checked'})
     )
+    firstname = forms.CharField(widget=forms.TextInput()) 
+    lastname = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
 
     class Meta:

@@ -2,6 +2,7 @@ import uuid
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from extentions.utils import famous_profile_image_path, DAYS, TIMES
@@ -15,8 +16,8 @@ class DoctorModel(models.Model):
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     insurances = models.ManyToManyField('hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
     degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
-    position = models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت'))
-    bio = models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی'))
+    position = TranslatedField(models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت')))
+    bio = TranslatedField(models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی')))
     is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
     is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
@@ -37,7 +38,7 @@ class DoctorModel(models.Model):
 
 
 class TitleSkillModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('عنوان تخصص'))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان تخصص')))
 
     class Meta:
         ordering = ['-id']
@@ -49,7 +50,7 @@ class TitleSkillModel(models.Model):
 
 
 class DegreeModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('نوع مدرک'))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('نوع مدرک')))
 
     class Meta:
         ordering = ['-id']
@@ -94,10 +95,10 @@ class DoctorVacationModel(models.Model):
 
 
 class FamousPatientModel(models.Model):
-    firstname = models.CharField(max_length=100, verbose_name=_('نام'))
-    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
     profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
-    desc = models.TextField(verbose_name=_('متن'))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
 
     class Meta:
         ordering = ['-id']
@@ -105,4 +106,4 @@ class FamousPatientModel(models.Model):
         verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
     
     def __str__(self):  
-        return f'{self.firstname} {self.lastname}'
+        return f'{self.first_name} {self.last_name}'

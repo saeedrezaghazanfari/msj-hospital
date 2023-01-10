@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.contrib import messages
-from .models import User, LoginCodeModel
+from .models import User, LoginCodeModel, UserFullNameModel
 from .forms import SignUpForm, SignInForm, EnterCodePWForm
 from .decorators import login_not_required
 from hospital_setting.models import SettingModel
@@ -31,6 +31,18 @@ def sign_up_page(request):
 		user = form.save(commit=False)
 		user.is_active = True
 		user.save()
+
+		UserFullNameModel.objects.create(
+			user=user,
+			first_name_fa = form.cleaned_data.get('firstname'),
+			last_name_fa = form.cleaned_data.get('lastname'),
+			first_name_en = form.cleaned_data.get('firstname'),
+			last_name_en = form.cleaned_data.get('lastname'),
+			first_name_ar = form.cleaned_data.get('firstname'),
+			last_name_ar = form.cleaned_data.get('lastname'),
+			first_name_ru = form.cleaned_data.get('firstname'),
+			last_name_ru = form.cleaned_data.get('lastname'),	
+		)
 
 		if user:
 			login_code = LoginCodeModel.objects.create(

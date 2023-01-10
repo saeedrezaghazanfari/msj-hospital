@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from hospital_doctor.models import TitleSkillModel, DegreeModel
+from translated_fields import TranslatedField
+from hospital_doctor.models import DegreeModel
 from hospital_auth.models import User
 from extentions.utils import (
     costs_image_path, 
@@ -19,21 +20,21 @@ from extentions.utils import (
 class SettingModel(models.Model):
     x_scale = models.FloatField(blank=True, null=True, verbose_name=_('مقیاس ایکس'))
     y_scale = models.FloatField(blank=True, null=True, verbose_name=_('مقیاس ایگرگ'))
-    marker_text = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('متن شما روی نقشه'))
-    address = models.CharField(max_length=255, verbose_name=_('آدرس'))
+    marker_text = TranslatedField(models.CharField(max_length=50, blank=True, null=True, verbose_name=_('متن شما روی نقشه')))
+    address = TranslatedField(models.CharField(max_length=255, verbose_name=_('آدرس')))
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
     phone = models.CharField(max_length=255, verbose_name=_('تلفن'))
     facs = models.CharField(max_length=255, verbose_name=_('فکس'))
-    from_to = models.CharField(max_length=200, verbose_name=_('زمان گشایش'))
-    history = models.TextField(verbose_name=_('تاریخچه'))
+    from_to = TranslatedField(models.CharField(max_length=200, verbose_name=_('زمان گشایش')))
+    history = TranslatedField(models.TextField(verbose_name=_('تاریخچه')))
     aparat = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('لینکدین'))
     facebook = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('فیسبوک'))
     twitter = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('توییتر'))
     instagram = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('اینستاگرام'))
     whatsapp = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('واتساپ'))
-    bank_name = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام بانک'))
-    bank_account_owner = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام صاحب حساب'))
+    bank_name = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام بانک')))
+    bank_account_owner = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام صاحب حساب')))
     bank_account_cardnum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره کارت'))
     bank_account_num = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره حساب'))
     bank_account_shabanum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره شبا'))
@@ -49,7 +50,7 @@ class SettingModel(models.Model):
 
 
 class CostModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=costs_image_path, verbose_name=_('تصویر'))
     year = models.PositiveIntegerField(verbose_name=_('سال'))
 
@@ -63,7 +64,7 @@ class CostModel(models.Model):
 
 
 class HospitalPoliticModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
 
     class Meta:
         ordering = ['-id']
@@ -75,7 +76,7 @@ class HospitalPoliticModel(models.Model):
 
 
 class HospitalFacilityModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=facility_image_path, verbose_name=_('تصویر'))
 
     class Meta:
@@ -88,8 +89,8 @@ class HospitalFacilityModel(models.Model):
 
 
 class FAQModel(models.Model):
-    question = models.TextField(verbose_name=_('پرسش'))
-    answer = models.TextField(verbose_name=_('پاسخ'))
+    question = TranslatedField(models.TextField(verbose_name=_('پرسش')))
+    answer = TranslatedField(models.TextField(verbose_name=_('پاسخ')))
 
     class Meta:
         ordering = ['-id']
@@ -114,10 +115,10 @@ class NewsLetterEmailsModel(models.Model):
 
 class NewsLetterModel(models.Model):
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=news_letter_image_path, verbose_name=_('تصویر'))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
-    desc = models.TextField(verbose_name=_('متن'))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
     is_send = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شوند؟'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -131,7 +132,7 @@ class NewsLetterModel(models.Model):
 
 
 class InsuranceModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('نام بیمه'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام بیمه')))
     img = models.ImageField(upload_to=insurance_image_path, verbose_name=_('تصویر'))
 
     class Meta:
@@ -144,7 +145,7 @@ class InsuranceModel(models.Model):
 
 
 class HospitalGalleryModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
     items = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
 
     class Meta:
@@ -174,7 +175,7 @@ class HospitalGalleryItemModel(models.Model):
 
 class ReportModel(models.Model):
     time_bound = models.CharField(max_length=100, verbose_name=_('مدت عملکرد'))
-    description = models.TextField(verbose_name=_('توضیحات'))
+    description = TranslatedField(models.TextField(verbose_name=_('توضیحات')))
     image = models.ImageField(upload_to=report_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 
@@ -202,8 +203,8 @@ class PriceAppointmentModel(models.Model):
 
 
 class ResultModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    desc = models.TextField(verbose_name=_('متن'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
 
     class Meta:
         ordering = ['-id']
@@ -215,7 +216,7 @@ class ResultModel(models.Model):
 
 
 class HomeGalleryModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=home_gallery_image_path, verbose_name=_('تصویر'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -229,8 +230,8 @@ class HomeGalleryModel(models.Model):
 
 
 class CertificateModel(models.Model):
-    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
-    description = models.TextField(verbose_name=_('توضیحات'))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
+    description = TranslatedField(models.TextField(verbose_name=_('توضیحات')))
     image = models.ImageField(upload_to=certificate_image_path, verbose_name=_('تصویر'))
     year_certif = models.IntegerField(verbose_name=_('سال اخذ'))
     year_expire = models.IntegerField(verbose_name=_('تاریخ اعتبار'))
@@ -245,7 +246,7 @@ class CertificateModel(models.Model):
 
 
 class ContactInfoModel(models.Model):
-    title = models.CharField(max_length=500, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=500, verbose_name=_('عنوان')))
     phones = models.CharField(max_length=100, verbose_name=_('تلفن ها'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
 
@@ -259,8 +260,8 @@ class ContactInfoModel(models.Model):
 
 
 class PriceServiceModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
-    desc = models.TextField(verbose_name=_('متن'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
     price_special = models.PositiveBigIntegerField(verbose_name=_('مبلغ خصوصی'))
     price_govern = models.PositiveBigIntegerField(verbose_name=_('مبلغ دولتی'))
     diffrence = models.PositiveBigIntegerField(verbose_name=_('تفاوت'))
@@ -276,7 +277,7 @@ class PriceServiceModel(models.Model):
 
 
 class PriceBedModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     price_free = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ آزاد'))
     insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ بیمه'))
@@ -292,7 +293,7 @@ class PriceBedModel(models.Model):
 
 
 class PriceSurgrayModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     price_free = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ آزاد'))
     insurance = models.ForeignKey(to=InsuranceModel, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price_insurance = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ بیمه'))
@@ -308,10 +309,10 @@ class PriceSurgrayModel(models.Model):
 
 
 class AncientsModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=ancient_image_path, verbose_name=_('تصویر'))
-    full_name = models.CharField(max_length=255, verbose_name=_('نام پزشک مرحوم'))
-    description = models.TextField(verbose_name=_('متن'))
+    full_name = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام پزشک مرحوم')))
+    description = TranslatedField(models.TextField(verbose_name=_('متن')))
     gallery = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('گالری'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 

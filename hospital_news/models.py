@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from hospital_blog.models import TagModel, CategoryModel
@@ -26,8 +27,8 @@ class NewsModel(models.Model):
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to=CategoryModel, verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ ها'))
-    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
-    desc = models.TextField(verbose_name=_('متن مقاله'))
+    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
+    desc = TranslatedField(models.TextField(verbose_name=_('متن مقاله')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
     is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
@@ -66,7 +67,7 @@ class NewsModel(models.Model):
 
 
 class NewsGalleryModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=news_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 

@@ -16,6 +16,8 @@ from extentions.utils import is_email, is_image
 
 
 class EditInfoForm(forms.ModelForm):
+    firstname = forms.CharField(widget=forms.TextInput()) 
+    lastname = forms.CharField(widget=forms.TextInput())
 
     class Meta:
         model = User
@@ -68,13 +70,13 @@ class EditInfoForm(forms.ModelForm):
 class SkillForm(forms.ModelForm):
     class Meta:
         model = TitleSkillModel
-        fields = ['title']
+        fields = '__all__'
 
 
 class DegreeForm(forms.ModelForm):
     class Meta:
         model = DegreeModel
-        fields = ['title']
+        fields = '__all__'
 
 
 class UnitForm(forms.ModelForm):
@@ -86,7 +88,7 @@ class UnitForm(forms.ModelForm):
 class SubUnitForm(forms.ModelForm):
     class Meta:
         model = SubUnitModel
-        fields = ['category', 'title', 'have_2_box']
+        exclude = ['slug']
 
     def clean_title(self):
         title = self.cleaned_data.get('title') 
@@ -101,7 +103,7 @@ class SubUnitForm(forms.ModelForm):
 class LimitTurnTimeForm(forms.ModelForm):
     class Meta:
         model = LimitTurnTimeModel
-        fields = ['hours', 'rules']
+        fields = '__all__'
 
     def clean_hours(self):
         hours = self.cleaned_data.get('hours')
@@ -124,7 +126,7 @@ class LimitTurnTimeForm(forms.ModelForm):
 class InsuranceForm(forms.ModelForm):
     class Meta:
         model = InsuranceModel
-        fields = ['title', 'img']
+        fields = '__all__'
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -144,7 +146,7 @@ class InsuranceForm(forms.ModelForm):
 class AppointmentTipForm(forms.ModelForm):
     class Meta:
         model = AppointmentTipModel
-        fields = ['title', 'tips']
+        fields = '__all__'
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -158,7 +160,7 @@ class AppointmentTipForm(forms.ModelForm):
 class AppointmentTipSMSForm(forms.ModelForm):
     class Meta:
         model = AppointmentTipSMSModel
-        fields = ['title', 'tips']
+        fields = '__all__'
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -322,7 +324,7 @@ class ExprimentResultForm(forms.ModelForm):
 
     class Meta:
         model = ExprimentResultModel
-        fields = ['patient', 'unit', 'title', 'result', 'image', 'date', 'is_sent_sms']
+        exclude = ['code']
 
     def __init__(self, *args, **kwargs):
         super(ExprimentResultForm, self).__init__(*args, **kwargs)
@@ -334,7 +336,5 @@ class ExprimentResultForm(forms.ModelForm):
 class BlogForm(forms.ModelForm):
     class Meta:
         model = BlogModel
-        fields = [
-            'image', 'pdf', 'qr_img', 'video_link', 'categories', 'tags', 'title', 'read_time', 'desc', 'short_desc', 'is_publish', 'is_likeable', 'is_dislikeable', 'is_commentable', 'gallery', 'units'
-        ]
+        exclude = ['slug', 'writer']
 

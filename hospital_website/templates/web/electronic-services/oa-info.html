@@ -66,17 +66,17 @@
 
             <br>
 
-            {{ form.firstname.label_tag }}
-            {{ form.firstname }}
-            {% for err in form.firstname.errors %}
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% for err in form.first_name.errors %}
                 <p style="color: red;">{{ err }}</p>
             {% endfor %}
 
             <br>
 
-            {{ form.lastname.label_tag }}
-            {{ form.lastname }}
-            {% for err in form.lastname.errors %}
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% for err in form.last_name.errors %}
                 <p style="color: red;">{{ err }}</p>
             {% endfor %}
 

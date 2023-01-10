@@ -10,7 +10,7 @@
     <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Info > Details</span></h1>
     <h1>Details of E-Prescription</h1>
     <p title="patient">patient: {{ turn.patient.username }}</p>
-    <p title="patient">patient: {{ turn.patient.firstname }} {{ turn.patient.lastname }}</p>
+    <p title="patient">patient: {{ turn.patient.first_name }} {{ turn.patient.last_name }}</p>
     <p title="appointment">doctor: {{ turn.appointment.doctor.get_full_name }} </p>
     <p>skill: {{ turn.appointment.doctor.degree.title }} {{ turn.appointment.doctor.skill_title.title }}</p>
     <p title="insurance">insurance: {% if not turn.insurance.title %}آزاد{% else %}{{ turn.insurance.title }}{% endif %}</p>

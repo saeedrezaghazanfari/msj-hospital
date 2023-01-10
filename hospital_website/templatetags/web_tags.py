@@ -7,7 +7,7 @@ register = template.Library()
 @register.simple_tag
 def get_user_notif(username):
 
-    if username:
+    if username.is_authenticated:
         notifications = NotificationModel.objects.filter(
             user=username,
             is_read=False,
@@ -15,4 +15,4 @@ def get_user_notif(username):
         ).all()
         
         return notifications
-    return False
+    return []

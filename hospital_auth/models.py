@@ -17,8 +17,6 @@ from extentions.utils import (
 class User(AbstractUser):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
-    firstname = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام')))
-    lastname = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام خانوادگی')))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
@@ -31,22 +29,45 @@ class User(AbstractUser):
     is_note_manager = models.BooleanField(default=False, verbose_name=_('قابلیت نوشتن نوت پزشکی'))
     is_expriment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت گذاشتن جواب آزمایش و تصویربرداری های بیمار'))
     is_appointment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت دسترسی به نوبت دهی آنلاین'))
+    
+
+    def firstname(self):
+        return self.userfullnamemodel.first_name
+    firstname.short_description = _('نام')
+
+    def lastname(self):
+        return self.userfullnamemodel.last_name
+    lastname.short_description = _('نام خانوادگی')
 
     def get_full_name(self):
-        return f'{self.firstname} {self.lastname}'
+        return f'{self.userfullnamemodel.first_name} {self.userfullnamemodel.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
-
+    
     class Meta:
         ordering = ['-id']
         verbose_name = _('کاربر')
         verbose_name_plural = _('کاربران')
 
 
+class UserFullNameModel(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    first_name = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام')))
+    last_name = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام خانوادگی')))
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('نام کامل کاربر')
+        verbose_name_plural = _('نام کامل کاربران')
+
+
 class PatientModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
-    firstname = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    lastname = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(verbose_name=_('سن'))
@@ -56,7 +77,7 @@ class PatientModel(models.Model):
         return self.get_full_name()
 
     def get_full_name(self):
-        return f'{self.firstname} {self.lastname}'
+        return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
 
     class Meta:
@@ -68,8 +89,8 @@ class PatientModel(models.Model):
 class IPDModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('شماره پاسپورت / کدملی'))
-    firstname = models.CharField(max_length=100, verbose_name=_('نام'))
-    lastname = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
@@ -82,7 +103,7 @@ class IPDModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def get_full_name(self):
-        return f'{self.firstname} {self.lastname}'
+        return f'{self.first_name} {self.last_name}'
     get_full_name.short_description = _('نام و نام خانوادگی')
 
     def __str__(self):
