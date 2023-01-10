@@ -504,7 +504,6 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
                 date__gt=timezone.now(),
             ).order_by('date').all()
 
-
         limit_time = 12
         if LimitTurnTimeModel.objects.exists():
             limit_obj = LimitTurnTimeModel.objects.first()
@@ -767,15 +766,22 @@ def eoa_followturn_page(request):
         form = forms.FollowUpTurnForm(request.POST or None)
 
         if form.is_valid():
+            msg = None
+
             if not PatientTurnModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
                 return redirect('/404')
             turn = PatientTurnModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
+            
+            if turn.appointment.status == 'invac':
+                msg = _('پزشک مورد نظر به مرخصی رفته است و نوبت شما به تعویق افتاده است.')
+
     else:
         form = forms.FollowUpTurnForm()
 
     return render(request, 'web/electronic-services/oa-followup-turn.html', {
         'form': form,
-        'turn': turn
+        'turn': turn,
+        'msg': msg,
     })
 
 

@@ -110,6 +110,7 @@ class ExprimentResultModel(models.Model):
 
 
 class AppointmentTimeModel(models.Model):
+    STATUS = (('invac', _('مرخصی پزشک')), ('normal', _('معمولی')), )
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     unit = models.ForeignKey(to=UnitModel, blank=True, null=True, on_delete=models.SET_NULL, verbose_name=_('بخش'), help_text=_('اگر مقداری به این قسمت داده نشود در اینصورت بخش پزشکان انتخاب میشود.'))
     doctor = models.ForeignKey(to='hospital_doctor.DoctorModel', on_delete=models.SET_NULL, null=True, verbose_name=_('پزشک'))
@@ -120,6 +121,7 @@ class AppointmentTimeModel(models.Model):
     insurances = models.ManyToManyField(to='hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
     capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(default=0, verbose_name=_('تعداد رزرو شده'))
+    status = models.CharField(max_length=15, default='normal', choices=STATUS, verbose_name=_('وضعیت'))
     tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
     tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت دهی در پیامک'))
 

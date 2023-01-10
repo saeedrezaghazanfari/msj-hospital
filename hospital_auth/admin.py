@@ -53,7 +53,7 @@ class IPDModel_Admin(admin.ModelAdmin):
 
 
 class LoginCodeModel_Admin(admin.ModelAdmin):
-    list_display = ['user', 'code', 'j_date', 'j_expire', 'usage', 'is_use']
+    list_display = ['user', 'code', 'j_date', 'j_expire', 'is_use']
     search_field = ['is_use', 'user']
     ordering = ['-id']
 
