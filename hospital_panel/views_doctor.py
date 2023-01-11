@@ -94,10 +94,10 @@ def doctor_insurances_page(request):
     if request.method == 'POST':
 
         if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
-            
+
             doctor.insurances.clear()
             for item in request.POST.getlist('insurances'):
-                doctor.insurances.add(InsuranceModel.objects.get(title=item))
+                doctor.insurances.add(InsuranceModel.objects.get(id=item))
 
             messages.success(request, _('بیمه های موردنظر با موفقیت برای شما ثبت شدند.'))
             return redirect('panel:doctor-insurances')

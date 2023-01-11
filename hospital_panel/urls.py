@@ -38,6 +38,7 @@ urlpatterns = [
     # experiment management
     path('panel/experiment/', views_experiment.experiment_page, name='experiment'),
     path('panel/experiment/list/', views_experiment.experiment_list_page, name='experiment-list'),
+    path('panel/experiment/patient/', views_experiment.experiment_patient_page, name='experiment-patient'),
 
 
     # online appointment management

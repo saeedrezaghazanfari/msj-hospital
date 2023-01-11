@@ -1,5 +1,5 @@
 from django import forms
-from hospital_auth.models import User
+from hospital_auth.models import User, PatientModel
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
 from hospital_doctor.models import (
@@ -16,15 +16,11 @@ from extentions.utils import is_email, is_image
 
 
 class EditInfoForm(forms.ModelForm):
-    firstname = forms.CharField(widget=forms.TextInput()) 
-    lastname = forms.CharField(widget=forms.TextInput())
 
     class Meta:
         model = User
-        fields = ['firstname', 'lastname', 'email', 'profile']
+        fields = ['email', 'profile']
         widgets = {
-            'firstname': forms.TextInput({'placeholder': _('نام خود را وارد کنید')}),
-            'lastname': forms.TextInput({'placeholder': _('نام خانوادگی خود را وارد کنید')}),
             'email': forms.EmailInput({'placeholder': _('ایمیل خود را وارد کنید')}),
         }
 
@@ -124,6 +120,7 @@ class LimitTurnTimeForm(forms.ModelForm):
 
 
 class InsuranceForm(forms.ModelForm):
+    
     class Meta:
         model = InsuranceModel
         fields = '__all__'
@@ -171,12 +168,6 @@ class AppointmentTipSMSForm(forms.ModelForm):
         return title
 
 
-class Time0AppointmentForm(forms.ModelForm):
-    class Meta:
-        model = AppointmentTimeModel
-        fields = ['unit']
-
-
 class Time1AppointmentForm(forms.ModelForm):
     class Meta:
         model = AppointmentTimeModel
@@ -199,9 +190,6 @@ class Time2AppointmentForm(forms.ModelForm):
         self.fields['date_to'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
-        # self.fields['date'] = SplitJalaliDateTimeField(label=_('تاریخ روز'), 
-        #     widget=AdminSplitJalaliDateTime # required, for decompress DatetimeField to JalaliDateField and JalaliTimeField
-        # )
 
     def clean_date_to(self):
         from django.utils import timezone
@@ -234,8 +222,7 @@ class AllAppointmentForm(forms.ModelForm):
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'time_from', 'time_to', 'capacity', 'tip', 'tip_sms']
-
+        fields = ['unit', 'time_from', 'time_to', 'capacity', 'status', 'tip', 'tip_sms']
 
     def clean_time_to(self):
         time_from = self.cleaned_data.get('time_from')
@@ -338,3 +325,8 @@ class BlogForm(forms.ModelForm):
         model = BlogModel
         exclude = ['slug', 'writer']
 
+
+class PatientForm(forms.ModelForm):
+    class Meta:
+        model = PatientModel
+        fields = '__all__'

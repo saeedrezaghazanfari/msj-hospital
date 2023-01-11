@@ -28,24 +28,7 @@
             <form method="POST" novalidate>
                 {% csrf_token %}
 
-
-                <p>{{ form.category.label_tag }}</p>
-                {{ form.category }}
-                {% for msg in form.category.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.title.label_tag }}</p>
-                {{ form.title }}
-                {% for msg in form.title.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.have_2_box.label_tag }}</p>
-                {{ form.have_2_box }}
-                {% for msg in form.have_2_box.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
+                {{ form.as_p }}
                 
                 <br>
                 <br>

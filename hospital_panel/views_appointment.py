@@ -40,9 +40,10 @@ def oa_limit_time_page(request):
 
             form.save()
             form = forms.LimitTurnTimeForm()
+
             messages.success(request, _('حد زمانی نوبت اینترنتی با موفقیت تنظیم شد.'))
             return redirect('panel:appointment-limittime')
-    
+
     else:
         form = forms.LimitTurnTimeForm(instance=LimitTurnTimeModel.objects.first())
 
@@ -154,6 +155,7 @@ def oa_degree_page(request):
 
         if form.is_valid():
             form.save()
+
             form = forms.DegreeForm()
             messages.success(request, _('مدرک مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-degree')
@@ -195,35 +197,35 @@ def oa_unit_page(request):
 @online_appointment_required
 def oa_subunit_page(request):
 
-    paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویر برداری']
-    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'ccu', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU بزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
-    officials = ['مدیریت و ریاست', 'حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی تی', 'تاسیسات', 'لنژری', 'آشپزحانه', 'تجهیزات پزشگی', 'بهداشت حرفه ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
+    paraclinics = [_('فیزیوتراپی'), _('آزمایشگاه'), _('پاتولوژی'), _('تصویر برداری')]
+    medicals = [_('دیالیز'), _('IPD'), _('اورزانس'), _('درمانگاه'), _('قلب'), _('ccu'), _('آنژیوگرافی'), _('اتاق عمل مرکزی'), _('اتاق عمل قلب باز'), _('CSR'), _('ICU بزرگسال'), _('جراحی زنان'), _('زنان و زایمان'), _('جراحی مردان'), _('اطفال و نوزادان یا NICU')]
+    officials = [_('مدیریت و ریاست'), _('حسابداری'), _('منابع انسانی'), _('اسناد پزشکی'), _('ترخیص و پذیرش'), _('آی تی'), _('تاسیسات'), _('لنژری'), _('آشپزحانه'), _('تجهیزات پزشکی'), _('بهداشت حرفه ای'), _('بهداشت محیط'), _('بهبود کیفیت'), _('نگهبانی'), _('مددکاری'), _('انبارها'), _('زباله سوز'), _('کمیته')]
 
     paraclinics_list = []
     medicals_list = []
     officials_list = []
 
     for item in paraclinics:
-        if not SubUnitModel.objects.filter(category='paraclinic', title=item).exists():
+        if not SubUnitModel.objects.filter(category='paraclinic', title_fa=item).exists():
             if item == 'آزمایشگاه' or item == 'تصویر برداری':
                 paraclinics_list.append(
-                    SubUnitModel(category='paraclinic', title=item, have_2_box=True)
+                    SubUnitModel(category='paraclinic', title_fa=item, have_2_box=True)
                 )
             else:
                 paraclinics_list.append(
-                    SubUnitModel(category='paraclinic', title=item)
+                    SubUnitModel(category='paraclinic', title_fa=item)
                 )
 
     for item in medicals:
-        if not SubUnitModel.objects.filter(category='medical', title=item).exists():
+        if not SubUnitModel.objects.filter(category='medical', title_fa=item).exists():
             medicals_list.append(
-                SubUnitModel(category='medical', title=item)
+                SubUnitModel(category='medical', title_fa=item)
             )
 
     for item in officials:
-        if not SubUnitModel.objects.filter(category='official', title=item).exists():
+        if not SubUnitModel.objects.filter(category='official', title_fa=item).exists():
             officials_list.append(
-                SubUnitModel(category='official', title=item)
+                SubUnitModel(category='official', title_fa=item)
             )
 
     if len(paraclinics_list) > 0:
@@ -239,6 +241,7 @@ def oa_subunit_page(request):
         if form.is_valid():
             form.save()
             form = forms.SubUnitForm()
+
             messages.success(request, _('زیربخش مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-subunit')
 
@@ -395,14 +398,14 @@ def oa_time_page(request):
     elif request.GET.get('type') == 'labs':
         times = AppointmentTimeModel.objects.filter(
             unit__subunit__category='paraclinic',
-            unit__subunit__title__iexact='آزمایشگاه',
+            unit__subunit__title_fa='آزمایشگاه',
             date__gt=timezone.now()
         ).all()
 
     elif request.GET.get('type') == 'imaging':
         times = AppointmentTimeModel.objects.filter(
             unit__subunit__category='paraclinic',
-            unit__subunit__title='تصویربرداری',
+            unit__subunit__title_fa='تصویربرداری',
             date__gt=timezone.now()
         ).all()
 
@@ -438,7 +441,7 @@ def oa_time_edit_page(request, appointmentID):
             if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
                 appointment.insurances.clear()
                 for item in request.POST.getlist('insurances'):
-                    appointment.insurances.add(InsuranceModel.objects.get(title=item))
+                    appointment.insurances.add(InsuranceModel.objects.get(id=item))
             if form.cleaned_data.get('time_from'):
                 appointment.time_from = form.cleaned_data.get('time_from')
             if form.cleaned_data.get('time_to'):
@@ -449,6 +452,8 @@ def oa_time_edit_page(request, appointmentID):
                 appointment.tip = form.cleaned_data.get('tip')
             if form.cleaned_data.get('tip_sms'):
                 appointment.tip_sms = form.cleaned_data.get('tip_sms')
+            if form.cleaned_data.get('status'):
+                appointment.status = form.cleaned_data.get('status')
             appointment.save()
 
             form = forms.AllAppointmentForm()
@@ -458,11 +463,10 @@ def oa_time_edit_page(request, appointmentID):
     else:
         form = forms.AllAppointmentForm(instance=appointment)
 
-    times = AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all()
     return render(request, 'panel/online-appointment/edit-time-appointment.html', {
-        'times': times,
         'form': form,
         'appointment': appointment,
+        'times': AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all(),
         'insurances': [insurance for insurance in appointment.doctor.insurances.all()]
     })
 
@@ -472,21 +476,17 @@ def oa_time_edit_page(request, appointmentID):
 @online_appointment_required
 def oa_time_create0_page(request):
 
+    units = UnitModel.objects.all()
+
     if request.method == 'POST':
-        form = forms.Time0AppointmentForm(request.POST or None)
+        unit = request.POST.get('units')
 
-        if form.is_valid():
-            unit = form.cleaned_data.get('unit')
-            form = forms.Time0AppointmentForm()
-
-            if unit:
-                return HttpResponseRedirect(reverse('panel:appointment-timep1', args=(unit.id,)))
-            return HttpResponseRedirect(reverse('panel:appointment-timep1', args=('none',)))
-    else:
-        form = forms.Time0AppointmentForm()
+        if unit == 'doctors':
+            return HttpResponseRedirect(reverse('panel:appointment-timep1', args=('doctors',)))
+        return HttpResponseRedirect(reverse('panel:appointment-timep1', args=(unit,)))
 
     return render(request, 'panel/online-appointment/time-p0-appointment.html', {
-        'form': form,
+        'units': units,
     })
 
 
@@ -495,9 +495,9 @@ def oa_time_create0_page(request):
 @online_appointment_required
 def oa_time_create1_page(request, unitID):
 
-    if unitID != 'none' and UnitModel.objects.filter(id=unitID).exists():
+    if unitID != 'doctors' and UnitModel.objects.filter(id=unitID).exists():
         unit = UnitModel.objects.get(id=unitID)
-    elif unitID == 'none':
+    elif unitID == 'doctors':
         unit = None
     elif not unitID:
         return redirect('/404')
@@ -513,7 +513,7 @@ def oa_time_create1_page(request, unitID):
             if doctor and unit:
                 return HttpResponseRedirect(reverse('panel:appointment-timep2', args=(unit.id, doctor.id)))
             elif doctor and not unit:
-                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=('none', doctor.id)))            
+                return HttpResponseRedirect(reverse('panel:appointment-timep2', args=('doctors', doctor.id)))            
             else:
                 messages.error(request, _('باید حداقل یکی از فیلد ها مقدار داشته باشد.'))
                 return redirect('panel:appointment-timep1')
@@ -528,16 +528,16 @@ def oa_time_create1_page(request, unitID):
 @online_appointment_required
 def oa_time_create2_page(request, unitID, doctorId):
 
-    if unitID != 'none' and UnitModel.objects.filter(id=unitID).exists():
+    if unitID != 'doctors' and UnitModel.objects.filter(id=unitID).exists():
         unit = UnitModel.objects.get(id=unitID)
-    elif unitID == 'none':
+    elif unitID == 'doctors':
         unit = None
     elif not unitID:
         return redirect('/404')
 
-    if doctorId != 'none' and DoctorModel.objects.filter(is_active=True, id=doctorId).exists():
+    if doctorId != 'doctors' and DoctorModel.objects.filter(is_active=True, id=doctorId).exists():
         doctor = DoctorModel.objects.get(is_active=True, id=doctorId)
-    elif doctorId == 'none' or not doctorId:
+    elif doctorId == 'doctors' or not doctorId:
         return redirect('/404')
 
     if request.method == 'POST':
@@ -550,9 +550,9 @@ def oa_time_create2_page(request, unitID, doctorId):
             insurances_list = request.POST.getlist('insurances')
             insurances_obj = []
             if len(insurances_list) > 0:
-                for insurance in insurances_list:
-                    if InsuranceModel.objects.filter(title=insurance).exists():
-                        insurances_obj.append(InsuranceModel.objects.get(title=insurance))
+                for insurance_id in insurances_list:
+                    if InsuranceModel.objects.filter(id=insurance_id).exists():
+                        insurances_obj.append(InsuranceModel.objects.get(id=insurance_id))
 
             for date in range_date:
                 day = calendar.day_name[date.weekday()].lower()

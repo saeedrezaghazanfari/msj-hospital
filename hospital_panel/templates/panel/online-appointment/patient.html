@@ -32,8 +32,8 @@
 
         {% for patient in patients %}
         <div class="box">
-            <div title="code">{{ patient.code }}</div>
-            <div title="patient">{{ patient.patient.username }}</div>
+
+            <div title="patient">{{ patient.patient.get_full_name }}</div>
             <div title="appointment">{{ patient.appointment }}</div>
             <div title="insurance">{{ patient.insurance }}</div>
             <div title="price">{{ patient.price }}</div>

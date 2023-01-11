@@ -28,7 +28,7 @@
             
             <select name="insurances" multiple>
                 {% for insurance in insurances %}
-                <option value="{{insurance.title}}" {% if insurance in doctor.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
+                <option value="{{insurance.id}}" {% if insurance in doctor.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
                 {% endfor %}
             </select>
 

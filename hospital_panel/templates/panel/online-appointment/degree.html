@@ -28,11 +28,7 @@
             <form method="POST" novalidate>
                 {% csrf_token %}
 
-                <p>{{ form.title.label_tag }}</p>
-                {{ form.title }}
-                {% for msg in form.title.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
+                {{ form.as_p }}
 
                 <button type="submit">create +</button>
             </form>

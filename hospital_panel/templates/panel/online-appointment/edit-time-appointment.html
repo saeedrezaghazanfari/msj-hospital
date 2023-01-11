@@ -38,7 +38,7 @@
 
                 <select name="insurances" multiple>
                     {% for insurance in insurances %}
-                    <option value="{{ insurance.title }}" {% if insurance in appointment.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
+                    <option value="{{ insurance.id }}" {% if insurance in appointment.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -56,12 +56,17 @@
             {% endfor %}
             
             <p>{{ form.capacity.label_tag }}</p>
-            <p>hint: -1 => doctor is in vacation</p>
             {{ form.capacity }}
             {% for msg in capacity.errors %}
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
-            
+                        
+            <p>{{ form.status.label_tag }}</p>
+            {{ form.status }}
+            {% for msg in status.errors %}
+            <p style="color: red;">{{ msg }}</p>
+            {% endfor %}
+
             <p>{{ form.tip.label_tag }}</p>
             {{ form.tip }}
             {% for msg in tip.errors %}

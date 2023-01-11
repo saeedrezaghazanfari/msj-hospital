@@ -27,13 +27,12 @@
             {% csrf_token %}
             <div class="box">
 
-                <div>
-                    <p>{{ form.unit.label_tag }}</p>
-                    {{ form.unit }}
-                    {% for msg in form.unit.errors %}
-                    <p style="color: red;">{{ msg }}</p>
+                <select name="units">
+                    <option value="doctors">doctors</option>
+                    {% for unit in units %}
+                    <option value="{{ unit.id }}">{{ unit.subunit.title }}</option>
                     {% endfor %}
-                </div>
+                </select>
 
             </div>
             <button type="submit">Continue</button>

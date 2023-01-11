@@ -23,7 +23,7 @@
         <div title="capacity">{% if time.status == 'invac' %}doctor in vacation{% else %}{{ time.capacity }}{% endif %}</div>
         <div title="reserved">{{ time.reserved }}</div>
         <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-        {% if time.is_active and time.capacity != -1 %}<a href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">Continue</a>{% endif %}
+        {% if time.is_active and time.status == 'normal' %}<a href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">Continue</a>{% endif %}
     </div>
     {% endfor %}
 

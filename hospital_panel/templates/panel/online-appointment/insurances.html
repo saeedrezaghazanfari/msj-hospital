@@ -29,19 +29,9 @@
             <form method="POST" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
 
-                <p>{{ form.title.label_tag }}</p>
-                {{ form.title }}
-                {% for msg in form.title.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
+                {{ form.as_p }}
 
-                <p>{{ form.img.label_tag }}</p>
-                {{ form.img }}
-                {% for msg in form.img.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <button type="submit">create +</button>
+                <button type="submit">create</button>
             </form>
         </div>
 

@@ -28,96 +28,9 @@
             <form method="POST" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <p>{{ form.category.label_tag }}</p>
-                {{ form.category }}
-                {% for msg in form.category.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.subunit.label_tag }}</p>
                 <p><a href="{% url 'panel:appointment-subunit' %}">SubUnit</a></p>
-                {{ form.subunit }}
-                {% for msg in form.subunit.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
 
-                <p>{{ form.title.label_tag }}</p>
-                {{ form.title }}
-                {% for msg in form.title.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.have_appointment.label_tag }}</p>
-                {{ form.have_appointment }}
-                {% for msg in form.have_appointment.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.desc.label_tag }}</p>
-                {{ form.desc }}
-                {% for msg in form.desc.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.image.label_tag }}</p>
-                {{ form.image }}
-                {% for msg in form.image.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.phone.label_tag }}</p>
-                {{ form.phone }}
-                {% for msg in form.phone.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.inside.label_tag }}</p>
-                {{ form.inside }}
-                {% for msg in form.inside.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.address.label_tag }}</p>
-                {{ form.address }}
-                {% for msg in form.address.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.work_times.label_tag }}</p>
-                {{ form.work_times }}
-                {% for msg in form.work_times.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.manager.label_tag }}</p>
-                {{ form.manager }}
-                {% for msg in form.manager.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.manager_phone.label_tag }}</p>
-                {{ form.manager_phone }}
-                {% for msg in form.manager_phone.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.email.label_tag }}</p>
-                {{ form.email }}
-                {% for msg in form.email.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.have_2_box.label_tag }}</p>
-                {{ form.have_2_box }}
-                {% for msg in form.have_2_box.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-                
-                <p>{{ form.icon.label_tag }}</p>
-                {{ form.icon }}
-                {% for msg in form.icon.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
+                {{ form.as_p }}
 
                 <button type="submit">create +</button>
             </form>

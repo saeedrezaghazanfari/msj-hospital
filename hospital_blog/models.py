@@ -115,7 +115,7 @@ class BlogModel(models.Model):
         return None
 
     def get_full_name(self):
-        return f'{self.writer.user.firstname} {self.writer.user.lastname}'
+        return f'{self.writer.user.firstname()} {self.writer.user.lastname()}'
     get_full_name.short_description = _('نام نویسنده')
 
 

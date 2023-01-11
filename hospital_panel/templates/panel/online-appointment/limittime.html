@@ -27,17 +27,7 @@
             <form method="POST">
                 {% csrf_token %}
                 
-                <p>{{ form.hours.label_tag }}</p>
-                {{ form.hours }}
-                {% for msg in form.hours.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
-
-                <p>{{ form.rules.label_tag }}</p>
-                {{ form.rules }}
-                {% for msg in form.rules.errors %}
-                <p style="color: red;">{{ msg }}</p>
-                {% endfor %}
+                {{ form.as_p }}
 
                 <button type="submit">create +</button>
             </form>

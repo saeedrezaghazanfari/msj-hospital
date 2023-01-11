@@ -53,7 +53,7 @@ class SubUnitModel(models.Model):
         ('official', _('غیردرمانی')),
     )
     slug = models.SlugField(default=get_links_code, unique=True, verbose_name=_('نمایش در url'))
-    category = TranslatedField(models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش')))
+    category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام')))
     have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو مرحله ای است؟'))
 
@@ -135,7 +135,7 @@ class AppointmentTimeModel(models.Model):
     j_date.short_description = _('تاریخ روز')
 
     def __str__(self):
-        return f'{self.doctor.user.firstname} {self.doctor.user.lastname} - {self.date}'
+        return f'{self.doctor.user.firstname()} {self.doctor.user.lastname()} - {self.date}'
 
 
 class AppointmentTipModel(models.Model):

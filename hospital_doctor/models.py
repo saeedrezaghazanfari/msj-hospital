@@ -33,7 +33,7 @@ class DoctorModel(models.Model):
         return f'{self.get_full_name()} - {self.skill_title.title}'
 
     def get_full_name(self):
-        return f'{self.user.firstname} {self.user.lastname}'
+        return f'{self.user.firstname()} {self.user.lastname()}'
     get_full_name.short_description = _('نام پزشک')
 
 
