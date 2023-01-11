@@ -1,68 +1,65 @@
 
-<h3>Panels</h3>
-<h4>{{ request.user.first_name }} {{ request.user.last_name }}</h4>
-
+<h3>پنل کاربری</h3>
+<h4 class="mt-4">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
 
 <li>
-    <a href="{% url 'website:home' %}">website</a>
-</li>
-<li>
-    <a href="{% url 'panel:home' %}">home</a>
+    <a href="{% url 'panel:home' %}">خانه</a>
 </li>
 
 <hr>
 
 <li {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:doctor' %}">doctor manager</a>
+    <a href="{% url 'panel:doctor' %}">پنل پزشک</a>
 </li>
 <ul {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
-    <li><a href="{% url 'panel:doctor-info' %}">my info</a></li>
-    <li><a href="{% url 'panel:doctor-vacation' %}">send request for Vacation time</a></li>
-    <li><a href="{% url 'panel:doctor-work' %}">add work time</a></li>
-    <li><a href="{% url 'panel:doctor-insurances' %}">my insurances</a></li>
-    <li><a href="{% url 'panel:doctor-patients' %}">patients</a></li>
+    <li><a href="{% url 'panel:doctor-info' %}">اطلاعات من</a></li>
+    <li><a href="{% url 'panel:doctor-vacation' %}">ثبت مرخصی</a></li>
+    <li><a href="{% url 'panel:doctor-work' %}">ثبت ساعت کاری</a></li>
+    <li><a href="{% url 'panel:doctor-insurances' %}">بیمه های من</a></li>
+    <li><a href="{% url 'panel:doctor-patients' %}">بیماران من</a></li>
 </ul>
 <hr>
 {% comment %}
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:blog-list' %}">blog manager</a>
+    <a href="{% url 'panel:blog-list' %}">پنل مدیریت بلاگ</a>
 </li>
 <hr>
 {% endcomment %}
 <li {% if not request.user.is_news_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:news' %}">news manager</a>
+    <a href="{% url 'panel:news' %}">پنل مدیریت اخبار</a>
 </li>
 <li {% if not request.user.is_note_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:notes' %}">note manager</a>
+    <a href="{% url 'panel:notes' %}">پنل مدیریت نوت ها</a>
 </li>
 <li {% if not request.user.is_expriment_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:experiment' %}">expriment manager</a>
+    <a href="{% url 'panel:experiment' %}">پنل آزمایشگاه</a>
     <ul>
-        <li><a href="{% url 'panel:experiment-list' %}">list of experiment</a></li>
+        <li><a href="{% url 'panel:experiment-list' %}">لیست آزمایش ها</a></li>
+        <li><a href="{% url 'panel:experiment-patient' %}">ثبت بیمار</a></li>
     </ul>
 </li>   
 <hr>
 <li {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:appointment' %}">appointment manager</a>
+    <a href="{% url 'panel:appointment' %}">مدیریت نوبت دهی</a>
 </li>
 <ul {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
-    <li><a href="{% url 'panel:appointment-limittime' %}">limit time before appointment</a></li>
-    <li><a href="{% url 'panel:appointment-insurances' %}">insurances</a></li>
-    <li><a href="{% url 'panel:appointment-tips' %}">tips</a></li>
-    <li><a href="{% url 'panel:appointment-smstips' %}">sms tips</a></li>
-    <li><a href="{% url 'panel:appointment-doctorlist' %}">doctors list</a></li>
-    <li><a href="{% url 'panel:appointment-unit' %}">unit</a></li>
-    <li><a href="{% url 'panel:appointment-subunit' %}">subunit</a></li>
-    <li><a href="{% url 'panel:appointment-price' %}">price of appointment</a></li>
-    <li><a href="{% url 'panel:appointment-time' %}">Appointment</a></li>
-    <li><a href="{% url 'panel:appointment-patient' %}">patient turns</a></li>
-    <li><a href="{% url 'panel:appointment-eturnlist' %}">Eturns</a></li>
+    <li><a href="{% url 'panel:appointment-limittime' %}">حد زمانی نوبت دهی</a></li>
+    <li><a href="{% url 'panel:appointment-insurances' %}">بیمه ها</a></li>
+    <li><a href="{% url 'panel:appointment-tips' %}">نکات نوبت دهی</a></li>
+    <li><a href="{% url 'panel:appointment-smstips' %}">نکات نوبت دهی در پیامک</a></li>
+    <li><a href="{% url 'panel:appointment-doctorlist' %}">لیست پزشکان</a></li>
+    <li><a href="{% url 'panel:appointment-unit' %}">بخش</a></li>
+    <li><a href="{% url 'panel:appointment-subunit' %}">زیر بخش</a></li>
+    <li><a href="{% url 'panel:appointment-price' %}">تعرفه ی نوبت دهی</a></li>
+    <li><a href="{% url 'panel:appointment-time' %}">نوبت دهی</a></li>
+    <li><a href="{% url 'panel:appointment-patient' %}">بیماران نوبت دهی</a></li>
+    <li><a href="{% url 'panel:appointment-eturnlist' %}">نسخه های الکترونیکی</a></li>
 </ul>
 <hr>
 
 <li>
-    <a href="{% url 'panel:editdata' %}">edit data</a>
+    <a href="{% url 'panel:editdata' %}">تغییر اطلاعات</a>
 </li>
 <li>
-    <a href="{% url 'auth:signout' %}">exit</a>
+    <a href="{% url 'auth:signout' %}">خروج</a>
 </li>

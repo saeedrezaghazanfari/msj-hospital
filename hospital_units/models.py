@@ -98,7 +98,6 @@ class ExprimentResultModel(models.Model):
     result = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('جواب آزمایش')))
     image = models.ImageField(upload_to=experiment_result_image_path, blank=True, null=True, verbose_name=_('تصویر آزمایش'))
     date = models.DateField(blank=True, null=True, verbose_name=_('زمان ثبت نتیجه'))
-    is_sent_sms = models.BooleanField(default=False, verbose_name=_('بعد از ذخیره کردن آیا نمایش داده شود و پیامک به کاربر ارسال شود؟'))
 
     class Meta:
         ordering = ['-id']

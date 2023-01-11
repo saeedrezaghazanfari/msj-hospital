@@ -11,36 +11,36 @@
 {% block content %}
 
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - unit</h1>
+        <h1>ثبت بخش</h1>
 
         <div class="box" v-if="show_create_tips">
             <form method="POST" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <p><a href="{% url 'panel:appointment-subunit' %}">SubUnit</a></p>
+                <p><a href="{% url 'panel:appointment-subunit' %}">ساخت زیربخش</a></p>
 
                 {{ form.as_p }}
 
-                <button type="submit">create +</button>
+                <button type="submit">ثبت</button>
             </form>
         </div>
 
         {% for unit in units %}
-        <div class="box">  
-            <div title="subunit">{{ unit.subunit.category }}</div>
-            <div title="subunit">{{ unit.subunit.title }}</div>
-            <div title="title">{{ unit.title }}</div>
+        <div class="alert alert-light text-primary d-flex mt-3">
+            <div style="flex: 1;" title="subunit">{{ unit.subunit.category }}</div>
+            <div style="flex: 1;" title="subunit">{{ unit.subunit.title }}</div>
+            <div style="flex: 1;" title="title">{{ unit.title }}</div>
         </div>
         {% endfor %}
 

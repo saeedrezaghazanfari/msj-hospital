@@ -12,33 +12,38 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>doctor panel - insurances</h1>
+        <h1>بیمه های طرف قرارداد من</h1>
 
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             
             {% for insurance in insurances %}
-            <input type="checkbox" name="insurances" value="{{ insurance.id }}" {% if insurance in doctor.insurances.all %}checked{% endif %}>{{ insurance.title }}</input>
+            <input type="checkbox" name="insurances" class="mx-3" value="{{ insurance.id }}" {% if insurance in doctor.insurances.all %}checked{% endif %}>{{ insurance.title }}</input>
             {% endfor %}
-            
-            <button type="submit">send</button>
+            <br><br>
+            <button type="submit">ارسال</button>
         </form>
 
-        <h1>your insurances: {% for insurance in doctor.insurances.all %}{{ insurance.title }} - {% endfor %}</h1>
-        <h2>all of insurances that hospital is in contract</h2>
+        <h2>بیمه های شما:</h2>
+        {% for insurance in doctor.insurances.all %}
+        <div class="text-primary alert alert-light text-center">{{ insurance.title }}</div>
+        {% endfor %}
+        
+        <br><br>
+        <h2>بیمه های طرف قرارداد بیمارستان:</h2> 
 
         {% for insurance in insurances %}
         <div class="box">
-            <div title="title">{{ insurance.title }}</div>
+            <div class="alert alert-light text-center" title="title">{{ insurance.title }}</div>
         </div>
         {% endfor %}
 

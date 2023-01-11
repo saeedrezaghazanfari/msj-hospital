@@ -7,23 +7,23 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم</span></h1>
 
     <div style="text-align: center;">
         <h3>{{ doctor.get_full_name }}</h3>
-        <h3>{{ doctor.degree.title }} - {{ doctor.skill_title.title }}</h3>
+        <h3>{{ doctor.degree.title }} {{ doctor.skill_title.title }}</h3>
     </div>
 
     {% for time in times %}
-    <div class="box">
-        <div title="date">{{ time.date|to_jalali }}</div>
-        <div title="day">{{ time.day }}</div>
-        <div title="time_from">{{ time.time_from }}</div>
-        <div title="time_to">{{ time.time_to }}</div>
-        <div title="capacity">{% if time.status == 'invac' %}doctor in vacation{% else %}{{ time.capacity }}{% endif %}</div>
-        <div title="reserved">{{ time.reserved }}</div>
-        <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-        {% if time.is_active and time.status == 'normal' %}<a href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">Continue</a>{% endif %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;" title="date">{{ time.date|to_jalali }}</div>
+        <div style="flex: 1;" title="day">{{ time.day }}</div>
+        <div style="flex: 1;" title="time_from">{{ time.time_from }}</div>
+        <div style="flex: 1;" title="time_to">{{ time.time_to }}</div>
+        <div style="flex: 1;" title="capacity">{% if time.status == 'invac' %}doctor in vacation{% else %}{{ time.capacity }}{% endif %}</div>
+        <div style="flex: 1;" title="reserved">{{ time.reserved }}</div>
+        <div style="flex: 1;" title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
+        {% if time.is_active and time.status == 'normal' %}<a class="btn btn-primary" href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">ادامه دادن</a>{% endif %}
     </div>
     {% endfor %}
 

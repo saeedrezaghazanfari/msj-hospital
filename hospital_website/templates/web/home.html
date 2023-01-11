@@ -8,8 +8,8 @@
 {% block content %}
 
     <ul>
-        <li><a href="{% url 'panel:home' %}">panel</a></li>
-        <li><a href="{% url 'website:oa-home' %}">online appointment, click here!</a></li>
+        <li><a href="{% url 'panel:home' %}">پنل کاربری</a></li>
+        <li><a href="{% url 'website:oa-home' %}">نوبت دهی اینترنتی</a></li>
     </ul>
     {% get_user_notif request.user as notifications %}
 
@@ -17,7 +17,7 @@
         <div class="box">
             <div title="title">{{ notification.title }}</div>
             <div title="description">{{ notification.description }}</div>
-            <div><a href="{% url 'website:read-notif' notification.id %}?route={{ request.path }}">read</a></div>
+            <div><a href="{% url 'website:read-notif' notification.id %}?route={{ request.path }}">خواندن</a></div>
         </div>
         {% endfor %}
 

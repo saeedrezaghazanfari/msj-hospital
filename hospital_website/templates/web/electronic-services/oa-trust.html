@@ -7,12 +7,12 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Info > Details > Trust</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم > اطلاعات > اطمینان</span></h1>
 
-    <h1>Rules</h1>
+    <h1>قوانین</h1>
     <p>{{ limit_time }}</p>
     
-    <h1>tips</h1>
+    <h1>نکات</h1>
     <p>{{ tips }}</p>
 
     <form method="POST" novalidate>
@@ -24,7 +24,7 @@
             <p style="color: red;">{{ err }}</p>
         {% endfor %}
 
-        <button type="submit">Continue</button>
+        <button type="submit">پرداخت</button>
     </form>
 
 {% endblock %}

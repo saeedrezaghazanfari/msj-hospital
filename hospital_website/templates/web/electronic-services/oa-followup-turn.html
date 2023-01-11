@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Follow up turn</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">پیگیری نوبت</span></h1>
 
     {% if not turn %}
 
@@ -30,20 +30,20 @@
     </form>
 
     {% else %}
-    <div class="box">
+    <div class="alert alert-light text-primary d-flex">
 
-        <div title="code">{{ turn.code }}</div>
-        <div title="patient">{{ turn.patient }}</div>
-        <div title="appointment">{{ turn.appointment }}</div>
-        <div title="insurance">{{ turn.insurance }}</div>
-        <div title="price">{{ turn.price }}</div>
-        <div title="prescription_code">{{ turn.prescription_code }}</div>
-        <div title="experiment_code">{{ turn.experiment_code }}</div>
-        <div title="turn">{{ turn.turn }}</div>
-        <div title="is_paid">{{ turn.is_paid }}</div>
-        <div title="is_canceled">{{ turn.is_canceled }}</div>
-        <div title="is_returned">{{ turn.is_returned }}</div>
-        <div title="created">{{ turn.created }}</div>
+        <div style="flex: 1;" title="code">{{ turn.code }}</div>
+        <div style="flex: 1;" title="patient">{{ turn.patient }}</div>
+        <div style="flex: 1;" title="appointment">{{ turn.appointment }}</div>
+        <div style="flex: 1;" title="insurance">{{ turn.insurance }}</div>
+        <div style="flex: 1;" title="price">{{ turn.price }}</div>
+        <div style="flex: 1;" title="prescription_code">{{ turn.prescription_code }}</div>
+        <div style="flex: 1;" title="experiment_code">{{ turn.experiment_code }}</div>
+        <div style="flex: 1;" title="turn">{{ turn.turn }}</div>
+        <div style="flex: 1;" title="is_paid">{{ turn.is_paid }}</div>
+        <div style="flex: 1;" title="is_canceled">{{ turn.is_canceled }}</div>
+        <div style="flex: 1;" title="is_returned">{{ turn.is_returned }}</div>
+        <div style="flex: 1;" title="created">{{ turn.created }}</div>
     </div>
 
     {% endif %}

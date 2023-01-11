@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Follow up Result</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">پیگیری نتیجه آزمایش</span></h1>
 
     {% if not turn %}
 
@@ -26,18 +26,18 @@
         <p style="color: red;">{{ msg }}</p>
         {% endfor %}
 
-        <button type="submit">click</button>
+        <button type="submit">نمایش</button>
     </form>
 
     {% else %}
-    <div class="box">
+    <div class="alert alert-light text-primary d-flex">
 
-        <div title="patient">{{ result.patient }}</div>
-        <div title="unit">{{ result.unit }}</div>
-        <div title="title">{{ result.title }}</div>
-        <div title="result">{{ result.result }}</div>
-        <div title="image">{{ result.image }}</div>
-        <div title="date">{{ result.date }}</div>
+        <div style="flex: 1;" title="patient">{{ result.patient }}</div>
+        <div style="flex: 1;" title="unit">{{ result.unit }}</div>
+        <div style="flex: 1;" title="title">{{ result.title }}</div>
+        <div style="flex: 1;" title="result">{{ result.result }}</div>
+        <div style="flex: 1;" title="image">{{ result.image }}</div>
+        <div style="flex: 1;" title="date">{{ result.date }}</div>
 
     </div>
 

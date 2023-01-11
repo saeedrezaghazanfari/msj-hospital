@@ -10,42 +10,42 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - time appointment</h1>
+        <h1>نوبت دهی</h1>
 
-        <a href="{% url 'panel:appointment-timep0' %}">create a new</a>
+        <a href="{% url 'panel:appointment-timep0' %}">ثبت زمان نوبت دهی</a>
 
-        <p>tip: these are times from now on</p>
+        <p>نکته: تمامی آیتم های نمایش داده شده از زمان حال تا آینده هستند.</p>
 
-        <p><a href="?type=all">all</a></p>
-        <p><a href="?type=doctors">list of doctors</a></p>
-        <p><a href="?type=labs">list of labs</a></p>
-        <p><a href="?type=imaging">list of imaging</a></p>
+        <p><a href="?type=all">همه</a></p>
+        <p><a href="?type=doctors">لیست پزشکان</a></p>
+        <p><a href="?type=labs">لیست آزمایشگاه ها</a></p>
+        <p><a href="?type=imaging">لیست تصویربرداری ها</a></p>
 
         {% for time in times %}
 
-        <div class="box">
-            <div title="unit">{% if not time.unit %}پزشکان{% else %}{{ time.unit }}{% endif %}</div>
-            <div title="doctor">{{ time.doctor }}</div>
-            <div title="date">{{ time.date|to_jalali }}</div>
-            <div title="day">{{ time.day }}</div>
-            <div title="time_from">{{ time.time_from }}</div>
-            <div title="time_to">{{ time.time_to }}</div>
-            <div title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-            <div title="capacity">{{ time.capacity }}</div>
-            <div title="reserved">{{ time.reserved }}</div>
-            <div title="status">{{ time.status }}</div>
-            <div><a href="{% url 'panel:appointment-timeedit' time.id %}">edit</a></div>
+        <div class="alert alert-light text-primary d-flex mt-3">
+            <div style="flex: 1;" title="unit">{% if not time.unit %}پزشکان{% else %}{{ time.unit }}{% endif %}</div>
+            <div style="flex: 1;" title="doctor">{{ time.doctor }}</div>
+            <div style="flex: 1;" title="date">{{ time.date|to_jalali }}</div>
+            <div style="flex: 1;" title="day">{{ time.day }}</div>
+            <div style="flex: 1;" title="time_from">{{ time.time_from }}</div>
+            <div style="flex: 1;" title="time_to">{{ time.time_to }}</div>
+            <div style="flex: 1;" title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
+            <div style="flex: 1;" title="capacity">{{ time.capacity }}</div>
+            <div style="flex: 1;" title="reserved">{{ time.reserved }}</div>
+            <div style="flex: 1;" title="status">{{ time.status }}</div>
+            <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:appointment-timeedit' time.id %}">ویرایش</a></div>
         </div>
         
         {% endfor %}

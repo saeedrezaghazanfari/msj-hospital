@@ -10,18 +10,19 @@
 
 {% block content %}
 
+
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>doctor panel - work</h1>
+        <h1>ثبت زمان کاری</h1>
 
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
@@ -56,16 +57,17 @@
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 
-            <button type="submit">send</button>
+            <br><br>
+            <button type="submit">ارسال</button>
         </form>
 
 
         {% for work in works %}
-        <div class="box">
-            <div title="day_from"> {{ work.day_from }}</div>
-            <div title="day_to"> {{ work.day_to }}</div>
-            <div title="time_from"> {{ work.time_from }}</div>
-            <div title="time_to"> {{ work.time_to }}</div>
+        <div class="alert alert-light text-primary d-flex mt-3">
+            <div style="flex: 1;" title="day_from"> {{ work.day_from }}</div>
+            <div style="flex: 1;" title="day_to"> {{ work.day_to }}</div>
+            <div style="flex: 1;" title="time_from"> {{ work.time_from }}</div>
+            <div style="flex: 1;" title="time_to"> {{ work.time_to }}</div>
         </div>
         {% endfor %}
 

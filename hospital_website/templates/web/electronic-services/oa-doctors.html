@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > {{ header }}</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > {{ header }}</span></h1>
 
     <ul>
         <li><a href="?type=all">همه</a></li>
@@ -17,11 +17,11 @@
     </ul>
 
     {% for doctor in doctors %}
-    <div class="box">
-        <div>{{ doctor.user.firstname }} {{ doctor.user.lastname }}</div>
-        <div>{{ doctor.skill_title.title }}</div>
-        <div>{{ doctor.degree.title }}</div>
-        <div><a href="{% url 'website:oa-phone' unitSlug doctor.id %}">view</a></div>
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ doctor.user.firstname }} {{ doctor.user.lastname }}</div>
+        <div style="flex: 1;">{{ doctor.skill_title.title }}</div>
+        <div style="flex: 1;">{{ doctor.degree.title }}</div>
+        <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'website:oa-phone' unitSlug doctor.id %}">ادامه</a></div>
     </div>
     {% endfor %}
 

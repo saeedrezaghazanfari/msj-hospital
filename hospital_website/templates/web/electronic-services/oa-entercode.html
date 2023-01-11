@@ -7,19 +7,14 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Enter Phone > Enter Code</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > وارد کردن شماره > وارد کردن کد</span></h1>
 
-    <form method="POST" novalidate>
+    <form method="POST" novalidate autocomplete="off">
         {% csrf_token %}
 
-        {{ form.code.label_tag }}
-        {{ form.code }}
-        {% for msg in form.code.errors %}
-        <p style="color: red;">{{ msg }}</p>
-        {% endfor %}
-
-
-        <button type="submit">enter and get sms code</button>
+        {{ form.as_p }}
+        
+        <button type="submit">ادامه</button>
     </form>
 
 {% endblock %}

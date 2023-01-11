@@ -10,33 +10,32 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - limit time</h1>
+        <h1>تعیین حدزمانی</h1>
 
-        <div class="box">
-            <form method="POST">
-                {% csrf_token %}
-                
-                {{ form.as_p }}
+        <form method="POST">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
 
-                <button type="submit">create +</button>
-            </form>
-        </div>
+            <button type="submit">ثبت</button>
+        </form>
 
-        <div class="box">
+        <br>
+        <div class="alert alert-light">
             {{ limit_time.hours }}
         </div>
-        <div class="box">
+        <div class="alert alert-light">
             {{ limit_time.rules }}
         </div>
 

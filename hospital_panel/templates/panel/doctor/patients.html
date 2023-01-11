@@ -12,25 +12,25 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>doctor panel - patients</h1>
+        <h1>بیماران من</h1>
 
         {% for patient in patients %}
-        <div class="box">
-            <div title="patient">{{ patient.patient }}</div>
-            <div title="price">{{ patient.price }}</div>
-            <div title="prescription_code">{{ patient.prescription_code }}</div>
-            <div title="experiment_code">{{ patient.experiment_code }}</div>
-            <div title="turn">{{ patient.turn }}</div>
-        </div>
+            <div class="alert alert-light text-primary d-flex mt-3">
+                <div style="flex: 1;" title="patient">{{ patient.patient }}</div>
+                <div style="flex: 1;" title="price">{{ patient.price }}</div>
+                <div style="flex: 1;" title="prescription_code">{{ patient.prescription_code }}</div>
+                <div style="flex: 1;" title="experiment_code">{{ patient.experiment_code }}</div>
+                <div style="flex: 1;" title="turn">{{ patient.turn }}</div>
+            </div>
         {% endfor %}
 
     </div>

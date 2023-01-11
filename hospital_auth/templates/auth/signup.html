@@ -12,58 +12,40 @@
 
 
 
-    <form class="wrapper__card__body" method="POST" novalidate>
+    <form class="text-center" method="POST" novalidate>
         {% csrf_token %}
 
-        <div class="wrapper__field mt-1">
-            <label for="name_input_id">{% translate 'کدملی' %}</label>
-            {% render_field form.username id="name_input_id" autofocus="autofocus" %}
-            {% for msg in form.username.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
-        </div>
+        <label for="name_input_id">{% translate 'کدملی' %}</label>
+        {% render_field form.username id="name_input_id" autofocus="autofocus" %}
+        {% for msg in form.username.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+        <div class="my-3"></div>
 
-        <div class="wrapper__field mt-1">
-            <label for="name_input_id">{% translate 'نام' %}</label>
-            {% render_field form.firstname id="name_input_id" %}
-            {% for msg in form.firstname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
-        </div>
 
-        <div class="wrapper__field">
-            <label for="family_input_id">{% translate 'نام خانوادگی' %}</label>
-            {% render_field form.lastname id="family_input_id" %}
-            {% for msg in form.lastname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
-        </div>
+        <label for="name_input_id">{% translate 'نام' %}</label>
+        {% render_field form.firstname id="name_input_id" %}
+        {% for msg in form.firstname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+        <div class="my-3"></div>
 
-        <div class="wrapper__field">
-            <label for="phone_input_id">{% translate 'شماره تلفن همراه' %}</label>
-            {% render_field form.phone id="phone_input_id" %}
-            {% for msg in form.phone.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
-        </div>
+        <label for="family_input_id">{% translate 'نام خانوادگی' %}</label>
+        {% render_field form.lastname id="family_input_id" %}
+        {% for msg in form.lastname.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+        <div class="my-3"></div>
+
+        <label for="phone_input_id">{% translate 'شماره تلفن همراه' %}</label>
+        {% render_field form.phone id="phone_input_id" %}
+        {% for msg in form.phone.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
+        <div class="my-3"></div>
 
         {% render_field form.captcha %}
         {% for msg in form.captcha.errors %}<p class="text-danger">{{ msg }}</p>{% endfor %}
 
-        <div class="wrapper__radio">
+    
+        {% render_field form.gender %}
 
-            {% render_field form.gender %}
-
-            <!-- <div class="wrapper__radiobtn">
-                <input type="radio" name="gender_radio" checked id="male_radio_id">
-                <label for="male_radio_id">مرد</label>
-            </div> -->
-            
-            <!-- <div class="wrapper__radiobtn">
-                <input type="radio" name="gender_radio" id="female_radio_id">
-                <label for="female_radio_id">زن</label>
-            </div> -->
-
-        </div>
+        <button type="submit" class="btn btn-primary m-5">{% translate 'ثبت نام' %}</button>
 
         <p><a href="{% url 'auth:signin' %}"><i class="fa fa-sign-in"></i> {% translate 'ورود به حساب کاربری' %}</a></p>
-
-        <div class="wrapper__btn">
-            <button type="submit">{% translate 'ثبت نام' %}</button>
-        </div>
-
+    
     </form>
 
 

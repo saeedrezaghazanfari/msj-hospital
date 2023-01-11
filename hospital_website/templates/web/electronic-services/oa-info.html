@@ -7,9 +7,9 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Add INFO</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم > اطلاعات</span></h1>
 
-    <h1>appointment:</h1>
+    <h1>نسخه:</h1>
     <p title="doctor">{{ appointment.doctor }}</p>
     <p title="degree">{{ appointment.doctor.degree }}</p>
     <p title="date">{{ appointment.date }}</p>
@@ -17,15 +17,15 @@
     <p title="time_from">{{ appointment.time_from }}</p>
     <p title="time_to">{{ appointment.time_to }}</p>
     <p title="insurances">{% for insurance in appointment.insurances.all %}{{ insurance.title }} - {% endfor %}</p>
-
-    <form method="POST" novalidate>
+    <hr>
+    <form method="POST" autocomplete="off" novalidate>
         {% csrf_token %}
 
         <div class="box">
 
             <p>insurances:</p>
             <select name="insurance">
-                <option value="free" selected>Free</option>
+                <option value="free" selected>آزاد</option>
                 {% for insurance in insurances %}
                 <option value="{{ insurance.id }}">{{ insurance.title }}</option>
                 {% endfor %}
@@ -50,6 +50,7 @@
             <br>
 
         </div>
+
 
         {% if have_folder %}
         <h3>پرونده ی شما لود شد</h3>
@@ -98,11 +99,9 @@
 
 
         </div>
-
-
-
-        <button type="submit">next</button>
-        <a href="{% url 'website:oa-calendar' unitSlug appointment.doctor.id uidb64 token %}" type="button">previous</a>
+        <br>
+        <button type="submit">بعدی</button>
+        <a href="{% url 'website:oa-calendar' unitSlug appointment.doctor.id uidb64 token %}" type="button">قبلی</a>
     </form>
 
 {% endblock %}

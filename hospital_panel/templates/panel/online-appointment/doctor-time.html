@@ -10,41 +10,39 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
         
-        <h1>Online Appointment - doctors Times</h1>
+        <h1>اطلاعات پزشک</h1>
 
-        <h1>insurances</h1>
-        <div class="box" title="insurances">{% for insurance in doctor.insurances.all %}{{ insurance.title }} - {% endfor %}</div>
-        <hr>
+        <h3>بیمه ها</h3>
+        <div class="alert alert-light" title="insurances">{% for insurance in doctor.insurances.all %}{{ insurance.title }} - {% endfor %}</div>
 
-        <h1>Info</h1>
-        <div class="box">
-            <div title="have_not_accecpted_vacataion">{{ doctor.have_not_accecpted_vac }}</div>
-            <div title="medical_code">{{ doctor.medical_code }}</div>
-            <div title="skill_title">{{ doctor.skill_title }}</div>
-            <div title="user">{{ doctor.user }}</div>
-            <div title="unit">{{ doctor.unit }}</div>
-            <div title="degree">{{ doctor.degree }}</div>
-            <div title="is_public">{{ doctor.is_public }}</div>
-            <div title="is_clinic">{{ doctor.is_clinic }}</div>
-            <div title="is_active">{{ doctor.is_active }}</div>
+
+        <h3>اطلاعات</h3>
+        <div class="alert alert-light text-primary">
+            <div title="medical_code">medical_code: {{ doctor.medical_code }}</div>
+            <div title="skill_title">skill_title: {{ doctor.skill_title }}</div>
+            <div title="user">user: {{ doctor.user }}</div>
+            <div title="unit">unit: {{ doctor.unit }}</div>
+            <div title="degree">degree: {{ doctor.degree }}</div>
+            <div title="is_public">is_public: {{ doctor.is_public }}</div>
+            <div title="is_clinic">is_clinic: {{ doctor.is_clinic }}</div>
+            <div title="is_active">is_active: {{ doctor.is_active }}</div>
         </div>
 
-        <hr>
-        <h1>works</h1>
+        <h3>زمان کاری</h3>
 
         {% for work in works %}
-        <div class="box"> 
+        <div class="alert alert-light text-primary">
             <div title="day_from">{{ work.day_from }}</div>
             <div title="day_to">{{ work.day_to }}</div>
             <div title="time_from">{{ work.time_from }}</div>
@@ -52,15 +50,14 @@
         </div>
         {% endfor %}
 
-        <hr>
-        <h1>vacation</h1>
+        <h3>زمان مرخصی</h3>
         {% for vacation in vacations %}
-        <div class="box"> 
+        <div class="alert alert-light text-primary">
             <div title="from_date">{{ vacation.from_date }}</div>
             <div title="to_date">{{ vacation.to_date }}</div>
             <div title="from_time">{{ vacation.from_time }}</div>
             <div title="to_time">{{ vacation.to_time }}</div>
-            {% if not vacation.is_accepted %}<div><a href="?vid={{ vacation.id }}">accept?</a></div>{% endif %}
+            {% if not vacation.is_accepted %}<div><a href="?vid={{ vacation.id }}">بررسی شد?</a></div>{% endif %}
         </div>
         {% endfor %}
 

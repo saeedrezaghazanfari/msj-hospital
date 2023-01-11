@@ -12,22 +12,18 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>doctor panel</h1>
+        <h1>پنل پزشک</h1>
 
-        <ul>
-            <li><a href="{% url 'panel:doctor-vacation' %}">send request for Vacation time</a></li>
-            <li><a href="{% url 'panel:doctor-work' %}">add work time</a></li>
-            <li><a href="{% url 'panel:doctor-insurances' %}">my insurances</a></li>
-        </ul>
+        <div class="alert alert-success">به پنل پزشک خوش آمدید</div>
 
     </div>
 

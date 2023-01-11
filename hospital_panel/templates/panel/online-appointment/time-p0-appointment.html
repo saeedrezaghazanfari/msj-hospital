@@ -10,18 +10,19 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - create time appointment - p0</h1>
+        <h1>انتخاب بخش (۱)</h1>
 
         <form method="POST" novalidate>
             {% csrf_token %}
@@ -35,6 +36,7 @@
                 </select>
 
             </div>
+            <br>
             <button type="submit">Continue</button>
         </form>
 

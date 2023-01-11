@@ -10,34 +10,34 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
         
-        <h1>Online Appointment - doctors</h1>
+        <h1>لیست پزشکان</h1>
 
-        <a href="{% url 'panel:appointment-doctorcreate' %}">create a doctor</a>
+        <a href="{% url 'panel:appointment-doctorcreate' %}">ثبت پزشک</a>
 
         <div> 
             {% for doctor in doctors %}
-            <div class="box">
-                <div title="have_not_accecpted_vacataion">{{ doctor.have_not_accecpted_vac }}</div>
-                <div title="medical_code">{{ doctor.medical_code }}</div>
-                <div title="skill_title">{{ doctor.skill_title }}</div>
-                <div title="user">{{ doctor.user }}</div>
-                <div title="unit">{{ doctor.unit }}</div>
-                <div title="degree">{{ doctor.degree }}</div>
-                <div title="is_public">{{ doctor.is_public }}</div>
-                <div title="is_clinic">{{ doctor.is_clinic }}</div>
-                <div title="is_active">{{ doctor.is_active }}</div>
-                <div><a href="{% url 'panel:appointment-doctorlist-times' doctor.id %}">more</a></div>
+            <div class="alert alert-light text-primary d-flex mt-3">
+                <div style="flex: 1;" title="have_not_accecpted_vacataion">{{ doctor.have_not_accecpted_vac }}</div>
+                <div style="flex: 1;" title="medical_code">{{ doctor.medical_code }}</div>
+                <div style="flex: 1;" title="skill_title">{{ doctor.skill_title }}</div>
+                <div style="flex: 1;" title="user">{{ doctor.user }}</div>
+                <div style="flex: 1;" title="unit">{{ doctor.unit }}</div>
+                <div style="flex: 1;" title="degree">{{ doctor.degree }}</div>
+                <div style="flex: 1;" title="is_public">{{ doctor.is_public }}</div>
+                <div style="flex: 1;" title="is_clinic">{{ doctor.is_clinic }}</div>
+                <div style="flex: 1;" title="is_active">{{ doctor.is_active }}</div>
+                <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:appointment-doctorlist-times' doctor.id %}">بیشتر</a></div>
             </div>
             {% endfor %}
 

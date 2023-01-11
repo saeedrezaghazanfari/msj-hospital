@@ -1,5 +1,5 @@
 {% extends 'panel/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks jalali_tags %}
 {% block title %}{% translate 'online-appointment' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
@@ -12,40 +12,36 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
-        <h1>list of experiment</h1>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>ثبت آزمایش بیماران</h1>
 
-        <h2>create</h2>
-        <form method="POST" novalidate enctype="multipart/form-data">
+        <form method="POST" novalidate enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
-            <a href="{% url 'panel:experiment-patient' %}">enter patient data</a>
+            <p><a href="{% url 'panel:experiment-patient' %}">ثبت بیمار</a></p>
             
             {{ form.as_p }}
 
-            <button type="submit">create</button>
+            <button class="my-4" type="submit">ثبت کردن</button>
         </form>
 
-        <h2>list</h2>
+        <h2>لیست آزمایش های ثبت شده</h2>
         {% for result in results %}
-        <div class="box">
-            <div title="type">{{ result.type }}</div>
-            <div title="code">{{ result.code }}</div>
-            <div title="patient">{{ result.patient }}</div>
-            <div title="unit">{{ result.unit }}</div>
-            <div title="insurance">{{ result.insurance }}</div>
-            <div title="is_show_send_sms">{{ result.is_show_send_sms }}</div>
-            <div title="title">{{ result.title }}</div>
-            <div title="result">{{ result.result }}</div>
-            {% if result.image %}<div title="image"><a href="{{ result.image.url }}">img</a></div>{% endif %}
-            <div title="date">{{ result.date }}</div>
-            <div title="sent+sms">{{ result.is_sent_sms }}</div>
+        <div class="alert alert-light text-primary d-flex">
+            <div style="flex: 1;" title="type">{{ result.type }}</div>
+            <div style="flex: 1;" title="code">{{ result.code }}</div>
+            <div style="flex: 1;" title="patient">{{ result.patient }}</div>
+            <div style="flex: 1;" title="unit">{{ result.unit }}</div>
+            <div style="flex: 1;" title="title">{{ result.title }}</div>
+            <div style="flex: 1;" title="result">{{ result.result }}</div>
+            {% if result.image %}<div title="image" style="flex: 1;" ><a href="{{ result.image.url }}">img</a></div>{% endif %}
+            <div style="flex: 1;" title="date">{{ result.date|to_jalali }}</div>
         </div>
         {% endfor %}
 

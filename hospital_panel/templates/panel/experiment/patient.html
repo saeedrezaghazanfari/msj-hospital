@@ -12,23 +12,22 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
-        <h1>create patient</h1>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>ثبت بیمار</h1>
 
-        <h2>create</h2>
         <form method="POST" novalidate enctype="multipart/form-data">
             {% csrf_token %}
             
             {{ form.as_p }}
 
-            <button type="submit">create</button>
+            <button type="submit">ثبت بیمار</button>
         </form>
 
 

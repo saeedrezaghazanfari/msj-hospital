@@ -9,42 +9,41 @@
 
 
 {% block content %}
+<div style="display: flex; direction: rtl !important;">
 
-<div style="display: flex; direction: rtl !important;" id="application">
-
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - price appointment</h1>
+        <h1>تعرفه نوبت دهی</h1>
 
         {% for price in prices %}
         <form method="POST" novalidate>
             {% csrf_token %}
-            <div class="box">
+            <div class="alert alert-light text-primary d-flex mt-3">
 
                 <input type="number" name="data" value="{{ price.id }}" class="d-none">
                 
-                <div>
+                <div style="flex: 1;">
                     {% if not price.insurance %}آزاد{% else %}{{ price.insurance }}{% endif %}
                 </div>
-                <div>
+                <div style="flex: 1;">
                     {{ price.degree }}
                 </div>
-                <div>
+                <div style="flex: 1;">
                     {{ price.price }}
                     <div id="wrapper_{{ price.id }}" class="d-none wrapper_form">
                         <input type="number" value="{{ price.price }}" name="price" id="price_id">
                     </div>
                 </div>
                 <div>
-                    <button id="edit_price_{{ price.id }}" class="edit_toggle" onclick="open_edit_price('{{price.id}}')" type="button">edit</button>
-                    <button id="submit_form_{{ price.id }}" class="submit_form d-none" type="submit">UPDATE Table</button>
+                    <button id="edit_price_{{ price.id }}" class="btn btn-primary edit_toggle" onclick="open_edit_price('{{price.id}}')" type="button">ویرایش</button>
+                    <button id="submit_form_{{ price.id }}" class="btn btn-primary submit_form d-none" type="submit">بروزرسانی</button>
                 </div>
             </div>
             

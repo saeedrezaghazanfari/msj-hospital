@@ -15,11 +15,7 @@
         
         <div class="wrapper__card">
             
-            <div class="wrapper__card__header">
-                <p>{% translate 'ورود به آمپول' %}</p>
-            </div>
-
-            <form class="wrapper__card__body" method="POST" novalidate>
+            <form class="text-center" method="POST" novalidate>
                 {% csrf_token %}
 
                 <div class="wrapper__field mt-3">
@@ -28,11 +24,11 @@
                     {% for msg in form.code.errors %}<p class="text-primary">{{ msg }}</p>{% endfor %}
                 </div>
 
-                <p><a href="{% url 'auth:signin' %}">{% translate 'برگشت به صفحه ی ورود' %}</a></p>
-
                 <div class="wrapper__btn">
-                    <button type="submit">{% translate 'ورود به آمپول' %}</button>
+                    <button type="submit" class="btn btn-primary my-3">{% translate 'ورود به آمپول' %}</button>
                 </div>
+                
+                <p><a href="{% url 'auth:signin' %}">{% translate 'برگشت به صفحه ی ورود' %}</a></p>
 
             </form>
 

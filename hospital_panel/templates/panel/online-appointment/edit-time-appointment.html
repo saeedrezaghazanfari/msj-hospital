@@ -10,18 +10,18 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - time appointment</h1>
+        <h1>ویرایش نوبت دهی</h1>
 
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
@@ -31,10 +31,11 @@
             {% for msg in unit.errors %}
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
-                        
+                 
+            <br><br>
             <div>
-                <p>insurances of " {{ appointment.doctor.get_full_name }} " are:</p>
-                <p> {% for item in appointment.doctor.insurances.all %}{{ item.title }} - {% endfor %}</p>
+                <p>بیمه های " {{ appointment.doctor.get_full_name }} " عبارت است از:</p>
+                <div class="alert alert-light"> {% for item in appointment.doctor.insurances.all %}{{ item.title }} - {% endfor %}</div>
 
                 <select name="insurances" multiple>
                     {% for insurance in insurances %}
@@ -79,8 +80,8 @@
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
             
-
-            <button type="submit">edit</button>
+            <br><br>
+            <button type="submit">بروزرسانی</button>
         </form>
 
     </div>

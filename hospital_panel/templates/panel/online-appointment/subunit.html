@@ -11,18 +11,18 @@
 {% block content %}
 
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Online Appointment - sub unit</h1>
+        <h1>ثبت زیر بخش</h1>
 
         <div class="box" v-if="show_create_tips">
             <form method="POST" novalidate>
@@ -38,10 +38,10 @@
         </div>
 
         {% for subunit in subunits %}
-        <div class="box">  
-            <div>{{ subunit.category }}</div>
-            <div>{{ subunit.title }}</div>
-            <div>{{ subunit.have_2_box }}</div>
+        <div class="alert alert-light text-primary d-flex mt-3">
+            <div style="flex: 1;">{{ subunit.category }}</div>
+            <div style="flex: 1;">{{ subunit.title }}</div>
+            <div style="flex: 1;">{{ subunit.have_2_box }}</div>
         </div>
         {% endfor %}
 

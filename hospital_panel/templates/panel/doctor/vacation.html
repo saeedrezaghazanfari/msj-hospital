@@ -10,20 +10,21 @@
 
 {% block content %}
 
+
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>doctor panel - vacation</h1>
+        <h1>ثبت مرخصی</h1>
 
-        <form method="POST" enctype="multipart/form-data" novalidate>
+        <form method="POST" enctype="multipart/form-data" novalidate autocomplete="off">
             {% csrf_token %}
             
             <p>{{ form.from_date.label_tag }}</p>
@@ -50,16 +51,17 @@
             <p style="color: red;">{{ msg }}</p>
             {% endfor %}
 
-            <button type="submit">send</button>
+            <br><br>
+            <button type="submit">ارسال</button>
         </form>
 
 
         {% for vacation in vacations %}
-        <div class="box">
-            <div title="from_date">{{ vacation.from_date|to_jalali }}</div>
-            <div title="to_date">{{ vacation.to_date|to_jalali }}</div>
-            <div title="from_time">{{ vacation.from_time }}</div>
-            <div title="to_time">{{ vacation.to_time }}</div>
+        <div class="alert alert-light text-primary d-flex mt-3">
+            <div style="flex: 1;" title="from_date">{{ vacation.from_date|to_jalali }}</div>
+            <div style="flex: 1;" title="to_date">{{ vacation.to_date|to_jalali }}</div>
+            <div style="flex: 1;" title="from_time">{{ vacation.from_time }}</div>
+            <div style="flex: 1;" title="to_time">{{ vacation.to_time }}</div>
         </div>
         {% endfor %}
 

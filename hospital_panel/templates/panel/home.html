@@ -12,26 +12,26 @@
 
 <div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
 
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>Home</h1>
+        <h1>خانه</h1>
 
         <div style="text-align: center;">
             {% if request.user.profile %}<img src="{{ request.user.profile.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}
-            <p>username: {{ request.user.username }}</p>
-            <p>firstname: {{ request.user.firstname }}</p>
-            <p>lastname: {{ request.user.lastname }}</p>
-            <p>phone: {{ request.user.phone }}</p>
-            <p>email: {{ request.user.email }}</p>
-            <p>gender: {{ request.user.gender }}</p>
-            <p>age: {{ request.user.age }}</p>
+            <p>کدملی: <span class="text-primary">{{ request.user.username }}</span></p>
+            <p>نام: <span class="text-primary">{{ request.user.firstname }}</span></p>
+            <p>نام خانوادگی: <span class="text-primary">{{ request.user.lastname }}</span></p>
+            <p>شماره تلفن:<span class="text-primary">{{ request.user.phone }}</span></p>
+            <p>ایمیل: <span class="text-primary">{{ request.user.email }}</span></p>
+            <p>جنسیت: <span class="text-primary">{{ request.user.gender }}</span></p>
+            <p>سن:<span class="text-primary">{{ request.user.age }}</span></p>
         </div>
 
     </div>

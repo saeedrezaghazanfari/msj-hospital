@@ -10,40 +10,39 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
-
-        <h1>Online Appointment - patient turns</h1>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>نوبت بیماران</h1>
 
         <ul>
-            <li><a href="?paid=yes">is_paid = True</a></li>
-            <li><a href="?paid=no">is_paid = False</a></li>
-            <li><a href="?returned=yes">is_returned = True</a></li>
-            <li><a href="?returned=no">is_returned = False</a></li>
+            <li><a href="?paid=yes">پرداخت کرده</a></li>
+            <li><a href="?paid=no">پرداخت نکرده</a></li>
+            <li><a href="?returned=yes">بازگشت شده</a></li>
+            <li><a href="?returned=no">بازگشت نشده</a></li>
         </ul>
 
         {% for patient in patients %}
-        <div class="box">
+        <div class="alert alert-light text-primary d-flex mt-3">
 
-            <div title="patient">{{ patient.patient.get_full_name }}</div>
-            <div title="appointment">{{ patient.appointment }}</div>
-            <div title="insurance">{{ patient.insurance }}</div>
-            <div title="price">{{ patient.price }}</div>
-            <div title="prescription_code">{{ patient.prescription_code }}</div>
-            <div title="experiment_code">{{ patient.experiment_code }}</div>
-            <div title="turn">{{ patient.turn }}</div>
-            <div title="is_paid">{{ patient.is_paid }}</div>
-            <div title="is_canceled">{{ patient.is_canceled }}</div>
-            <div title="is_returned">{{ patient.is_returned }}</div>
-            <div title="created">{{ patient.created|to_jalali }}</div>
+            <div style="flex: 1;" title="patient">{{ patient.patient.get_full_name }}</div>
+            <div style="flex: 1;" title="appointment">{{ patient.appointment }}</div>
+            <div style="flex: 1;" title="insurance">{{ patient.insurance }}</div>
+            <div style="flex: 1;" title="price">{{ patient.price }}</div>
+            <div style="flex: 1;" title="prescription_code">{{ patient.prescription_code }}</div>
+            <div style="flex: 1;" title="experiment_code">{{ patient.experiment_code }}</div>
+            <div style="flex: 1;" title="turn">{{ patient.turn }}</div>
+            <div style="flex: 1;" title="is_paid">{{ patient.is_paid }}</div>
+            <div style="flex: 1;" title="is_canceled">{{ patient.is_canceled }}</div>
+            <div style="flex: 1;" title="is_returned">{{ patient.is_returned }}</div>
+            <div style="flex: 1;" title="created">{{ patient.created|to_jalali }}</div>
         </div>
         {% endfor %}
 

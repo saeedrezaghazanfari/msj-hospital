@@ -7,20 +7,19 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Info > Details</span></h1>
-    <h1>Details of E-Prescription</h1>
-    <p title="patient">patient: {{ turn.patient.username }}</p>
-    <p title="patient">patient: {{ turn.patient.first_name }} {{ turn.patient.last_name }}</p>
-    <p title="appointment">doctor: {{ turn.appointment.doctor.get_full_name }} </p>
-    <p>skill: {{ turn.appointment.doctor.degree.title }} {{ turn.appointment.doctor.skill_title.title }}</p>
-    <p title="insurance">insurance: {% if not turn.insurance.title %}آزاد{% else %}{{ turn.insurance.title }}{% endif %}</p>
-    <p title="price">price: <b>{{ turn.price }}</b></p>
-    <p title="prescription_code">prescription_code: {{ turn.prescription_code }}</p>
-    <p title="experiment_code">experiment_code: {{ turn.experiment_code }}</p>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم > اطلاعات</span></h1>
+    <h1>جزییات نسخه ی الکترونیکی</h1>
+    <div class="alert alert-primary"><p title="patient">کدملی: {{ turn.patient.username }}</p></div>
+    <div class="alert alert-primary"><p title="patient">بیمار: {{ turn.patient.first_name }} {{ turn.patient.last_name }}</p></div>
+    <div class="alert alert-primary"><p title="appointment">پزشک: {{ turn.appointment.doctor.get_full_name }} </p></div>
+    <div class="alert alert-primary"><p>تخصص: {{ turn.appointment.doctor.degree.title }} {{ turn.appointment.doctor.skill_title.title }}</p></div>
+    <div class="alert alert-primary"><p title="insurance">بیمه: {% if not turn.insurance.title %}آزاد{% else %}{{ turn.insurance.title }}{% endif %}</p></div>
+    <div class="alert alert-primary"><p title="price">قیمت پرداختی: <b>{{ turn.price }}</b></p></div>
+    <div class="alert alert-primary"><p title="prescription_code">نسخه پزشک دیگر: {{ turn.prescription_code }}</p></div>
+    <div class="alert alert-primary"><p title="experiment_code">کد رهگیری: {{ turn.experiment_code }}</p></div>
     <br>
-    <br>
-    <br>    
-    <a href="{% url 'website:oa-trust' unitSlug turn.id uidb64 token %}">next</a>
+
+    <a class="btn btn-primray" href="{% url 'website:oa-trust' unitSlug turn.id uidb64 token %}">بعدی</a>
     <br>
     <br>
 

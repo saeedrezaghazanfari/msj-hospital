@@ -34,9 +34,8 @@ def experiment_list_page(request):
         if form.is_valid():
             exp = form.save()
 
-            if exp.is_sent_sms:
-                # TODO send sms: send code of experiment to patient
-                print(exp.code)
+            # TODO send sms: send code of experiment to patient
+            print(exp.code)
 
             messages.success(request, _('نتیجه ی آزمایش با موفقیت ثبت شد.'))
             return redirect('panel:experiment-list')

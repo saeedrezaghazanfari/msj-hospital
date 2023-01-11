@@ -7,11 +7,11 @@
 
 {% block content %}
 
-    <h1>Online Appointment - <span style="color: red;">Home > Doctor > Calendar > Info > Details > Trust > The END</span></h1>
+    <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم > اطلاعات  > اطمینان > اتمام</span></h1>
 
-    <h1>your E-Prescription: {{ turn.turn }}</h1>
-    <h1>yout Turn: {{ turn.turn }}</h1>
-    <p>{% if turn.is_paid %}successful mission{% endif %}</p>
+    <h1>نوبت اینترنتی شما: {{ turn.turn }}</h1>
+    <h1>نوبت شما: {{ turn.turn }}</h1>
+    <p>{% if turn.is_paid %}عملیات موفقیت آمیز بود.{% endif %}</p>
 
 {% endblock %}
 
