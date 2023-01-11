@@ -15,6 +15,7 @@ urlpatterns = [
 
     # doctor management
     path('panel/doctor/', views_doctor.doctor_page, name='doctor'),
+    path('panel/doctor/info/', views_doctor.doctor_info_page, name='doctor-info'),
     path('panel/doctor/vacation/', views_doctor.doctor_vacation_page, name='doctor-vacation'),
     path('panel/doctor/work/', views_doctor.doctor_work_page, name='doctor-work'),
     path('panel/doctor/insurances/', views_doctor.doctor_insurances_page, name='doctor-insurances'),

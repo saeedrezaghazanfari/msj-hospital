@@ -523,8 +523,8 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 
                 get_insurance = request.POST.get('insurance')
                 insurance_user = None
-                if get_insurance != 'free' and InsuranceModel.objects.filter(title=get_insurance).exists():
-                    insurance_user = InsuranceModel.objects.get(title=get_insurance)
+                if get_insurance != 'free' and InsuranceModel.objects.filter(id=get_insurance).exists():
+                    insurance_user = InsuranceModel.objects.get(id=get_insurance)
 
                 username = form.cleaned_data.get('username')
                 patient = ''

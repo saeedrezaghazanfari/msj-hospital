@@ -12,3 +12,7 @@ this is a project for msj hospital. in progress...
 - category
 - gallery
 - blog
+
+
+<!-- before migration -->
+add id to insurance model

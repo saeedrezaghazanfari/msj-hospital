@@ -27,7 +27,7 @@
             <select name="insurance">
                 <option value="free" selected>Free</option>
                 {% for insurance in insurances %}
-                <option value="{{ insurance.title }}">{{ insurance.title }}</option>
+                <option value="{{ insurance.id }}">{{ insurance.title }}</option>
                 {% endfor %}
             </select>
 
