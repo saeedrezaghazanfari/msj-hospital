@@ -21,28 +21,15 @@
     </div>
     <div style="flex: 4; padding: 1rem; border: 1px solid yellow; margin: 1rem;">
 
-        <h1>doctor panel - insurances</h1>
+        <h1>doctor panel - info</h1>
 
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             
-            <select name="insurances" multiple>
-                {% for insurance in insurances %}
-                <option value="{{insurance.id}}" {% if insurance in doctor.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
-                {% endfor %}
-            </select>
+            {{ form.as_p }}
 
             <button type="submit">send</button>
         </form>
-
-        <h1>your insurances: {% for insurance in doctor.insurances.all %}{{ insurance.title }} - {% endfor %}</h1>
-        <h2>all of insurances that hospital is in contract</h2>
-
-        {% for insurance in insurances %}
-        <div class="box">
-            <div title="title">{{ insurance.title }}</div>
-        </div>
-        {% endfor %}
 
     </div>
 

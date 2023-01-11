@@ -245,6 +245,12 @@ class DoctorForm(forms.ModelForm):
         fields = '__all__'
 
 
+class DoctorEditForm(forms.ModelForm):
+    class Meta:
+        model = DoctorModel
+        exclude = ['id', 'insurances', 'medical_code', 'user', 'unit', 'is_medicalteam', 'is_intenational', 'is_public', 'is_clinic', 'is_active']
+
+
 class DoctorVacationForm(forms.ModelForm):
     class Meta:
         model = DoctorVacationModel

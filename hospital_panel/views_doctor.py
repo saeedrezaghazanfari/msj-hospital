@@ -23,7 +23,38 @@ def doctor_page(request):
 @login_required(login_url=reverse_lazy('auth:signin'))
 @online_doctor_required
 def doctor_info_page(request):
-    return render(request, 'panel/doctor/info.html', {})
+
+    doctor = None
+    if DoctorModel.objects.filter(user=request.user, is_active=True).exists():
+        doctor = DoctorModel.objects.get(user=request.user, is_active=True)
+
+    if request.method == 'POST':
+        form = forms.DoctorEditForm(request.POST or None)
+
+        if form.is_valid():
+
+            doctor.skill_title = form.cleaned_data.get('skill_title')
+            doctor.degree = form.cleaned_data.get('degree')
+            doctor.position_fa = form.cleaned_data.get('position_fa')
+            doctor.position_en = form.cleaned_data.get('position_en')
+            doctor.position_ar = form.cleaned_data.get('position_ar')
+            doctor.position_ru = form.cleaned_data.get('position_ru')
+            doctor.bio_fa = form.cleaned_data.get('bio_fa')
+            doctor.bio_en = form.cleaned_data.get('bio_en')
+            doctor.bio_ar = form.cleaned_data.get('bio_ar')
+            doctor.bio_ru = form.cleaned_data.get('bio_ru')
+            doctor.save()
+
+            form = forms.DoctorEditForm()
+            messages.success(request, _('اطلاعات شما با موفقیت تغییر یافت.'))
+            return redirect('panel:doctor')
+
+    else:
+        form = forms.DoctorEditForm(instance=doctor)
+
+    return render(request, 'panel/doctor/info.html', {
+        'form': form
+    })
 
 
 # url: /panel/doctor/vacation/
