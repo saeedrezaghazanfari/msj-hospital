@@ -14,17 +14,7 @@
     <form method="POST" novalidate>
         {% csrf_token %}
 
-        {{ form.phone.label_tag }}
-        {{ form.phone }}
-        {% for msg in form.phone.errors %}
-        <p style="color: red;">{{ msg }}</p>
-        {% endfor %}
-
-        {{ form.code.label_tag }}
-        {{ form.code }}
-        {% for msg in form.code.errors %}
-        <p style="color: red;">{{ msg }}</p>
-        {% endfor %}
+        {{ form.as_p }}
 
         <button type="submit">نمایش</button>
     </form>

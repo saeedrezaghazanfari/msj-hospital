@@ -244,6 +244,7 @@ class CheckRulesForm(forms.Form):
 class FollowUpTurnForm(forms.Form):
     phone = forms.CharField(widget=forms.TextInput())
     code = forms.CharField(widget=forms.TextInput())
+    captcha = CaptchaField()
     
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
@@ -269,7 +270,8 @@ class FollowUpTurnForm(forms.Form):
 class FollowUpResultForm(forms.Form):
     phone = forms.CharField(widget=forms.TextInput())
     code = forms.CharField(widget=forms.TextInput())
-    
+    captcha = CaptchaField()
+
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         if not phone or phone == 0 or len(phone) == 0:
