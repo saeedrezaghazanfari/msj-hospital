@@ -95,6 +95,10 @@ def jalali_convertor(time, output='date_time', number=False):
     else:
         return time
 
+def jnum_to_month_name(num):
+        jmonth = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+        return jmonth[num - 1]
+
 def persian_numbers(myStr):
     numbers = {'0': '۰', '1': '۱', '2': '۲', '3': '۳', '4': '۴', '5': '۵', '6': '۶', '7': '۷', '8': '۸', '9': '۹'}
     for e, p in numbers.items():

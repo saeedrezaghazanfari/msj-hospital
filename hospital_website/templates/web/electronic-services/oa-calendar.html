@@ -9,25 +9,40 @@
 
     <h1>نوبت دهی اینترنتی - <span style="color: red;">خانه > پزشکان > تقویم</span></h1>
 
+    {% if month %}
     <div style="text-align: center;">
         <h3>{{ doctor.get_full_name }}</h3>
         <h3>{{ doctor.degree.title }} {{ doctor.skill_title.title }}</h3>
     </div>
+    {% endif %}
 
-    {% for time in times %}
-    <div class="alert alert-light text-primary d-flex">
-        <div style="flex: 1;" title="date">{{ time.date|to_jalali }}</div>
-        <div style="flex: 1;" title="day">{{ time.day }}</div>
-        <div style="flex: 1;" title="time_from">{{ time.time_from }}</div>
-        <div style="flex: 1;" title="time_to">{{ time.time_to }}</div>
-        <div style="flex: 1;" title="capacity">{% if time.status == 'invac' %}doctor in vacation{% else %}{{ time.capacity }}{% endif %}</div>
-        <div style="flex: 1;" title="reserved">{{ time.reserved }}</div>
-        <div style="flex: 1;" title="insurances">{% for ins in time.insurances.all %}{{ ins }} - {% endfor %}</div>
-        {% if time.is_active and time.status == 'normal' %}<a class="btn btn-primary" href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">ادامه دادن</a>{% endif %}
+    <div>
+        {% if next and month %}<a href="{% url 'website:oa-calendar' unitSlug doctor.id uidb64 token next %}" class="btn btn-primary btn-sm">ماه بعد</a>{% endif %}
+        {% if prev and month %}<a href="{% url 'website:oa-calendar' unitSlug doctor.id uidb64 token prev %}" class="btn btn-primary btn-sm">ماه قبل</a>{% endif %}
     </div>
-    {% endfor %}
 
-    {{ cal }}
+    {% if month %}
+    <div class="alert text-center alert-light text-primary">
+        <h3>زمان های نوبت دهی {{ month }} ماه</h3>
+    </div>
+    {% else %}
+    <div class="alert text-center alert-light text-primary">
+        <h3>زمانی تنظیم نشده است.</h3>
+    </div>
+    {% endif %}
+
+
+    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+    
+        {% for time in times %}
+        <div class="{% if time.reserved == time.capacity %}bg-danger text-white{% elif time.status == 'invac' %}bg-light text-primary{% else %}bg-success text-white{% endif %} text-center border" style="flex: 1; border-radius: 7px; padding: 1rem; margin: 5px; max-width: 250px; min-width: 249px;">
+            <div style="flex: 1;" title="date">{{ time.date|to_jalali }}</div>
+            <div style="flex: 1;" title="day">{{ time.day }}</div>
+            <div style="flex: 1;" title="time_from">{{ time.time_from }} - {{ time.time_to }}</div>
+            {% if time.is_active and time.status == 'normal' and time.reserved < time.capacity %}<a class="btn btn-primary" href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">ادامه دادن</a>{% endif %}
+        </div>
+        {% endfor %}
+    
+    </div>
 
 {% endblock %}
-

@@ -1,3 +1,4 @@
+import jdatetime
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
@@ -12,6 +13,7 @@ from hospital_units.models import (
 from hospital_auth.models import PatientModel
 from . import forms
 from .models import LoginCodePatientModel
+from extentions.utils import jnum_to_month_name
 # imports for activatings
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -424,16 +426,18 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
         return redirect('/404')
 
 
-# url: /electronic/appointment/<unitSlug>/<doctorID>/<uidb64>/<token>/calendar/
-def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
+# url: /electronic/appointment/<unitSlug>/<doctorID>/<uidb64>/<token>/<monthNum>/calendar/
+def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid)
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
 
+    if not monthNum or int(monthNum) <= 0 or int(monthNum) >= 7:
+        return redirect('/404')
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
         return redirect('/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
@@ -469,22 +473,71 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token):
             time_list = time_str.split('-')
             time_mined = f'{time_list[0][2]}{time_list[0][3]}-{time_list[1]}-{time_list[2]}'
             time_splited = time.time_from.split(':')
+
             date_time_obj = datetime.strptime(time_mined, '%y-%m-%d').replace(
                 hour=int(time_splited[0]), 
                 minute=int(time_splited[1])
             )
-
             time.is_active = False
             if date_time_obj > datetime.now():
                 if (date_time_obj - datetime.now()) > timedelta(hours=limit_time):
                     time.is_active = True
 
+
+        times_index = jdatetime.date.fromgregorian(day=times[0].date.day, month=times[0].date.month, year=times[0].date.year).month
+        this_month = None
+        monthNum = int(monthNum)
+        times_arr = []
+
+        if not monthNum or monthNum == 1:
+            for time in times:
+                jalali_date =  jdatetime.date.fromgregorian(day=time.date.day, month=time.date.month, year=time.date.year) 
+                
+                if jalali_date.month == times_index:
+                    times_arr.append(time)
+                    this_month = jnum_to_month_name(jalali_date.month)
+                elif jalali_date.month > times_index:
+                    break
+
+
+        elif monthNum and monthNum > 1:
+            times_index += (monthNum - 1)
+
+            if times_index == 13:
+                times_index = 1
+            elif times_index == 14:
+                times_index = 2
+
+            for time in times:
+                jalali_date = jdatetime.date.fromgregorian(day=time.date.day, month=time.date.month, year=time.date.year)
+
+                if jalali_date.month == times_index:
+                    times_arr.append(time)
+                    this_month = jnum_to_month_name(jalali_date.month)
+
+                elif jalali_date.month > times_index:
+                    break
+
+        next = None
+        prev = None
+
+        if monthNum and (monthNum + 1) < 7:
+            next = monthNum + 1
+        elif not monthNum:
+            next = 2
+        if monthNum and (monthNum - 1) >= 1:
+            prev = monthNum - 1 
+
         return render(request, 'web/electronic-services/oa-calendar.html', {
-            'times': times,
+            'times': times_arr,
             'doctor': doctor,
             'uidb64': uidb64,
             'token': token,
-            'unitSlug': unitSlug
+            'unitSlug': unitSlug,
+
+            'month': this_month,
+            'next': next,
+            'prev': prev,
         })
 
     else:

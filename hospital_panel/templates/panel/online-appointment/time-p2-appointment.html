@@ -27,14 +27,35 @@
             {% csrf_token %}
             <div class="box">
 
+                <br>
+                {% for insurance in insurances %}
+                <label for="{{ insurance.id }}_insurance">{{ insurance.title }}</label>
+                <input type="checkbox" id="{{ insurance.id }}_insurance" name="insurances" value="{{ insurance.id }}" checked />
+                {% endfor %}
+                <br><br>
+                
+                <label for="saturday_checkbox">شنبه</label>
+                <input type="checkbox" value="saturday" id="saturday_checkbox" name="days">
 
-                <div>
-                    <select name="insurances" multiple>
-                        {% for insurance in insurances %}
-                        <option value="{{ insurance.id }}">{{ insurance.title }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <label for="sunday_checkbox">یکشنبه</label>
+                <input type="checkbox" value="sunday" id="sunday_checkbox" name="days">
+
+                <label for="monday_checkbox">دوشنبه</label>
+                <input type="checkbox" value="monday" id="monday_checkbox" name="days">
+
+                <label for="tuesday_checkbox">سه شنبه</label>
+                <input type="checkbox" value="tuesday" id="tuesday_checkbox" name="days">
+
+                <label for="wednesday_checkbox">چهارشنبه</label>
+                <input type="checkbox" value="wednesday" id="wednesday_checkbox" name="days">
+
+                <label for="thursday_checkbox">پنجشنبه</label>
+                <input type="checkbox" value="thursday" id="thursday_checkbox" name="days">
+
+                <label for="friday_checkbox">جمعه</label>
+                <input type="checkbox" value="friday" id="friday_checkbox" name="days">
+
+                <br><br>
                 {{ form.as_p }}
 
 

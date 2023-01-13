@@ -543,11 +543,17 @@ def oa_time_create2_page(request, unitID, doctorId):
     if request.method == 'POST':
         form = forms.Time2AppointmentForm(request.POST or None)
 
+        if len(request.POST.getlist('days')) == 0:
+            messages.info(request, _('لطفا روز های مورد نظر خود را انتخاب کنید.'))
+            return redirect(f'/panel/online-appointment/time/create/{unitID}/{doctorId}/')
+
         if form.is_valid():
             date_from = form.cleaned_data.get('date_from')
             date_to = form.cleaned_data.get('date_to')
             range_date = date_range_list(date_from, date_to)
             insurances_list = request.POST.getlist('insurances')
+            days_list = request.POST.getlist('days')
+
             insurances_obj = []
             if len(insurances_list) > 0:
                 for insurance_id in insurances_list:
@@ -556,21 +562,22 @@ def oa_time_create2_page(request, unitID, doctorId):
 
             for date in range_date:
                 day = calendar.day_name[date.weekday()].lower()
-                
-                time = AppointmentTimeModel.objects.create(
-                    unit=unit,
-                    doctor=doctor,
-                    date=date,
-                    day=day,
-                    time_from=form.cleaned_data.get('time_from'),
-                    time_to=form.cleaned_data.get('time_to'),
-                    capacity=form.cleaned_data.get('capacity'),
-                    reserved=0,
-                    tip=form.cleaned_data.get('tip'),
-                )
-                # add insurances to queryset
-                for item in insurances_obj:
-                    time.insurances.add(item)
+                if day in days_list:
+
+                    time = AppointmentTimeModel.objects.create(
+                        unit=unit,
+                        doctor=doctor,
+                        date=date,
+                        day=day,
+                        time_from=form.cleaned_data.get('time_from'),
+                        time_to=form.cleaned_data.get('time_to'),
+                        capacity=form.cleaned_data.get('capacity'),
+                        reserved=0,
+                        tip=form.cleaned_data.get('tip'),
+                    )
+                    # add insurances to queryset
+                    for item in insurances_obj:
+                        time.insurances.add(item)
 
             form = forms.Time2AppointmentForm()
             messages.success(request, _('زمان نوبت دهی مورد نظر شما با موفقیت اضافه شد.'))
