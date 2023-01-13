@@ -222,7 +222,7 @@ class AllAppointmentForm(forms.ModelForm):
 
     class Meta:
         model = AppointmentTimeModel
-        fields = ['unit', 'time_from', 'time_to', 'capacity', 'status', 'tip', 'tip_sms']
+        fields = ['time_from', 'time_to', 'capacity', 'status', 'tip', 'tip_sms']
 
     def clean_time_to(self):
         time_from = self.cleaned_data.get('time_from')

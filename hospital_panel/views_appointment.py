@@ -434,9 +434,9 @@ def oa_time_edit_page(request, appointmentID):
 
         if form.is_valid():
 
-            if form.cleaned_data.get('unit'):
-                appointment.unit = form.cleaned_data.get('unit')
-            else:
+            if request.POST.get('unit') and request.POST.get('unit') != 'doctors':
+                appointment.unit = UnitModel.objects.get(id=request.POST.get('unit'))
+            elif request.POST.get('unit') and request.POST.get('unit') == 'doctors':
                 appointment.unit = None
             if request.POST.getlist('insurances') and len(request.POST.getlist('insurances')) > 0:
                 appointment.insurances.clear()
@@ -466,6 +466,7 @@ def oa_time_edit_page(request, appointmentID):
     return render(request, 'panel/online-appointment/edit-time-appointment.html', {
         'form': form,
         'appointment': appointment,
+        'units': UnitModel.objects.all(),
         'times': AppointmentTimeModel.objects.filter(date__gt=timezone.now()).all(),
         'insurances': [insurance for insurance in appointment.doctor.insurances.all()]
     })

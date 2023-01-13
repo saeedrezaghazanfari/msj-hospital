@@ -26,11 +26,13 @@
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
-            <p>{{ form.unit.label_tag }}</p>
-            {{ form.unit }}
-            {% for msg in unit.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
+            <label for="unititem">بخش</label>
+            <select name="unit" id="unititem">
+                <option value="doctors">پزشکان</option>
+                {% for unit in units %}
+                <option value="{{ unit.id }}" {% if appointment.unit == unit %}selected{% endif %}>{{ unit }}</option>
+                {% endfor %}
+            </select>
                  
             <br><br>
             <div>
