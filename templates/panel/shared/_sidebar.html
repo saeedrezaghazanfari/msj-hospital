@@ -43,15 +43,7 @@
     <a href="{% url 'panel:appointment' %}">مدیریت نوبت دهی</a>
 </li>
 <ul {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
-    <li><a href="{% url 'panel:appointment-limittime' %}">حد زمانی نوبت دهی</a></li>
-    <li><a href="{% url 'panel:appointment-insurances' %}">بیمه ها</a></li>
-    <li><a href="{% url 'panel:appointment-tips' %}">نکات نوبت دهی</a></li>
-    <li><a href="{% url 'panel:appointment-smstips' %}">نکات نوبت دهی در پیامک</a></li>
-    <li><a href="{% url 'panel:appointment-doctorlist' %}">لیست پزشکان</a></li>
-    <li><a href="{% url 'panel:appointment-unit' %}">بخش</a></li>
-    <li><a href="{% url 'panel:appointment-subunit' %}">زیر بخش</a></li>
     <li><a href="{% url 'panel:appointment-price' %}">تعرفه ی نوبت دهی</a></li>
-    <li><a href="{% url 'panel:appointment-time' %}">نوبت دهی</a></li>
     <li><a href="{% url 'panel:appointment-patient' %}">بیماران نوبت دهی</a></li>
     <li><a href="{% url 'panel:appointment-eturnlist' %}">نسخه های الکترونیکی</a></li>
 </ul>

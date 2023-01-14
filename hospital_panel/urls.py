@@ -43,6 +43,13 @@ urlpatterns = [
 
 
     # online appointment management
+    path('panel/online-appointment/missions/lvl1/', views_appointment.oa_mission_1, name='mission-1'),
+    path('panel/online-appointment/missions/lvl2/', views_appointment.oa_mission_2, name='mission-2'),
+    path('panel/online-appointment/missions/lvl3/', views_appointment.oa_mission_3, name='mission-3'),
+    path('panel/online-appointment/missions/lvl4/', views_appointment.oa_mission_4, name='mission-4'),
+    path('panel/online-appointment/missions/lvl5/', views_appointment.oa_mission_5, name='mission-5'),
+    path('panel/online-appointment/missions/lvl6/', views_appointment.oa_mission_6, name='mission-6'),
+
     path('panel/online-appointment/', views_appointment.online_appointment_page, name='appointment'),
     path('panel/online-appointment/limit-time/', views_appointment.oa_limit_time_page, name='appointment-limittime'),
     path('panel/online-appointment/insurances/', views_appointment.oa_insurances_page, name='appointment-insurances'),

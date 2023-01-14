@@ -698,3 +698,58 @@ def oa_eturn_check_page(request, eturnID):
         'form': form,
         'turn': turn
     })
+
+
+# ### mission ### #
+
+# url: /panel/online-appointment/missions/lvl1/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_1(request):
+    return render(request, 'panel/missions/lvl1.html', {
+        'limit': LimitTurnTimeModel.objects.first().hours if LimitTurnTimeModel.objects.exists() else 6,
+        'insurances': InsuranceModel.objects.all()
+    })
+
+
+# url: /panel/online-appointment/missions/lvl2/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_2(request):
+    return render(request, 'panel/missions/lvl2.html', {
+        'units': UnitModel.objects.all()
+    })
+
+
+# url: /panel/online-appointment/missions/lvl3/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_3(request):
+    return render(request, 'panel/missions/lvl3.html', {
+        'doctors': DoctorModel.objects.filter(is_active=True).all()
+    })
+
+
+# url: /panel/online-appointment/missions/lvl4/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_4(request):
+    return render(request, 'panel/missions/lvl4.html', {
+        'tips': AppointmentTipModel.objects.all(),
+    })
+
+
+# url: /panel/online-appointment/missions/lvl5/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_5(request):
+    return render(request, 'panel/missions/lvl5.html', {
+        'sms_tips': AppointmentTipSMSModel.objects.all(),
+    })
+
+
+# url: /panel/online-appointment/missions/lvl6/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required(login_url='/403')
+def oa_mission_6(request):
+    return render(request, 'panel/missions/lvl6.html')

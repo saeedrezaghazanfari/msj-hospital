@@ -27,13 +27,11 @@
             {% csrf_token %}
             <div class="box">
 
-                <div>
-                    <select name="doctor">
-                        {% for doctor in doctors %}
-                        <option value="{{ doctor.id }}">{{ doctor }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <select name="doctor">
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">{{ doctor }}</option>
+                    {% endfor %}
+                </select>
 
             </div>
             <br>

@@ -107,8 +107,8 @@ class LimitTurnTimeForm(forms.ModelForm):
             raise forms.ValidationError(_('عدد ساعت را وارد کنید.'))
         if hours >= 168:
             raise forms.ValidationError(_('عدد ساعت نباید بزرگتر از 168 یا یک هفته باشد.'))
-        if hours < 6:
-            raise forms.ValidationError(_('عدد ساعت نباید کمتر از 6 ساعت باشد.'))
+        if hours == 0:
+            raise forms.ValidationError(_('عدد ساعت باید بیشتر از 1 ساعت باشد.'))
         return hours
 
     def clean_rules(self):

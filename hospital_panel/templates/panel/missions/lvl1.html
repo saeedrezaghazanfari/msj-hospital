@@ -1,0 +1,68 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+
+        
+
+        <div class="card m-5">
+            
+            <div class="card-header">
+                <h1>تنظیمات نوبت دهی</h1>
+            </div>
+            
+            <div class="card-body">
+                
+                <h3>حدزمانی</h3>
+                <div class="alert alert-light">
+                    <p>چند ساعت قبل از نوبت دهی اجازه داده شود؟ {{ limit }} ساعت</p>
+                    <p><a href="{% url 'panel:appointment-limittime' %}" class="btn btn-primary btn-sm">ویرایش ساعت و نکات نوبت دهی</a></p>
+                </div>
+
+                <h3>بیمه ها</h3>
+                <div class="alert alert-light">
+                    <p>{% for insurance in insurances %}{{ insurance }} / {% endfor %}</p>
+                    <p><a href="{% url 'panel:appointment-insurances' %}" class="btn btn-primary btn-sm">ویرایش</a></p>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="d-flex m-2 mb-3" style="justify-content: center;">
+                    <a href="{% url 'panel:mission-2' %}" class="btn btn-primary mx-1 btn-sm px-4">بعدی</a>
+                </div>
+                <div class="bullets">
+                    <a href="{% url 'panel:mission-6' %}"><div class="bullet"></div></a>
+                    <a href="{% url 'panel:mission-5' %}"><div class="bullet"></div></a>
+                    <a href="{% url 'panel:mission-4' %}"><div class="bullet"></div></a>
+                    <a href="{% url 'panel:mission-3' %}"><div class="bullet"></div></a>
+                    <a href="{% url 'panel:mission-2' %}"><div class="bullet"></div></a>
+                    <a href="{% url 'panel:mission-1' %}"><div class="bullet bullet-active"></div></a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

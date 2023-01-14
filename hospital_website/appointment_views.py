@@ -462,7 +462,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
                 date__gt=timezone.now(),
             ).order_by('date').all()
 
-        limit_time = 12
+        limit_time = 6
         if LimitTurnTimeModel.objects.exists():
             limit_obj = LimitTurnTimeModel.objects.first()
             limit_time = limit_obj.hours
