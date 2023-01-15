@@ -15,7 +15,7 @@ def online_appointment_required(function=None, redirect_field_name=REDIRECT_FIEL
 
 def online_doctor_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
     actual_decorator = user_passes_test(
-        lambda u: u.is_doctor_manager,
+        lambda u: u.is_doctor_manager and u.doctormodel_set.filter().exists(),
         login_url=login_url,
         redirect_field_name=redirect_field_name,
     )

@@ -19,8 +19,8 @@ from extentions.utils import (
 class NotificationModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
-    description = TranslatedField(models.CharField(max_length=500, verbose_name=_('متن')))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    description = models.CharField(max_length=500, verbose_name=_('متن'))
     is_from_boss = models.BooleanField(default=False, verbose_name=_('آیا این متن از سمت ریاست است؟'))
     is_published = models.BooleanField(default=False, verbose_name=_('منتشر شود؟'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
@@ -111,7 +111,7 @@ class CriticismSuggestionModel(models.Model):
 
 
 class PeopleAidModel(models.Model):
-    name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی')))
+    name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ کمک شده'))
@@ -151,12 +151,12 @@ class CareersModel(models.Model):
     skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('تخصص'))
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
-    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان موقعیت')))
-    desc = TranslatedField(models.TextField(verbose_name=_('توضیحات')))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان موقعیت'))
+    desc = models.TextField(verbose_name=_('توضیحات'))
     min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
     max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
     image = models.ImageField(upload_to=career_image_path, verbose_name=_('تصویر'))
-    expriment = TranslatedField(models.TextField(verbose_name=_('تجربه ی مورد نیاز')))
+    expriment = models.TextField(verbose_name=_('تجربه ی مورد نیاز'))
     is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
     class Meta:

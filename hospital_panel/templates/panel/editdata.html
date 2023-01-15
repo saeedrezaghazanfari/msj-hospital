@@ -31,29 +31,59 @@
             <label>نام</label>
             <input type="text" name="firstname_fa" value="{{ firstname_fa }}"><br><br>
 
-            <label>نام</label>
-            <input type="text" name="firstname_en" value="{{ firstname_en }}"><br><br>
-
-            <label>نام</label>
-            <input type="text" name="firstname_ar" value="{{ firstname_ar }}"><br><br>
-
-            <label>نام</label>
-            <input type="text" name="firstname_ru" value="{{ firstname_ru }}"><br><br>
-
             <label>نام خانوادگی</label>
             <input type="text" name="lastname_fa" value="{{ lastname_fa }}"><br><br>
 
-            <label>نام خانوادگی</label>
-            <input type="text" name="lastname_en" value="{{ lastname_en }}"><br><br>
-
-            <label>نام خانوادگی</label>
-            <input type="text" name="lastname_ar" value="{{ lastname_ar }}"><br><br>
-
-            <label>نام خانوادگی</label>
-            <input type="text" name="lastname_ru" value="{{ lastname_ru }}"><br><br>
-
             <button type="submit">بروزرسانی</button>
         </form>
+
+        <br>
+        <br>
+        
+        {% if request.user.userfullnamemodel.first_name_fa and request.user.userfullnamemodel.last_name_fa %}
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام</label>
+            <input type="text" name="firstname_en" value="{{ firstname_en }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام</label>
+            <input type="text" name="firstname_ar" value="{{ firstname_ar }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام</label>
+            <input type="text" name="firstname_ru" value="{{ firstname_ru }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+        <br>
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام خانوادگی</label>
+            <input type="text" name="lastname_en" value="{{ lastname_en }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام خانوادگی</label>
+            <input type="text" name="lastname_ar" value="{{ lastname_ar }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+
+        <form method="POST" action="{% url 'panel:editdata-fullname' %}" class="d-flex my-2">
+            {% csrf_token %}
+            <label>نام خانوادگی</label>
+            <input type="text" name="lastname_ru" value="{{ lastname_ru }}"><br><br>
+            <button type="submit">ثبت</button>
+        </form>
+        {% endif %}
+
 
     </div>
 

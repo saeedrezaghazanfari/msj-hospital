@@ -15,7 +15,7 @@ if [ $FLAG = 1 ]; then
 	
 	read -p "Your selection is 'Remove Migration Files', Are you Sure? [n/Y] " SUREMENT
 
-	if [ $SUREMENT = 'y' ]; then
+	if [ $SUREMENT = 'Y' ]; then
 
 		for FILE in $(find ./hospital_*/migrations/ -type f -iname "00*.py")
 		do
@@ -34,7 +34,7 @@ elif [ $FLAG = 2 ]; then
 
 	read -p "Your selection is 'Remove PyCache Files', Are you Sure? [n/Y] " SUREMENT
 
-	if [ $SUREMENT = 'y' ]; then
+	if [ $SUREMENT = 'Y' ]; then
 
 		for FILE in $(find ./hospital_*/*/__pycache__/ -type f -iname "*.pyc")
 		do

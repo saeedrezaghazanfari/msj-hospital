@@ -31,11 +31,17 @@ class User(AbstractUser):
     is_appointment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت دسترسی به نوبت دهی آنلاین'))
     
     def firstname(self):
-        return self.userfullnamemodel.first_name
+        try:
+            return self.userfullnamemodel.first_name
+        except:
+            return ''
     firstname.short_description = _('نام')
 
     def lastname(self):
-        return self.userfullnamemodel.last_name
+        try:
+            return self.userfullnamemodel.last_name
+        except:
+            return ''
     lastname.short_description = _('نام خانوادگی')
 
     def get_full_name(self):
@@ -50,8 +56,8 @@ class User(AbstractUser):
 
 class UserFullNameModel(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
-    first_name = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=255, blank=True, verbose_name=_('نام خانوادگی')))
+    first_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام')))
+    last_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام خانوادگی')))
 
     def __str__(self):
         return self.user.username

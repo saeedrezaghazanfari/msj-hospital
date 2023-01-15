@@ -115,10 +115,10 @@ class NewsLetterEmailsModel(models.Model):
 
 class NewsLetterModel(models.Model):
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
-    title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
+    title = models.CharField(max_length=200, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=news_letter_image_path, verbose_name=_('تصویر'))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
+    desc = models.TextField(verbose_name=_('متن'))
     is_send = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شوند؟'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -132,7 +132,7 @@ class NewsLetterModel(models.Model):
 
 
 class InsuranceModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام بیمه')))
+    title = models.CharField(max_length=100, verbose_name=_('نام بیمه'))
     img = models.ImageField(upload_to=insurance_image_path, verbose_name=_('تصویر'))
 
     class Meta:

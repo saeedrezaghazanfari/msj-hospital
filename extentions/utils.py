@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from . import jalali
 from datetime import timedelta
+from django.contrib import messages
 from django.utils.translation import get_language
 import os, re
 from random import randint, choice
@@ -56,6 +57,17 @@ def date_range_list(start_date, end_date):
         date_list.append(curr_date)
         curr_date += timedelta(days=1)
     return date_list
+
+def safe_string(request, text):
+    signs = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=', '+', '-', '/', "'", '"', ',', '|', ".", '<', '>', '{', '}', '[', ']', '\\']
+    if not text or len(str(text)) == 0:
+        messages.info(request, _('مقدار فیلد را وارد کنید.'))
+        return False
+    for ch in text:
+        if ch in signs:
+            messages.info(request, _('محتوای متن نباید شامل علامت باشد.'))
+            return False
+    return text
 
 def jalali_convertor(time, output='date_time', number=False):
     if get_language() == 'fa':

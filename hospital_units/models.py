@@ -94,8 +94,8 @@ class ExprimentResultModel(models.Model):
     code = models.CharField(max_length=20, unique=True, default=get_experiment_code, verbose_name=_('کد پیگیری'))
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
-    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان آزمایش')))
-    result = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('جواب آزمایش')))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان آزمایش'))
+    result = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('جواب آزمایش'))
     image = models.ImageField(upload_to=experiment_result_image_path, blank=True, null=True, verbose_name=_('تصویر آزمایش'))
     date = models.DateField(blank=True, null=True, verbose_name=_('زمان ثبت نتیجه'))
 
@@ -138,8 +138,8 @@ class AppointmentTimeModel(models.Model):
 
 
 class AppointmentTipModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=50, verbose_name=_('عنوان')))
-    tips = TranslatedField(models.TextField(verbose_name=_('نکات')))
+    title = models.CharField(max_length=50, verbose_name=_('عنوان'))
+    tips = models.TextField(verbose_name=_('نکات'))
 
     class Meta:
         ordering = ['-id']
@@ -151,8 +151,8 @@ class AppointmentTipModel(models.Model):
 
 
 class AppointmentTipSMSModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=50, verbose_name=_('عنوان')))
-    tips = TranslatedField(models.TextField(verbose_name=_('نکات')))
+    title = models.CharField(max_length=50, verbose_name=_('عنوان'))
+    tips = models.TextField(verbose_name=_('نکات'))
 
     class Meta:
         ordering = ['-id']
@@ -225,7 +225,7 @@ class OnlinePaymentModel(models.Model):
 
 class LimitTurnTimeModel(models.Model):
     hours = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('تا چند ساعت قبل؟'))
-    rules = TranslatedField(models.TextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی')))
+    rules = models.TextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
 
     class Meta:
         ordering = ['-id']
