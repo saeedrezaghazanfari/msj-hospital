@@ -19,7 +19,7 @@ if [ $FLAG = 1 ]; then
 
 		for FILE in $(find ./hospital_*/migrations/ -type f -iname "00*.py")
 		do
-			# rm $FILE
+			rm $FILE
 			echo "File '" $FILE "' is removed!"
 		done
 		echo "done!"
@@ -38,7 +38,7 @@ elif [ $FLAG = 2 ]; then
 
 		for FILE in $(find ./hospital_*/*/__pycache__/ -type f -iname "*.pyc")
 		do
-			# rm $FILE
+			rm $FILE
 			echo "File '" $FILE "' is removed!"
 		done
 		echo "done!"
