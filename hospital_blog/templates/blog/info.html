@@ -1,0 +1,33 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <h1>جزپیات بلاگ</h1>
+
+    <div class="alert alert-light text-primary d-flex">
+        <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
+        <div>{{ blog.video_link }}</div>
+        <div>{{ blog.writer.get_full_name }}</div>
+        <div>{% for category in blog.categories.all %} <a href="">{{ category }}</a> - {% endfor %}</div>
+        <div>{% for tag in blog.tags.all %} <a href="">{{ tag }}</a> - {% endfor %}</div>
+        <div>{{ blog.title }}</div>
+        <div>{{ blog.read_time }}</div>
+        <div>{{ blog.desc }}</div>
+        <div>{{ blog.short_desc }}</div>
+        <div>{{ blog.is_likeable }}</div>
+        <div>{{ blog.is_dislikeable }}</div>
+        <div>{{ blog.is_commentable }}</div>
+        <div>{% for item in blog.gallery.all %} <a href="">{{ item }}</a> - {% endfor %}</div>
+        <div>{% for unit in blog.units.all %} <a href="">{{ unit }}</a> - {% endfor %}</div>
+        <div>{{ blog.pdf }}</div>
+        <div>{{ blog.qr_img }}</div>
+    </div>
+
+    
+{% endblock %}
+

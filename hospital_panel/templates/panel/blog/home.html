@@ -10,44 +10,42 @@
 
 {% block content %}
 
-<div style="display: flex; direction: rtl !important;" id="application">
+<div style="display: flex; direction: rtl !important;">
 
-    <div style="flex: 1; padding: 1rem; border: 1px solid red; margin: 1rem;">
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
         <ul>
             
             {% include 'panel/shared/_sidebar.html' %}
 
         </ul>
     </div>
-    <div style="flex: 4; padding: 1rem; border: 1px solid blue; margin: 1rem;">
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>blog - list</h1>
+        <h1>پنل مدیریت بلاگ</h1>
 
-        <a href="{% url 'panel:blog-create' %}">create a new blog</a>
+        <a href="{% url 'panel:blog-create' %}">ساخت بلاگ جدید</a>
 
-        <h1>your blogs</h1>
+        <h1>بلاگ های منتشر نشده ی شما:</h1>
+
+        {% for blog in unpub_blogs %}
+        <div class="alert alert-primary text-info d-flex">
+            <p title="image">{{ blog.slug }}</p>
+            <p title="title">{{ blog.title }}</p>
+            <p title="is_emailed">{{ blog.is_emailed }}</p>
+            <p title="is_publish">{{ blog.is_publish }}</p>
+            <p title="is_activate"><a href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
+        </div>
+        {% endfor %}
+
+        <h1>همه ی بلاگ های شما:</h1>
 
         {% for blog in blogs %}
-        <div class="box">
-            <div title="image">{{ blog.image }}</div>
-            <div title="pdf">{{ blog.pdf }}</div>
-            <div title="qr_img">{{ blog.qr_img }}</div>
-            <div title="video_link">{{ blog.video_link }}</div>
-            <div title="writer">{{ blog.writer }}</div>
-            <div title="categories">{{ blog.categories }}</div>
-            <div title="tags">{{ blog.tags }}</div>
-            <div title="title">{{ blog.title }}</div>
-            <div title="read_time">{{ blog.read_time }}</div>
-            <div title="desc">{{ blog.desc }}</div>
-            <div title="short_desc">{{ blog.short_desc }}</div>
-            <div title="is_emailed">{{ blog.is_emailed }}</div>
-            <div title="is_likeable">{{ blog.is_likeable }}</div>
-            <div title="is_dislikeable">{{ blog.is_dislikeable }}</div>
-            <div title="is_commentable">{{ blog.is_commentable }}</div>
-            <div title="gallery">{{ blog.gallery }}</div>
-            <div title="units">{{ blog.units }}</div>
-            <div title="is_publish">{{ blog.is_publish }}</div>
-            <div title="is_activate">{{ blog.is_activate }}</div>
+        <div class="alert alert-primary text-info d-flex">
+            <p title="image">{{ blog.slug }}</p>
+            <p title="title">{{ blog.title }}</p>
+            <p title="is_emailed">{{ blog.is_emailed }}</p>
+            <p title="is_publish">{{ blog.is_publish }}</p>
+            <p title="is_activate"><a href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
         </div>
         {% endfor %}
 

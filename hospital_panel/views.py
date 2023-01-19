@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.urls import reverse_lazy
 from hospital_auth.models import UserFullNameModel
+from hospital_contact.models import NotificationModel
 from extentions.utils import safe_string
 from . import forms
 
@@ -12,6 +13,20 @@ from . import forms
 @login_required(login_url=reverse_lazy('auth:signin'))
 def home_page(request):
     return render(request, 'panel/home.html', {})
+
+
+# url: /panel/read/notification/<notificationID>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+def read_notification(request, notificationID):
+    if NotificationModel.objects.filter(id=notificationID).exists():
+        notif = NotificationModel.objects.get(id=notificationID)
+        notif.is_read = True
+        notif.save()
+
+        if request.GET.get('route'):
+            return redirect(request.GET.get('route'))
+        return redirect('website:home')
+    return redirect('/404')
 
 
 # url: /panel/edit-info

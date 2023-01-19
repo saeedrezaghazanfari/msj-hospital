@@ -7,32 +7,17 @@
 
 {% block content %}
 
-    <h1>Blog - <span style="color: red;">list</span></h1>
+    <h1>بلاگ ها</h1>
 
     {% for blog in blogs %}
-    <div class="box">
+    <div class="alert alert-light text-primary d-flex">
 
-        <div title="slug">{{ blog.slug }}</div>
         <div title="image"><img src="{{ blog.image.url }}" style="height: 50px; width: 50px;" alt=""></div>
-        <div title="pdf">{{ blog.pdf }}</div>
-        <div title="qr_img">{{ blog.qr_img }}</div>
-        <div title="video_link">{{ blog.video_link }}</div>
         <div title="writer">{{ blog.writer }}</div>
         <div title="categories">{{ blog.categories }}</div>
-        <div title="tags">{{ blog.tags }}</div>
         <div title="title">{{ blog.title }}</div>
-        <div title="read_time">{{ blog.read_time }}</div>
-        <div title="desc">{{ blog.desc }}</div>
         <div title="short_desc">{{ blog.short_desc }}</div>
-        <div title="is_publish">{{ blog.is_publish }}</div>
-        <div title="is_emailed">{{ blog.is_emailed }}</div>
-        <div title="is_activate">{{ blog.is_activate }}</div>
-        <div title="is_likeable">{{ blog.is_likeable }}</div>
-        <div title="is_dislikeable">{{ blog.is_dislikeable }}</div>
-        <div title="is_commentable">{{ blog.is_commentable }}</div>
-        <div title="gallery">{{ blog.gallery }}</div>
-        <div title="units">{{ blog.units }}</div>
-
+        <div><a href="{% url 'blog:info' blog.slug %}">نمایش</a></div>
     </div>
     {% endfor %}
 

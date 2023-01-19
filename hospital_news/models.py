@@ -16,8 +16,7 @@ from extentions.utils import (
 # Managers
 class NewsModelManager(models.Manager):
     def get_published(self):
-        this_time = timezone.now()
-        return self.get_queryset().filter(publish_time__lt=this_time)
+        return self.get_queryset().filter(is_publish=True)
 
 
 class NewsModel(models.Model):
@@ -67,7 +66,7 @@ class NewsModel(models.Model):
 
 
 class NewsGalleryModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=news_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 

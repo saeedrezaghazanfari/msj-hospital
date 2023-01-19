@@ -10,6 +10,7 @@ urlpatterns = [
     
     # Real pathes
     path('panel/', views.home_page, name='home'),
+    path('panel/read/notification/<notificationID>/', views.read_notification, name='read-notif'),
     path('panel/edit-info/', views.edit_data, name='editdata'),
     path('panel/edit-info/fullname/', views.edit_fullname, name='editdata-fullname'),
 
@@ -27,6 +28,9 @@ urlpatterns = [
     path('panel/blog/', views_blog.blog_page, name='blog-list'),
     path('panel/blog/create/', views_blog.blog_create_page, name='blog-create'),
     path('panel/blog/edit/<blogSlug>/', views_blog.blog_edit_page, name='blog-edit'),
+    path('panel/blog/tag/', views_blog.blog_tag_page, name='blog-tag'),
+    path('panel/blog/category/', views_blog.blog_category_page, name='blog-category'),
+    path('panel/blog/gallery/', views_blog.blog_gallery_page, name='blog-gallery'),
 
 
     # news management

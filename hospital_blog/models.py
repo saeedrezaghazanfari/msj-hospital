@@ -20,8 +20,7 @@ from extentions.utils import (
 # Managers
 class BlogModelManager(models.Manager):
     def get_published(self):
-        this_time = timezone.now()
-        return self.get_queryset().filter(is_activate=True, publish_time__lt=this_time)
+        return self.get_queryset().filter(is_publish=True)
 
 
 class MedicalNoteModel(models.Model):
@@ -78,15 +77,14 @@ class BlogModel(models.Model):
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
     desc = TranslatedField(models.TextField(verbose_name=_('متن مقاله')))
-    short_desc = TranslatedField(models.CharField(max_length=500, verbose_name=_('متن کوتاه')))
+    short_desc = TranslatedField(models.TextField(max_length=500, verbose_name=_('متن کوتاه')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
-    is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
-    is_activate = models.BooleanField(default=False, verbose_name=_('آیا پست از نظر تولید کننده محتوا تایید شده است؟'))
+    is_emailed = models.BooleanField(default=False, editable=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
-    gallery = models.ManyToManyField('BlogGalleryModel', verbose_name=_('گالری بلاگ'))
-    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
+    gallery = models.ManyToManyField('BlogGalleryModel', blank=True, verbose_name=_('گالری بلاگ'))
+    units = models.ManyToManyField(to=UnitModel, blank=True, verbose_name=_('بخش ها'))
 
     class Meta:
         ordering = ['-id']
@@ -100,27 +98,25 @@ class BlogModel(models.Model):
 
     def prev_post(self):
         prev_id = int(self.id) - 1
-        this_time = timezone.now()
-        blog = BlogModel.objects.filter(id=prev_id, is_activate=True, publish_time__lt=this_time).first()
+        blog = BlogModel.objects.filter(id=prev_id, is_publish=True).first()
         if blog:
             return blog
         return None
 
     def next_post(self):
         next_id = int(self.id) + 1
-        this_time = timezone.now()
-        blog = BlogModel.objects.filter(id=next_id, is_activate=True, publish_time__lt=this_time).first()
+        blog = BlogModel.objects.filter(id=next_id, is_publish=True).first()
         if blog:
             return blog
         return None
 
     def get_full_name(self):
-        return f'{self.writer.user.firstname()} {self.writer.user.lastname()}'
+        return f'{self.writer.firstname()} {self.writer.lastname()}'
     get_full_name.short_description = _('نام نویسنده')
 
 
 class BlogGalleryModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=blog_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
 

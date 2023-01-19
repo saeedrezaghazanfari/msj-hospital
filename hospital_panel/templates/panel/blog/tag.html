@@ -21,20 +21,21 @@
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>ساخت بلاگ جدید</h1>
+        <h1>پنل مدیریت بلاگ - تگ ها</h1>
 
-        <div class="alert alert-primary">
-            <p><a href="{% url 'panel:blog-tag' %}">مدیریت تگ ها</a></p>
-            <p><a href="{% url 'panel:blog-category' %}">مدیریت دسته بندی ها</a></p>
-        </div>
-
-        <form method="POST" novalidate autocomplete="off" enctype="multipart/form-data">
+        <form method="post" autocomplete="off" novalidate>
             {% csrf_token %}
 
             {{ form.as_p }}
 
-            <button type="submit">ثبت بلاگ</button>
+            <button type="submit">ذخیره</button>
         </form>
+
+        {% for tag in tags %}
+        <div class="alert alert-primary text-info">
+            {{ tag.title }}
+        </div>
+        {% endfor %}
 
     </div>
 

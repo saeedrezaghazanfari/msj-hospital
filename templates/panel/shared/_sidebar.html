@@ -19,12 +19,14 @@
     <li><a href="{% url 'panel:doctor-patients' %}">بیماران من</a></li>
 </ul>
 <hr>
-{% comment %}
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:blog-list' %}">پنل مدیریت بلاگ</a>
+    <a href="{% url 'panel:blog-list' %}">پنل مدیریت بلاگ</a><br>
+    <a href="{% url 'panel:blog-tag' %}">تگ ها</a><br>
+    <a href="{% url 'panel:blog-category' %}">دسته بندی ها</a><br>
+    <a href="{% url 'panel:blog-gallery' %}">گالری</a><br>
+    
 </li>
 <hr>
-{% endcomment %}
 <li {% if not request.user.is_news_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:news' %}">پنل مدیریت اخبار</a>
 </li>

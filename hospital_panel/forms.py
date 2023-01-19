@@ -9,7 +9,7 @@ from hospital_units.models import (
     UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, 
     AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
-from hospital_blog.models import BlogModel
+from hospital_blog.models import BlogModel, TagModel, CategoryModel, BlogGalleryModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -330,6 +330,43 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = BlogModel
         exclude = ['slug', 'writer']
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = TagModel
+        fields = '__all__'
+
+    def clean_title_fa(self):          #TODO
+        title_fa = self.cleaned_data.get('title_fa')
+        if TagModel.objects.filter(title_fa__iexact=title_fa).first():
+            raise forms.ValidationError(_('شما قبلا یک تگ با همین نام ایجاد کرده اید.'))
+        return title_fa
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = CategoryModel
+        fields = '__all__'
+
+    def clean_title_fa(self):          #TODO
+        title_fa = self.cleaned_data.get('title_fa')
+        if CategoryModel.objects.filter(title_fa__iexact=title_fa).first():
+            raise forms.ValidationError(_('شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید.'))
+        return title_fa
+
+
+class BlogGalleryForm(forms.ModelForm):
+    class Meta:
+        model = BlogGalleryModel
+        fields = '__all__'
+
+    def clean(self):
+        image = self.cleaned_data.get('image')
+        video_link = self.cleaned_data.get('video_link')
+
+        if not image and not video_link:
+            raise forms.ValidationError(_('هر دو فیلد نمیتوانند خالی باشند.'))
 
 
 class PatientForm(forms.ModelForm):

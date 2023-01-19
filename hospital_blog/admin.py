@@ -29,8 +29,8 @@ class CreditEduModel_Admin(admin.ModelAdmin):
 
 
 class BlogModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'get_full_name', 'is_publish', 'is_emailed', 'is_activate']
-    search_fields = ['title', 'is_activate']
+    list_display = ['id', 'title', 'get_full_name', 'is_publish', 'is_emailed']
+    search_fields = ['title']
     ordering = ['-id']
 
 
