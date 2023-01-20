@@ -20,7 +20,7 @@ class NewsGalleryModel_Admin(admin.ModelAdmin):
 
 
 class NewsCommentModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'is_show', 'is_read']
+    list_display = ['id', 'is_show', 'is_read', 'j_created']
     search_fields = ['is_show', 'is_read']
     ordering = ['-id']
 

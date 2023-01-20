@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.db import models
 from translated_fields import TranslatedField
@@ -85,9 +86,10 @@ class BlogModel(models.Model):
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     gallery = models.ManyToManyField('BlogGalleryModel', blank=True, verbose_name=_('گالری بلاگ'))
     units = models.ManyToManyField(to=UnitModel, blank=True, verbose_name=_('بخش ها'))
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-created']
         verbose_name = _('بلاگ')
         verbose_name_plural = _('بلاگ‌ها')
 
@@ -96,16 +98,21 @@ class BlogModel(models.Model):
     def __str__(self):
         return self.title
 
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ انتشار')
+
+    def j_month(self):
+        return jalali_convertor(time=self.created, output='j_month')
+
     def prev_post(self):
-        prev_id = int(self.id) - 1
-        blog = BlogModel.objects.filter(id=prev_id, is_publish=True).first()
+        blog = BlogModel.objects.filter(id__lt=self.id).order_by('id').first()
         if blog:
             return blog
         return None
 
     def next_post(self):
-        next_id = int(self.id) + 1
-        blog = BlogModel.objects.filter(id=next_id, is_publish=True).first()
+        blog = BlogModel.objects.filter(id__gt=self.id).order_by('id').first()
         if blog:
             return blog
         return None
@@ -130,16 +137,19 @@ class BlogGalleryModel(models.Model):
 
 
 class BlogCommentModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = models.TextField(verbose_name=_('نظر'))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
+    phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))
     blog = models.ForeignKey(to=BlogModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بلاگ'))
     created = models.DateTimeField(auto_now_add=True)
     is_show = models.BooleanField(default=False, verbose_name=_('نمایش داده شود؟'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط نویسنده خوانده شده؟'))
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-created']
         verbose_name = _('نظر کاربر برای بلاگ')
         verbose_name_plural = _('نظرات کاربران برای بلاگ ها')
 
@@ -177,7 +187,7 @@ class TagModel(models.Model):
 
 class BlogLikeModel(models.Model):
     LIKE_DISLIKE = (('like', _('لایک')), ('dislike', _('دیسلایک')))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    user_ip = models.GenericIPAddressField(null=True)
     blog = models.ForeignKey(to=BlogModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بلاگ'))
     like_dislike = models.CharField(choices=LIKE_DISLIKE, max_length=10, verbose_name=_('لایک یا دیسلایک'))
     

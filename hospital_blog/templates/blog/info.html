@@ -7,27 +7,165 @@
 
 {% block content %}
 
-    <h1>جزپیات بلاگ</h1>
+    <div class="container">
+        <h1>جزپیات بلاگ</h1>
 
-    <div class="alert alert-light text-primary d-flex">
-        <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
-        <div>{{ blog.video_link }}</div>
-        <div>{{ blog.writer.get_full_name }}</div>
-        <div>{% for category in blog.categories.all %} <a href="">{{ category }}</a> - {% endfor %}</div>
-        <div>{% for tag in blog.tags.all %} <a href="">{{ tag }}</a> - {% endfor %}</div>
-        <div>{{ blog.title }}</div>
-        <div>{{ blog.read_time }}</div>
-        <div>{{ blog.desc }}</div>
-        <div>{{ blog.short_desc }}</div>
-        <div>{{ blog.is_likeable }}</div>
-        <div>{{ blog.is_dislikeable }}</div>
-        <div>{{ blog.is_commentable }}</div>
-        <div>{% for item in blog.gallery.all %} <a href="">{{ item }}</a> - {% endfor %}</div>
-        <div>{% for unit in blog.units.all %} <a href="">{{ unit }}</a> - {% endfor %}</div>
-        <div>{{ blog.pdf }}</div>
-        <div>{{ blog.qr_img }}</div>
+        <div class="alert alert-light text-primary text-center">
+            <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
+            <div>{{ blog.video_link }}</div>
+            <div>{{ blog.writer.get_full_name }}</div>
+            <div>دسته بندی: {% for category in blog.categories.all %} <a href="">{{ category }}</a> - {% endfor %}</div>
+            <div>تگ ها: {% for tag in blog.tags.all %} <a href="">{{ tag }}</a> - {% endfor %}</div>
+            <div>عنوان: {{ blog.title }}</div>
+            <div>زمان خواندن: {{ blog.read_time }}</div>
+            <div class="alert alert-light">{{ blog.desc }}</div>
+            <div class="alert alert-light">{{ blog.short_desc }}</div>
+            <div>گالری: {% for item in blog.gallery.all %} <a href="">{{ item }}</a> - {% endfor %}</div>
+            <div>بخش ها: {% for unit in blog.units.all %} <a href="">{{ unit }}</a> - {% endfor %}</div>
+            <div>{{ blog.pdf }}</div>
+            <div>{{ blog.qr_img }}</div>
+        </div>
+
+        <div class="alert alert-light text-primary text-center">
+            <button disabled class="btn btn-outline-primary">تعداد کامنت ها و نظرات این پست: {{ comment_nums }}</button>
+            <button disabled class="btn btn-outline-primary">تعداد لایک های این پست: {{ likes }}</button>
+            <button disabled class="btn btn-outline-primary">تعداد دیسلایک های این پست: {{ dislikes }}</button>
+        </div>
+
+        <div class="alert alert-light text-primary text-center">
+            {% if blog.is_likeable %}<a href="" class="btn btn-primary">لایک</a>{% endif %}
+            {% if blog.is_dislikeable %}<a href="" class="btn btn-primary">دیسلایک</a>{% endif %}
+            <br><br>
+            <button disabled class="btn btn-danger">شما این پست را لایک کرده اید</button>
+        </div>
+
+        <div class="alert alert-light text-primary d-flex text-center">
+            {% if blog.prev_post %}
+            <div style="flex: 1;">
+                <h3>{% translate 'پست قبلی' %}</h3>
+                <div class="wrapper_info">
+                    <a href="/blog/info/{{ blog.prev_post.slug }}/">
+                        <img src="{{ blog.prev_post.image.url }}" style="height: 50px; width: 50px;" alt="{{ blog.prev_post.title }}">
+                        <div>
+                            <h4>{{ blog.prev_post.title }}</h4>
+                            <p>{{ blog.prev_post.j_created }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% if blog.next_post %}
+            <div style="flex: 1;">
+                <h3>{% translate 'پست بعدی' %}</h3>
+                <div class="wrapper_info">
+                    <a href="/blog/info/{{ blog.next_post.slug }}/">
+                        <img src="{{ blog.next_post.image.url }}" style="height: 50px; width: 50px;" alt="{{ blog.next_post.title }}">
+                        <div>
+                            <h4>{{ blog.next_post.title }}</h4>
+                            <p>{{ blog.next_post.j_created }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="alert alert-light text-primary">
+            <h3>پست های مرتبط</h3>
+            {% for blog in other_blogs %}
+            <div class="wrapper_info">
+                <a href="/blog/info/{{ blog.slug }}/">
+                    <img src="{{ blog.image.url }}" style="height: 50px; width: 50px;" alt="{{ blog.title }}">
+                    <div>
+                        <h4>{{ blog.title }}</h4>
+                        <p>{{ blog.j_created }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if blog.is_commentable %}
+        <div class="alert alert-light text-primary text-center"  id="this_is_header">
+            <h1 id="comment-header">ثبت نظر</h1>
+            <h1 id="reply-header" class="d-none">ثبت پاسخ</h1>
+            <form method="POST" novalidate autocomplete="off">
+                {% csrf_token %}
+
+                
+                {% render_field form.message placeholder='message' %}
+                {% for msg in form.message.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.first_name placeholder='first_name' %}
+                {% for msg in form.first_name.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.last_name placeholder='last_name' %}
+                {% for msg in form.last_name.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.phone placeholder='phone' %}
+                {% for msg in form.phone.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.comment_id id='comment_id_wrapper' placeholder='comment_id' %}
+                {% for msg in form.comment_id.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+                <br><br>
+                <button type="submit">ارسال</button>
+                <button type="reset" class="btn btn-danger" onclick="unsernd_reply()">منصرف شدن</button>
+            </form>
+            
+        </div>
+        
+        <h1>نظرات کاربران</h1>
+        {% for comment in comments %}
+        <div class="alert alert-primary text-dark text-center">
+            
+            <div style="border: 1px solid gray;" class="p-3">
+                <span class="comment_date">{{ comment.j_created }}</span>
+                <div class="comment_header">
+                    <p>{{ comment.first_name }} {{ comment.last_name }}</p>
+                </div>
+                <b>{{ comment.message }}</b>
+                <br><br>
+                <button class="btn btn-primary" onclick="send_reply('{{ comment.id }}')">
+                    {% translate 'جواب دادن' %}
+                </button>
+    
+            </div>
+
+            {% for reply in replies %}
+            {% if reply.reply == comment %}
+            <div class="reply">
+                <span class="reply_date">{{ reply.j_created}}</span>
+                <div class="comment_header">
+                    <p>{{ comment.first_name }} {{ comment.last_name }}</p>
+                </div>
+                <b>{{ reply.message }}</b>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+        {% endif %}
+        
+
     </div>
 
-    
+    <script>
+        function send_reply(commentID){
+            let element = document.getElementById('this_is_header');
+            element.scrollIntoView();
+
+            document.getElementById('comment_id_wrapper').value = commentID; 
+            document.getElementById('comment-header').classList.add('d-none');
+            document.getElementById('reply-header').classList.remove('d-none');
+        }
+        function unsernd_reply(){
+            document.getElementById('comment_id_wrapper').value = ''; 
+            document.getElementById('comment-header').classList.remove('d-none');
+            document.getElementById('reply-header').classList.add('d-none');
+        }
+    </script>
+
 {% endblock %}
 

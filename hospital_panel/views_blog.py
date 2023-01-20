@@ -48,6 +48,30 @@ def blog_create_page(request):
             blog.writer = request.user
             blog.save()
 
+            if blog.is_publish and not blog.is_emailed:
+
+                #TODO send shared email 
+
+                emails = NewsLetterEmailsModel.objects.all().values('email')
+
+                mail_subject = _('بیمارستان موسی ابن جعفر - پست جدید')
+                messagee = render_to_string('panel/email-templates/new-blog.html', {
+                    'blog': blog,
+                    'domain': get_current_site(request).domain,
+                })
+                
+                msg_EMAIL = EmailMessage(
+                    mail_subject, messagee, from_email=settings.EMAIL_HOST_USER, to=emails
+                )
+                msg_EMAIL.content_subtype = "html"
+                # msg_EMAIL.send()
+
+                blog.is_emailed = True
+                blog.save()
+
+            messages.success(request, _('بلاگ با موفقیت ویرایش شد.'))
+            return redirect('panel:blog-list')
+
             messages.success(request, _('بلاگ با موفقیت ذخیره شد.'))
             return redirect('panel:blog-list')
 

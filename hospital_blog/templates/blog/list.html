@@ -9,17 +9,47 @@
 
     <h1>بلاگ ها</h1>
 
-    {% for blog in blogs %}
+    {% for blog in page_obj %}
     <div class="alert alert-light text-primary d-flex">
-
-        <div title="image"><img src="{{ blog.image.url }}" style="height: 50px; width: 50px;" alt=""></div>
-        <div title="writer">{{ blog.writer }}</div>
-        <div title="categories">{{ blog.categories }}</div>
-        <div title="title">{{ blog.title }}</div>
-        <div title="short_desc">{{ blog.short_desc }}</div>
-        <div><a href="{% url 'blog:info' blog.slug %}">نمایش</a></div>
+        <div style="flex: 1;" title="image"><img src="{{ blog.blog.image.url }}" style="height: 50px; width: 50px;" alt=""></div>
+        <div style="flex: 1;" title="writer">{{ blog.blog.writer.get_full_name }}</div>
+        <div style="flex: 1;" title="categories">{% for category in blog.blog.categories.all %}{{ category.title }} - {% endfor %}</div>
+        <div style="flex: 1;" title="title">{{ blog.blog.title }}</div>
+        <div style="flex: 1;" title="short_desc">{{ blog.blog.short_desc }}</div>
+        <div style="flex: 1;" title="short_desc">{% if blog.num_comments %}{{ blog.num_comments }}{% else %}0{% endif %} نظر</div>
+        <div style="flex: 1;" title="short_desc"><a class="btn btn-primary" href="{% url 'blog:info' blog.blog.slug %}">نمایش پست</a></div>
     </div>
     {% endfor %}
+
+    <ul class="paginator__items">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.previous_page_number }}">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            {% if page == page_obj.number %}
+                <li class="active">
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+
 
     
 {% endblock %}

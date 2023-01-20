@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -35,27 +36,33 @@ class NewsModel(models.Model):
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     gallery = models.ManyToManyField('NewsGalleryModel', verbose_name=_('گالری خبر'))
     units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-created']
         verbose_name = _('خبر')
         verbose_name_plural = _('خبر‌ها')
 
     objects = NewsModelManager()
 
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ انتشار')
+    
+    def j_month(self):
+        return jalali_convertor(time=self.created, output='j_month')
+        
     def __str__(self):
         return self.title
 
     def prev_post(self):
-        prev_id = int(self.id) - 1
-        news = NewsModel.objects.filter(id=prev_id, is_published=True).first()
+        news = NewsModel.objects.filter(id__lt=self.id).order_by('id').first()
         if news:
             return news
         return None
 
     def next_post(self):
-        next_id = int(self.id) + 1
-        news = NewsModel.objects.filter(id=next_id, is_published=True).first()
+        news = NewsModel.objects.filter(id__gt=self.id).order_by('id').first()
         if news:
             return news
         return None
@@ -80,9 +87,12 @@ class NewsGalleryModel(models.Model):
 
 
 class NewsCommentModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = models.TextField(verbose_name=_('نظر'))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
+    phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))
     news = models.ForeignKey(to=NewsModel, on_delete=models.SET_NULL, null=True, verbose_name=_('خبر'))
     created = models.DateTimeField(auto_now_add=True)
     is_show = models.BooleanField(default=False, verbose_name=_('نمایش داده شود؟'))
@@ -103,7 +113,7 @@ class NewsCommentModel(models.Model):
 
 class NewsLikeModel(models.Model):
     LIKE_DISLIKE = (('like', _('لایک')), ('dislike', _('دیسلایک')))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    user_ip = models.GenericIPAddressField(null=True)
     news = models.ForeignKey(to=NewsModel, on_delete=models.SET_NULL, null=True, verbose_name=_('خبر'))
     like_dislike = models.CharField(choices=LIKE_DISLIKE, max_length=10, verbose_name=_('لایک یا دیسلایک'))
     

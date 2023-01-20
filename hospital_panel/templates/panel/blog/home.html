@@ -29,11 +29,11 @@
 
         {% for blog in unpub_blogs %}
         <div class="alert alert-primary text-info d-flex">
-            <p title="image">{{ blog.slug }}</p>
-            <p title="title">{{ blog.title }}</p>
-            <p title="is_emailed">{{ blog.is_emailed }}</p>
-            <p title="is_publish">{{ blog.is_publish }}</p>
-            <p title="is_activate"><a href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
+            <p style="flex: 1;" title="image">{{ blog.slug }}</p>
+            <p style="flex: 1;" title="title">{{ blog.title }}</p>
+            <p style="flex: 1;" title="is_emailed">{{ blog.is_emailed }}</p>
+            <p style="flex: 1;" title="is_publish">{{ blog.is_publish }}</p>
+            <p style="flex: 1;" title="is_activate"><a class="btn btn-primary" href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
         </div>
         {% endfor %}
 
@@ -41,11 +41,11 @@
 
         {% for blog in blogs %}
         <div class="alert alert-primary text-info d-flex">
-            <p title="image">{{ blog.slug }}</p>
-            <p title="title">{{ blog.title }}</p>
-            <p title="is_emailed">{{ blog.is_emailed }}</p>
-            <p title="is_publish">{{ blog.is_publish }}</p>
-            <p title="is_activate"><a href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
+            <p style="flex: 1;" title="image">{{ blog.slug }}</p>
+            <p style="flex: 1;" title="title">{{ blog.title }}</p>
+            <p style="flex: 1;" title="is_emailed">{{ blog.is_emailed }}</p>
+            <p style="flex: 1;" title="is_publish">{{ blog.is_publish }}</p>
+            <p style="flex: 1;" title="is_activate"><a class="btn btn-primary" href="{% url 'panel:blog-edit' blog.slug %}">ویرایش</a></p>
         </div>
         {% endfor %}
 

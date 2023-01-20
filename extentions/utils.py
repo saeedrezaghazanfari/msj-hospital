@@ -58,6 +58,14 @@ def date_range_list(start_date, end_date):
         curr_date += timedelta(days=1)
     return date_list
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def safe_string(request, text):
     signs = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=', '+', '-', '/', "'", '"', ',', '|', ".", '<', '>', '{', '}', '[', ']', '\\']
     if not text or len(str(text)) == 0:
