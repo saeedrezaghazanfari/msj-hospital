@@ -28,15 +28,16 @@
 
         <div class="alert alert-light text-primary text-center">
             <button disabled class="btn btn-outline-primary">تعداد کامنت ها و نظرات این پست: {{ comment_nums }}</button>
-            <button disabled class="btn btn-outline-primary">تعداد لایک های این پست: {{ likes }}</button>
-            <button disabled class="btn btn-outline-primary">تعداد دیسلایک های این پست: {{ dislikes }}</button>
+            <button disabled class="btn btn-outline-primary">تعداد لایک های این پست: <span id="likes-span">{{ likes }}</span></button>
+            <button disabled class="btn btn-outline-primary">تعداد دیسلایک های این پست: <span id="dislikes-span">{{ dislikes }}</span></button>
         </div>
 
         <div class="alert alert-light text-primary text-center">
-            {% if blog.is_likeable %}<a href="" class="btn btn-primary">لایک</a>{% endif %}
-            {% if blog.is_dislikeable %}<a href="" class="btn btn-primary">دیسلایک</a>{% endif %}
+            {% if blog.is_likeable %}<button id="like-btn" class="btn btn-primary">لایک</button>{% endif %}
+            {% if blog.is_dislikeable %}<button id="dislike-btn" class="btn btn-primary">دیسلایک</button>{% endif %}
             <br><br>
-            <button disabled class="btn btn-danger">شما این پست را لایک کرده اید</button>
+            <button disabled class="btn btn-danger d-none" id="you-like-this-post">شما این پست را لایک کرده اید</button>
+            <button disabled class="btn btn-danger d-none" id="you-dislike-this-post">شما این پست را دیسلایک کرده اید</button>
         </div>
 
         <div class="alert alert-light text-primary d-flex text-center">
@@ -71,10 +72,10 @@
         </div>
 
 
-        <div class="alert alert-light text-primary">
-            <h3>پست های مرتبط</h3>
+        <h3>پست های مرتبط</h3>
+        <div class="alert alert-light text-primary d-flex">
             {% for blog in other_blogs %}
-            <div class="wrapper_info">
+            <div class="wrapper_info" style="flex: 1;">
                 <a href="/blog/info/{{ blog.slug }}/">
                     <img src="{{ blog.image.url }}" style="height: 50px; width: 50px;" alt="{{ blog.title }}">
                     <div>
@@ -152,6 +153,20 @@
     </div>
 
     <script>
+        
+        window.onload = () => {
+            let slug = window.location.pathname.substring(14, 25);
+
+            if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '1') {
+                document.getElementById('you-like-this-post').classList.remove('d-none');
+                document.getElementById('like-btn').setAttribute('disabled', '');
+            }
+            else if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '0') {
+                document.getElementById('you-dislike-this-post').classList.remove('d-none');
+                document.getElementById('dislike-btn').setAttribute('disabled', '');
+            }
+        }
+
         function send_reply(commentID){
             let element = document.getElementById('this_is_header');
             element.scrollIntoView();
@@ -160,11 +175,108 @@
             document.getElementById('comment-header').classList.add('d-none');
             document.getElementById('reply-header').classList.remove('d-none');
         }
+
         function unsernd_reply(){
             document.getElementById('comment_id_wrapper').value = ''; 
             document.getElementById('comment-header').classList.remove('d-none');
             document.getElementById('reply-header').classList.add('d-none');
         }
+
+        document.getElementById('like-btn').addEventListener('click', () => {
+
+            let formdata = new FormData();
+            formdata.append('slug', window.location.pathname.substring(14, 25));
+            formdata.append('type', 'like');
+
+            (async () => {
+                await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/blog/like-dislike/', {
+                    method: "POST",
+                    body: new URLSearchParams(formdata),
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(response => response.json())
+                .then( (response) => {
+                    if(response.status == 200) {
+
+                        let type = response.type;
+                        let slug = response.slug;
+                        let likes = response.likes;
+                        let dislikes = response.dislikes;
+
+                        if (JSON.parse(localStorage.getItem(slug))) {
+                            localStorage.removeItem(slug);
+                            localStorage.setItem(slug, JSON.stringify("1"));
+                        } else {
+                            localStorage.setItem(slug, JSON.stringify("1"));
+                        }
+
+                        document.getElementById('likes-span').innerText = likes;
+                        document.getElementById('dislikes-span').innerText = dislikes;
+
+                        document.getElementById('you-dislike-this-post').classList.add('d-none');
+                        document.getElementById('you-like-this-post').classList.remove('d-none');
+
+                        document.getElementById('like-btn').setAttribute('disabled', '');
+                        document.getElementById('dislike-btn').removeAttribute('disabled');
+                    }
+                })
+                .catch(err => {
+                    console.log('ERR', err);
+                });
+            })();
+
+        });
+
+        document.getElementById('dislike-btn').addEventListener('click', () => {
+
+            let formdata = new FormData();
+            formdata.append('slug', window.location.pathname.substring(14, 25));
+            formdata.append('type', 'dislike');
+
+            (async () => {
+                await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/blog/like-dislike/', {
+                    method: "POST",
+                    body: new URLSearchParams(formdata),
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(response => response.json())
+                .then( (response) => {
+                    if(response.status == 200) {
+
+                        let type = response.type;
+                        let slug = response.slug;
+                        let likes = response.likes;
+                        let dislikes = response.dislikes;
+
+                        if (JSON.parse(localStorage.getItem(slug))) {
+                            localStorage.removeItem(slug);
+                            localStorage.setItem(slug, JSON.stringify("0"));
+                        } else {
+                            localStorage.setItem(slug, JSON.stringify("0"));
+                        }
+
+                        document.getElementById('likes-span').innerText = likes;
+                        document.getElementById('dislikes-span').innerText = dislikes;
+
+                        document.getElementById('you-dislike-this-post').classList.remove('d-none');
+                        document.getElementById('you-like-this-post').classList.add('d-none');
+
+                        document.getElementById('dislike-btn').setAttribute('disabled', '');
+                        document.getElementById('like-btn').removeAttribute('disabled');
+                        
+                    }
+                })
+                .catch(err => {
+                    console.log('ERR', err);
+                });
+            })();
+
+        });
+
     </script>
 
 {% endblock %}

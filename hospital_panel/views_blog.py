@@ -47,6 +47,7 @@ def blog_create_page(request):
             blog = form.save(commit=False)
             blog.writer = request.user
             blog.save()
+            form.save_m2m()
 
             if blog.is_publish and not blog.is_emailed:
 

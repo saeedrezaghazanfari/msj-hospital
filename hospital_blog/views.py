@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
@@ -6,8 +8,7 @@ from .models import (
     BlogModel, BlogCommentModel, BlogLikeModel, CategoryModel
 )
 from . import forms
-from extentions.utils import safe_string
-
+from extentions.utils import get_client_ip
 
 # url: /blog/list/
 class ListPage(generic.ListView):
@@ -79,3 +80,51 @@ def info_page(request, blogSlug):
         'likes': BlogLikeModel.objects.filter(blog=blog, like_dislike='like').count(),
         'dislikes': BlogLikeModel.objects.filter(blog=blog, like_dislike='dislike').count(),
     })
+
+
+# url: /blog/like-dislike/
+@csrf_exempt
+def like_dislike_page(request):
+
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        mission_type = request.POST.get('type')
+
+        if not slug.isdigit() or len(str(slug)) != 11:
+            return JsonResponse({'status': 400})
+
+        if not mission_type in ['like', 'dislike']:
+            return JsonResponse({'status': 400})
+
+        client_ip = get_client_ip(request)
+
+        blog = get_object_or_404(BlogModel, slug=slug, is_publish=True)
+
+        if blog.is_likeable and blog.bloglikemodel_set.filter(user_ip=client_ip).exists():
+
+            blog_feeling = blog.bloglikemodel_set.get(user_ip=client_ip)
+            if blog_feeling.like_dislike != mission_type:
+                blog_feeling.like_dislike = mission_type
+                blog_feeling.save()
+
+            return JsonResponse({
+                'type': mission_type, 
+                'slug': slug, 
+                'likes': BlogLikeModel.objects.filter(blog=blog, like_dislike='like').count(), 
+                'dislikes': BlogLikeModel.objects.filter(blog=blog, like_dislike='dislike').count(), 
+                'status': 200,
+            })
+
+        elif blog.is_likeable and not blog.bloglikemodel_set.filter(user_ip=client_ip).exists():
+            blog.bloglikemodel_set.create(user_ip=client_ip, like_dislike=mission_type)
+            
+            return JsonResponse({
+                'type': mission_type, 
+                'slug': slug, 
+                'likes': BlogLikeModel.objects.filter(blog=blog, like_dislike='like').count(), 
+                'dislikes': BlogLikeModel.objects.filter(blog=blog, like_dislike='dislike').count(), 
+                'status': 200,
+            })
+
+        return JsonResponse({'status': 400})
+    return JsonResponse({'status': 400})
