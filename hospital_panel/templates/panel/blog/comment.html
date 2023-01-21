@@ -32,12 +32,13 @@
             <p style="flex: 1;"><button class="btn btn-outline-primary btn-sm" onclick="read_comment('unread_message_{{ comment.id }}')">خواندن نظر</button></p>
         </div>
         <div class="alert alert-primary d-none" id="unread_message_{{ comment.id }}">
-            {{ comment.message|safe }}
+            {% if comment.reply %}<p>در جواب به کامنت: <u>{{ comment.reply.message|safe }}</u> از جناب <i>{{ comment.reply.first_name }} {{ comment.reply.last_name }}</i></p>{% endif %}
+            <p>{{ comment.message|safe }}</p>
             <br><br>
             <form method="POST" novalidate>
                 {% csrf_token %}
 
-                {% render_field form.message placeholder='message' %}
+                {% render_field form.message placeholder='پاسخ شما' %}
                 {% for msg in form.message.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
                 
                 {% render_field form.comment_id value=comment.id placeholder='comment_id' %}
@@ -47,6 +48,9 @@
                 {% for msg in form.blog_slug.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
 
                 <button type="submit">ارسال</button>
+                <br>
+                <a href="{% url 'panel:blog-commentdelete' comment.id %}" class="btn btn-danger">حذف کامنت</a>
+                <a href="{% url 'panel:blog-commentedit' comment.id %}" class="btn btn-danger">ویرایش کامنت</a>
                 {% if not comment.is_read %}<a class="btn btn-primary" href="{% url 'panel:blog-commentread' comment.id %}">این پست را خواندم</a>{% endif %}
                 {% if not comment.is_show %}<a class="btn btn-outline-danger btn-sm" href="{% url 'panel:blog-commentshow' comment.id %}">اجازه ی نمایش و خواندن</a>{% endif %}    
             </form>
@@ -62,7 +66,8 @@
             <p style="flex: 1;"><button class="btn btn-outline-primary btn-sm" onclick="read_comment('unshow_message_{{ comment.id }}')">خواندن نظر</button></p>
         </div>
         <div class="alert alert-primary d-none" id="unshow_message_{{ comment.id }}">
-            {{ comment.message|safe }}
+            {% if comment.reply %}<p>در جواب به کامنت: <u>{{ comment.reply.message|safe }}</u> از جناب <i>{{ comment.reply.first_name }} {{ comment.reply.last_name }}</i></p>{% endif %}
+            <p>{{ comment.message|safe }}</p>
             <br><br>
             <form method="POST" novalidate>
                 {% csrf_token %}
@@ -77,6 +82,9 @@
                 {% for msg in form.blog_slug.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
 
                 <button type="submit">ارسال</button>
+                <br>
+                <a href="{% url 'panel:blog-commentdelete' comment.id %}" class="btn btn-danger">حذف کامنت</a>
+                <a href="{% url 'panel:blog-commentedit' comment.id %}" class="btn btn-danger">ویرایش کامنت</a>
                 {% if not comment.is_read %}<a class="btn btn-primary" href="{% url 'panel:blog-commentread' comment.id %}">این پست را خواندم</a>{% endif %}
                 {% if not comment.is_show %}<a class="btn btn-outline-danger btn-sm" href="{% url 'panel:blog-commentshow' comment.id %}">اجازه ی نمایش و خواندن</a>{% endif %}    
 
@@ -93,8 +101,6 @@
 
     function read_comment(elementId) {
         document.getElementById(elementId).classList.remove('d-none');
-
-        
     }
 
 </script>

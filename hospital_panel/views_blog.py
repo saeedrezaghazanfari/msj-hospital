@@ -14,7 +14,7 @@ from .decorators import blog_required
 from hospital_blog.models import TagModel, CategoryModel, BlogGalleryModel, BlogCommentModel
 from hospital_setting.models import NewsLetterEmailsModel
 from . import forms
-from hospital_blog.forms import BlogReplyForm
+from hospital_blog.forms import BlogReplyForm, BlogCommentEditForm
  
 
 # url: /panel/blog/
@@ -261,3 +261,40 @@ def blog_comment_show_page(request, commentId):
     comment.is_read = True
     comment.save()
     return redirect('panel:blog-comments')
+
+
+# url: /panel/blog/comment/delete/<commentId>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_comment_delete_page(request, commentId):
+
+    comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
+    comment.delete()
+    return redirect('panel:blog-comments')
+
+
+# url: /panel/blog/comment/edit/<commentId>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_comment_edit_page(request, commentId):
+
+    comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
+
+    if request.method == 'POST':
+        form = BlogCommentEditForm(request.POST or None, instance=comment)
+
+        if form.is_valid():
+            comment = form.save()
+            comment.is_show = True
+            comment.is_read = True
+            comment.save()
+
+            messages.success(request, _('کامنت کاربر با موفقیت ویرایش شد.'))
+            return redirect('panel:blog-comments')
+    else:
+        form = BlogCommentEditForm(instance=comment)
+
+    return render(request, 'panel/blog/comment-edit.html', {
+        'form': form,
+        'comment': comment,
+    })

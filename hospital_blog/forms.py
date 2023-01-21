@@ -56,3 +56,11 @@ class BlogReplyForm(forms.ModelForm):
     class Meta:
         model = BlogCommentModel
         fields = ['message']
+
+
+class BlogCommentEditForm(forms.ModelForm):
+    comment_id = forms.CharField(widget=forms.HiddenInput())
+    
+    class Meta:
+        model = BlogCommentModel
+        fields = ['message']

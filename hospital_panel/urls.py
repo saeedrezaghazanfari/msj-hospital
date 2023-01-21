@@ -34,6 +34,8 @@ urlpatterns = [
     path('panel/blog/comment/', views_blog.blog_comment_page, name='blog-comments'),
     path('panel/blog/comment/read/<commentId>/', views_blog.blog_comment_read_page, name='blog-commentread'),
     path('panel/blog/comment/show/<commentId>/', views_blog.blog_comment_show_page, name='blog-commentshow'),
+    path('panel/blog/comment/delete/<commentId>/', views_blog.blog_comment_delete_page, name='blog-commentdelete'),
+    path('panel/blog/comment/edit/<commentId>/', views_blog.blog_comment_edit_page, name='blog-commentedit'),
 
 
     # news management
