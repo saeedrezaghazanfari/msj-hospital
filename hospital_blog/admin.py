@@ -41,7 +41,7 @@ class BlogGalleryModel_Admin(admin.ModelAdmin):
 
 
 class BlogCommentModel_Admin(admin.ModelAdmin):
-    list_display = ['id', 'is_show', 'is_read', 'j_created']
+    list_display = ['id', 'reply', 'is_show', 'is_read', 'j_created']
     search_fields = ['is_show', 'is_read']
     ordering = ['-id']
 

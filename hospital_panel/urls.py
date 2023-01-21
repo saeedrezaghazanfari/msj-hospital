@@ -31,6 +31,9 @@ urlpatterns = [
     path('panel/blog/tag/', views_blog.blog_tag_page, name='blog-tag'),
     path('panel/blog/category/', views_blog.blog_category_page, name='blog-category'),
     path('panel/blog/gallery/', views_blog.blog_gallery_page, name='blog-gallery'),
+    path('panel/blog/comment/', views_blog.blog_comment_page, name='blog-comments'),
+    path('panel/blog/comment/read/<commentId>/', views_blog.blog_comment_read_page, name='blog-commentread'),
+    path('panel/blog/comment/show/<commentId>/', views_blog.blog_comment_show_page, name='blog-commentshow'),
 
 
     # news management

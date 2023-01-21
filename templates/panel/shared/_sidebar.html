@@ -21,6 +21,7 @@
 <hr>
 <li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:blog-list' %}">پنل مدیریت بلاگ</a><br>
+    <a href="{% url 'panel:blog-comments' %}">مدیریت کامنت ها</a><br>
     <a href="{% url 'panel:blog-tag' %}">تگ ها</a><br>
     <a href="{% url 'panel:blog-category' %}">دسته بندی ها</a><br>
     <a href="{% url 'panel:blog-gallery' %}">گالری</a><br>

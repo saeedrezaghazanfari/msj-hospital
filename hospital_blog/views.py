@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.views import generic
+from django.utils.translation import get_language
 from .models import (
     BlogModel, BlogCommentModel, BlogLikeModel, CategoryModel
 )
@@ -14,19 +15,17 @@ from extentions.utils import get_client_ip
 class ListPage(generic.ListView):
     template_name = 'blog/list.html'
     model = BlogModel
+    paginate_by = 1
 
     def get_queryset(self):
         blogs = BlogModel.objects.filter(is_publish=True).all()[:6]
         blogs_comments = []
         for blog in blogs:
-            comments = BlogCommentModel.objects.filter(blog=blog, reply__isnull=True, is_show=True).count()
-            replies = BlogCommentModel.objects.filter(blog=blog, reply__isnull=False, is_show=True).count()
             blogs_comments.append({
                 'blog': blog,
-                'num_comments': comments + replies
+                'num_comments': blog.blogcommentmodel_set.filter(is_show=True).count()
             })
         return blogs_comments
-    paginate_by = 1
 
 
 # url: /blog/info/<blogSlug>/
@@ -128,3 +127,66 @@ def like_dislike_page(request):
 
         return JsonResponse({'status': 400})
     return JsonResponse({'status': 400})
+
+
+# url: /blog/search/tags/<query>/
+class SearchTag(generic.ListView):
+    template_name = 'blog/list.html'
+    model = BlogModel
+    paginate_by = 1
+
+    def get_queryset(self):
+
+        lang = get_language()
+        query = self.kwargs.get('query')
+        blogs = []
+        
+        if lang == 'fa':
+            blogs = BlogModel.objects.filter(tags__title_fa=query, is_publish=True).distinct()
+        elif lang == 'en':
+            blogs = BlogModel.objects.filter(tags__title_en=query, is_publish=True).distinct()
+        elif lang == 'ar':
+            blogs = BlogModel.objects.filter(tags__title_ar=query, is_publish=True).distinct()
+        elif lang == 'ru':
+            blogs = BlogModel.objects.filter(tags__title_ru=query, is_publish=True).distinct()
+
+        blogs_comments = []
+        for blog in blogs:
+            counter = blog.blogcommentmodel_set.filter(is_show=True).count()
+            blogs_comments.append({
+                'blog': blog, 
+                'num_comments': counter
+            })
+        return blogs_comments
+
+
+# url: /blog/search/categories/<query>/
+class SearchCategory(generic.ListView):
+    template_name = 'blog/list.html'
+    model = BlogModel
+    paginate_by = 1
+
+    def get_queryset(self):
+
+        lang = get_language()
+        query = self.kwargs.get('query')
+        blogs = []
+        
+        if lang == 'fa':
+            blogs = BlogModel.objects.filter(categories__title_fa=query, is_publish=True).distinct()
+        elif lang == 'en':
+            blogs = BlogModel.objects.filter(categories__title_en=query, is_publish=True).distinct()
+        elif lang == 'ar':
+            blogs = BlogModel.objects.filter(categories__title_ar=query, is_publish=True).distinct()
+        elif lang == 'ru':
+            blogs = BlogModel.objects.filter(categories__title_ru=query, is_publish=True).distinct()
+
+        blogs_comments = []
+        for blog in blogs:
+            counter = blog.blogcommentmodel_set.filter(is_show=True).count()
+            blogs_comments.append({
+                'blog': blog, 
+                'num_comments': counter
+            })
+        return blogs_comments
+

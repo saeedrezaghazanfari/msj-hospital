@@ -47,3 +47,12 @@ class BlogCommentForm(forms.ModelForm):
         if User.objects.filter(phone=phone).first():
             raise forms.ValidationError(_('این شماره تلفن در سیستم ثبت شده است'))
         return phone
+
+
+class BlogReplyForm(forms.ModelForm):
+    comment_id = forms.CharField(widget=forms.HiddenInput())
+    blog_slug = forms.CharField(widget=forms.HiddenInput())
+    
+    class Meta:
+        model = BlogCommentModel
+        fields = ['message']

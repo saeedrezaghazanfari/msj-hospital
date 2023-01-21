@@ -1,11 +1,13 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks blog_tags %}
 {% block title %}{% translate 'خانه' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
 {% endblock %}
 
 {% block content %}
+
+    {% last_categories as categories %}
 
     <h1>بلاگ ها</h1>
 
@@ -49,6 +51,16 @@
         {% endif %}
 
     </ul>
+
+    <h3>دسته بندی ها</h3>
+    <div class="alert alert-light text-primary d-flex">
+        <ul>
+            <li><a href="{% url 'blog:blogs' %}">همه</a></li>
+            {% for category in categories %}
+            <li><a href="{% url 'blog:categories' category.category_name %}">{{ category.category_name }} ({{ category.num }})</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 
 
     

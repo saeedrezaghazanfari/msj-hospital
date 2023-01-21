@@ -1,6 +1,6 @@
-from django.utils import timezone
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
@@ -11,10 +11,11 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
 from .decorators import blog_required
-from hospital_blog.models import TagModel, CategoryModel, BlogGalleryModel
+from hospital_blog.models import TagModel, CategoryModel, BlogGalleryModel, BlogCommentModel
 from hospital_setting.models import NewsLetterEmailsModel
 from . import forms
-
+from hospital_blog.forms import BlogReplyForm
+ 
 
 # url: /panel/blog/
 @login_required(login_url=reverse_lazy('auth:signin'))
@@ -71,9 +72,6 @@ def blog_create_page(request):
                 blog.save()
 
             messages.success(request, _('بلاگ با موفقیت ویرایش شد.'))
-            return redirect('panel:blog-list')
-
-            messages.success(request, _('بلاگ با موفقیت ذخیره شد.'))
             return redirect('panel:blog-list')
 
     else:
@@ -197,3 +195,69 @@ def blog_gallery_page(request):
         'galleries': BlogGalleryModel.objects.all(),
         'form': form
     })
+
+
+# url: /panel/blog/comment/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_comment_page(request):
+
+    if request.method == 'POST':
+        form = BlogReplyForm(request.POST or None)
+
+        if form.is_valid():
+
+            that_comment = get_object_or_404(BlogCommentModel, id=form.cleaned_data.get('comment_id'))
+            that_blog = get_object_or_404(BlogModel, slug=form.cleaned_data.get('blog_slug'))
+
+            comment = form.save(commit=False)
+            comment.first_name = request.user.firstname()
+            comment.last_name = request.user.lastname()
+            comment.phone = request.user.phone
+            comment.reply = that_comment
+            comment.blog = that_blog
+            comment.is_read = True
+            comment.is_show = True
+            comment.save()
+
+            comment.reply.is_read = True
+            comment.reply.is_show = True
+            comment.reply.save()
+
+            # TODO send sms: send message to comment.reply.phone
+
+            messages.success(request, _('پاسخ شما با موفقیت ثبت شد.'))
+            return redirect('panel:blog-comments')
+
+    else:
+        form = BlogReplyForm()
+
+    return render(request, 'panel/blog/comment.html', {
+        'form': form,
+        'unread_comments': BlogCommentModel.objects.filter(blog__writer=request.user, is_read=False).all(),
+        'unshow_comments': BlogCommentModel.objects.filter(blog__writer=request.user, is_show=False).all(),
+    })
+
+
+# url: /panel/blog/comment/read/<commentId>/
+@csrf_exempt
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_comment_read_page(request, commentId):
+
+    comment = get_object_or_404(BlogCommentModel, id=commentId, is_read=False)
+    comment.is_read = True
+    comment.save()
+    return redirect('panel:blog-comments')
+
+
+# url: /panel/blog/comment/show/<commentId>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_comment_show_page(request, commentId):
+
+    comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
+    comment.is_show = True
+    comment.is_read = True
+    comment.save()
+    return redirect('panel:blog-comments')

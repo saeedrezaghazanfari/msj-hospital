@@ -14,8 +14,8 @@
             <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
             <div>{{ blog.video_link }}</div>
             <div>{{ blog.writer.get_full_name }}</div>
-            <div>دسته بندی: {% for category in blog.categories.all %} <a href="">{{ category }}</a> - {% endfor %}</div>
-            <div>تگ ها: {% for tag in blog.tags.all %} <a href="">{{ tag }}</a> - {% endfor %}</div>
+            <div>دسته بندی: {% for category in blog.categories.all %} <a href="{% url 'blog:categories' category.title %}">{{ category }}</a> - {% endfor %}</div>
+            <div>تگ ها: {% for tag in blog.tags.all %} <a href="{% url 'blog:tags' tag.title %}">{{ tag }}</a> - {% endfor %}</div>
             <div>عنوان: {{ blog.title }}</div>
             <div>زمان خواندن: {{ blog.read_time }}</div>
             <div class="alert alert-light">{{ blog.desc }}</div>
