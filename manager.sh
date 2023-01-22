@@ -30,6 +30,7 @@ elif [ $FLAG = 2 ]; then
 	read COMMENT
 
 	git add .
+	echo
 	git commit -m "$COMMENT"
 
 
