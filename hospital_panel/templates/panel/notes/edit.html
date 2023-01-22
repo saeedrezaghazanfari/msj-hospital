@@ -21,6 +21,16 @@
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
+        <h1>ویرایش نوت پزشکی</h1>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">ذخیره</button>
+        </form><br>
+
     </div>
 
 </div>

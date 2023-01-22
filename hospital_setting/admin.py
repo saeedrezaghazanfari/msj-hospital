@@ -7,7 +7,6 @@ from .models import (
     HospitalFacilityModel,
     FAQModel,
     NewsLetterEmailsModel,
-    NewsLetterModel,
     InsuranceModel,
     HospitalGalleryModel,
     HospitalGalleryItemModel,
@@ -55,12 +54,6 @@ class FAQModel_Admin(admin.ModelAdmin):
 class NewsLetterEmailsModel_Admin(admin.ModelAdmin):
     list_display = ['email']
     search_field = ['email']
-    ordering = ['-id']
-
-
-class NewsLetterModel_Admin(admin.ModelAdmin):
-    list_display = ['writer', 'title', 'is_send']
-    search_field = ['writer', 'title', 'is_send']
     ordering = ['-id']
 
 
@@ -147,7 +140,6 @@ admin.site.register(HospitalPoliticModel, HospitalPoliticModel_Admin)
 admin.site.register(HospitalFacilityModel, HospitalFacilityModel_Admin)
 admin.site.register(FAQModel, FAQModel_Admin)
 admin.site.register(NewsLetterEmailsModel, NewsLetterEmailsModel_Admin)
-admin.site.register(NewsLetterModel, NewsLetterModel_Admin)
 admin.site.register(InsuranceModel, InsuranceModel_Admin)
 admin.site.register(HospitalGalleryModel, HospitalGalleryModel_Admin)
 admin.site.register(HospitalGalleryItemModel, HospitalGalleryItemModel_Admin)

@@ -9,7 +9,7 @@ from hospital_units.models import (
     UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, 
     AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
-from hospital_blog.models import BlogModel, TagModel, CategoryModel, BlogGalleryModel
+from hospital_blog.models import BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -372,4 +372,10 @@ class BlogGalleryForm(forms.ModelForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model = PatientModel
+        fields = '__all__'
+
+
+class MedicalNoteForm(forms.ModelForm):
+    class Meta:
+        model = MedicalNoteModel
         fields = '__all__'

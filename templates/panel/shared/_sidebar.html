@@ -32,8 +32,9 @@
     <a href="{% url 'panel:news' %}">پنل مدیریت اخبار</a>
 </li>
 <li {% if not request.user.is_note_manager %}style="display: none;"{% endif %}>
-    <a href="{% url 'panel:notes' %}">پنل مدیریت نوت ها</a>
+    <a href="{% url 'panel:notes-list' %}">پنل مدیریت نوت ها</a>
 </li>
+<hr>
 <li {% if not request.user.is_expriment_manager %}style="display: none;"{% endif %}>
     <a href="{% url 'panel:experiment' %}">پنل آزمایشگاه</a>
     <ul>

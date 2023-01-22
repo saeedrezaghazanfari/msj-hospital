@@ -34,6 +34,10 @@ class MedicalNoteModel(models.Model):
         verbose_name = _('نوت پزشکی')
         verbose_name_plural = _('نوت های پزشکی')
 
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ انتشار')
+
     def __str__(self):
         return str(self.id)
 
