@@ -11,7 +11,9 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
 from .decorators import blog_required
-from hospital_blog.models import TagModel, CategoryModel, BlogGalleryModel, BlogCommentModel
+from hospital_blog.models import (
+    TagModel, CategoryModel, BlogGalleryModel, BlogCommentModel, PampheletModel
+)
 from hospital_setting.models import NewsLetterEmailsModel
 from . import forms
 from hospital_blog.forms import BlogReplyForm, BlogCommentEditForm
@@ -236,6 +238,29 @@ def blog_comment_page(request):
         'form': form,
         'unread_comments': BlogCommentModel.objects.filter(blog__writer=request.user, is_read=False).all(),
         'unshow_comments': BlogCommentModel.objects.filter(blog__writer=request.user, is_show=False).all(),
+    })
+
+
+# url: /panel/blog/pamphlet/
+@csrf_exempt
+@login_required(login_url=reverse_lazy('auth:signin'))
+@blog_required(login_url='/403')
+def blog_pamphlet_page(request):
+
+    if request.method == 'POST':
+        form = forms.PampheletForm(request.POST, request.FILES or None)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('پمفلت آموزشی شما با موفقیت ثبت شد.'))
+            return redirect('panel:blog-pamphlet')
+
+    else:
+        form = forms.PampheletForm()
+
+    return render(request, 'panel/blog/pamphlet.html', {
+        'form': form,
+        'pamphlets': PampheletModel.objects.all(),
     })
 
 

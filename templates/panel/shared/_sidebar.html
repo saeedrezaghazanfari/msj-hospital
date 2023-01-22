@@ -8,50 +8,75 @@
 
 <hr>
 
-<li {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
+{% if request.user.is_doctor_manager %}
+<li>
     <a href="{% url 'panel:doctor' %}">پنل پزشک</a>
-</li>
-<ul {% if not request.user.is_doctor_manager %}style="display: none;"{% endif %}>
+
     <li><a href="{% url 'panel:doctor-info' %}">اطلاعات من</a></li>
     <li><a href="{% url 'panel:doctor-vacation' %}">ثبت مرخصی</a></li>
     <li><a href="{% url 'panel:doctor-work' %}">ثبت ساعت کاری</a></li>
     <li><a href="{% url 'panel:doctor-insurances' %}">بیمه های من</a></li>
     <li><a href="{% url 'panel:doctor-patients' %}">بیماران من</a></li>
-</ul>
+</li>
 <hr>
-<li {% if not request.user.is_blog_manager %}style="display: none;"{% endif %}>
+{% endif %}
+
+{% if request.user.is_blog_manager %}
+<li>
     <a href="{% url 'panel:blog-list' %}">پنل مدیریت بلاگ</a><br>
     <a href="{% url 'panel:blog-comments' %}">مدیریت کامنت ها</a><br>
     <a href="{% url 'panel:blog-tag' %}">تگ ها</a><br>
     <a href="{% url 'panel:blog-category' %}">دسته بندی ها</a><br>
     <a href="{% url 'panel:blog-gallery' %}">گالری</a><br>
-    
+    <a href="{% url 'panel:blog-pamphlet' %}">پمفلت های آموزشی</a><br>
 </li>
 <hr>
-<li {% if not request.user.is_news_manager %}style="display: none;"{% endif %}>
+{% endif %}
+
+{% if request.user.is_news_manager %}
+<li>
     <a href="{% url 'panel:news' %}">پنل مدیریت اخبار</a>
 </li>
-<li {% if not request.user.is_note_manager %}style="display: none;"{% endif %}>
+<hr>
+{% endif %}
+
+{% if request.user.is_note_manager %}
+<li>
     <a href="{% url 'panel:notes-list' %}">پنل مدیریت نوت ها</a>
 </li>
 <hr>
-<li {% if not request.user.is_expriment_manager %}style="display: none;"{% endif %}>
+{% endif %}
+
+{% if request.user.is_expriment_manager %}
+<li>
     <a href="{% url 'panel:experiment' %}">پنل آزمایشگاه</a>
-    <ul>
-        <li><a href="{% url 'panel:experiment-list' %}">لیست آزمایش ها</a></li>
-        <li><a href="{% url 'panel:experiment-patient' %}">ثبت بیمار</a></li>
-    </ul>
+    <li><a href="{% url 'panel:experiment-list' %}">لیست آزمایش ها</a></li>
+    <li><a href="{% url 'panel:experiment-patient' %}">ثبت بیمار</a></li>
 </li>   
 <hr>
-<li {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
+{% endif %}
+
+{% if request.user.is_appointment_manager %}
+<li>
     <a href="{% url 'panel:appointment' %}">مدیریت نوبت دهی</a>
-</li>
-<ul {% if not request.user.is_appointment_manager %}style="display: none;"{% endif %}>
     <li><a href="{% url 'panel:appointment-price' %}">تعرفه ی نوبت دهی</a></li>
     <li><a href="{% url 'panel:appointment-patient' %}">بیماران نوبت دهی</a></li>
     <li><a href="{% url 'panel:appointment-eturnlist' %}">نسخه های الکترونیکی</a></li>
-</ul>
+</li>
 <hr>
+{% endif %}
+
+{% if request.user.is_contact_manager %}
+<li>
+    <a href="{% url 'panel:contact' %}">مدیریت ارتباطات</a>
+    <li><a href="{% url 'panel:contact-careers' %}">موقعیت های شغلی</a></li>
+    <li><a href="{% url 'panel:contact-recruitations' %}">درخواست های همکاری</a></li>
+    {% comment %}<li><a href="{% url 'panel:contact-suggestions' %}">پیشنهادات و انتقادات</a></li>{% endcomment %}
+    {% comment %}<li><a href="{% url 'panel:contact-contacts' %}">تماس های کاربران</a></li>{% endcomment %}
+
+</li>
+<hr>
+{% endif %}
 
 <li>
     <a href="{% url 'panel:editdata' %}">تغییر اطلاعات</a>

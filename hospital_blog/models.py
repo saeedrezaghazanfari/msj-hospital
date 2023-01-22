@@ -1,5 +1,4 @@
 import uuid
-from django.utils import timezone
 from django.db import models
 from translated_fields import TranslatedField
 from django.utils.translation import gettext_lazy as _

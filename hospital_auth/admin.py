@@ -31,6 +31,7 @@ class AdminUser(UserAdmin):
         'is_note_manager',
         'is_expriment_manager',
         'is_appointment_manager',
+        'is_contact_manager',
     )
     list_display = ('id', 'username', 'get_full_name', 'phone')
     ordering = ['-id']

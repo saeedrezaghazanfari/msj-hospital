@@ -3,13 +3,19 @@ from hospital_auth.models import User, PatientModel
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import InsuranceModel
 from hospital_doctor.models import (
-    DoctorModel, TitleSkillModel, DegreeModel, DoctorVacationModel, DoctorWorkTimeModel
+    DoctorModel, TitleSkillModel, DegreeModel, 
+    DoctorVacationModel, DoctorWorkTimeModel
 )
 from hospital_units.models import (
     UnitModel, AppointmentTimeModel, LimitTurnTimeModel, AppointmentTipModel, 
     AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
-from hospital_blog.models import BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel
+from hospital_blog.models import (
+    BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel, PampheletModel
+)
+from hospital_contact.models import (
+    CareersModel
+)
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -379,3 +385,16 @@ class MedicalNoteForm(forms.ModelForm):
     class Meta:
         model = MedicalNoteModel
         fields = '__all__'
+
+
+class PampheletForm(forms.ModelForm):
+    class Meta:
+        model = PampheletModel
+        fields = '__all__'
+
+
+class CareersForm(forms.ModelForm):
+    class Meta:
+        model = CareersModel
+        exclude = ['code']
+

@@ -23,13 +23,13 @@ class User(AbstractUser):
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     # actions
-    is_doctor_manager = models.BooleanField(default=False, verbose_name=_('نمایش پنل پزشکی'))
-    is_newsletter_manager = models.BooleanField(default=False, verbose_name=_('قابلیت ارسال خبرنامه'))
-    is_blog_manager = models.BooleanField(default=False, verbose_name=_('قابلیت پست گذاشتن'))
-    is_news_manager = models.BooleanField(default=False, verbose_name=_('قابلیت خبر گذاشتن'))
-    is_note_manager = models.BooleanField(default=False, verbose_name=_('قابلیت نوشتن نوت پزشکی'))
-    is_expriment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت گذاشتن جواب آزمایش و تصویربرداری های بیمار'))
-    is_appointment_manager = models.BooleanField(default=False, verbose_name=_('قابلیت دسترسی به نوبت دهی آنلاین'))
+    is_doctor_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل پزشکی'))
+    is_blog_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل بلاگ'))
+    is_news_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل اخبار'))
+    is_note_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل نوت پزشکی'))
+    is_expriment_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل ثبت آزمایش و تصویربرداری'))
+    is_appointment_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل نوبت دهی آنلاین'))
+    is_contact_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل ارتباطات'))
     
     def firstname(self):
         try:

@@ -20,24 +20,29 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>موقعیت های شغلی</h1>
 
-        <h1>تعیین حدزمانی</h1>
-
-        <form method="POST">
+        <form enctype="multipart/form-data" novalidate method="post">
             {% csrf_token %}
             
             {{ form.as_p }}
 
-            <button type="submit">ثبت</button>
-        </form>
+            <button type="submit">ارسال</button>
 
+        </form>
+        
         <br>
-        <div class="alert alert-light">
-            {{ limit_time.hours }}
+
+        {% for career in careers %}
+        <div class="alert alert-primary d-flex">
+            <p title="code" style="flex: 1;">{{ career.code }}</p>
+            <p title="degree" style="flex: 1;">{{ career.degree }}</p>
+            <p title="skill" style="flex: 1;">{{ career.skill }}</p>
+            <p title="title" style="flex: 1;">{{ career.title }}</p>
+            <p title="is_active" style="flex: 1;">{{ career.is_active }}</p>
+            <p style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:contact-careeredit' career.code %}">ویرایش</a></p>
         </div>
-        <div class="alert alert-light">
-            {{ limit_time.rules|safe }}
-        </div>
+        {% endfor %}
 
     </div>
 

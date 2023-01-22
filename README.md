@@ -7,11 +7,11 @@ this is a project for msj hospital. in progress...
 - config all sms 
 
 
-<!-- blog -->
-- tag
-- category
-- gallery
-- blog
-
-
 <!-- before migration -->
+
+
+
+<!-- points -->
+translation (all of website) from begining of start job
+text editor from begining of start job
+create diagram from begining of start job

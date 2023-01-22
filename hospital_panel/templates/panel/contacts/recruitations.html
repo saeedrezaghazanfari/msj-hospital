@@ -1,0 +1,54 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>فرم های استخدامی پر شده</h1>
+
+        <h1>بررسی نشده ها</h1>
+        {% for hire in unchecked %}
+        <div class="alert alert-primary d-flex">
+            <p style="flex: 1;">{{ hire.career.degree }} {{ hire.career.skill }} ({{ hire.career.code }})</p>
+            <p style="flex: 1;">{{ hire.first_name }}</p>
+            <p style="flex: 1;">{{ hire.last_name }}</p>
+            <p style="flex: 1;">{{ hire.national_code }}</p>
+            <p style="flex: 1;">{{ hire.is_checked }}</p>
+            <p style="flex: 1;"><a href="{% url 'panel:contact-recruitationsinfo' hire.id %}" class="btn btn-primary">نمایش بیشتر</a></p>
+        </div>
+        {% endfor %}
+
+        <h1>بررسی شده ها</h1>
+        {% for hire in checked %}
+        <div class="alert alert-primary d-flex">
+            <p style="flex: 1;">{{ hire.career.degree }} {{ hire.career.skill }} ({{ hire.career.code }})</p>
+            <p style="flex: 1;">{{ hire.first_name }}</p>
+            <p style="flex: 1;">{{ hire.last_name }}</p>
+            <p style="flex: 1;">{{ hire.national_code }}</p>
+            <p style="flex: 1;">{{ hire.is_checked }}</p>
+            <p style="flex: 1;"><a href="{% url 'panel:contact-recruitationsinfo' hire.id %}" class="btn btn-primary">نمایش بیشتر</a></p>
+        </div>
+        {% endfor %}
+
+        
+    </div>
+
+</div>
+
+{% endblock %}

@@ -21,23 +21,24 @@
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
-        <h1>تعیین حدزمانی</h1>
+        <h1>پمفلت های آموزشی</h1>
 
-        <form method="POST">
+        <form novalidate method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             {{ form.as_p }}
 
-            <button type="submit">ثبت</button>
+            <button type="submit">ارسال</button>
         </form>
 
         <br>
-        <div class="alert alert-light">
-            {{ limit_time.hours }}
+
+        {% for pamphlet in pamphlets %}
+        <div class="alert alert-primary text-dark d-flex">
+            <p style="flex: 1;"><img src="{{ pamphlet.image.url }}" style="height: 50px; width: 50px;" alt=""></p>
+            <p style="flex: 1;">{{ pamphlet.title }}</p>
         </div>
-        <div class="alert alert-light">
-            {{ limit_time.rules|safe }}
-        </div>
+        {% endfor %}
 
     </div>
 

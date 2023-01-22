@@ -61,8 +61,7 @@ class CareersModel_Admin(admin.ModelAdmin):
 
 
 class HireFormModel_Admin(admin.ModelAdmin):
-    list_display = ['user', 'career', 'is_checked']
-    search_fields = ['user']
+    list_display = ['national_code', 'career', 'is_checked']
     ordering = ['-id']
 
 

@@ -20,25 +20,11 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>پنل مدیریت ارتباطات</h1>
 
-        <h1>تعیین حدزمانی</h1>
-
-        <form method="POST">
-            {% csrf_token %}
-            
-            {{ form.as_p }}
-
-            <button type="submit">ثبت</button>
-        </form>
-
-        <br>
-        <div class="alert alert-light">
-            {{ limit_time.hours }}
+        <div class="alert alert-primary">
+            خوش آمدید
         </div>
-        <div class="alert alert-light">
-            {{ limit_time.rules|safe }}
-        </div>
-
     </div>
 
 </div>

@@ -20,24 +20,16 @@
         </ul>
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>موقعیت های شغلی ویرایش</h1>
 
-        <h1>تعیین حدزمانی</h1>
-
-        <form method="POST">
+        <form enctype="multipart/form-data" novalidate method="post">
             {% csrf_token %}
             
             {{ form.as_p }}
 
-            <button type="submit">ثبت</button>
-        </form>
+            <button type="submit">ارسال</button>
 
-        <br>
-        <div class="alert alert-light">
-            {{ limit_time.hours }}
-        </div>
-        <div class="alert alert-light">
-            {{ limit_time.rules|safe }}
-        </div>
+        </form>
 
     </div>
 

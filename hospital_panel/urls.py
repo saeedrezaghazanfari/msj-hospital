@@ -1,6 +1,6 @@
 from django.urls import path
 from . import (
-    views, views_appointment, views_doctor, 
+    views, views_appointment, views_doctor, views_contacts,
     views_experiment, views_blog, views_news, views_notes
 )
 
@@ -24,6 +24,16 @@ urlpatterns = [
     path('panel/doctor/patients/', views_doctor.doctor_patients_page, name='doctor-patients'),
 
 
+    # contact management
+    path('panel/contact/', views_contacts.contact_page, name='contact'),
+    path('panel/contact/careers/', views_contacts.contact_careers_page, name='contact-careers'),
+    path('panel/contact/careers/edit/<careerCode>/', views_contacts.contact_career_edit_page, name='contact-careeredit'),
+    path('panel/contact/recruitations/', views_contacts.contact_recruitations_page, name='contact-recruitations'),
+    path('panel/contact/recruitations/info/<hireId>/', views_contacts.contact_recruitations_info_page, name='contact-recruitationsinfo'),
+    # path('panel/contact/suggestions/', views_contacts.contact_suggestions_page, name='contact-suggestions'),
+    # path('panel/contact/contacts/', views_contacts.contact_contacts_page, name='contact-contacts'),
+
+
     # blog management
     path('panel/blog/', views_blog.blog_page, name='blog-list'),
     path('panel/blog/create/', views_blog.blog_create_page, name='blog-create'),
@@ -32,6 +42,7 @@ urlpatterns = [
     path('panel/blog/category/', views_blog.blog_category_page, name='blog-category'),
     path('panel/blog/gallery/', views_blog.blog_gallery_page, name='blog-gallery'),
     path('panel/blog/comment/', views_blog.blog_comment_page, name='blog-comments'),
+    path('panel/blog/pamphlet/', views_blog.blog_pamphlet_page, name='blog-pamphlet'),
     path('panel/blog/comment/read/<commentId>/', views_blog.blog_comment_read_page, name='blog-commentread'),
     path('panel/blog/comment/show/<commentId>/', views_blog.blog_comment_show_page, name='blog-commentshow'),
     path('panel/blog/comment/delete/<commentId>/', views_blog.blog_comment_delete_page, name='blog-commentdelete'),

@@ -172,7 +172,7 @@ class CareersModel(models.Model):
 class HireFormModel(models.Model):
     SINGLE_MARRIED = (('single', _('مجرد')), ('married', _('متاهل')))
     SOLDIERING_TYPE = (('end', _('پایان خدمت')), ('abs_exemption', _('معافیت دایم')), ('edu_exemption', _('معافیت تحصیلی')), ('progressing', _('در حال انجام')), ('include', _('مشمول')))
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     career = models.ForeignKey(to=CareersModel, on_delete=models.SET_NULL, null=True, verbose_name=_('موقعیت شغلی'))
     created = models.DateTimeField(auto_now_add=True)
     is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی شده است؟'))
@@ -200,6 +200,10 @@ class HireFormModel(models.Model):
         ordering = ['-id']
         verbose_name = _('فرم های استخدام')
         verbose_name_plural = _('فرم های استخدام')
+
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ')
 
     def __str__(self):
         return self.user

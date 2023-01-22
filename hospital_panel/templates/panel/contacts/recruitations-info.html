@@ -1,0 +1,61 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+        <h1>فرم های استخدامی پر شده جزییات</h1>
+
+        <form novalidate method="post">
+            {% csrf_token %}
+            <label for="aaa">بررسی شد</label>
+            <input type="checkbox" name="check_hire" id="aaa">
+            <button type="submit">ثبت</button>
+        </form>
+
+        <div class="alert alert-light">
+
+            <p title="career">{{ hire.career.degree }} {{ hire.career.skill }} ({{ hire.career.code }})</p>
+            <p title="created">{{ hire.created }}</p>
+            <p title="is_checked">{{ hire.is_checked }}</p>
+            <p title="first_name">{{ hire.first_name }}</p>
+            <p title="last_name">{{ hire.last_name }}</p>
+            <p title="father">{{ hire.father }}</p>
+            <p title="national_code">{{ hire.national_code }}</p>
+            <p title="national_number">{{ hire.national_number }}</p>
+            <p title="burthday_date">{{ hire.burthday_date }}</p>
+            <p title="burthday_place">{{ hire.burthday_place }}</p>
+            <p title="single_married">{{ hire.single_married }}</p>
+            <p title="num_childs">{{ hire.num_childs }}</p>
+            <p title="soldiering">{{ hire.soldiering }}</p>
+            <p title="end_date">{{ hire.end_date }}</p>
+            <p title="direct">{{ hire.direct }}</p>
+            <p title="education">{{ hire.education }}</p>
+            <p title="uni">{{ hire.uni }}</p>
+            <p title="address">{{ hire.address }}</p>
+            <p title="phone">{{ hire.phone }}</p>
+            <p title="email">{{ hire.email }}</p>
+            <p title="resume">{{ hire.resume }}</p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
