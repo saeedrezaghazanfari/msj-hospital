@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
+from django_quill.fields import QuillField
 from extentions.utils import (
     profile_image_path,
     jalali_convertor, 
@@ -100,7 +101,7 @@ class IPDModel(models.Model):
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
-    description = models.TextField(verbose_name=_('شرح بیماری'))
+    description = QuillField(verbose_name=_('شرح بیماری'))
     document = models.ImageField(upload_to=ipd_doc_image_path, null=True, blank=True, verbose_name=_('مستندات'))
     country = models.CharField(max_length=100, verbose_name=_('کشور'))
     city = models.CharField(max_length=100, verbose_name=_('شهر'))

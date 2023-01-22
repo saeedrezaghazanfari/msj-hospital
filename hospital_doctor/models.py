@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
+from django_quill.fields import QuillField
 from extentions.utils import famous_profile_image_path, DAYS, TIMES
 
 
@@ -16,8 +17,8 @@ class DoctorModel(models.Model):
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     insurances = models.ManyToManyField('hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
     degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
-    position = TranslatedField(models.TextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت')))
-    bio = TranslatedField(models.TextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی')))
+    position = TranslatedField(QuillField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت')))
+    bio = TranslatedField(QuillField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی')))
     is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
     is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
@@ -98,7 +99,7 @@ class FamousPatientModel(models.Model):
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
     last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
     profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
+    desc = TranslatedField(QuillField(verbose_name=_('متن')))
 
     class Meta:
         ordering = ['-id']

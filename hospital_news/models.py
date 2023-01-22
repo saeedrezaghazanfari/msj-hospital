@@ -6,6 +6,7 @@ from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from hospital_blog.models import TagModel, CategoryModel
+from django_quill.fields import QuillField
 from extentions.utils import (
     jalali_convertor, 
     news_image_path, 
@@ -28,7 +29,7 @@ class NewsModel(models.Model):
     categories = models.ManyToManyField(to=CategoryModel, verbose_name=_('دسته بندی ها'))
     tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ ها'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن مقاله')))
+    desc = TranslatedField(QuillField(verbose_name=_('متن مقاله')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
     is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
@@ -89,7 +90,7 @@ class NewsGalleryModel(models.Model):
 class NewsCommentModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
-    message = models.TextField(verbose_name=_('نظر'))
+    message = QuillField(verbose_name=_('نظر'))
     first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
     last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))

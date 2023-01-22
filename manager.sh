@@ -36,11 +36,21 @@ elif [ $FLAG = 2 ]; then
 
 	if [ $SUREMENT = 'Y' ]; then
 
-		for FILE in $(find ./hospital_*/*/__pycache__/ -type f -iname "*.pyc")
+		for FILE in $(find ./hospital_*/__pycache__/)
 		do
-			rm $FILE
-			echo "File '" $FILE "' is removed!"
+			rm -rf $FILE
+			echo "Dir '" $FILE "' is removed!"
 		done
+
+		for FILE in $(find ./hospital_*/*/__pycache__/)
+		do
+			rm -rf $FILE
+			echo "Dir '" $FILE "' is removed!"
+		done
+
+		rm -rf ./extentions/__pycache__/
+		echo "Dir ' ./extentions/__pycache__/ ' is removed!"
+
 		echo "done!"
 
 	else

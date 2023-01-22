@@ -35,13 +35,7 @@ def sign_up_page(request):
 		UserFullNameModel.objects.create(
 			user=user,
 			first_name_fa = form.cleaned_data.get('firstname'),
-			last_name_fa = form.cleaned_data.get('lastname'),
-			first_name_en = form.cleaned_data.get('firstname'),
-			last_name_en = form.cleaned_data.get('lastname'),
-			first_name_ar = form.cleaned_data.get('firstname'),
-			last_name_ar = form.cleaned_data.get('lastname'),
-			first_name_ru = form.cleaned_data.get('firstname'),
-			last_name_ru = form.cleaned_data.get('lastname'),	
+			last_name_fa = form.cleaned_data.get('lastname')
 		)
 
 		if user:
@@ -103,6 +97,7 @@ def sign_in_page(request):
 			context['form'] = SignInForm()
 			uid = urlsafe_base64_encode(force_bytes(find_user.pk))
 			token = account_activation_token.make_token(find_user)
+			
 			messages.success(request, _('پیامک حاوی کد برای شما ارسال شد. بعد از دریافت کد، آن را وارد کنید'))
 			return redirect(f'/{get_language()}/enter-sms-code/{uid}/{token}')
 

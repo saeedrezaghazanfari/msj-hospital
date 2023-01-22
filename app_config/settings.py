@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'captcha',
     'jalali_date',
+    'django_quill',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -163,4 +164,26 @@ JALALI_DATE_DEFAULTS = {
             ]
         }
     },
+}
+
+
+# quill editor config
+QUILL_CONFIGS = {
+    'default':{
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [
+                    {'font': False},
+                    {'header': []},
+                    {'align': []},
+                    'bold', 'italic', 'underline', 'strike', 'blockquote',
+                    {'color': []},
+                    {'background': []},
+                ],
+                ['link'],
+            ]
+        }
+    }
 }

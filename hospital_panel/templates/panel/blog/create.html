@@ -32,6 +32,8 @@
         <form method="POST" novalidate autocomplete="off" enctype="multipart/form-data">
             {% csrf_token %}
 
+            {{ form.media }}
+
             {{ form.as_p }}
 
             <button type="submit">ثبت بلاگ</button>

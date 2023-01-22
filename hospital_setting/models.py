@@ -1,9 +1,11 @@
+import uuid
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_doctor.models import DegreeModel
 from hospital_auth.models import User
+from django_quill.fields import QuillField
 from extentions.utils import (
     costs_image_path, 
     facility_image_path,
@@ -12,7 +14,6 @@ from extentions.utils import (
     certificate_image_path,
     insurance_image_path,
     report_image_path,
-    news_letter_image_path,
     ancient_image_path
 )
 
@@ -26,7 +27,7 @@ class SettingModel(models.Model):
     phone = models.CharField(max_length=255, verbose_name=_('تلفن'))
     facs = models.CharField(max_length=255, verbose_name=_('فکس'))
     from_to = TranslatedField(models.CharField(max_length=200, verbose_name=_('زمان گشایش')))
-    history = TranslatedField(models.TextField(verbose_name=_('تاریخچه')))
+    history = TranslatedField(QuillField(verbose_name=_('تاریخچه')))
     aparat = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('لینکدین'))
     facebook = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('فیسبوک'))
@@ -114,6 +115,7 @@ class NewsLetterEmailsModel(models.Model):
 
 
 class InsuranceModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     title = models.CharField(max_length=100, verbose_name=_('نام بیمه'))
     img = models.ImageField(upload_to=insurance_image_path, verbose_name=_('تصویر'))
 
@@ -157,7 +159,7 @@ class HospitalGalleryItemModel(models.Model):
 
 class ReportModel(models.Model):
     time_bound = models.CharField(max_length=100, verbose_name=_('مدت عملکرد'))
-    description = TranslatedField(models.TextField(verbose_name=_('توضیحات')))
+    description = TranslatedField(QuillField(verbose_name=_('توضیحات')))
     image = models.ImageField(upload_to=report_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 
@@ -186,7 +188,7 @@ class PriceAppointmentModel(models.Model):
 
 class ResultModel(models.Model):
     title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
+    desc = TranslatedField(QuillField(verbose_name=_('متن')))
 
     class Meta:
         ordering = ['-id']
@@ -213,7 +215,7 @@ class HomeGalleryModel(models.Model):
 
 class CertificateModel(models.Model):
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
-    description = TranslatedField(models.TextField(verbose_name=_('توضیحات')))
+    description = TranslatedField(QuillField(verbose_name=_('توضیحات')))
     image = models.ImageField(upload_to=certificate_image_path, verbose_name=_('تصویر'))
     year_certif = models.IntegerField(verbose_name=_('سال اخذ'))
     year_expire = models.IntegerField(verbose_name=_('تاریخ اعتبار'))
@@ -243,7 +245,7 @@ class ContactInfoModel(models.Model):
 
 class PriceServiceModel(models.Model):
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن')))
+    desc = TranslatedField(QuillField(verbose_name=_('متن')))
     price_special = models.PositiveBigIntegerField(verbose_name=_('مبلغ خصوصی'))
     price_govern = models.PositiveBigIntegerField(verbose_name=_('مبلغ دولتی'))
     diffrence = models.PositiveBigIntegerField(verbose_name=_('تفاوت'))
@@ -294,7 +296,7 @@ class AncientsModel(models.Model):
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=ancient_image_path, verbose_name=_('تصویر'))
     full_name = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام پزشک مرحوم')))
-    description = TranslatedField(models.TextField(verbose_name=_('متن')))
+    description = TranslatedField(QuillField(verbose_name=_('متن')))
     gallery = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('گالری'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 

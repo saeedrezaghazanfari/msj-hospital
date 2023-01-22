@@ -5,6 +5,7 @@ from translated_fields import TranslatedField
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
+from django_quill.fields import QuillField
 from extentions.utils import (
     jalali_convertor, 
     blog_image_path,
@@ -25,6 +26,7 @@ class BlogModelManager(models.Manager):
 
 
 class MedicalNoteModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     text = TranslatedField(models.TextField(max_length=400, verbose_name=_('متن')))
     is_active = models.BooleanField(default=False, verbose_name=_('فعال/غیرفعال'))
     created = models.DateTimeField(auto_now_add=True)
@@ -43,6 +45,7 @@ class MedicalNoteModel(models.Model):
 
 
 class PampheletModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     image = models.ImageField(upload_to=pamphelet_image_path, verbose_name=_('تصویر'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     created = models.DateTimeField(auto_now_add=True)
@@ -81,7 +84,7 @@ class BlogModel(models.Model):
     tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
-    desc = TranslatedField(models.TextField(verbose_name=_('متن مقاله')))
+    desc = TranslatedField(QuillField(verbose_name=_('متن مقاله')))
     short_desc = TranslatedField(models.TextField(max_length=500, verbose_name=_('متن کوتاه')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
     is_emailed = models.BooleanField(default=False, editable=False, verbose_name=_('آیا ایمیل شده است؟'))
@@ -143,7 +146,7 @@ class BlogGalleryModel(models.Model):
 class BlogCommentModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
-    message = models.TextField(verbose_name=_('نظر'))
+    message = QuillField(verbose_name=_('نظر'))
     first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
     last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))

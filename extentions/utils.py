@@ -294,12 +294,6 @@ def career_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"careers/{final_name}"
 
-# ######### for newsletter image ######### #
-def news_letter_image_path(instance, filename):
-    ext, output = get_filename_ext_rand(filename)
-    final_name = f"{output}{ext}"
-    return f"careers/{final_name}"
-
 # ######### for unit member ######### #
 def unit_member_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)
