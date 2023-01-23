@@ -33,6 +33,10 @@ def read_notification(request, notificationID):
 @login_required(login_url=reverse_lazy('auth:signin'))
 def edit_data(request):
 
+    user_full_name_obj = None
+    if UserFullNameModel.objects.filter(user=request.user).exists():
+        user_full_name_obj = UserFullNameModel.objects.get(user=request.user)
+
     if request.method == 'POST':
         form = forms.EditInfoForm(request.POST, request.FILES)
 
@@ -71,14 +75,14 @@ def edit_data(request):
         
     return render(request, 'panel/editdata.html', {
         'form': form,
-        'firstname_fa': request.user.userfullnamemodel.first_name_fa if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'firstname_en': request.user.userfullnamemodel.first_name_en if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'firstname_ar': request.user.userfullnamemodel.first_name_ar if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'firstname_ru': request.user.userfullnamemodel.first_name_ru if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'lastname_fa': request.user.userfullnamemodel.last_name_fa if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'lastname_en': request.user.userfullnamemodel.last_name_en if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'lastname_ar': request.user.userfullnamemodel.last_name_ar if UserFullNameModel.objects.filter(user=request.user).exists() else '',
-        'lastname_ru': request.user.userfullnamemodel.last_name_ru if UserFullNameModel.objects.filter(user=request.user).exists() else '',
+        'firstname_fa': user_full_name_obj.first_name_fa if user_full_name_obj else '',
+        'firstname_en': user_full_name_obj.first_name_en if user_full_name_obj else '',
+        'firstname_ar': user_full_name_obj.first_name_ar if user_full_name_obj else '',
+        'firstname_ru': user_full_name_obj.first_name_ru if user_full_name_obj else '',
+        'lastname_fa': user_full_name_obj.last_name_fa if user_full_name_obj else '',
+        'lastname_en': user_full_name_obj.last_name_en if user_full_name_obj else '',
+        'lastname_ar': user_full_name_obj.last_name_ar if user_full_name_obj else '',
+        'lastname_ru': user_full_name_obj.last_name_ru if user_full_name_obj else '',
     })
 
 

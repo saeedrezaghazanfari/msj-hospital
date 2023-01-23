@@ -35,7 +35,13 @@ def sign_up_page(request):
 		UserFullNameModel.objects.create(
 			user=user,
 			first_name_fa = form.cleaned_data.get('firstname'),
-			last_name_fa = form.cleaned_data.get('lastname')
+			last_name_fa = form.cleaned_data.get('lastname'),
+			first_name_en = '',
+			last_name_en = '',
+			first_name_ar = '',
+			last_name_ar = '',
+			first_name_ru = '',
+			last_name_ru = '',
 		)
 
 		if user:

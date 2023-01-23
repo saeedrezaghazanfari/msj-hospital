@@ -10,8 +10,12 @@ this is a project for msj hospital. in progress...
 <!-- before migration -->
 
 
+<!-- security missions -->
+- limited for patient acts in website like hire form
+- form validation is very important
+- GET object validation is very cool
 
 <!-- points -->
-translation (all of website) from begining of start job
-text editor from begining of start job
-create diagram from begining of start job
+- translation (all of website) from begining of start job
+- text editor from begining of start job
+- create diagram from begining of start job
