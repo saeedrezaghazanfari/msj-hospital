@@ -6,7 +6,7 @@ from translated_fields import TranslatedField
 from hospital_auth.models import User, PatientModel
 from hospital_units.models import UnitModel
 from hospital_doctor.models import TitleSkillModel, DegreeModel
-from django_quill.fields import QuillField
+from ckeditor.fields import RichTextField
 from extentions.utils import (
     jalali_convertor, 
     resume_image_path, 
@@ -21,7 +21,7 @@ class NotificationModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    description = models.CharField(max_length=500, verbose_name=_('متن'))
+    description = RichTextField(max_length=500, verbose_name=_('متن'))
     is_from_boss = models.BooleanField(default=False, verbose_name=_('آیا این متن از سمت ریاست است؟'))
     is_published = models.BooleanField(default=False, verbose_name=_('منتشر شود؟'))
     is_read = models.BooleanField(default=False, verbose_name=_('توسط کاربر خوانده شده؟'))
@@ -34,12 +34,12 @@ class NotificationModel(models.Model):
 
     def __str__(self):
         return self.title
-        
+
 
 class PatientSightModel(models.Model):
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
-    desc = TranslatedField(QuillField(verbose_name=_('متن')))
+    desc = TranslatedField(RichTextField(verbose_name=_('متن')))
     created = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -54,8 +54,8 @@ class PatientSightModel(models.Model):
 class BeneficiaryCommentModel(models.Model):
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
     last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
-    desc = TranslatedField(QuillField(verbose_name=_('متن')))
-    bio = TranslatedField(QuillField(blank=True, null=True, verbose_name=_('بیوگرافی')))
+    desc = TranslatedField(RichTextField(verbose_name=_('متن')))
+    bio = TranslatedField(RichTextField(blank=True, null=True, verbose_name=_('بیوگرافی')))
     created = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -68,7 +68,7 @@ class BeneficiaryCommentModel(models.Model):
 
 
 class ContactUsModel(models.Model):
-    message = QuillField(verbose_name=_('متن ارتباط'))
+    message = RichTextField(verbose_name=_('متن ارتباط'))
     name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
@@ -91,7 +91,7 @@ class ContactUsModel(models.Model):
 
 class CriticismSuggestionModel(models.Model):
     code = models.CharField(default=criticic_suggestion_code, max_length=20, verbose_name=_('کد پیگیری'))
-    message = QuillField(verbose_name=_('متن ارتباط'))
+    message = RichTextField(verbose_name=_('متن ارتباط'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
@@ -134,7 +134,7 @@ class PeopleAidModel(models.Model):
 class BenefactorModel(models.Model):
     name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی')))
     is_founder = models.BooleanField(default=False, verbose_name=_('بنیانگذار است؟'))
-    about = TranslatedField(QuillField(verbose_name=_('درباره ی نیکوکار')))
+    about = TranslatedField(RichTextField(verbose_name=_('درباره ی نیکوکار')))
 
     class Meta:
         ordering = ['-id']
@@ -145,7 +145,7 @@ class BenefactorModel(models.Model):
         return str(self.name)
 
 
-class CareersModel(models.Model):    
+class CareersModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     code = models.CharField(default=career_code, max_length=20, verbose_name=_('کد موقعیت شغلی'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش مربوطه'))
@@ -153,11 +153,11 @@ class CareersModel(models.Model):
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان موقعیت'))
-    desc = QuillField(verbose_name=_('توضیحات'))
+    desc = RichTextField(verbose_name=_('توضیحات'))
     min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
     max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
     image = models.ImageField(upload_to=career_image_path, verbose_name=_('تصویر'))
-    expriment = QuillField(verbose_name=_('تجربه ی مورد نیاز'))
+    expriment = RichTextField(verbose_name=_('تجربه ی مورد نیاز'))
     is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
     class Meta:
@@ -180,9 +180,9 @@ class HireFormModel(models.Model):
     first_name = models.CharField(max_length=50, verbose_name=_('نام'))
     last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
     father = models.CharField(max_length=50, verbose_name=_('نام پدر'))
-    national_code = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
+    national_code = models.CharField(max_length=10, verbose_name=_('کدملی'))
     national_number = models.CharField(max_length=20, verbose_name=_('شماره شناسنامه'))
-    burthday_date = models.DateField(verbose_name=_('تاریخ تولد'))
+    birthday_date = models.DateField(verbose_name=_('تاریخ تولد'))
     burthday_place = models.CharField(max_length=100, verbose_name=_('محل تولد'))
     single_married = models.CharField(choices=SINGLE_MARRIED, max_length=10, verbose_name=_('وضعیت تاهل'))
     num_childs = models.PositiveIntegerField(default=0, verbose_name=_('تعداد فرزندان'))
@@ -206,7 +206,7 @@ class HireFormModel(models.Model):
     j_created.short_description = _('تاریخ')
 
     def __str__(self):
-        return self.user
+        return self.national_code
 
 
 class WorkshopModel(models.Model):

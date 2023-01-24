@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_auth.models import PatientModel
-from django_quill.fields import QuillField
+from ckeditor.fields import RichTextField
 from extentions.utils import (
     jalali_convertor,
     units_image_path, 
@@ -22,7 +22,7 @@ class UnitModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     subunit = models.ForeignKey(to='SubUnitModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان بخش'))
     title = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام')))
-    desc = TranslatedField(QuillField(verbose_name=_('متن')))
+    desc = TranslatedField(RichTextField(verbose_name=_('متن')))
     image = models.ImageField(upload_to=units_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     phone = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('تلفن'))
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
@@ -140,7 +140,7 @@ class AppointmentTimeModel(models.Model):
 
 class AppointmentTipModel(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('عنوان'))
-    tips = QuillField(verbose_name=_('نکات'))
+    tips = RichTextField(verbose_name=_('نکات'))
 
     class Meta:
         ordering = ['-id']
@@ -226,7 +226,7 @@ class OnlinePaymentModel(models.Model):
 
 class LimitTurnTimeModel(models.Model):
     hours = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('تا چند ساعت قبل؟'))
-    rules = QuillField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
+    rules = RichTextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
 
     class Meta:
         ordering = ['-id']

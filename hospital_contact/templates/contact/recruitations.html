@@ -1,0 +1,21 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>فرصت های شغلی</h1>
+
+    {% for career in careers %}
+    <div class="alert alert-light text-primary d-flex text-center">
+        <p style="flex: 1;">تخصص مورد نیاز: {{ career.degree }} {{ career.skill }}</p>
+        <p style="flex: 1;"><a class="btn btn-primary" href="{% url 'contact:careers-info' career.code %}">نمایش بیشتر</a></p>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+

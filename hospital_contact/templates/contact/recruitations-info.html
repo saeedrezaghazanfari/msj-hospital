@@ -1,0 +1,39 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h1>فرصت های شغلی - نمایش جزپیات</h1>
+
+    <div class="alert alert-light text-primary">
+        <p>{% if career.image %} <img src="{{ career.image.url }}" style="height: 50px; width: 50px;" alt="">{% endif %}</p>
+        <p>عنوان فرصت شغلی: {{ career.title }}</p>
+        <p>تخصص مورد نیاز: {{ career.degree }} {{ career.skill }}</p>
+        <p>بخش: {{ career.unit }}</p>
+        <p>جنسیت: {{ career.gender }}</p>
+        <p>حداقل سن: {{ career.min_age }}</p>
+        <p>حداکثر سن: {{ career.max_age }}</p>
+        <p>توضیحات: {{ career.desc|safe }}</p>
+        <p>تجربیات مورد نیاز: {{ career.expriment|safe }}</p>
+    </div>
+
+    <div class="alert alert-light text-primary">
+    
+        <form novalidate method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">ارسال</button>
+        </form>
+    
+    </div>
+
+
+{% endblock %}
+

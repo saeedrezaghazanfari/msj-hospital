@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'captcha',
     'jalali_date',
-    'django_quill',
+    'ckeditor',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -166,24 +166,15 @@ JALALI_DATE_DEFAULTS = {
     },
 }
 
-
-# quill editor config
-QUILL_CONFIGS = {
-    'default':{
-        'theme': 'snow',
-        'modules': {
-            'syntax': True,
-            'toolbar': [
-                [
-                    {'font': False},
-                    {'header': []},
-                    {'align': []},
-                    'bold', 'italic', 'underline', 'strike', 'blockquote',
-                    {'color': []},
-                    {'background': []},
-                ],
-                ['link'],
-            ]
-        }
+# ckeditor config
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat']
+        ]
     }
 }
