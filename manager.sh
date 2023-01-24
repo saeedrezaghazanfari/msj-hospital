@@ -34,11 +34,13 @@ clear
 echo 
 echo "# 1 => run server"
 echo "# 2 => git add and commit"
-echo "# 3 => make migrations and migrate db"
-echo "# 4 => remove all migrations files"
-echo "# 5 => remove all pycache files"
-echo "# 6 => about manager.sh"
-echo "# 7 => exit from manager.sh"
+echo "# 3 => install a package"
+echo "# 4 => uninstall a package"
+echo "# 5 => make migrations and migrate db"
+echo "# 6 => remove all migrations files"
+echo "# 7 => remove all pycache files"
+echo "# 8 => about manager.sh"
+echo "# 9 => exit from manager.sh"
 echo
 read -p "Enter your Selection: " FLAG
 echo
@@ -64,8 +66,48 @@ elif [ $FLAG = 2 ]; then
 	git commit -m "$COMMENT"
 
 
-# makemigrations and migrate db
+# install a package
 elif [ $FLAG = 3 ]; then
+	
+	clear
+	read -p "Your selection is 'Install a Package', Are you Sure? [n/Y] " SUREMENT
+
+	if [ $SUREMENT = 'Y' ]; then
+
+		read -p "Enter Package Name to install: " PACKAGE
+
+		. venv/bin/activate
+		pip install $PACKAGE
+		pip freeze
+		pip freeze > ./requirements.txt
+
+	else
+		echo "Exited!"
+	fi
+
+
+# uninstall a package
+elif [ $FLAG = 4 ]; then
+	
+	clear
+	read -p "Your selection is 'Uninstall a Package', Are you Sure? [n/Y] " SUREMENT
+
+	if [ $SUREMENT = 'Y' ]; then
+
+		read -p "Enter Package Name to uninstall: " PACKAGE
+
+		. venv/bin/activate
+		pip uninstall $PACKAGE
+		pip freeze
+		pip freeze > ./requirements.txt
+
+	else
+		echo "Exited!"
+	fi
+
+
+# makemigrations and migrate db
+elif [ $FLAG = 5 ]; then
 	
 	clear
 	read -p "Your selection is 'Make Migrations & Migrate', Are you Sure? [n/Y] " SUREMENT
@@ -83,7 +125,7 @@ elif [ $FLAG = 3 ]; then
 
 
 # delete all of 00*.py files of migrations dir
-elif [ $FLAG = 4 ]; then
+elif [ $FLAG = 6 ]; then
 	
 	clear
 	read -p "Your selection is 'Remove Migration Files', Are you Sure? [n/Y] " SUREMENT
@@ -107,7 +149,7 @@ elif [ $FLAG = 4 ]; then
 
 
 # delete all of *.pyc files in this dir
-elif [ $FLAG = 5 ]; then
+elif [ $FLAG = 7 ]; then
 
 	clear
 	read -p "Your selection is 'Remove PyCache Files', Are you Sure? [n/Y] " SUREMENT
@@ -137,7 +179,7 @@ elif [ $FLAG = 5 ]; then
 
 
 # about manager.sh
-elif [ $FLAG = 6 ]; then
+elif [ $FLAG = 8 ]; then
 
 	clear
 	sleep 1
@@ -158,7 +200,7 @@ elif [ $FLAG = 6 ]; then
 	echo
 
 # exit from manager.sh
-elif [ $FLAG = 7 ]; then
+elif [ $FLAG = 9 ]; then
 
 	clear
 	echo "have good time!"
