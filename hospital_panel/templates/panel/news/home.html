@@ -21,6 +21,34 @@
     </div>
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
 
+        <h1>پنل مدیریت خبر</h1>
+
+        <a href="{% url 'panel:news-create' %}">ساخت خبر جدید</a>
+
+        <h1>خبر های منتشر نشده ی شما:</h1>
+
+        {% for news in unpub_news %}
+        <div class="alert alert-primary text-info d-flex">
+            <p style="flex: 1;" title="image">{{ news.slug }}</p>
+            <p style="flex: 1;" title="title">{{ news.title }}</p>
+            <p style="flex: 1;" title="is_emailed">{{ news.is_emailed }}</p>
+            <p style="flex: 1;" title="is_publish">{{ news.is_publish }}</p>
+            <p style="flex: 1;" title="is_activate"><a class="btn btn-primary" href="{% url 'panel:news-edit' news.slug %}">ویرایش</a></p>
+        </div>
+        {% endfor %}
+
+        <h1>همه ی خبر های شما:</h1>
+
+        {% for news in news %}
+        <div class="alert alert-primary text-info d-flex">
+            <p style="flex: 1;" title="image">{{ news.slug }}</p>
+            <p style="flex: 1;" title="title">{{ news.title }}</p>
+            <p style="flex: 1;" title="is_emailed">{{ news.is_emailed }}</p>
+            <p style="flex: 1;" title="is_publish">{{ news.is_publish }}</p>
+            <p style="flex: 1;" title="is_activate"><a class="btn btn-primary" href="{% url 'panel:news-edit' news.slug %}">ویرایش</a></p>
+        </div>
+        {% endfor %}
+
     </div>
 
 </div>

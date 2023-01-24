@@ -1,5 +1,4 @@
 import uuid
-from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
@@ -31,7 +30,7 @@ class NewsModel(models.Model):
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     desc = TranslatedField(RichTextField(verbose_name=_('متن مقاله')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
-    is_emailed = models.BooleanField(default=False, verbose_name=_('آیا ایمیل شده است؟'))
+    is_emailed = models.BooleanField(default=False, editable=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))

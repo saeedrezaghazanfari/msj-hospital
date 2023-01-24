@@ -11,6 +11,7 @@ from .models import (
 from . import forms
 from extentions.utils import get_client_ip
 
+
 # url: /blog/list/
 class ListPage(generic.ListView):
     template_name = 'blog/list.html'

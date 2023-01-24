@@ -1,0 +1,283 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>جزپیات خبر</h1>
+
+        <div class="alert alert-light text-primary text-center">
+            <div><img src="{{ news.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
+            <div>{{ news.video_link }}</div>
+            <div>{{ news.writer.get_full_name }}</div>
+            <div>دسته بندی: {% for category in news.categories.all %} <a href="{% url 'news:categories' category.title %}">{{ category }}</a> - {% endfor %}</div>
+            <div>تگ ها: {% for tag in news.tags.all %} <a href="{% url 'news:tags' tag.title %}">{{ tag }}</a> - {% endfor %}</div>
+            <div>عنوان: {{ news.title }}</div>
+            <div>زمان خواندن: {{ news.read_time }}</div>
+            <div class="alert alert-light">{{ news.desc|safe }}</div>
+            <div class="alert alert-light">{{ news.short_desc }}</div>
+            <div>گالری: {% for item in news.gallery.all %} <a href="">{{ item }}</a> - {% endfor %}</div>
+            <div>بخش ها: {% for unit in news.units.all %} <a href="">{{ unit }}</a> - {% endfor %}</div>
+            <div>{{ news.pdf }}</div>
+            <div>{{ news.qr_img }}</div>
+        </div>
+
+        <div class="alert alert-light text-primary text-center">
+            <button disabled class="btn btn-outline-primary">تعداد کامنت ها و نظرات این پست: {{ comment_nums }}</button>
+            <button disabled class="btn btn-outline-primary">تعداد لایک های این پست: <span id="likes-span">{{ likes }}</span></button>
+            <button disabled class="btn btn-outline-primary">تعداد دیسلایک های این پست: <span id="dislikes-span">{{ dislikes }}</span></button>
+        </div>
+
+        <div class="alert alert-light text-primary text-center">
+            {% if news.is_likeable %}<button id="like-btn" class="btn btn-primary">لایک</button>{% endif %}
+            {% if news.is_dislikeable %}<button id="dislike-btn" class="btn btn-primary">دیسلایک</button>{% endif %}
+            <br><br>
+            <button disabled class="btn btn-danger d-none" id="you-like-this-post">شما این پست را لایک کرده اید</button>
+            <button disabled class="btn btn-danger d-none" id="you-dislike-this-post">شما این پست را دیسلایک کرده اید</button>
+        </div>
+
+        <div class="alert alert-light text-primary d-flex text-center">
+            {% if news.prev_post %}
+            <div style="flex: 1;">
+                <h3>{% translate 'پست قبلی' %}</h3>
+                <div class="wrapper_info">
+                    <a href="/news/info/{{ news.prev_post.slug }}/">
+                        <img src="{{ news.prev_post.image.url }}" style="height: 50px; width: 50px;" alt="{{ news.prev_post.title }}">
+                        <div>
+                            <h4>{{ news.prev_post.title }}</h4>
+                            <p>{{ news.prev_post.j_created }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% if news.next_post %}
+            <div style="flex: 1;">
+                <h3>{% translate 'پست بعدی' %}</h3>
+                <div class="wrapper_info">
+                    <a href="/news/info/{{ news.next_post.slug }}/">
+                        <img src="{{ news.next_post.image.url }}" style="height: 50px; width: 50px;" alt="{{ news.next_post.title }}">
+                        <div>
+                            <h4>{{ news.next_post.title }}</h4>
+                            <p>{{ news.next_post.j_created }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <h3>پست های مرتبط</h3>
+        <div class="alert alert-light text-primary d-flex">
+            {% for news in other_news %}
+            <div class="wrapper_info" style="flex: 1;">
+                <a href="/news/info/{{ news.slug }}/">
+                    <img src="{{ news.image.url }}" style="height: 50px; width: 50px;" alt="{{ news.title }}">
+                    <div>
+                        <h4>{{ news.title }}</h4>
+                        <p>{{ news.j_created }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if news.is_commentable %}
+        <div class="alert alert-light text-primary text-center"  id="this_is_header">
+            <h1 id="comment-header">ثبت نظر</h1>
+            <h1 id="reply-header" class="d-none">ثبت پاسخ</h1>
+            <form method="POST" novalidate autocomplete="off">
+                {% csrf_token %}
+
+                
+                {% render_field form.message placeholder='message' %}
+                {% for msg in form.message.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.first_name placeholder='first_name' %}
+                {% for msg in form.first_name.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.last_name placeholder='last_name' %}
+                {% for msg in form.last_name.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.phone placeholder='phone' %}
+                {% for msg in form.phone.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                {% render_field form.comment_id id='comment_id_wrapper' placeholder='comment_id' %}
+                {% for msg in form.comment_id.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+                <br><br>
+                <button type="submit">ارسال</button>
+                <button type="reset" class="btn btn-danger" onclick="unsernd_reply()">منصرف شدن</button>
+            </form>
+            
+        </div>
+        
+        <h1>نظرات کاربران</h1>
+        {% for comment in comments %}
+        <div class="alert alert-primary text-dark text-center">
+            
+            <div style="border: 1px solid gray;" class="p-3">
+                <span class="comment_date">{{ comment.j_created }}</span>
+                <div class="comment_header">
+                    <p>{{ comment.first_name }} {{ comment.last_name }}</p>
+                </div>
+                <b>{{ comment.message }}</b>
+                <br><br>
+                <button class="btn btn-primary" onclick="send_reply('{{ comment.id }}')">
+                    {% translate 'جواب دادن' %}
+                </button>
+    
+            </div>
+
+            {% for reply in replies %}
+            {% if reply.reply == comment %}
+            <div class="reply">
+                <span class="reply_date">{{ reply.j_created}}</span>
+                <div class="comment_header">
+                    <p>{{ comment.first_name }} {{ comment.last_name }}</p>
+                </div>
+                <b>{{ reply.message }}</b>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+        {% endif %}
+        
+
+    </div>
+
+    <script>
+        
+        window.onload = () => {
+            let slug = window.location.pathname.substring(14, 25);
+
+            if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '1') {
+                document.getElementById('you-like-this-post').classList.remove('d-none');
+                document.getElementById('like-btn').setAttribute('disabled', '');
+            }
+            else if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '0') {
+                document.getElementById('you-dislike-this-post').classList.remove('d-none');
+                document.getElementById('dislike-btn').setAttribute('disabled', '');
+            }
+        }
+
+        function send_reply(commentID){
+            let element = document.getElementById('this_is_header');
+            element.scrollIntoView();
+
+            document.getElementById('comment_id_wrapper').value = commentID; 
+            document.getElementById('comment-header').classList.add('d-none');
+            document.getElementById('reply-header').classList.remove('d-none');
+        }
+
+        function unsernd_reply(){
+            document.getElementById('comment_id_wrapper').value = ''; 
+            document.getElementById('comment-header').classList.remove('d-none');
+            document.getElementById('reply-header').classList.add('d-none');
+        }
+
+        document.getElementById('like-btn').addEventListener('click', () => {
+
+            let formdata = new FormData();
+            formdata.append('slug', window.location.pathname.substring(14, 25));
+            formdata.append('type', 'like');
+
+            (async () => {
+                await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/news/like-dislike/', {
+                    method: "POST",
+                    body: new URLSearchParams(formdata),
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(response => response.json())
+                .then( (response) => {
+                    if(response.status == 200) {
+
+                        let type = response.type;
+                        let slug = response.slug;
+                        let likes = response.likes;
+                        let dislikes = response.dislikes;
+
+                        if (JSON.parse(localStorage.getItem(slug))) {
+                            localStorage.removeItem(slug);
+                            localStorage.setItem(slug, JSON.stringify("1"));
+                        } else {
+                            localStorage.setItem(slug, JSON.stringify("1"));
+                        }
+
+                        document.getElementById('likes-span').innerText = likes;
+                        document.getElementById('dislikes-span').innerText = dislikes;
+
+                        document.getElementById('you-dislike-this-post').classList.add('d-none');
+                        document.getElementById('you-like-this-post').classList.remove('d-none');
+
+                        document.getElementById('like-btn').setAttribute('disabled', '');
+                        document.getElementById('dislike-btn').removeAttribute('disabled');
+                    }
+                })
+                .catch(err => {
+                    console.log('ERR', err);
+                });
+            })();
+
+        });
+
+        document.getElementById('dislike-btn').addEventListener('click', () => {
+
+            let formdata = new FormData();
+            formdata.append('slug', window.location.pathname.substring(14, 25));
+            formdata.append('type', 'dislike');
+
+            (async () => {
+                await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/news/like-dislike/', {
+                    method: "POST",
+                    body: new URLSearchParams(formdata),
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(response => response.json())
+                .then( (response) => {
+                    if(response.status == 200) {
+
+                        let type = response.type;
+                        let slug = response.slug;
+                        let likes = response.likes;
+                        let dislikes = response.dislikes;
+
+                        if (JSON.parse(localStorage.getItem(slug))) {
+                            localStorage.removeItem(slug);
+                            localStorage.setItem(slug, JSON.stringify("0"));
+                        } else {
+                            localStorage.setItem(slug, JSON.stringify("0"));
+                        }
+
+                        document.getElementById('likes-span').innerText = likes;
+                        document.getElementById('dislikes-span').innerText = dislikes;
+
+                        document.getElementById('you-dislike-this-post').classList.remove('d-none');
+                        document.getElementById('you-like-this-post').classList.add('d-none');
+
+                        document.getElementById('dislike-btn').setAttribute('disabled', '');
+                        document.getElementById('like-btn').removeAttribute('disabled');
+                        
+                    }
+                })
+                .catch(err => {
+                    console.log('ERR', err);
+                });
+            })();
+
+        });
+
+    </script>
+
+{% endblock %}
+

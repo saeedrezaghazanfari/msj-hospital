@@ -52,7 +52,17 @@ urlpatterns = [
 
 
     # news management
-    path('panel/news/', views_news.news_page, name='news'),
+    path('panel/news/', views_news.news_page, name='news-list'),
+    path('panel/news/create/', views_news.news_create_page, name='news-create'),
+    path('panel/news/edit/<newsSlug>/', views_news.news_edit_page, name='news-edit'),
+    path('panel/news/tag/', views_news.news_tag_page, name='news-tag'),
+    path('panel/news/category/', views_news.news_category_page, name='news-category'),
+    path('panel/news/gallery/', views_news.news_gallery_page, name='news-gallery'),
+    path('panel/news/comment/', views_news.news_comment_page, name='news-comments'),
+    path('panel/news/comment/read/<commentId>/', views_news.news_comment_read_page, name='news-commentread'),
+    path('panel/news/comment/show/<commentId>/', views_news.news_comment_show_page, name='news-commentshow'),
+    path('panel/news/comment/delete/<commentId>/', views_news.news_comment_delete_page, name='news-commentdelete'),
+    path('panel/news/comment/edit/<commentId>/', views_news.news_comment_edit_page, name='news-commentedit'),
 
 
     # note management

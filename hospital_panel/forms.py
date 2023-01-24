@@ -13,6 +13,9 @@ from hospital_units.models import (
 from hospital_blog.models import (
     BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel, PampheletModel
 )
+from hospital_news.models import (
+    NewsModel, NewsGalleryModel
+)
 from hospital_contact.models import (
     CareersModel
 )
@@ -338,6 +341,12 @@ class BlogForm(forms.ModelForm):
         exclude = ['slug', 'qr_img', 'writer']
 
 
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = NewsModel
+        exclude = ['slug', 'writer']
+
+
 class TagForm(forms.ModelForm):
     class Meta:
         model = TagModel
@@ -365,6 +374,19 @@ class CategoryForm(forms.ModelForm):
 class BlogGalleryForm(forms.ModelForm):
     class Meta:
         model = BlogGalleryModel
+        fields = '__all__'
+
+    def clean(self):
+        image = self.cleaned_data.get('image')
+        video_link = self.cleaned_data.get('video_link')
+
+        if not image and not video_link:
+            raise forms.ValidationError(_('هر دو فیلد نمیتوانند خالی باشند.'))
+
+
+class NewsGalleryForm(forms.ModelForm):
+    class Meta:
+        model = NewsGalleryModel
         fields = '__all__'
 
     def clean(self):

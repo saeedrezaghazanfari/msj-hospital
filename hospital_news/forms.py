@@ -1,14 +1,14 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import BlogCommentModel
+from .models import NewsCommentModel
 from extentions.utils import is_phone
 
 
-class BlogCommentForm(forms.ModelForm):
+class NewsCommentForm(forms.ModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:
-        model = BlogCommentModel
+        model = NewsCommentModel
         fields = ['message', 'first_name', 'last_name', 'phone', 'comment_id']
 
     def clean_first_name(self):
@@ -46,18 +46,18 @@ class BlogCommentForm(forms.ModelForm):
         return phone
 
 
-class BlogReplyForm(forms.ModelForm):
+class NewsReplyForm(forms.ModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
-    blog_slug = forms.CharField(widget=forms.HiddenInput())
+    news_slug = forms.CharField(widget=forms.HiddenInput())
     
     class Meta:
-        model = BlogCommentModel
+        model = NewsCommentModel
         fields = ['message']
 
 
-class BlogCommentEditForm(forms.ModelForm):
+class NewsCommentEditForm(forms.ModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
     
     class Meta:
-        model = BlogCommentModel
+        model = NewsCommentModel
         fields = ['message']

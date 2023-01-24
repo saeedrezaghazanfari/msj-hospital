@@ -1,0 +1,53 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+
+        <h1>ویرایش کامنت</h1>
+
+        <div class="alert alert-light text-primary d-flex">
+            <p style="flex: 1;">{{ comment.first_name }} {{ comment.last_name }}</p>
+            <p style="flex: 1;">{{ comment.j_created }}</p>
+            <p style="flex: 1;"><a class="btn btn-outline-primary btn-sm" href="{% url 'news:info' comment.news.slug %}">نمایش خبر مربوطه</a></p>
+        </div>
+        <div class="alert alert-primary">
+            {{ comment.message|safe }}
+            <br><br>
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% render_field form.message placeholder='message' %}
+                {% for msg in form.message.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+                
+                {% render_field form.comment_id value=comment.id placeholder='comment_id' %}
+                {% for msg in form.comment_id.errors %} <p class="text-danger">{{ msg }}</p>{% endfor %}
+
+                <button type="submit">ارسال</button>
+                <br>
+                <a href="{% url 'panel:news-commentdelete' comment.id %}" class="btn btn-danger">حذف کامنت</a>   
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

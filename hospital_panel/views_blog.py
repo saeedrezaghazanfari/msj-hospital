@@ -140,7 +140,7 @@ def blog_edit_page(request, blogSlug):
 def blog_tag_page(request):
 
     if request.method == 'POST':
-        form = forms.TagForm(request.POST, request.FILES or None)
+        form = forms.TagForm(request.POST or None)
 
         if form.is_valid():
             form.save()
@@ -162,7 +162,7 @@ def blog_tag_page(request):
 def blog_category_page(request):
 
     if request.method == 'POST':
-        form = forms.CategoryForm(request.POST, request.FILES or None)
+        form = forms.CategoryForm(request.POST or None)
 
         if form.is_valid():
             form.save()

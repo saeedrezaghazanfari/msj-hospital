@@ -35,7 +35,11 @@
 
 {% if request.user.is_news_manager %}
 <li>
-    <a href="{% url 'panel:news' %}">پنل مدیریت اخبار</a>
+    <a href="{% url 'panel:news-list' %}">پنل مدیریت خبر</a><br>
+    <a href="{% url 'panel:news-comments' %}">مدیریت کامنت ها</a><br>
+    <a href="{% url 'panel:news-tag' %}">تگ ها</a><br>
+    <a href="{% url 'panel:news-category' %}">دسته بندی ها</a><br>
+    <a href="{% url 'panel:news-gallery' %}">گالری</a><br>
 </li>
 <hr>
 {% endif %}
