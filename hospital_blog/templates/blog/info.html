@@ -18,7 +18,7 @@
             <div>تگ ها: {% for tag in blog.tags.all %} <a href="{% url 'blog:tags' tag.title %}">{{ tag }}</a> - {% endfor %}</div>
             <div>عنوان: {{ blog.title }}</div>
             <div>زمان خواندن: {{ blog.read_time }}</div>
-            <div class="alert alert-light">{{ blog.desc }}</div>
+            <div class="alert alert-light">{{ blog.desc|safe }}</div>
             <div class="alert alert-light">{{ blog.short_desc }}</div>
             <div>گالری: {% for item in blog.gallery.all %} <a href="">{{ item }}</a> - {% endfor %}</div>
             <div>بخش ها: {% for unit in blog.units.all %} <a href="">{{ unit }}</a> - {% endfor %}</div>

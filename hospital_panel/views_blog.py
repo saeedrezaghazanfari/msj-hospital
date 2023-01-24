@@ -129,7 +129,8 @@ def blog_edit_page(request, blogSlug):
         form = forms.BlogForm(instance=blog)
 
     return render(request, 'panel/blog/edit.html', {
-        'form': form
+        'form': form,
+        'blog': blog
     })
 
 

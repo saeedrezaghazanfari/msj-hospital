@@ -70,40 +70,27 @@ elif [ $FLAG = 2 ]; then
 elif [ $FLAG = 3 ]; then
 	
 	clear
-	read -p "Your selection is 'Install a Package', Are you Sure? [n/Y] " SUREMENT
+	read -p "Enter Package Name to install: " PACKAGE
 
-	if [ $SUREMENT = 'Y' ]; then
-
-		read -p "Enter Package Name to install: " PACKAGE
-
-		. venv/bin/activate
-		pip install $PACKAGE
-		pip freeze
-		pip freeze > ./requirements.txt
-
-	else
-		echo "Exited!"
-	fi
+	. venv/bin/activate
+	pip install $PACKAGE
+	echo
+	pip freeze
+	pip freeze > ./requirements.txt
 
 
 # uninstall a package
 elif [ $FLAG = 4 ]; then
 	
 	clear
-	read -p "Your selection is 'Uninstall a Package', Are you Sure? [n/Y] " SUREMENT
 
-	if [ $SUREMENT = 'Y' ]; then
+	read -p "Enter Package Name to uninstall: " PACKAGE
 
-		read -p "Enter Package Name to uninstall: " PACKAGE
-
-		. venv/bin/activate
-		pip uninstall $PACKAGE
-		pip freeze
-		pip freeze > ./requirements.txt
-
-	else
-		echo "Exited!"
-	fi
+	. venv/bin/activate
+	pip uninstall $PACKAGE
+	echo
+	pip freeze
+	pip freeze > ./requirements.txt
 
 
 # makemigrations and migrate db

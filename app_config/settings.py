@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
+APP_DOMAIN = 'http://127.0.0.1:8000'
 DEBUG = config('DEBUG')
 ALLOWED_HOSTS = []
 # SECURE_SSL_REDIRECT = False

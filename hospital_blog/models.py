@@ -1,7 +1,12 @@
 import uuid
+import qrcode
 from django.db import models
+from django.conf import settings
 from translated_fields import TranslatedField
 from django.utils.translation import gettext_lazy as _
+from io import BytesIO
+from django.core.files import File
+from PIL import Image, ImageDraw
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from ckeditor.fields import RichTextField
@@ -76,7 +81,7 @@ class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
     pdf = models.FileField(upload_to=blog_pdf_image_path, blank=True, null=True, verbose_name=_('پی دی اف بلاگ'))
-    qr_img = models.ImageField(upload_to=blog_qrcode_image_path, blank=True, null=True, verbose_name=_('تصویر کد QR'))
+    qr_img = models.ImageField(upload_to=blog_qrcode_image_path, editable=False, blank=True, null=True, verbose_name=_('تصویر کد QR'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
     categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
@@ -100,6 +105,20 @@ class BlogModel(models.Model):
         verbose_name_plural = _('بلاگ‌ها')
 
     objects = BlogModelManager()
+
+    def save(self, *args, **kwargs):
+        if not self.qr_img:
+            address = f'{settings.APP_DOMAIN}/blog/info/{self.slug}/'
+            qrcode_img = qrcode.make(address)
+            canvas = Image.new('RGB', (410, 410), 'white')
+            draw = ImageDraw.Draw(canvas)
+            canvas.paste(qrcode_img)
+            fslug = f'qrcode-{self.slug}.png'
+            buffer = BytesIO()
+            canvas.save(buffer, 'PNG')
+            self.qr_img.save(fslug, File(buffer), save=False)
+            canvas.close()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

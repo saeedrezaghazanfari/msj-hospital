@@ -335,7 +335,7 @@ class ExprimentResultForm(forms.ModelForm):
 class BlogForm(forms.ModelForm):
     class Meta:
         model = BlogModel
-        exclude = ['slug', 'writer']
+        exclude = ['slug', 'qr_img', 'writer']
 
 
 class TagForm(forms.ModelForm):
