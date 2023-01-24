@@ -1,0 +1,24 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>فرم تماس با ما</h1>
+
+    <div class="alert alert-light text-primary d-flex text-center">
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">ارسال</button>
+
+        </form>
+    </div>
+{% endblock %}
+

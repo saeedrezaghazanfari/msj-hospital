@@ -1,7 +1,6 @@
 from django import forms
-from hospital_auth.models import User
 from django.utils.translation import gettext_lazy as _
-from .models import HireFormModel
+from .models import HireFormModel, CriticismSuggestionModel, ContactUsModel
 from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 from extentions.utils import is_email, is_image
@@ -23,3 +22,16 @@ class HireForm(forms.ModelForm):
         self.fields['end_date'] = JalaliDateField(label=_('تاریخ پایان طرح'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
+
+
+class CriticismSuggestionForm(forms.ModelForm):
+    class Meta:
+        model = CriticismSuggestionModel
+        exclude = ['code', 'is_read', 'created']
+
+
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUsModel
+        exclude = ['is_read', 'created']
+

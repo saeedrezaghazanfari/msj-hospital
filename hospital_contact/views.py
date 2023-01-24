@@ -1,10 +1,7 @@
-from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import CareersModel, HireFormModel
+from .models import CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
 from . import forms
 
 
@@ -32,7 +29,7 @@ def careers_info_page(request, careerCode):
             hireform.is_checked = False
 
             if HireFormModel.objects.filter(career=career, national_code=hireform.national_code).exists():
-                messages.success(request, _('شما قبلا یک بار درخواست ارسال کرده اید.'))
+                messages.warning(request, _('شما قبلا یک بار درخواست ارسال کرده اید.'))
                 return redirect('contact:careers')
             else:
                 hireform.save()
@@ -47,5 +44,64 @@ def careers_info_page(request, careerCode):
 
     return render(request, 'contact/recruitations-info.html', {
         'career': career,
+        'form': form
+    })
+
+
+# url: /contact/suggestions/
+def suggestions_page(request):
+
+    if request.method == 'POST':
+        form = forms.CriticismSuggestionForm(request.POST or None)
+
+        if form.is_valid():
+            suggestion = form.save(commit=False)
+            suggestion.is_read = False
+
+            if CriticismSuggestionModel.objects.filter(national_code=suggestion.national_code, is_read=False).exists():
+                messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
+                return redirect('website:home')
+            else:
+                suggestion.save()
+
+            # TODO send sms to suggestion.phone
+
+            messages.success(request, _('ممنون از تبادلات شما. در اسرع وقت بررسی خواهد شد!'))
+            return redirect('website:home')
+
+    else:
+        form = forms.CriticismSuggestionForm()
+
+    return render(request, 'contact/suggestions.html', {
+        'form': form
+    })
+
+
+
+# url: /contact/contactus/
+def contactus_page(request):
+
+    if request.method == 'POST':
+        form = forms.ContactUsForm(request.POST or None)
+
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.is_read = False
+
+            if ContactUsModel.objects.filter(email=contact.email, phone=contact.phone, is_read=False).exists():
+                messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
+                return redirect('website:home')
+            else:
+                contact.save()
+
+            # TODO send sms to contact.phone
+
+            messages.success(request, _('ممنون از تبادلات شما. در اسرع وقت بررسی خواهد شد!'))
+            return redirect('website:home')
+
+    else:
+        form = forms.ContactUsForm()    
+
+    return render(request, 'contact/contactus.html', {
         'form': form
     })
