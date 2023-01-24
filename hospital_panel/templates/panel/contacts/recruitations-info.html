@@ -22,18 +22,21 @@
     <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
         <h1>فرم های استخدامی پر شده جزییات</h1>
 
+        {% if not hire.is_checked %}
         <form novalidate method="post">
             {% csrf_token %}
             <label for="aaa">بررسی شد</label>
             <input type="checkbox" name="check_hire" id="aaa">
             <button type="submit">ثبت</button>
         </form>
+        {% endif %}
+
+        <br>
 
         <div class="alert alert-light">
 
             <p title="career">{{ hire.career.degree }} {{ hire.career.skill }} ({{ hire.career.code }})</p>
             <p title="created">{{ hire.created }}</p>
-            <p title="is_checked">{{ hire.is_checked }}</p>
             <p title="first_name">{{ hire.first_name }}</p>
             <p title="last_name">{{ hire.last_name }}</p>
             <p title="father">{{ hire.father }}</p>

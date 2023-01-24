@@ -68,6 +68,7 @@ class BeneficiaryCommentModel(models.Model):
 
 
 class ContactUsModel(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     message = RichTextField(verbose_name=_('متن ارتباط'))
     name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
@@ -106,6 +107,10 @@ class CriticismSuggestionModel(models.Model):
         ordering = ['-id']
         verbose_name = _('انتقاد و پیشنهاد مخاطب')
         verbose_name_plural = _('انتقادات و پیشنهادات مخاطبان')
+
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ')
 
     def __str__(self):
         return str(self.national_code)

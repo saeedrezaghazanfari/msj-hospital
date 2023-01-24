@@ -4,7 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-from hospital_contact.models import CareersModel, HireFormModel
+from hospital_contact.models import (
+    CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
+)
 from .decorators import contact_required
 from . import forms
 
@@ -88,4 +90,64 @@ def contact_recruitations_info_page(request, hireId):
 
     return render(request, 'panel/contacts/recruitations-info.html', {
         'hire': hire,
+    })
+
+
+# url: /panel/contact/suggestions/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@contact_required
+def contact_suggestions_page(request):
+
+    return render(request, 'panel/contacts/suggestions.html', {
+        'unread_suggestions': CriticismSuggestionModel.objects.filter(is_read=False).all(),
+        'read_suggestions': CriticismSuggestionModel.objects.filter(is_read=True).all(),
+    })
+
+
+# url: /panel/contact/suggestions/info/<suggestionCode>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@contact_required
+def contact_suggestions_info_page(request, suggestionCode):
+
+    suggestion = get_object_or_404(CriticismSuggestionModel, code=suggestionCode)
+
+    if request.method == 'POST' and request.POST.get('read_suggestion'):
+        suggestion.is_read = True
+        suggestion.save()
+
+        messages.success(request, _('رکورد مورد نظر خوانده شد.'))
+        return redirect('panel:contact-suggestions')
+
+    return render(request, 'panel/contacts/suggestions-info.html', {
+        'suggestion': suggestion,
+    })
+
+
+# url: /panel/contact/contacts/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@contact_required
+def contact_contacts_page(request):
+
+    return render(request, 'panel/contacts/contacts.html', {
+        'unread_contacts': ContactUsModel.objects.filter(is_read=False).all(),
+        'read_contacts': ContactUsModel.objects.filter(is_read=True).all(),
+    })
+
+
+# url: /panel/contact/contacts/info/<contactId>/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@contact_required
+def contact_contacts_info_page(request, contactId):
+
+    contact = get_object_or_404(ContactUsModel, id=contactId)
+
+    if request.method == 'POST' and request.POST.get('read_contact'):
+        contact.is_read = True
+        contact.save()
+
+        messages.success(request, _('رکورد مورد نظر خوانده شد.'))
+        return redirect('panel:contact-contacts')
+
+    return render(request, 'panel/contacts/contacts-info.html', {
+        'contact': contact,
     })

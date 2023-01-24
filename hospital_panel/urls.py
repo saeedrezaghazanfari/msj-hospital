@@ -30,8 +30,10 @@ urlpatterns = [
     path('panel/contact/careers/edit/<careerCode>/', views_contacts.contact_career_edit_page, name='contact-careeredit'),
     path('panel/contact/recruitations/', views_contacts.contact_recruitations_page, name='contact-recruitations'),
     path('panel/contact/recruitations/info/<hireId>/', views_contacts.contact_recruitations_info_page, name='contact-recruitationsinfo'),
-    # path('panel/contact/suggestions/', views_contacts.contact_suggestions_page, name='contact-suggestions'),
-    # path('panel/contact/contacts/', views_contacts.contact_contacts_page, name='contact-contacts'),
+    path('panel/contact/suggestions/', views_contacts.contact_suggestions_page, name='contact-suggestions'),
+    path('panel/contact/suggestions/info/<suggestionCode>/', views_contacts.contact_suggestions_info_page, name='contact-suggestionsinfo'),
+    path('panel/contact/contacts/', views_contacts.contact_contacts_page, name='contact-contacts'),
+    path('panel/contact/contacts/info/<contactId>/', views_contacts.contact_contacts_info_page, name='contact-contactsinfo'),
 
 
     # blog management
