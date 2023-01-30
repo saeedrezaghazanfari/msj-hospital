@@ -52,6 +52,16 @@
 
     </ul>
 
+    <div class="alert alert-light text-primary">
+        
+        <form method="get" action="{% url 'news:news' %}">
+            <h1>جستجو در خبر:</h1>
+            <input type="text" name="query" value="{{ request.GET.query }}">
+            <button type="submit">ارسال</button>
+        </form>
+
+    </div>
+
     <h3>دسته بندی ها</h3>
     <div class="alert alert-light text-primary d-flex">
         <ul>

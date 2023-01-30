@@ -1,5 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
@@ -19,7 +20,16 @@ class ListPage(generic.ListView):
     paginate_by = 1
 
     def get_queryset(self):
-        blogs = BlogModel.objects.filter(is_publish=True).all()[:6]
+        blogs = None
+        query_search = self.request.GET.get('query')
+        
+        if query_search:
+            lookup = Q(title_fa__icontains=query_search) | Q(title_en__icontains=query_search) | Q(title_ar__icontains=query_search) | Q(title_ru__icontains=query_search)
+            blogs = BlogModel.objects.filter(lookup, is_publish=True).distinct()[:6]
+
+        else:
+            blogs = BlogModel.objects.filter(is_publish=True).all()[:6]
+
         blogs_comments = []
         for blog in blogs:
             blogs_comments.append({
