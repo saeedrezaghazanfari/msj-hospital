@@ -431,7 +431,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid)
+        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect('/404')
@@ -622,6 +622,8 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
                         price_obj = PriceAppointmentModel.objects.get(insurance=None, degree=appointment.doctor.degree)
                         turn.price = price_obj.price
                         turn.save()
+                    else:
+                        return redirect('/404')
 
                 form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
@@ -652,17 +654,20 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/
 def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
+
+    print(patientTurnId)
+
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        print('1111')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        print('222')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
-        return redirect('/404')
+        print('3333')
 
     if account_activation_phone_token.check_token(code, token):
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
@@ -674,7 +679,7 @@ def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
             'unitSlug': unitSlug
         })
     else:
-        return redirect('/404')
+        print('444')
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/
