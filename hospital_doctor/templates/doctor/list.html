@@ -1,0 +1,181 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks doctor_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    {% doctors_list as doctors_items %}
+    {% skill_list as skill_items %}
+    {% degree_list as degree_items %}
+
+
+    <h1>دکتر ها</h1>
+
+    {% for doctor in page_obj %}
+    <div class="alert alert-light text-primary d-flex">
+        {% if doctor.user.profile %}<div style="flex: 1;" title="profile"><img src="{{ doctor.user.profile.url }}" style="height: 50px; width: 50px;" alt=""></div>{% endif %}
+        <div style="flex: 1;" title="user">دکتر {{ doctor.user.get_full_name }}</div>
+        <div style="flex: 1;" title="user">{{ doctor.degree }} {{ doctor.skill_title }}</div>
+        <div style="flex: 1;" title="short_desc"><a class="btn btn-primary" href="{% url 'doctor:info' doctor.id %}">نمایش</a></div>
+    </div>
+    {% endfor %}
+
+    <ul class="paginator__items">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.previous_page_number }}">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            {% if page == page_obj.number %}
+                <li class="active">
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+    
+    <form method="get">
+
+        {% comment %}
+        <input id="doctor_entered" onkeyup="check_doctor()" type="text" name="doctor">
+        <select id="doctor_id" onchange="set_data(value)">
+            <option value=""></option>
+            {% for doctor in doctors_items %}
+            <option value="{{ doctor.get_full_name }}" class="doctor_fullnames">دکتر {{ doctor.get_full_name }}</option>
+            {% endfor %}
+        </select>
+        {% endcomment %}
+
+        <div style="position:relative;width:200px;height:25px;border:0;padding:0;margin:0;">
+            <select style="position:absolute;top:0px;left:0px;width:200px; height:25px;line-height:20px;margin:0;padding:0" id="doctor_id" onchange="set_data(value)">
+                <option value=""></option>
+                {% for doctor in doctors_items %}
+                <option value="{{ doctor.get_full_name }}" class="doctor_fullnames">دکتر {{ doctor.get_full_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="doctor" onkeyup="check_doctor()" id="doctor_entered" 
+                   placeholder="add/select a value"
+                   style="position:absolute; top:0px; left:0px; bottom: 0; right: 0; width:180px;height:18px;border:1px solid #556;"  >
+        </div>
+
+        <button type="submit">ارسال</button>
+
+    </form>
+
+    <form method="get">
+
+        <div class="accordion" id="accordionExample">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                        کلینیک
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        {% for item in skill_items %}
+                        <label for="skill_{{ forloop.counter }}">{{ item }}</label>
+                        <input type="radio" name="skill" value="{{ item }}" id="skill_{{ forloop.counter }}">
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                        تخصص
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse show" aria-labelledby="heading2" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        {% for item in degree_items %}
+                        <label for="degree_{{ forloop.counter }}">{{ item }}</label>
+                        <input type="radio" name="degree" value="{{ item }}" id="degree_{{ forloop.counter }}">
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading3">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                        جنسیت
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse show" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        
+                        <label for="male">مرد</label>
+                        <input type="radio" name="gender" value="male" id="male">
+
+                        <label for="female">زن</label>
+                        <input type="radio" name="gender" value="female" id="female">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">جستجو</button>
+        <button class="btn btn-primary" type="reset">ریست فرم</button>
+
+    </form>
+
+<script>
+
+    function check_doctor() {
+
+        let all_doctors = document.querySelectorAll('.doctor_fullnames');
+        let searched_txt = document.getElementById('doctor_entered').value;
+
+        var my_selectbox=document.getElementById("doctor_id");
+        var length = my_selectbox.options.length;
+        //open dropdown
+        my_selectbox.size = length;
+        
+        all_doctors.forEach(element => {
+            element.classList.remove('d-none')
+        });
+
+        all_doctors.forEach(element => {
+            
+            let exist = element.innerHTML.includes( searched_txt );
+            if(!exist)
+                element.classList.add('d-none');
+
+        });
+    }
+
+    function set_data(doctor) {
+        console.log(doctor);
+        let searched_txt = document.getElementById('doctor_entered');
+        searched_txt.value = doctor;
+    }
+
+</script>
+{% endblock %}
+

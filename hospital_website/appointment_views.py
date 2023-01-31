@@ -410,7 +410,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/calendar/') 
+                    return redirect(f'/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/1/calendar/')
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))

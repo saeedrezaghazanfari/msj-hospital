@@ -1,0 +1,31 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks news_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    {% last_categories as categories %}
+
+    <h1>دکتر</h1>
+
+    <p>{{ doctor.user.get_full_name }}</p>
+    <p>{{ doctor.medical_code }}</p>
+    <p>{{ doctor.unit }}</p>
+    <p>{% for ins in doctor.insurances.all %}{{ ins }} - {% endfor %}</p>
+    <p>{{ doctor.position|safe }}</p>
+    <p>{{ doctor.bio|safe }}</p>
+
+    {% for time in work_times %}
+    <div class="alert alert-light text-primary d-flex">
+        <p style="flex: 1;" title="day_from">{{ time.day_from }}</p>
+        <p style="flex: 1;" title="day_to">{{ time.day_to }}</p>
+        <p style="flex: 1;" title="time_from">{{ time.time_from }}</p>
+        <p style="flex: 1;" title="time_to">{{ time.time_to }}</p>
+    </div>
+    {% endfor %}
+    
+{% endblock %}
+

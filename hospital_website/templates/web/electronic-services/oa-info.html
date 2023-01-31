@@ -101,7 +101,7 @@
         </div>
         <br>
         <button type="submit">بعدی</button>
-        <a href="{% url 'website:oa-calendar' unitSlug appointment.doctor.id uidb64 token %}" type="button">قبلی</a>
+        <a href="{% url 'website:oa-calendar' unitSlug appointment.doctor.id uidb64 token '1' %}" type="button">قبلی</a>
     </form>
 
 {% endblock %}
