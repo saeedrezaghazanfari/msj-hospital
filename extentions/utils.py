@@ -125,21 +125,37 @@ def persian_numbers(myStr):
         myStr = myStr.replace(e,p)
     return myStr
 
+
+def is_text(filename):
+    extesion = os.path.splitext(str(filename))[1].lower()
+    extesion_allowed = ['.pdf']
+    if extesion in extesion_allowed:
+        return True
+    return False
+
+
 def is_image(filename):
     extesion = os.path.splitext(str(filename))[1].lower()
     extesion_allowed = ['.png', '.jpg', 'jpeg']
-    for i in extesion_allowed:
-        if extesion == i:
-            return True
+    if extesion in extesion_allowed:
+        return True
     return False
+
 
 def is_video(filename):
     extesion = os.path.splitext(str(filename))[1].lower()
-    extesion_allowed = ['.mp4', '.webm']
-    for i in extesion_allowed:
-        if extesion == i:
-            return 'yes'
-    return 'no'
+    extesion_allowed = ['.mp4', '.webm', '.mkv']
+    if extesion in extesion_allowed:
+        return True
+    return False
+
+
+def is_audio(filename):
+    extesion = os.path.splitext(str(filename))[1].lower()
+    extesion_allowed = ['.mp3']
+    if extesion in extesion_allowed:
+        return True
+    return False
 
 
 # =============== start static path

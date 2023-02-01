@@ -63,10 +63,10 @@ def sign_up_page(request):
 
 			uid = urlsafe_base64_encode(force_bytes(user.pk))
 			token = account_activation_token.make_token(user)
-			messages.success(request, _('حساب کاربری شما با موفقیت ایجاد شد. برای ورود کد پیامک شده را وارد کنید'))
+			messages.success(request, _('حساب کاربری شما با موفقیت ایجاد شد. برای ورود کد پیامک شده را وارد کنید.'))
 			return redirect(f'/{get_language()}/enter-sms-code/{uid}/{token}')
 
-		messages.error(request, _('مشکلی بوجود آمده است'))
+		messages.error(request, _('مشکلی بوجود آمده است.'))
 		return redirect('/sign-up')
 	return render(request, 'auth/signup.html', context)
 
@@ -104,10 +104,10 @@ def sign_in_page(request):
 			uid = urlsafe_base64_encode(force_bytes(find_user.pk))
 			token = account_activation_token.make_token(find_user)
 			
-			messages.success(request, _('پیامک حاوی کد برای شما ارسال شد. بعد از دریافت کد، آن را وارد کنید'))
+			messages.success(request, _('پیامک حاوی کد برای شما ارسال شد. بعد از دریافت کد، آن را وارد کنید.'))
 			return redirect(f'/{get_language()}/enter-sms-code/{uid}/{token}')
 
-		messages.error(request, _('شماره تلفن شما اشتباه است و یا در سیستم موجود نیست'))
+		messages.error(request, _('شماره تلفن شما اشتباه است و یا در سیستم موجود نیست.'))
 		return redirect('/sign-in')
 	
 	return render(request, 'auth/signin.html', context)
@@ -152,13 +152,13 @@ def enter_sms_code(request, uidb64, token):
 					login(request, user)
 
 					context['form'] = EnterCodePWForm()
-					messages.success(request, _(' خوش آمدید'))
+					messages.success(request, _('به پنل کاربری بیمارستان موسی ابن جعفر خوش آمدید.'))
 					return redirect('panel:home')
 				else:
-					messages.error(request, _('مشکلی در ورود شما بوجود آمد'))
+					messages.error(request, _('مشکلی در ورود شما بوجود آمد.'))
 					return redirect('auth:signin')
 			else:
-				messages.error(request, _('کد شما نامعتبر و یا منقضی شده است'))
+				messages.error(request, _('کد شما نامعتبر و یا منقضی شده است.'))
 				return redirect('auth:signin')
 
 		return render(request, 'auth/enter_code.html', context)
@@ -168,6 +168,6 @@ def enter_sms_code(request, uidb64, token):
 @login_required
 def sign_out_page(request):
 	logout(request)
-	messages.info(request, _('شما با موفقیت خارج شدید'))
+	messages.info(request, _('شما با موفقیت از حساب کاربری خارج شدید.'))
 	return redirect('/sign-in')
 

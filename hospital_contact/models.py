@@ -188,7 +188,7 @@ class HireFormModel(models.Model):
     national_code = models.CharField(max_length=10, verbose_name=_('کدملی'))
     national_number = models.CharField(max_length=20, verbose_name=_('شماره شناسنامه'))
     birthday_date = models.DateField(verbose_name=_('تاریخ تولد'))
-    burthday_place = models.CharField(max_length=100, verbose_name=_('محل تولد'))
+    birthday_place = models.CharField(max_length=100, verbose_name=_('محل تولد'))
     single_married = models.CharField(choices=SINGLE_MARRIED, max_length=10, verbose_name=_('وضعیت تاهل'))
     num_childs = models.PositiveIntegerField(default=0, verbose_name=_('تعداد فرزندان'))
     soldiering = models.CharField(max_length=20, choices=SOLDIERING_TYPE, verbose_name=_('وضعیت نظام وظیفه'))

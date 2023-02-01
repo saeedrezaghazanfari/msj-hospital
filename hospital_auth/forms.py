@@ -3,7 +3,8 @@ from django import forms
 from .models import User
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
-from extentions.utils import is_phone, is_national_code
+from extentions.validations import national_code_val, name_val
+from extentions.utils import is_phone
 
 
 class SignUpForm(forms.ModelForm):
@@ -26,43 +27,20 @@ class SignUpForm(forms.ModelForm):
             'phone': forms.NumberInput({'placeholder': _('شماره تلفن خود را وارد کنید')}),
         }
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if not username:
-            raise forms.ValidationError(_('کدملی خود را وارد کنید'))
-        if not username.isdigit():
-            raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
-        if not is_national_code(username):
-            raise forms.ValidationError(_('الگوی کدملی شما صحیح نیست'))
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError(_('کدملی شما یک بار در سیستم ثبت شده است'))
-        return username
+    def clean_national_code(self):
+        data = self.cleaned_data.get('national_code')
+        output = national_code_val(national_code=data, ischeck_unique=True)
+        return output
 
     def clean_firstname(self):
-        firstname = self.cleaned_data.get('firstname')
-        if not firstname:
-            raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(firstname) <= 1:
-            raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(firstname) >= 20:
-            raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in firstname:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return firstname
+        data = self.cleaned_data.get('firstname')
+        output = name_val(name=data)
+        return output
     
     def clean_lastname(self):
-        lastname = self.cleaned_data.get('lastname')
-        if not lastname:
-            raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(lastname) <= 1:
-            raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(lastname) >= 25:
-            raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in lastname:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return lastname
+        data = self.cleaned_data.get('lastname')
+        output = name_val(name=data)
+        return output
     
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
@@ -70,7 +48,7 @@ class SignUpForm(forms.ModelForm):
             raise forms.ValidationError(_('شماره تلفن خود را وارد کنید'))
         if not is_phone(phone):
             raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))
-        if User.objects.filter(phone=phone).first():
+        if User.objects.filter(phone=phone).exists():
             raise forms.ValidationError(_('این شماره تلفن در سیستم ثبت شده است'))
         return phone
 
@@ -85,7 +63,7 @@ class SignInForm(forms.Form):
             raise forms.ValidationError(_('شماره تلفن همراه خود را وارد کنید')) 
         if not is_phone(phone):
             raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست'))       
-        if not User.objects.filter(phone=phone).first():
+        if not User.objects.filter(phone=phone).exists():
             raise forms.ValidationError(_('این شماره تلفن در سیستم موجود نیست'))
         return phone
 
