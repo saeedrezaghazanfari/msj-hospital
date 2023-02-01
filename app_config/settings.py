@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'captcha',
     'jalali_date',
     'ckeditor',
+    'django_social_share',
     'django_cleanup.apps.CleanupConfig',
 ]
 

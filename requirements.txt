@@ -6,6 +6,7 @@ django-jalali-date==1.0.1
 django-js-asset==2.0.0
 django-ranged-response==0.2.0
 django-simple-captcha==0.5.14
+django-social-share==2.3.0
 django-translated-fields==0.12.0
 django-utils-six==2.0
 django-widget-tweaks==1.4.12

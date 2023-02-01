@@ -38,6 +38,7 @@
                 <div style="flex: 1;" title="is_clinic">{{ doctor.is_clinic }}</div>
                 <div style="flex: 1;" title="is_active">{{ doctor.is_active }}</div>
                 <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:appointment-doctorlist-times' doctor.id %}">بیشتر</a></div>
+                <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:appointment-doctorlist-edit' doctor.id %}">ویرایش</a></div>
             </div>
             {% endfor %}
 

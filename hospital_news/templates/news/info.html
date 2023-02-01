@@ -1,11 +1,18 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks social_share %}
 {% block title %}{% translate 'خانه' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
 {% endblock %}
 
 {% block content %}
+
+    {% post_to_telegram news.short_desc news.get_absolute_url "post to telegram" %}
+    {% post_to_facebook news.get_absolute_url "Post to Facebook!" %}
+    {% post_to_whatsapp news.get_absolute_url "Share via WhatsApp" %}
+
+    {% copy_to_clipboard news.get_absolute_url "Copy url to clipboard!" %}
+    {% add_copy_script %}
 
     <div class="container">
         <h1>جزپیات خبر</h1>

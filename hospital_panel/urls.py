@@ -96,6 +96,7 @@ urlpatterns = [
     path('panel/online-appointment/doctor/list/', views_appointment.oa_doctorlist_page, name='appointment-doctorlist'),
     path('panel/online-appointment/doctor/create/', views_appointment.oa_doctorcreate_page, name='appointment-doctorcreate'),
     path('panel/online-appointment/doctor/<doctorId>/times/', views_appointment.oa_doctorlist_time_page, name='appointment-doctorlist-times'),
+    path('panel/online-appointment/doctor/<doctorId>/edit/', views_appointment.oa_doctorlist_edit_page, name='appointment-doctorlist-edit'),
     path('panel/online-appointment/price/', views_appointment.oa_price_page, name='appointment-price'),
     path('panel/online-appointment/time/', views_appointment.oa_time_page, name='appointment-time'),
     path('panel/online-appointment/time/<appointmentID>/edit/', views_appointment.oa_time_edit_page, name='appointment-timeedit'),

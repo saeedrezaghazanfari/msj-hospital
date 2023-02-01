@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.views import generic
 from django.utils.translation import get_language
 from .models import (
-    BlogModel, BlogCommentModel, BlogLikeModel, CategoryModel
+    BlogModel, BlogCommentModel, BlogLikeModel
 )
 from . import forms
 from extentions.utils import get_client_ip

@@ -1,5 +1,5 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks %}
+{% load static i18n widget_tweaks social_share %}
 {% block title %}{% translate 'خانه' %}{% endblock %}
 {% block extraCss %}
 <meta name="keywords" content="">
@@ -9,6 +9,13 @@
 
     <div class="container">
         <h1>جزپیات بلاگ</h1>
+
+        {% post_to_telegram blog.short_desc blog.get_absolute_url "post to telegram" %}
+        {% post_to_facebook blog.get_absolute_url "Post to Facebook!" %}
+        {% post_to_whatsapp blog.get_absolute_url "Share via WhatsApp" %}
+
+        {% copy_to_clipboard blog.get_absolute_url "Copy url to clipboard!" %}
+        {% add_copy_script %}
 
         <div class="alert alert-light text-primary text-center">
             <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>

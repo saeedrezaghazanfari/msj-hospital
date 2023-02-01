@@ -1,6 +1,6 @@
 import calendar
 from django.utils import timezone
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -296,16 +296,11 @@ def oa_doctorcreate_page(request):
 @online_appointment_required
 def oa_doctorlist_time_page(request, doctorId):
 
-    try:
-        DoctorModel.objects.filter(id=doctorId, is_active=True).exists()
-    except:
-        return redirect('/404')
+    doctor = get_object_or_404(DoctorModel, id=doctorId, is_active=True)
 
-    if doctorId and DoctorModel.objects.filter(id=doctorId, is_active=True).exists():
+    if doctor:
 
-        doctor = DoctorModel.objects.get(id=doctorId, is_active=True)
         works = doctor.doctorworktimemodel_set.all()
-
         vacations = doctor.doctorvacationmodel_set.all()
 
         # update vacation of doctor
@@ -320,6 +315,30 @@ def oa_doctorlist_time_page(request, doctorId):
             'vacations': vacations,
         })
     return redirect('/404')
+
+
+# url: /panel/online-appointment/doctor/<doctorId>/edit/
+@login_required(login_url=reverse_lazy('auth:signin'))
+@online_appointment_required
+def oa_doctorlist_edit_page(request, doctorId):
+
+    doctor = get_object_or_404(DoctorModel, id=doctorId, is_active=True)
+
+    if request.method == 'POST':
+        form = forms.DoctorForm(request.POST, request.FILES or None, instance=doctor)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, _('پزشک مورد نظر با موفقیت ویرایش شد.'))
+            return redirect('panel:appointment-doctorlist')
+
+    else:
+        form = forms.DoctorForm(instance=doctor)
+
+    return render(request, 'panel/online-appointment/doctor-edit.html', {
+        'form': form
+    })
 
 
 # url: /panel/online-appointment/price/

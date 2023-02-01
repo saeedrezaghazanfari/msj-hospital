@@ -142,6 +142,9 @@ class BlogModel(models.Model):
             return blog
         return None
 
+    def get_absolute_url(self):
+        return f'/blog/info/{self.slug}/'
+
     def get_full_name(self):
         return f'{self.writer.firstname()} {self.writer.lastname()}'
     get_full_name.short_description = _('نام نویسنده')
