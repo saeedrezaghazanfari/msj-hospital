@@ -96,7 +96,7 @@ class CriticismSuggestionModel(models.Model):
     first_name = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
     national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
-    email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
+    email = models.EmailField(max_length=100, blank=True, null=True, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
     manager = models.CharField(max_length=100, verbose_name=_('نام مسیول'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نام بخش'))
@@ -161,7 +161,7 @@ class CareersModel(models.Model):
     desc = RichTextField(verbose_name=_('توضیحات'))
     min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
     max_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداکثر سن'))
-    image = models.ImageField(upload_to=career_image_path, verbose_name=_('تصویر'))
+    image = models.ImageField(upload_to=career_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     expriment = RichTextField(verbose_name=_('تجربه ی مورد نیاز'))
     is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 

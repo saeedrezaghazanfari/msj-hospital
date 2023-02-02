@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from hospital_auth.models import User, PatientModel
 from django.utils.translation import gettext_lazy as _
@@ -19,9 +20,10 @@ from hospital_news.models import (
 from hospital_contact.models import (
     CareersModel
 )
-from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
-from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
-from extentions.utils import is_email, is_image
+from jalali_date.fields import JalaliDateField
+from jalali_date.widgets import AdminJalaliDateWidget
+
+from extentions.validations import name_val, file_val, email_val, phone_val, national_code_val
 
 
 class EditInfoForm(forms.ModelForm):
@@ -34,42 +36,14 @@ class EditInfoForm(forms.ModelForm):
         }
 
     def clean_profile(self):
-        profile = self.cleaned_data.get('profile')
-        if profile and not is_image(profile):
-            raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
-        return profile
-
-    def clean_firstname(self):
-        firstname = self.cleaned_data.get('firstname')
-        if not firstname:
-            raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(firstname) <= 1:
-            raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(firstname) >= 20:
-            raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in firstname:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return firstname
-    
-    def clean_lastname(self):
-        lastname = self.cleaned_data.get('lastname')
-        if not lastname:
-            raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(lastname) <= 1:
-            raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(lastname) >= 25:
-            raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in lastname:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return lastname
+        data = self.cleaned_data.get('profile')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if email and not is_email(email):
-            raise forms.ValidationError(_('الگوی ایمیل شما صحیح نیست'))
-        return email
+        data = self.cleaned_data.get('email')
+        output = email_val(email=data, ischeck_unique=False, required=False)
+        return output
 
 
 class SkillForm(forms.ModelForm):
@@ -77,11 +51,45 @@ class SkillForm(forms.ModelForm):
         model = TitleSkillModel
         fields = '__all__'
 
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=True)
+        return output
+
 
 class DegreeForm(forms.ModelForm):
     class Meta:
         model = DegreeModel
         fields = '__all__'
+
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=True)
+        return output
 
 
 class UnitForm(forms.ModelForm):
@@ -89,23 +97,88 @@ class UnitForm(forms.ModelForm):
         model = UnitModel
         fields = '__all__'
 
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=False)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=False)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=False)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=False)
+        return output
+
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
+
+    def clean_manager_phone(self):
+        data = self.cleaned_data.get('manager_phone')
+        output = phone_val(phone=data, required=False)
+        return output
+
+    def clean_email(self):
+        data = self.cleaned_data.get('email')
+        output = email_val(email=data, ischeck_unique=False, required=False)
+        return output
+
+    def clean_icon(self):
+        data = self.cleaned_data.get('icon')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
+
 
 class SubUnitForm(forms.ModelForm):
     class Meta:
         model = SubUnitModel
         exclude = ['slug']
 
-    def clean_title(self):
-        title = self.cleaned_data.get('title') 
+    def clean_title_fa(self):
+        title_fa = self.cleaned_data.get('title_fa') 
         category = self.cleaned_data.get('category') 
-        if SubUnitModel.objects.filter(category=category, title=title).exists():
+        if SubUnitModel.objects.filter(category=category, title_fa=title_fa).exists():
             raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
-        if SubUnitModel.objects.filter(title=title).exists():
+        if SubUnitModel.objects.filter(title_fa=title_fa).exists():
             raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
-        return title
+        return title_fa
+
+    def clean_title_en(self):
+        title_en = self.cleaned_data.get('title_en') 
+        category = self.cleaned_data.get('category') 
+        if SubUnitModel.objects.filter(category=category, title_en=title_en).exists():
+            raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
+        if SubUnitModel.objects.filter(title_en=title_en).exists():
+            raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
+        return title_en
+
+    def clean_title_ar(self):
+        title_ar = self.cleaned_data.get('title_ar') 
+        category = self.cleaned_data.get('category') 
+        if SubUnitModel.objects.filter(category=category, title_ar=title_ar).exists():
+            raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
+        if SubUnitModel.objects.filter(title_ar=title_ar).exists():
+            raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
+        return title_ar
+
+    def clean_title_ru(self):
+        title_ru = self.cleaned_data.get('title_ru') 
+        category = self.cleaned_data.get('category') 
+        if SubUnitModel.objects.filter(category=category, title_ru=title_ru).exists():
+            raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
+        if SubUnitModel.objects.filter(title_ru=title_ru).exists():
+            raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
+        return title_ru
 
 
 class LimitTurnTimeForm(forms.ModelForm):
+
     class Meta:
         model = LimitTurnTimeModel
         fields = '__all__'
@@ -116,7 +189,7 @@ class LimitTurnTimeForm(forms.ModelForm):
             raise forms.ValidationError(_('عدد ساعت را وارد کنید.'))
         if hours >= 168:
             raise forms.ValidationError(_('عدد ساعت نباید بزرگتر از 168 یا یک هفته باشد.'))
-        if hours == 0:
+        if hours <= 0:
             raise forms.ValidationError(_('عدد ساعت باید بیشتر از 1 ساعت باشد.'))
         return hours
 
@@ -125,7 +198,6 @@ class LimitTurnTimeForm(forms.ModelForm):
         if not rules:
             raise forms.ValidationError(_('قوانین را وارد کنید.'))
         return rules
-
 
 
 class InsuranceForm(forms.ModelForm):
@@ -143,13 +215,13 @@ class InsuranceForm(forms.ModelForm):
         return title
 
     def clean_img(self):
-        img = self.cleaned_data.get('img')
-        if not is_image(img):
-            raise forms.ValidationError(_('پسوند فایل مجاز نیست.'))
-        return img
+        data = self.cleaned_data.get('img')
+        output = file_val(file=data, file_type='image', required=True)
+        return output
 
 
 class AppointmentTipForm(forms.ModelForm):
+
     class Meta:
         model = AppointmentTipModel
         fields = '__all__'
@@ -200,16 +272,22 @@ class Time2AppointmentForm(forms.ModelForm):
             widget=AdminJalaliDateWidget
         )
 
+
+    def clean_date_from(self):
+        date_from = self.cleaned_data.get('date_from')
+        if bool(datetime.datetime.now().date() > date_from):
+            raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        return date_from
+
     def clean_date_to(self):
-        from django.utils import timezone
         date_from = self.cleaned_data.get('date_from')
         date_to = self.cleaned_data.get('date_to')
+
+        if bool(datetime.datetime.now().date() > date_to):
+            raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+
         if date_from > date_to:
             raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
-        # if date_from < timezone.now().date:    #TODO
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
-        # if date_to < timezone.now().date:
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
         return date_to
     
     def clean_time_to(self):
@@ -274,16 +352,21 @@ class DoctorVacationForm(forms.ModelForm):
             widget=AdminJalaliDateWidget
         )
 
+    def clean_from_date(self):
+        from_date = self.cleaned_data.get('from_date')
+        if bool(datetime.datetime.now().date() > from_date):
+            raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+        return from_date
+
     def clean_to_date(self):
-        from django.utils import timezone
         from_date = self.cleaned_data.get('from_date')
         to_date = self.cleaned_data.get('to_date')
+
+        if bool(datetime.datetime.now().date() > to_date):
+            raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
+
         if from_date > to_date:
             raise forms.ValidationError(_('تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد.'))
-        # if from_date < timezone.now().date:    #TODO
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
-        # if to_date < timezone.now().date:
-        #     raise forms.ValidationError(_('تاریخ نباید از زمان حال کوچکتر باشد.'))
         return to_date
 
     def clean_to_time(self):
@@ -334,11 +417,53 @@ class ExprimentResultForm(forms.ModelForm):
             widget=AdminJalaliDateWidget
         )
 
+    def clean_title(self):
+        data = self.cleaned_data.get('title')
+        output = name_val(name=data, required=True)
+        return output
+
+    def clean_result(self):
+        data = self.cleaned_data.get('result')
+        output = name_val(name=data, required=False)
+        return output
+
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
+
 
 class BlogForm(forms.ModelForm):
     class Meta:
         model = BlogModel
         exclude = ['slug', 'qr_img', 'writer']
+    
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=True)
+        return output
+
+    def clean_pdf(self):
+        data = self.cleaned_data.get('pdf')
+        output = file_val(file=data, file_type='text', required=False)
+        return output
+
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=True)
+        return output
 
 
 class NewsForm(forms.ModelForm):
@@ -346,17 +471,54 @@ class NewsForm(forms.ModelForm):
         model = NewsModel
         exclude = ['slug', 'writer']
 
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=True)
+        return output
+
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=True)
+        return output
+
 
 class TagForm(forms.ModelForm):
     class Meta:
         model = TagModel
         fields = '__all__'
 
-    def clean_title_fa(self):          #TODO
+    def clean_title_fa(self):
         title_fa = self.cleaned_data.get('title_fa')
         if TagModel.objects.filter(title_fa__iexact=title_fa).first():
             raise forms.ValidationError(_('شما قبلا یک تگ با همین نام ایجاد کرده اید.'))
         return title_fa
+    def clean_title_en(self):
+        title_en = self.cleaned_data.get('title_en')
+        if TagModel.objects.filter(title_en__iexact=title_en).first():
+            raise forms.ValidationError(_('شما قبلا یک تگ با همین نام ایجاد کرده اید.'))
+        return title_en
+    def clean_title_ar(self):
+        title_ar = self.cleaned_data.get('title_ar')
+        if TagModel.objects.filter(title_ar__iexact=title_ar).first():
+            raise forms.ValidationError(_('شما قبلا یک تگ با همین نام ایجاد کرده اید.'))
+        return title_ar
+    def clean_title_ru(self):
+        title_ru = self.cleaned_data.get('title_ru')
+        if TagModel.objects.filter(title_ru__iexact=title_ru).first():
+            raise forms.ValidationError(_('شما قبلا یک تگ با همین نام ایجاد کرده اید.'))
+        return title_ru
 
 
 class CategoryForm(forms.ModelForm):
@@ -364,11 +526,26 @@ class CategoryForm(forms.ModelForm):
         model = CategoryModel
         fields = '__all__'
 
-    def clean_title_fa(self):          #TODO
+    def clean_title_fa(self):
         title_fa = self.cleaned_data.get('title_fa')
         if CategoryModel.objects.filter(title_fa__iexact=title_fa).first():
             raise forms.ValidationError(_('شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید.'))
         return title_fa
+    def clean_title_en(self):
+        title_en = self.cleaned_data.get('title_en')
+        if CategoryModel.objects.filter(title_en__iexact=title_en).first():
+            raise forms.ValidationError(_('شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید.'))
+        return title_en
+    def clean_title_ar(self):
+        title_ar = self.cleaned_data.get('title_ar')
+        if CategoryModel.objects.filter(title_ar__iexact=title_ar).first():
+            raise forms.ValidationError(_('شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید.'))
+        return title_ar
+    def clean_title_ru(self):
+        title_ru = self.cleaned_data.get('title_ru')
+        if CategoryModel.objects.filter(title_ru__iexact=title_ru).first():
+            raise forms.ValidationError(_('شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید.'))
+        return title_ru
 
 
 class BlogGalleryForm(forms.ModelForm):
@@ -376,18 +553,30 @@ class BlogGalleryForm(forms.ModelForm):
         model = BlogGalleryModel
         fields = '__all__'
 
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
+
     def clean(self):
         image = self.cleaned_data.get('image')
         video_link = self.cleaned_data.get('video_link')
 
         if not image and not video_link:
             raise forms.ValidationError(_('هر دو فیلد نمیتوانند خالی باشند.'))
+        if image and video_link:
+            raise forms.ValidationError(_('هر دو فیلد نمیتوانند مقدار داشته باشند.'))
 
 
 class NewsGalleryForm(forms.ModelForm):
     class Meta:
         model = NewsGalleryModel
         fields = '__all__'
+    
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
 
     def clean(self):
         image = self.cleaned_data.get('image')
@@ -395,12 +584,34 @@ class NewsGalleryForm(forms.ModelForm):
 
         if not image and not video_link:
             raise forms.ValidationError(_('هر دو فیلد نمیتوانند خالی باشند.'))
+        if image and video_link:
+            raise forms.ValidationError(_('هر دو فیلد نمیتوانند مقدار داشته باشند.'))
 
 
 class PatientForm(forms.ModelForm):
     class Meta:
         model = PatientModel
         fields = '__all__'
+
+    def clean_username(self):
+        data = self.cleaned_data.get('username')
+        output = national_code_val(national_code=data, ischeck_unique=False, required=True)
+        return output
+
+    def clean_first_name(self):
+        data = self.cleaned_data.get('first_name')
+        output = name_val(name=data, required=True)
+        return output
+
+    def clean_last_name(self):
+        data = self.cleaned_data.get('last_name')
+        output = name_val(name=data, required=True)
+        return output
+
+    def clean_phone(self):
+        data = self.cleaned_data.get('phone')
+        output = phone_val(phone=data, required=True)
+        return output
 
 
 class MedicalNoteForm(forms.ModelForm):
@@ -414,9 +625,41 @@ class PampheletForm(forms.ModelForm):
         model = PampheletModel
         fields = '__all__'
 
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=True)
+        return output
+
+    def clean_title_fa(self):
+        data = self.cleaned_data.get('title_fa')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_en(self):
+        data = self.cleaned_data.get('title_en')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ar(self):
+        data = self.cleaned_data.get('title_ar')
+        output = name_val(name=data, required=True)
+        return output
+    def clean_title_ru(self):
+        data = self.cleaned_data.get('title_ru')
+        output = name_val(name=data, required=True)
+        return output
+
 
 class CareersForm(forms.ModelForm):
     class Meta:
         model = CareersModel
         exclude = ['code']
+
+    def clean_title(self):
+        data = self.cleaned_data.get('title')
+        output = name_val(name=data, required=True)
+        return output
+
+    def clean_image(self):
+        data = self.cleaned_data.get('image')
+        output = file_val(file=data, file_type='image', required=False)
+        return output
 

@@ -7,8 +7,8 @@ from hospital_setting.models import PriceAppointmentModel
 from hospital_units.models import (
     AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
-from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
-from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
+from jalali_date.fields import JalaliDateField
+from jalali_date.widgets import AdminJalaliDateWidget
 from .models import LoginCodePatientModel
 from captcha.fields import CaptchaField
 from extentions.utils import is_phone, is_national_code

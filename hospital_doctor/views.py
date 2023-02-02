@@ -8,7 +8,6 @@ from django.utils.translation import get_language
 from .models import (
     DoctorModel
 )
-from . import forms
 
 
 # url: /doctor/list/

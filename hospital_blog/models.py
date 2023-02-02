@@ -3,6 +3,7 @@ import qrcode
 from django.db import models
 from django.conf import settings
 from translated_fields import TranslatedField
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from io import BytesIO
 from django.core.files import File
@@ -89,8 +90,8 @@ class BlogModel(models.Model):
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
     desc = TranslatedField(RichTextField(verbose_name=_('متن مقاله')))
-    short_desc = TranslatedField(models.TextField(max_length=500, verbose_name=_('متن کوتاه')))
-    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
+    short_desc = TranslatedField(models.TextField(max_length=500, verbose_name=_('متن کوتاه'), help_text=_('سعی کنید خلاصه ای بنویسید که شامل کلمات کلیدی باشد.')))
+    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'), help_text=_('اگر این تیک فعال باشد بعد از ذخیره شدن ایمیل برای اعضای خبرنامه ارسال میشود.'))
     is_emailed = models.BooleanField(default=False, editable=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
@@ -121,7 +122,15 @@ class BlogModel(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        lang = get_language()
+        if lang == 'fa':
+            return self.title_fa
+        if lang == 'en':
+            return self.title_en
+        if lang == 'ar':
+            return self.title_ar
+        if lang == 'ru':
+            return self.title_ru
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')

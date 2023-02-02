@@ -29,17 +29,17 @@ class SignUpForm(forms.ModelForm):
 
     def clean_national_code(self):
         data = self.cleaned_data.get('national_code')
-        output = national_code_val(national_code=data, ischeck_unique=True)
+        output = national_code_val(national_code=data, ischeck_unique=True, required=True)
         return output
 
     def clean_firstname(self):
         data = self.cleaned_data.get('firstname')
-        output = name_val(name=data)
+        output = name_val(name=data, required=True)
         return output
     
     def clean_lastname(self):
         data = self.cleaned_data.get('lastname')
-        output = name_val(name=data)
+        output = name_val(name=data, required=True)
         return output
     
     def clean_phone(self):
@@ -73,7 +73,7 @@ class EnterCodePWForm(forms.Form):
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
-        is_code = bool(re.compile(r'[0-9]{5}').match(str(code)))
+        is_code = bool(re.compile(r'(^[0-9]{5}$)').match(str(code)))
         
         if not code:
             raise forms.ValidationError(_('کد پیامک شده را وارد کنید'))

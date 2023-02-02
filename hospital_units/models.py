@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_auth.models import PatientModel
+from django.utils.translation import get_language
 from ckeditor.fields import RichTextField
 from extentions.utils import (
     jalali_convertor,
@@ -42,9 +43,26 @@ class UnitModel(models.Model):
         return self.subunit.slug
 
     def __str__(self):
-        if self.title:
-            return f'{self.subunit.title} ({self.title})'
-        return f'{self.subunit.title}'
+        lang = get_language()
+        if lang == 'fa':
+            if self.title_fa:
+                return f'{self.subunit.title_fa} ({self.title_fa})'
+            return f'{self.subunit}'
+            
+        if lang == 'en':
+            if self.title_en:
+                return f'{self.subunit.title_en} ({self.title_en})'
+            return f'{self.subunit}'
+
+        if lang == 'ar':
+            if self.title_ar:
+                return f'{self.subunit.title_ar} ({self.title_ar})'
+            return f'{self.subunit}'
+
+        if lang == 'ru':
+            if self.title_ru:
+                return f'{self.subunit.title_ru} ({self.title_ru})'
+            return f'{self.subunit}'
 
 
 class SubUnitModel(models.Model):
@@ -96,7 +114,7 @@ class ExprimentResultModel(models.Model):
     patient = models.ForeignKey(to=PatientModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان آزمایش'))
-    result = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('جواب آزمایش'))
+    result = RichTextField(blank=True, null=True, verbose_name=_('جواب آزمایش'))
     image = models.ImageField(upload_to=experiment_result_image_path, blank=True, null=True, verbose_name=_('تصویر آزمایش'))
     date = models.DateField(blank=True, null=True, verbose_name=_('زمان ثبت نتیجه'))
 

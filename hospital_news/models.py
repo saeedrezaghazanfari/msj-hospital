@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_auth.models import User
@@ -29,7 +30,7 @@ class NewsModel(models.Model):
     tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ ها'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     desc = TranslatedField(RichTextField(verbose_name=_('متن مقاله')))
-    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'))
+    is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'), help_text=_('اگر این تیک فعال باشد بعد از ذخیره شدن ایمیل برای اعضای خبرنامه ارسال میشود.'))
     is_emailed = models.BooleanField(default=False, editable=False, verbose_name=_('آیا ایمیل شده است؟'))
     is_likeable = models.BooleanField(default=True, verbose_name=_('امکان لایک دارد؟'))
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
@@ -53,7 +54,15 @@ class NewsModel(models.Model):
         return jalali_convertor(time=self.created, output='j_month')
         
     def __str__(self):
-        return self.title
+        lang = get_language()
+        if lang == 'fa':
+            return self.title_fa
+        if lang == 'en':
+            return self.title_en
+        if lang == 'ar':
+            return self.title_ar
+        if lang == 'ru':
+            return self.title_ru
 
     def prev_post(self):
         news = NewsModel.objects.filter(id__lt=self.id).order_by('id').first()
