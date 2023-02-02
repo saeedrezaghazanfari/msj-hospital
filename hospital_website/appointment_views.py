@@ -327,8 +327,6 @@ def eoa_unit_page(request, unitSlug):
                 list_medicalcode.append(time.doctor.medical_code)
                 list_doctors.append(time.doctor)
 
-    print(list_doctors)
-
     return render(request, 'web/electronic-services/oa-doctors.html', {
         'doctors': list_doctors,
         'header': subunit.title if subunit else _('doctors'),
@@ -655,19 +653,17 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/
 def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
 
-    print(patientTurnId)
-
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        print('1111')
+        return redirect('/404')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        print('222')
+        return redirect('/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
-        print('3333')
+        return redirect('/404')
 
     if account_activation_phone_token.check_token(code, token):
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
@@ -679,7 +675,7 @@ def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
             'unitSlug': unitSlug
         })
     else:
-        print('444')
+        return redirect('/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/
