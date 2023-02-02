@@ -24,7 +24,7 @@ class ListPage(generic.ListView):
         query_search = self.request.GET.get('query')
         
         if query_search:
-            lookup = Q(title_fa__icontains=query_search) | Q(title_en__icontains=query_search) | Q(title_ar__icontains=query_search) | Q(title_ru__icontains=query_search)
+            lookup = Q(title_fa__icontains=query_search) | Q(title_en__icontains=query_search) | Q(title_ar__icontains=query_search) | Q(title_ru__icontains=query_search) | Q(short_desc_fa__icontains=query_search) | Q(short_desc_en__icontains=query_search) | Q(short_desc_ar__icontains=query_search) | Q(short_desc_ru__icontains=query_search)
             blogs = BlogModel.objects.filter(lookup, is_publish=True).distinct()[:6]
 
         else:
