@@ -55,19 +55,19 @@ def eoa_categories_page(request):
 def eoa_router_page(request, unitSlug):
     
     if unitSlug == 'doctors':
-        return redirect(f'/electronic/appointment/{unitSlug}/')
+        return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/')
     elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug, have_2_box=True).exists():
         return render(request, 'web/electronic-services/oa-router.html', {
             'unitSlug': unitSlug,
         })
-    return redirect('/404')
+    return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/phone/
 def eoa_phone_epresc_page(request, unitSlug):
 
     if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if request.method == 'POST':
         form = forms.PhoneForm(request.POST or None)
@@ -108,10 +108,10 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     
     if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         
@@ -131,11 +131,11 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/') 
+                    return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/') 
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
-                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/enter-sms-code/{uidb64}/{token}') 
+                    return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/enter-sms-code/{uidb64}/{token}') 
         
         else:
             form = forms.EnterCodePhoneForm()
@@ -144,7 +144,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
             'form': form
         })
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/form/
@@ -155,10 +155,10 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
 
@@ -195,7 +195,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
                 if ElectronicPrescriptionModel.objects.filter(patient=patient, is_send=False).exists():
                     messages.info(request, _('شما یک درخواست بررسی نشده از قبل دارید.'))
-                    return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/')
+                    return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/')
 
                 ElectronicPrescriptionModel.objects.create(
                     patient=patient,
@@ -204,7 +204,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
                 form = forms.ElectronicPrescriptionForm()
                 messages.success(request, _('درخواست شما با موفقیت ارسال شد. بعد از بررسی درخواست شما یک پیامک ارسال خواهد شد. ممنون از صبر و شکیبایی شما.'))
-                return redirect(f'/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/show-details/')
+                return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/show-details/')
         
         else:
             form = forms.ElectronicPrescriptionForm(initial={
@@ -222,7 +222,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
             'token': token,
             'unitSlug': unitSlug
         })
-    return redirect('/404')
+    return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/show-details/
@@ -232,13 +232,13 @@ def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if account_activation_phone_token.check_token(code, token):
         return render(request, 'web/electronic-services/oa-showdetails-pres.html')
-    return redirect('/403')
+    return redirect(f'/{get_language()}/403')
 
 
 # url: /electronic/appointment/<unitSlug>/
@@ -319,7 +319,7 @@ def eoa_unit_page(request, unitSlug):
             ).all()
 
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if times:
         for time in times:
@@ -338,9 +338,9 @@ def eoa_unit_page(request, unitSlug):
 def eoa_phone_page(request, unitSlug, doctorID):
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not doctorID and not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
         
     doctor = DoctorModel.objects.get(id=doctorID, is_active=True)
 
@@ -383,12 +383,12 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         
@@ -408,11 +408,11 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
                     code_enter.save()
 
                     form = forms.EnterCodePhoneForm()
-                    return redirect(f'/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/1/calendar/')
+                    return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/1/calendar/')
 
                 else:
                     messages.error(request, _('کد شما منقضی شده و یا اینکه اعتبار ندارد.'))
-                    return redirect(f'/electronic/appointment/{unitSlug}/enter-sms-code/{doctorID}/{uidb64}/{token}') 
+                    return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/enter-sms-code/{doctorID}/{uidb64}/{token}') 
         
         else:
             form = forms.EnterCodePhoneForm()
@@ -421,7 +421,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
             'form': form
         })
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<doctorID>/<uidb64>/<token>/<monthNum>/calendar/
@@ -432,14 +432,14 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if not monthNum or int(monthNum) <= 0 or int(monthNum) >= 7:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         
@@ -539,7 +539,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
         })
 
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
@@ -550,14 +550,14 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not doctorID or not DoctorModel.objects.filter(id=doctorID, is_active=True).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         # doctor = DoctorModel.objects.get(medical_code=doctorID, is_active=True)
@@ -621,11 +621,11 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
                         turn.price = price_obj.price
                         turn.save()
                     else:
-                        return redirect('/404')
+                        return redirect(f'/{get_language()}/404')
 
                 form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
-                return redirect(f'/electronic/appointment/{unitSlug}/{turn.id}/{uidb64}/{token}/show-details/')
+                return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/{turn.id}/{uidb64}/{token}/show-details/')
         
         else:
             form = forms.PatientForm(initial={
@@ -647,7 +647,7 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
         })
 
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/
@@ -658,12 +658,12 @@ def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         patient_turn = PatientTurnModel.objects.get(id=patientTurnId)
@@ -675,7 +675,7 @@ def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
             'unitSlug': unitSlug
         })
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/
@@ -686,12 +686,12 @@ def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         
@@ -720,7 +720,7 @@ def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
             'token': token,
         })
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/end/
@@ -731,12 +731,12 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
         code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
     if not patientTurnId or not PatientTurnModel.objects.filter(id=patientTurnId).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if account_activation_phone_token.check_token(code, token):
         
@@ -762,7 +762,7 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
             'turn': patient_turn,
         })
     else:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
 
 # url: /electronic/appointment/turn/
@@ -777,7 +777,7 @@ def eoa_followturn_page(request):
         if form.is_valid():
 
             if not PatientTurnModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
-                return redirect('/404')
+                return redirect(f'/{get_language()}/404')
             turn = PatientTurnModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
             
             if turn.appointment.status == 'invac':
@@ -803,7 +803,7 @@ def eoa_followresult_page(request):
 
         if form.is_valid():
             if not ExprimentResultModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
-                return redirect('/404')
+                return redirect(f'/{get_language()}/404')
             result = ExprimentResultModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
     else:
         form = forms.FollowUpResultForm()

@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -314,7 +315,7 @@ def oa_doctorlist_time_page(request, doctorId):
             'works': works,
             'vacations': vacations,
         })
-    return redirect('/404')
+    return redirect(f'/{get_language()}/404')
 
 
 # url: /panel/online-appointment/doctor/<doctorId>/edit/
@@ -444,7 +445,7 @@ def oa_time_page(request):
 def oa_time_edit_page(request, appointmentID):
 
     if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     appointment = AppointmentTimeModel.objects.get(id=appointmentID)
 
@@ -520,7 +521,7 @@ def oa_time_create1_page(request, unitID):
     elif unitID == 'doctors':
         unit = None
     elif not unitID:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if request.method == 'POST':
         
@@ -553,19 +554,19 @@ def oa_time_create2_page(request, unitID, doctorId):
     elif unitID == 'doctors':
         unit = None
     elif not unitID:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if doctorId != 'doctors' and DoctorModel.objects.filter(is_active=True, id=doctorId).exists():
         doctor = DoctorModel.objects.get(is_active=True, id=doctorId)
     elif doctorId == 'doctors' or not doctorId:
-        return redirect('/404')
+        return redirect(f'/{get_language()}/404')
 
     if request.method == 'POST':
         form = forms.Time2AppointmentForm(request.POST or None)
 
         if len(request.POST.getlist('days')) == 0:
             messages.info(request, _('لطفا روز های مورد نظر خود را انتخاب کنید.'))
-            return redirect(f'/panel/online-appointment/time/create/{unitID}/{doctorId}/')
+            return redirect(f'/{get_language()}/panel/online-appointment/time/create/{unitID}/{doctorId}/')
 
         if form.is_valid():
             date_from = form.cleaned_data.get('date_from')
@@ -679,7 +680,7 @@ def oa_eturn_check_page(request, eturnID):
             
             if not form.cleaned_data.get('doctor') or not form.cleaned_data.get('unit'):
                 messages.error(request, _('باید تمامی فیلدها مقدار داشته باشند.'))
-                return redirect(f'/panel/online-appointment/e-turn/{eturnID}/')
+                return redirect(f'/{get_language()}/panel/online-appointment/e-turn/{eturnID}/')
 
             turn.doctor = form.cleaned_data.get('doctor')
             turn.unit = form.cleaned_data.get('unit')

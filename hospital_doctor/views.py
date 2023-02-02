@@ -1,10 +1,9 @@
 from django.http import JsonResponse
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.views import generic
-from django.utils.translation import get_language
 from .models import (
     DoctorModel
 )

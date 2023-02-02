@@ -22,7 +22,7 @@ from .tokens import account_activation_token
 def sign_up_page(request):
 
 	if SettingModel.objects.exists() and not SettingModel.objects.last().have_signup_page:
-		return redirect('/404')
+		return redirect(f'/{get_language()}/404')
 
 	form = SignUpForm(request.POST or None)
 	context = {'form': form}
@@ -67,7 +67,7 @@ def sign_up_page(request):
 			return redirect(f'/{get_language()}/enter-sms-code/{uid}/{token}')
 
 		messages.error(request, _('مشکلی بوجود آمده است.'))
-		return redirect('/sign-up')
+		return redirect(f'/{get_language()}/sign-up')
 	return render(request, 'auth/signup.html', context)
 
 
@@ -108,7 +108,7 @@ def sign_in_page(request):
 			return redirect(f'/{get_language()}/enter-sms-code/{uid}/{token}')
 
 		messages.error(request, _('شماره تلفن شما اشتباه است و یا در سیستم موجود نیست.'))
-		return redirect('/sign-in')
+		return redirect(f'/{get_language()}/sign-in')
 	
 	return render(request, 'auth/signin.html', context)
 
@@ -121,7 +121,7 @@ def enter_sms_code(request, uidb64, token):
 		user = User.objects.get(pk=uid)
 	except(TypeError, ValueError, OverflowError, User.DoesNotExist):
 		user = None
-		return redirect('/404')
+		return redirect(f'/{get_language()}/404')
 
 	if user and account_activation_token.check_token(user, token):
 		form = EnterCodePWForm(request.POST or None)
@@ -169,5 +169,5 @@ def enter_sms_code(request, uidb64, token):
 def sign_out_page(request):
 	logout(request)
 	messages.info(request, _('شما با موفقیت از حساب کاربری خارج شدید.'))
-	return redirect('/sign-in')
+	return redirect(f'/{get_language()}/sign-in')
 

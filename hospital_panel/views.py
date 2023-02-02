@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib import messages
 from django.urls import reverse_lazy
 from hospital_auth.models import UserFullNameModel
@@ -26,7 +27,7 @@ def read_notification(request, notificationID):
         if request.GET.get('route'):
             return redirect(request.GET.get('route'))
         return redirect('website:home')
-    return redirect('/404')
+    return redirect(f'/{get_language()}/404')
 
 
 # url: /panel/edit-info

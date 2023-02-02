@@ -75,7 +75,7 @@ def info_page(request, blogSlug):
                 messages.success(request, _('نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
 
             comment.save()
-            return redirect(f'/blog/info/{blogSlug}/')
+            return redirect(f'/{get_language()}/blog/info/{blogSlug}/')
 
     else:
         form = forms.BlogCommentForm()

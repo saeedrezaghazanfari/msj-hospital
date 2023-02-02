@@ -152,7 +152,7 @@ class BlogModel(models.Model):
         return None
 
     def get_absolute_url(self):
-        return f'/blog/info/{self.slug}/'
+        return f'/{get_language()}/blog/info/{self.slug}/'
 
     def get_full_name(self):
         return f'{self.writer.firstname()} {self.writer.lastname()}'
