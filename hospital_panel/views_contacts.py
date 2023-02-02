@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -7,6 +6,7 @@ from django.contrib import messages
 from hospital_contact.models import (
     CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
 )
+from extentions.utils import write_action
 from .decorators import contact_required
 from . import forms
 
@@ -27,7 +27,10 @@ def contact_careers_page(request):
         form = forms.CareersForm(request.POST, request.FILES or None)
 
         if form.is_valid():
+
             form.save()
+            write_action(f'{request.user.username} User created a career in Contact panel.', 'USER')
+
             messages.success(request, _('موقعیت شغلی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:contact-careers')
 
@@ -51,7 +54,10 @@ def contact_career_edit_page(request, careerCode):
         form = forms.CareersForm(request.POST, request.FILES or None, instance=career)
 
         if form.is_valid():
+
             form.save()
+            write_action(f'{request.user.username} User edited a career in Contact panel.', 'USER')
+
             messages.success(request, _('موقعیت شغلی مورد نظر با موفقیت ویرایش شد.'))
             return redirect('panel:contact-careers')
 
@@ -85,6 +91,8 @@ def contact_recruitations_info_page(request, hireId):
         hire.is_checked = True
         hire.save()
 
+        write_action(f'{request.user.username} User checked a user Recruitations in Contact panel.', 'USER')
+
         messages.success(request, _('فرم استخدامی بررسی شد.'))
         return redirect('panel:contact-recruitations')
 
@@ -115,6 +123,8 @@ def contact_suggestions_info_page(request, suggestionCode):
         suggestion.is_read = True
         suggestion.save()
 
+        write_action(f'{request.user.username} User checked a user Suggestions in Contact panel.', 'USER')
+
         messages.success(request, _('رکورد مورد نظر خوانده شد.'))
         return redirect('panel:contact-suggestions')
 
@@ -144,6 +154,8 @@ def contact_contacts_info_page(request, contactId):
     if request.method == 'POST' and request.POST.get('read_contact'):
         contact.is_read = True
         contact.save()
+
+        write_action(f'{request.user.username} User checked a user ContactsUs form in Contact panel.', 'USER')
 
         messages.success(request, _('رکورد مورد نظر خوانده شد.'))
         return redirect('panel:contact-contacts')

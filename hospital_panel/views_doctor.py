@@ -7,6 +7,7 @@ from hospital_doctor.models import DoctorModel
 from django.contrib import messages
 from hospital_setting.models import InsuranceModel
 from hospital_units.models import PatientTurnModel
+from extentions.utils import write_action
 from .decorators import online_doctor_required
 # from .mixins import DoctorRequired
 from . import forms
@@ -43,9 +44,10 @@ def doctor_info_page(request):
             doctor.bio_en = form.cleaned_data.get('bio_en')
             doctor.bio_ar = form.cleaned_data.get('bio_ar')
             doctor.bio_ru = form.cleaned_data.get('bio_ru')
-            doctor.save()
 
-            form = forms.DoctorEditForm()
+            doctor.save()
+            write_action(f'{request.user.username} User Updated info in Doctor panel.', 'USER')
+
             messages.success(request, _('اطلاعات شما با موفقیت تغییر یافت.'))
             return redirect('panel:doctor')
 
@@ -76,8 +78,8 @@ def doctor_vacation_page(request):
                 to_time=form.cleaned_data.get('to_time'),
                 is_accepted=False,
             )
+            write_action(f'{request.user.username} User sent a vacation time in Doctor panel.', 'USER')
 
-            form = forms.DoctorVacationForm()
             messages.success(request, _('درخواست شما با موفقیت ارسال شد. پس از بررسی تغییرات لازم روی نوبت دهی انجام میشود.'))
             return redirect('panel:doctor-vacation')
 
@@ -108,8 +110,8 @@ def doctor_work_page(request):
                 time_from=form.cleaned_data.get('time_from'),
                 time_to=form.cleaned_data.get('time_to'),
             )
+            write_action(f'{request.user.username} User sent a work time in Doctor panel.', 'USER')
 
-            form = forms.DoctorWorkForm()
             messages.success(request, _('زمان کاری شما با موفقیت ثبت شد.'))
             return redirect('panel:doctor-work')
 
@@ -136,6 +138,8 @@ def doctor_insurances_page(request):
             doctor.insurances.clear()
             for item in request.POST.getlist('insurances'):
                 doctor.insurances.add(InsuranceModel.objects.get(id=item))
+
+            write_action(f'{request.user.username} User registered a insurance in Doctor panel.', 'USER')
 
             messages.success(request, _('بیمه های موردنظر با موفقیت برای شما ثبت شدند.'))
             return redirect('panel:doctor-insurances')

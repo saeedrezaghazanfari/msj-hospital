@@ -13,7 +13,7 @@ from hospital_units.models import (
 from hospital_auth.models import PatientModel
 from . import forms
 from .models import LoginCodePatientModel
-from extentions.utils import jnum_to_month_name
+from extentions.utils import jnum_to_month_name, write_action
 # imports for activatings
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -60,6 +60,7 @@ def eoa_router_page(request, unitSlug):
         return render(request, 'web/electronic-services/oa-router.html', {
             'unitSlug': unitSlug,
         })
+
     return redirect(f'/{get_language()}/404')
 
 
@@ -89,9 +90,10 @@ def eoa_phone_epresc_page(request, unitSlug):
 
             uid = urlsafe_base64_encode(force_bytes(code.id)) 
             token = account_activation_phone_token.make_token(code)
+
             messages.success(request, _('یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد.'))
             return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/enter-sms-code/{uid}/{token}')
-    
+
     else:
         form = forms.PhoneForm()
 
@@ -129,8 +131,6 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
                 if code_enter:
                     code_enter.is_use = True
                     code_enter.save()
-
-                    form = forms.EnterCodePhoneForm()
                     return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/form/') 
 
                 else:
@@ -202,7 +202,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
                     experiment_code=form.cleaned_data.get('experiment_code'),
                 )
 
-                form = forms.ElectronicPrescriptionForm()
+                write_action(f'user via {username} nationalCode sent request for e-prescription.', 'ANONYMOUS')
                 messages.success(request, _('درخواست شما با موفقیت ارسال شد. بعد از بررسی درخواست شما یک پیامک ارسال خواهد شد. ممنون از صبر و شکیبایی شما.'))
                 return redirect(f'/{get_language()}/electronic/appointment/e-prescription/{unitSlug}/{uidb64}/{token}/show-details/')
         
@@ -406,8 +406,6 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
                 if code_enter:
                     code_enter.is_use = True
                     code_enter.save()
-
-                    form = forms.EnterCodePhoneForm()
                     return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/{doctorID}/{uidb64}/{token}/1/calendar/')
 
                 else:
@@ -526,6 +524,9 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
         if monthNum and (monthNum - 1) >= 1:
             prev = monthNum - 1 
 
+
+        #TODO next button is disable when no have any time
+
         return render(request, 'web/electronic-services/oa-calendar.html', {
             'times': times_arr,
             'doctor': doctor,
@@ -623,7 +624,6 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
                     else:
                         return redirect(f'/{get_language()}/404')
 
-                form = forms.PatientForm()
                 messages.success(request, _('اطلاعات شما با موفقیت ذخیره شد.'))
                 return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/{turn.id}/{uidb64}/{token}/show-details/')
         
@@ -706,7 +706,7 @@ def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
                 #TODO send user to payment site
                 # price: patient_turn.price
                 print('you are going to ...')
-                form = forms.CheckRulesForm()
+                # redirected to payment
 
         else:
             form = forms.CheckRulesForm()
@@ -755,6 +755,8 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
         #     is_success=True,
         #     code=None #TODO
         # )
+
+        #TODO create write action for this patinet
 
         #TODO SMS to user for code peygiri
 

@@ -12,6 +12,7 @@ from django.conf import settings
 from hospital_blog.models import TagModel, CategoryModel
 from hospital_news.forms import NewsReplyForm, NewsCommentEditForm
 from hospital_setting.models import NewsLetterEmailsModel
+from extentions.utils import write_action
 from .decorators import news_required
 from . import forms
  
@@ -49,6 +50,7 @@ def news_create_page(request):
             news.writer = request.user
             news.save()
             form.save_m2m()
+            write_action(f'{request.user.username} User created a News.', 'USER')
 
             if news.is_publish and not news.is_emailed:
 
@@ -98,6 +100,7 @@ def news_edit_page(request, newsSlug):
         if form.is_valid():
 
             form.save()
+            write_action(f'{request.user.username} User edited a News.', 'USER')
             
             if news.is_publish and not news.is_emailed:
 
@@ -142,6 +145,7 @@ def news_tag_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a Tag in news panel.', 'USER')
             messages.success(request, _('عنوان تگ با موفقیت ذخیره شد.'))
             return redirect('panel:news-tag')
 
@@ -164,6 +168,7 @@ def news_category_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a Category in news panel.', 'USER')
             messages.success(request, _('عنوان دسته بندی با موفقیت ذخیره شد.'))
             return redirect('panel:news-category')
 
@@ -185,7 +190,9 @@ def news_gallery_page(request):
         form = forms.NewsGalleryForm(request.POST, request.FILES or None)
 
         if form.is_valid():
+
             form.save()
+            write_action(f'{request.user.username} User created a news Gallery.', 'USER')
             messages.success(request, _('گالری پست با موفقیت ذخیره شد.'))
             return redirect('panel:news-gallery')
 
@@ -219,7 +226,9 @@ def news_comment_page(request):
             comment.news = that_news
             comment.is_read = True
             comment.is_show = True
+            
             comment.save()
+            write_action(f'{request.user.username} User sent a Reply in News panel.', 'USER')
 
             comment.reply.is_read = True
             comment.reply.is_show = True
@@ -271,6 +280,8 @@ def news_comment_delete_page(request, commentId):
 
     comment = get_object_or_404(NewsCommentModel, id=commentId, is_show=False)
     comment.delete()
+    write_action(f'{request.user.username} User Deleted a comment of users in News panel.', 'USER')
+
     return redirect('panel:news-comments')
 
 
@@ -288,7 +299,9 @@ def news_comment_edit_page(request, commentId):
             comment = form.save()
             comment.is_show = True
             comment.is_read = True
+            
             comment.save()
+            write_action(f'{request.user.username} User Edited a comment of users in News panel.', 'USER')
 
             messages.success(request, _('کامنت کاربر با موفقیت ویرایش شد.'))
             return redirect('panel:news-comments')

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from hospital_auth.models import UserFullNameModel
 from hospital_contact.models import NotificationModel
-from extentions.utils import safe_string
+from extentions.utils import safe_string, write_action
 from . import forms
 
 
@@ -47,7 +47,9 @@ def edit_data(request):
                 user.email = form.cleaned_data.get('email')
             if form.cleaned_data.get('profile'):
                 user.profile = form.cleaned_data.get('profile')
+
             user.save()
+            write_action(f'{request.user.username} User updated profile.', 'USER')
 
             if UserFullNameModel.objects.filter(user=user).exists():
                 obj = UserFullNameModel.objects.get(user=user)
@@ -55,6 +57,7 @@ def edit_data(request):
                 if request.POST.get('firstname_fa'):
                     obj.first_name_fa = request.POST.get('firstname_fa')
                     obj.save()
+
                 if request.POST.get('lastname_fa'):
                     obj.last_name_fa = request.POST.get('lastname_fa')
                     obj.save()
@@ -68,7 +71,6 @@ def edit_data(request):
                 )
 
             messages.success(request, _('اطلاعات حساب کاربری شما با موفقیت تغییر یافت.'))
-            form = forms.EditInfoForm()
             return redirect('panel:editdata')
     
     else:

@@ -2,15 +2,16 @@ from django.utils import timezone
 # import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.conf import settings
+# from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.contrib import messages
+from hospital_setting.models import SettingModel
+from extentions.utils import write_action
 from .models import User, LoginCodeModel, UserFullNameModel
 from .forms import SignUpForm, SignInForm, EnterCodePWForm
 from .decorators import login_not_required
-from hospital_setting.models import SettingModel
 # imports for activatings
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -150,6 +151,7 @@ def enter_sms_code(request, uidb64, token):
 						user.save()
 
 					login(request, user)
+					write_action(f'{user.username} is logged in to panel.', 'USER')
 
 					context['form'] = EnterCodePWForm()
 					messages.success(request, _('به پنل کاربری بیمارستان موسی ابن جعفر خوش آمدید.'))
@@ -167,6 +169,7 @@ def enter_sms_code(request, uidb64, token):
 # url: /sign-out
 @login_required
 def sign_out_page(request):
+	write_action(f'{request.user.username} is logged out from panel.', 'USER')
 	logout(request)
 	messages.info(request, _('شما با موفقیت از حساب کاربری خارج شدید.'))
 	return redirect(f'/{get_language()}/sign-in')

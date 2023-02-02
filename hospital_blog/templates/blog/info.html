@@ -19,6 +19,8 @@
 
         <div class="alert alert-light text-primary text-center">
             <div><img src="{{ blog.image.url }}" alt="" style="height: 100px; width: 100px;"></div>
+            <br><br>
+            <div><img src="{{ blog.qr_img.url }}" alt="" style="height: 100px; width: 100px;"></div>
             <div>{{ blog.video_link }}</div>
             <div>{{ blog.writer.get_full_name }}</div>
             <div>دسته بندی: {% for category in blog.categories.all %} <a href="{% url 'blog:categories' category.title %}">{{ category }}</a> - {% endfor %}</div>

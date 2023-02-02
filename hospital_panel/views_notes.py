@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .decorators import note_required
 from hospital_blog.models import MedicalNoteModel
+from extentions.utils import write_action
 from . import forms
 
 
@@ -20,6 +21,8 @@ def notes_page(request):
         if form.is_valid():
 
             form.save()
+            write_action(f'{request.user.username} User wrote a note.', 'USER')
+
             messages.success(request, _('نوت پزشکی مورد نظر شما ثبت شد.'))
             return redirect('panel:notes-list')
 

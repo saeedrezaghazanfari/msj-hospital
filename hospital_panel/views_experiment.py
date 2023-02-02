@@ -10,6 +10,7 @@ from django.contrib import messages
 from hospital_units.models import (
     ExprimentResultModel,
 )
+from extentions.utils import write_action
 from .decorators import experiment_required
 from . import forms
 
@@ -33,6 +34,7 @@ def experiment_list_page(request):
 
         if form.is_valid():
             exp = form.save()
+            write_action(f'{request.user.username} User created a expriment result.', 'USER')
 
             # TODO send sms: send code of experiment to patient
             print(exp.code)
@@ -61,6 +63,7 @@ def experiment_patient_page(request):
 
             if not PatientModel.objects.filter(username=form.cleaned_data.get('username')).exists():
                 form.save()
+                write_action(f'{request.user.username} User Created a patient in Experiment panel.', 'USER')
 
             else:
                 patient = PatientModel.objects.get(username=form.cleaned_data.get('username'))
@@ -70,8 +73,9 @@ def experiment_patient_page(request):
                 patient.gender = form.cleaned_data.get('gender')
                 patient.age = form.cleaned_data.get('age')
                 patient.save()
+                write_action(f'{request.user.username} User Updated a patient in Experiment panel.', 'USER')
             
-            messages.success(request, _('نتیجه ی آزمایش با موفقیت ثبت شد.'))
+            messages.success(request, _('اطلاعات بیمار با موفقیت ثبت شد.'))
             return redirect('panel:experiment-list')
 
     else:

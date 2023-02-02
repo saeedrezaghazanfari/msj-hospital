@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
+from extentions.utils import write_action
 from .models import CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
 from . import forms
 
@@ -17,8 +18,6 @@ def careers_page(request):
 def careers_info_page(request, careerCode):
 
     career = get_object_or_404(CareersModel, code=careerCode)
-    form = forms.HireForm()
-
 
     if request.method == 'POST':
         form = forms.HireForm(request.POST, request.FILES or None)
@@ -32,6 +31,7 @@ def careers_info_page(request, careerCode):
                 messages.warning(request, _('شما قبلا یک بار درخواست ارسال کرده اید.'))
                 return redirect('contact:careers')
             else:
+                write_action(f'user via {hireform.national_code} NationalCode sent a hire form.', 'ANONYMOUS')
                 hireform.save()
 
             # TODO send sms to hireform.phone
@@ -62,6 +62,7 @@ def suggestions_page(request):
                 messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
                 return redirect('website:home')
             else:
+                write_action(f'user via {suggestion.national_code} NationalCode sent a suggestion.', 'ANONYMOUS')
                 suggestion.save()
 
             # TODO send sms to suggestion.phone
@@ -92,6 +93,7 @@ def contactus_page(request):
                 messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
                 return redirect('website:home')
             else:
+                write_action(f'user via {contact.phone} Phone sent a contact us form.', 'ANONYMOUS')
                 contact.save()
 
             # TODO send sms to contact.phone

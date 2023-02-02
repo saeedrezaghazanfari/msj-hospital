@@ -109,7 +109,7 @@ class BlogModel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.qr_img:
-            address = f'{settings.APP_DOMAIN}/blog/info/{self.slug}/'
+            address = f'{settings.APP_DOMAIN}/fa/blog/info/{self.slug}/'
             qrcode_img = qrcode.make(address)
             canvas = Image.new('RGB', (410, 410), 'white')
             draw = ImageDraw.Draw(canvas)

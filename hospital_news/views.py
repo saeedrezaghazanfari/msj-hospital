@@ -10,7 +10,7 @@ from .models import (
     NewsModel, NewsCommentModel, NewsLikeModel
 )
 from . import forms
-from extentions.utils import get_client_ip
+from extentions.utils import get_client_ip, write_action
 
 
 # url: /news/list/
@@ -71,8 +71,10 @@ def info_page(request, newsSlug):
             
             if form.cleaned_data.get('comment_id'):
                 comment.reply = get_object_or_404(NewsCommentModel, id=form.cleaned_data.get('comment_id'))
+                write_action(f'user via {comment.phone} phone sent a reply for a News.', 'ANONYMOUS')
                 messages.success(request, _('پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
             else:
+                write_action(f'user via {comment.phone} phone sent a comment for a News.', 'ANONYMOUS')
                 messages.success(request, _('نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
 
             comment.save()
@@ -116,6 +118,8 @@ def like_dislike_page(request):
             news_feeling = news.newslikemodel_set.get(user_ip=client_ip)
             if news_feeling.like_dislike != mission_type:
                 news_feeling.like_dislike = mission_type
+
+                write_action(f'user via {news_feeling.user_ip} IP {news_feeling.like_dislike}d a News.', 'ANONYMOUS')
                 news_feeling.save()
 
             return JsonResponse({

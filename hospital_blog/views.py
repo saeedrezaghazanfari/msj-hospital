@@ -10,7 +10,7 @@ from .models import (
     BlogModel, BlogCommentModel, BlogLikeModel
 )
 from . import forms
-from extentions.utils import get_client_ip
+from extentions.utils import get_client_ip, write_action
 
 
 # url: /blog/list/
@@ -70,8 +70,10 @@ def info_page(request, blogSlug):
             
             if form.cleaned_data.get('comment_id'):
                 comment.reply = get_object_or_404(BlogCommentModel, id=form.cleaned_data.get('comment_id'))
+                write_action(f'user via {comment.phone} phone sent a reply for a Blog.', 'ANONYMOUS')
                 messages.success(request, _('پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
             else:
+                write_action(f'user via {comment.phone} phone sent a comment for a Blog.', 'ANONYMOUS')
                 messages.success(request, _('نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
 
             comment.save()
@@ -115,6 +117,8 @@ def like_dislike_page(request):
             blog_feeling = blog.bloglikemodel_set.get(user_ip=client_ip)
             if blog_feeling.like_dislike != mission_type:
                 blog_feeling.like_dislike = mission_type
+
+                write_action(f'user via {blog_feeling.user_ip} IP {blog_feeling.like_dislike}d a Blog.', 'ANONYMOUS')
                 blog_feeling.save()
 
             return JsonResponse({

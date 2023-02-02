@@ -10,13 +10,14 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .decorators import blog_required
 from hospital_blog.models import (
     TagModel, CategoryModel, BlogGalleryModel, BlogCommentModel, PampheletModel
 )
 from hospital_setting.models import NewsLetterEmailsModel
-from . import forms
 from hospital_blog.forms import BlogReplyForm, BlogCommentEditForm
+from extentions.utils import write_action
+from .decorators import blog_required
+from . import forms
  
 
 # url: /panel/blog/
@@ -51,6 +52,7 @@ def blog_create_page(request):
             blog.writer = request.user
             blog.save()
             form.save_m2m()
+            write_action(f'{request.user.username} User created a Blog.', 'USER')
 
             if blog.is_publish and not blog.is_emailed:
 
@@ -100,6 +102,7 @@ def blog_edit_page(request, blogSlug):
         if form.is_valid():
 
             form.save()
+            write_action(f'{request.user.username} User edited a Blog.', 'USER')
             
             if blog.is_publish and not blog.is_emailed:
 
@@ -144,6 +147,7 @@ def blog_tag_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a Tag in blog panel.', 'USER')
             messages.success(request, _('عنوان تگ با موفقیت ذخیره شد.'))
             return redirect('panel:blog-tag')
 
@@ -166,6 +170,7 @@ def blog_category_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a Category in blog panel.', 'USER')
             messages.success(request, _('عنوان دسته بندی با موفقیت ذخیره شد.'))
             return redirect('panel:blog-category')
 
@@ -188,6 +193,7 @@ def blog_gallery_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a blog Gallery.', 'USER')
             messages.success(request, _('گالری پست با موفقیت ذخیره شد.'))
             return redirect('panel:blog-gallery')
 
@@ -221,7 +227,9 @@ def blog_comment_page(request):
             comment.blog = that_blog
             comment.is_read = True
             comment.is_show = True
+            
             comment.save()
+            write_action(f'{request.user.username} User sent a Reply in Blog panel.', 'USER')
 
             comment.reply.is_read = True
             comment.reply.is_show = True
@@ -253,6 +261,7 @@ def blog_pamphlet_page(request):
 
         if form.is_valid():
             form.save()
+            write_action(f'{request.user.username} User created a pamphlet in Blog panel.', 'USER')
             messages.success(request, _('پمفلت آموزشی شما با موفقیت ثبت شد.'))
             return redirect('panel:blog-pamphlet')
 
@@ -296,6 +305,7 @@ def blog_comment_delete_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
     comment.delete()
+    write_action(f'{request.user.username} User Deleted a comment of users in Blog panel.', 'USER')
     return redirect('panel:blog-comments')
 
 
@@ -313,7 +323,9 @@ def blog_comment_edit_page(request, commentId):
             comment = form.save()
             comment.is_show = True
             comment.is_read = True
+
             comment.save()
+            write_action(f'{request.user.username} User Edited a comment of users in Blog panel.', 'USER')
 
             messages.success(request, _('کامنت کاربر با موفقیت ویرایش شد.'))
             return redirect('panel:blog-comments')

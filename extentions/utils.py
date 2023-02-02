@@ -1,3 +1,4 @@
+import jdatetime
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from . import jalali
@@ -49,6 +50,20 @@ def is_national_code(value):
 
 def is_shaba(value):
     return bool(re.compile(r'(^(?:IR)(?=.{24}$)[0-9]*$)').match(str(value)))
+
+def write_action(action, usertype):
+    """ 
+        this function write user actions in actions.log file in root directory 
+        usertype must be 'USER' or 'ANONYMOUS'
+    """
+    if usertype == 'USER':
+        with open('user_actions.log', 'a') as file:
+            file.write('DATE: ' + str(jdatetime.datetime.now()) + ' .:. ACTION: ' + action)
+            file.write('\n')
+    elif usertype == 'ANONYMOUS':
+        with open('anonymous_actions.log', 'a') as file:
+            file.write('DATE: ' + str(jdatetime.datetime.now()) + ' .:. ACTION: ' + action)
+            file.write('\n')
 
 def date_range_list(start_date, end_date):
     date_list = []
