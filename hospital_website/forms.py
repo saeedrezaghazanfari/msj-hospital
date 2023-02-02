@@ -11,19 +11,18 @@ from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 from .models import LoginCodePatientModel
 from captcha.fields import CaptchaField
+from extentions.validations import name_val, national_code_val, phone_val
 from extentions.utils import is_phone, is_national_code
+
 
 class PhoneForm(forms.Form):
     phone = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
     
     def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        if not phone or phone == 0 or len(phone) == 0:
-            raise forms.ValidationError(_('تلفن همراه خود را وارد کنید.'))
-        if not is_phone(phone):
-            raise forms.ValidationError(_('الگوی تلفن همراه شما صحیح نیست.'))
-        return phone
+        data = self.cleaned_data.get('phone')
+        output = phone_val(phone=data, required=True)
+        return output
 
 
 class EnterCodePhoneForm(forms.Form):
@@ -70,9 +69,6 @@ class TimeAppointmentForm(forms.ModelForm):
         self.fields['date_to'] = JalaliDateField(label=_('تا تاریخ'), # date format is  "yyyy-mm-dd"
             widget=AdminJalaliDateWidget
         )
-        # self.fields['date'] = SplitJalaliDateTimeField(label=_('تاریخ روز'), 
-        #     widget=AdminSplitJalaliDateTime # required, for decompress DatetimeField to JalaliDateField and JalaliTimeField
-        # )
 
     def clean_date_to(self):
         date_from = self.cleaned_data.get('date_from')
@@ -98,7 +94,6 @@ class TimeAppointmentForm(forms.ModelForm):
 
 class PatientForm(forms.ModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-
     username = forms.CharField(widget=forms.TextInput())
     first_name = forms.CharField(widget=forms.TextInput())
     last_name = forms.CharField(widget=forms.TextInput())
@@ -113,14 +108,9 @@ class PatientForm(forms.ModelForm):
         ]
 
     def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if not username:
-            raise forms.ValidationError(_('کدملی خود را وارد کنید'))
-        if not username.isdigit():
-            raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
-        if not is_national_code(username):
-            raise forms.ValidationError(_('الگوی کدملی شما صحیح نیست'))
-        return username
+        data = self.cleaned_data.get('username')
+        output = national_code_val(national_code=data, ischeck_unique=False, required=True)
+        return output
 
     def clean_age(self):
         age = self.cleaned_data.get('age')
@@ -133,30 +123,14 @@ class PatientForm(forms.ModelForm):
         return age
 
     def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not first_name:
-            raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(first_name) <= 1:
-            raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(first_name) >= 20:
-            raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in first_name:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return first_name
+        data = self.cleaned_data.get('first_name')
+        output = name_val(name=data, required=True)
+        return output
     
     def clean_last_name(self):
-        last_name = self.cleaned_data.get('last_name')
-        if not last_name:
-            raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(last_name) <= 1:
-            raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(last_name) >= 25:
-            raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in last_name:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return last_name
+        data = self.cleaned_data.get('last_name')
+        output = name_val(name=data, required=True)
+        return output
 
 
 class ElectronicPrescriptionForm(forms.ModelForm):
@@ -178,22 +152,15 @@ class ElectronicPrescriptionForm(forms.ModelForm):
     def clean_experiment_code(self):
         experiment_code = self.cleaned_data.get('experiment_code')
         if not experiment_code:
-            raise forms.ValidationError(_('کدرهگیری خود را وارد کنید'))
-        if not experiment_code.isdigit():
-            raise forms.ValidationError(_('کدرهگیری باید شامل اعداد باشد'))
+            raise forms.ValidationError(_('کدرهگیری خود را وارد کنید.'))
         if not is_national_code(experiment_code):
-            raise forms.ValidationError(_('الگوی کدرهگیری شما صحیح نیست'))
+            raise forms.ValidationError(_('الگوی کدرهگیری شما صحیح نیست.'))
         return experiment_code
 
     def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if not username:
-            raise forms.ValidationError(_('کدملی خود را وارد کنید'))
-        if not username.isdigit():
-            raise forms.ValidationError(_('کدملی باید شامل اعداد باشد'))
-        if not is_national_code(username):
-            raise forms.ValidationError(_('الگوی کدملی شما صحیح نیست'))
-        return username
+        data = self.cleaned_data.get('username')
+        output = national_code_val(national_code=data, ischeck_unique=False, required=True)
+        return output
 
     def clean_age(self):
         age = self.cleaned_data.get('age')
@@ -206,30 +173,14 @@ class ElectronicPrescriptionForm(forms.ModelForm):
         return age
 
     def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not first_name:
-            raise forms.ValidationError(_('نام خود را وارد کنید'))
-        if len(first_name) <= 1:
-            raise forms.ValidationError(_('نام باید بیشتر از 1 کاراکتر باشد'))
-        if len(first_name) >= 20:
-            raise forms.ValidationError(_('نام باید کمتر از 20 کاراکتر باشد'))
-        for i in first_name:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام باید شامل کاراکترهای غیر از اعداد باشد'))
-        return first_name
+        data = self.cleaned_data.get('first_name')
+        output = name_val(name=data, required=True)
+        return output
     
     def clean_last_name(self):
-        last_name = self.cleaned_data.get('last_name')
-        if not last_name:
-            raise forms.ValidationError(_('نام‌خانوادگی خود را وارد کنید'))
-        if len(last_name) <= 1:
-            raise forms.ValidationError(_('نام‌خانوادگی باید بیشتر از 1 کاراکتر باشد'))
-        if len(last_name) >= 25:
-            raise forms.ValidationError(_('نام‌خانوادگی باید کمتر از 25 کاراکتر باشد'))
-        for i in last_name:
-            if i.isdigit():
-                raise forms.ValidationError(_('نام‌خانوادگی باید شامل کاراکترهای غیر از اعداد باشد'))
-        return last_name
+        data = self.cleaned_data.get('last_name')
+        output = name_val(name=data, required=True)
+        return output
 
 class CheckRulesForm(forms.Form):
     check_rules = forms.BooleanField(required=False, widget=forms.widgets.CheckboxInput())
@@ -248,10 +199,10 @@ class FollowUpTurnForm(forms.Form):
     
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
-        if not phone or phone == 0 or len(phone) == 0:
-            raise forms.ValidationError(_('تلفن همراه خود را وارد کنید.'))
+        if not phone or phone == 0:
+            raise forms.ValidationError(_('شماره تلفن خود را وارد کنید.'))
         if not is_phone(phone):
-            raise forms.ValidationError(_('الگوی تلفن همراه شما صحیح نیست.'))
+            raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست.'))
         if not PatientTurnModel.objects.filter(patient__phone=phone).exists():
             raise forms.ValidationError(_('شماره ی همراه شما در لیست وجود ندارد.'))
         return phone
@@ -274,10 +225,10 @@ class FollowUpResultForm(forms.Form):
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
-        if not phone or phone == 0 or len(phone) == 0:
-            raise forms.ValidationError(_('تلفن همراه خود را وارد کنید.'))
+        if not phone or phone == 0:
+            raise forms.ValidationError(_('شماره تلفن خود را وارد کنید.'))
         if not is_phone(phone):
-            raise forms.ValidationError(_('الگوی تلفن همراه شما صحیح نیست.'))
+            raise forms.ValidationError(_('الگوی شماره تلفن شما صحیح نیست.'))
         if not ExprimentResultModel.objects.filter(patient__phone=phone).exists():
             raise forms.ValidationError(_('شماره ی همراه شما در لیست وجود ندارد.'))
         return phone
