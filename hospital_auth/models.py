@@ -102,9 +102,10 @@ class IPDModel(models.Model):
     gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     description = RichTextField(verbose_name=_('شرح بیماری'))
-    document = models.ImageField(upload_to=ipd_doc_image_path, null=True, blank=True, verbose_name=_('مستندات'))
+    document = models.FileField(upload_to=ipd_doc_image_path, null=True, blank=True, verbose_name=_('مستندات'))
     country = models.CharField(max_length=100, verbose_name=_('کشور'))
-    city = models.CharField(max_length=100, verbose_name=_('شهر'))
+    state = models.CharField(max_length=100, null=True, verbose_name=_('استان'))
+    city = models.CharField(max_length=100, null=True, verbose_name=_('شهر'))
     is_answered = models.BooleanField(default=False, verbose_name=_('آیا جواب داده شده است؟'))
     created = models.DateTimeField(auto_now_add=True)
 

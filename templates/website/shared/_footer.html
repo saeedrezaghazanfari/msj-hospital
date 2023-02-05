@@ -1,0 +1,19 @@
+<footer>
+
+    <div class="container">
+
+        <h4>عضو خبرنامه شوید</h4>
+
+        <form action="{% url 'website:email-newsletter' %}?route={{ request.path }}" method="POST" novalidate autocomplete="off" class="bg-light p-3 mt-4 border">
+            {% csrf_token %}
+    
+            <label for="email_field">ایمیل</label>
+            <input type="email" name="email_field" id="email_field">
+    
+            <br>
+            <button type="submit">ارسال</button>
+    
+        </form>
+    </div>
+
+</footer>

@@ -2,7 +2,8 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from hospital_auth.models import User
 from .utils import (
-    is_national_code, is_phone, is_email, is_text, is_video, is_image, is_audio
+    is_national_code, is_phone, is_email, is_text, 
+    is_video, is_image, is_audio
 )
 
 
@@ -30,6 +31,17 @@ def name_val(name, required):
             if i.isdigit():
                 raise forms.ValidationError(_('این فیلد باید شامل کاراکترهای غیر از اعداد باشد.'))
         return name
+    
+
+def age_val(age, required):
+    if (required) or (not required and age):
+        if not age:
+            raise forms.ValidationError(_('سن خود را وارد کنید'))
+        if age < 0:
+            raise forms.ValidationError(_('سن نباید منفی باشد.'))
+        if age > 120:
+            raise forms.ValidationError(_('عدد سن معتبر نیست.'))
+        return age
 
 
 def phone_val(phone, required):
@@ -53,6 +65,7 @@ def email_val(email, ischeck_unique, required):
 
 def file_val(file, file_type, required):
     if (required) or (not required and file):
+        
         if file_type == 'text':
             if not is_text(file):
                 raise forms.ValidationError(_('فرمت فایل شما باید pdf باشد.'))

@@ -60,12 +60,37 @@ def oa_limit_time_page(request):
 @online_appointment_required
 def oa_insurances_page(request):
 
+    insurances = InsuranceModel.objects.all()
+    degrees = DegreeModel.objects.all()
+
     if request.method == 'POST':
         form = forms.InsuranceForm(request.POST, request.FILES or None)
 
         if form.is_valid():
             form.save()
             write_action(f'{request.user.username} User set insurance in Appointment panel.', 'USER')
+
+            list_data = []
+            for insurance in insurances:
+                for degree in degrees:
+                    if not PriceAppointmentModel.objects.filter(insurance=insurance, degree=degree).exists():
+                        list_data.append(
+                            PriceAppointmentModel(
+                                insurance=insurance,
+                                degree=degree,
+                                price=0,
+                            )
+                        )
+            for degree in degrees:
+                if not PriceAppointmentModel.objects.filter(insurance=None, degree=degree).exists():
+                    list_data.append(
+                        PriceAppointmentModel(
+                            insurance=None,
+                            degree=degree,
+                            price=0,
+                        )
+                    )
+            PriceAppointmentModel.objects.bulk_create(list_data)
 
             messages.success(request, _('بیمه ی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-insurances')
@@ -75,7 +100,7 @@ def oa_insurances_page(request):
 
     return render(request, 'panel/online-appointment/insurances.html', {
         'form': form,
-        'insurances': InsuranceModel.objects.all()
+        'insurances': insurances
     })
 
 
@@ -156,12 +181,37 @@ def oa_skilltitle_page(request):
 @online_appointment_required
 def oa_degree_page(request):
 
+    insurances = InsuranceModel.objects.all()
+    degrees = DegreeModel.objects.all()
+
     if request.method == 'POST':
         form = forms.DegreeForm(request.POST or None)
 
         if form.is_valid():
             form.save()
             write_action(f'{request.user.username} User created a degree in Appointment panel.', 'USER')
+
+            list_data = []
+            for insurance in insurances:
+                for degree in degrees:
+                    if not PriceAppointmentModel.objects.filter(insurance=insurance, degree=degree).exists():
+                        list_data.append(
+                            PriceAppointmentModel(
+                                insurance=insurance,
+                                degree=degree,
+                                price=0,
+                            )
+                        )
+            for degree in degrees:
+                if not PriceAppointmentModel.objects.filter(insurance=None, degree=degree).exists():
+                    list_data.append(
+                        PriceAppointmentModel(
+                            insurance=None,
+                            degree=degree,
+                            price=0,
+                        )
+                    )
+            PriceAppointmentModel.objects.bulk_create(list_data)
 
             messages.success(request, _('مدرک مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-degree')
@@ -171,7 +221,7 @@ def oa_degree_page(request):
 
     return render(request, 'panel/online-appointment/degree.html', {
         'form': form,
-        'degrees': DegreeModel.objects.all()
+        'degrees': degrees
     })
 
 

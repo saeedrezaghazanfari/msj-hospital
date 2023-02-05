@@ -48,6 +48,9 @@ def is_phone(phone):
 def is_national_code(value):
     return bool(re.compile(r'(^[0-9]{10}$)').match(str(value)))
 
+def is_passport(value):
+    return bool(re.compile(r'(^(?!^0+$)[a-zA-Z0-9]{3,20}$)').match(str(value)))
+
 def is_shaba(value):
     return bool(re.compile(r'(^(?:IR)(?=.{24}$)[0-9]*$)').match(str(value)))
 

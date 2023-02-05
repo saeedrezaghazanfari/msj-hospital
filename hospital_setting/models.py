@@ -102,7 +102,7 @@ class FAQModel(models.Model):
 
 
 class NewsLetterEmailsModel(models.Model):
-    email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
+    email = models.EmailField(max_length=255, unique=True, verbose_name=_('ایمیل'))
 
     class Meta:
         ordering = ['-id']

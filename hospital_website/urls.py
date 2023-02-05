@@ -10,6 +10,7 @@ urlpatterns = [
     
     # Real
     path('', views.home_page, name='home'),
+    path('newsletter/register/', views.newsletter_page, name='email-newsletter'),
 
     # electronic services: online appointment
     path('electronic/appointment/turn/', appointment_views.eoa_followturn_page, name='oa-followupturn'),

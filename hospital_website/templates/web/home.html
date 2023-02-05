@@ -19,10 +19,19 @@
         <li><a href="{% url 'blog:blogs' %}">پست ها</a></li>
         <li><a href="{% url 'news:news' %}">خبر ها</a></li>
         <li><a href="{% url 'doctor:doctors' %}">پزشک ها</a></li>
+        <li><a href="{% url 'auth:ipd-register' %}">IPD</a></li>
         <li><a href="{% url 'contact:careers' %}">فرصت های شغلی</a></li>
         <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
         <li><a href="{% url 'contact:contactus' %}">ارتباط با ما</a></li>
     </ul>
+
+    <div class="container">
+        {% for faq in faqs %}
+        <div class="alert alert-success">
+            {{ faq.question }} - {{ faq.answer }}
+        </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 
