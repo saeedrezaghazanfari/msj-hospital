@@ -1,6 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -19,7 +20,7 @@ from . import forms
 
 # url: /panel/news/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_page(request):
 
     unpub_news = NewsModel.objects.filter(
@@ -39,7 +40,7 @@ def news_page(request):
 
 # url: /panel/news/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_create_page(request):
 
     if request.method == 'POST':
@@ -86,7 +87,7 @@ def news_create_page(request):
 
 # url: /panel/news/edit/<newsSlug>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_edit_page(request, newsSlug):
 
     news = NewsModel.objects.filter(
@@ -137,7 +138,7 @@ def news_edit_page(request, newsSlug):
 
 # url: /panel/news/tag/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_tag_page(request):
 
     if request.method == 'POST':
@@ -160,7 +161,7 @@ def news_tag_page(request):
 
 # url: /panel/news/category/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_category_page(request):
 
     if request.method == 'POST':
@@ -183,7 +184,7 @@ def news_category_page(request):
 
 # url: /panel/news/gallery/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_gallery_page(request):
 
     if request.method == 'POST':
@@ -207,7 +208,7 @@ def news_gallery_page(request):
 
 # url: /panel/news/comment/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_comment_page(request):
 
     if request.method == 'POST':
@@ -252,7 +253,7 @@ def news_comment_page(request):
 # url: /panel/news/comment/read/<commentId>/
 @csrf_exempt
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_comment_read_page(request, commentId):
 
     comment = get_object_or_404(NewsCommentModel, id=commentId, is_read=False)
@@ -263,7 +264,7 @@ def news_comment_read_page(request, commentId):
 
 # url: /panel/news/comment/show/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_comment_show_page(request, commentId):
 
     comment = get_object_or_404(NewsCommentModel, id=commentId, is_show=False)
@@ -275,7 +276,7 @@ def news_comment_show_page(request, commentId):
 
 # url: /panel/news/comment/delete/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_comment_delete_page(request, commentId):
 
     comment = get_object_or_404(NewsCommentModel, id=commentId, is_show=False)
@@ -287,7 +288,7 @@ def news_comment_delete_page(request, commentId):
 
 # url: /panel/news/comment/edit/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@news_required(login_url='/403')
+@news_required(login_url=f'/{get_language()}/403')
 def news_comment_edit_page(request, commentId):
 
     comment = get_object_or_404(NewsCommentModel, id=commentId, is_show=False)

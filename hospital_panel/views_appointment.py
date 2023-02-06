@@ -23,14 +23,14 @@ from . import forms
 
 # url: /panel/online-appointment
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def online_appointment_page(request):
     return render(request, 'panel/online-appointment/home.html', {})
 
 
 # url: /panel/online-appointment/limit-time/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_limit_time_page(request):
 
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def oa_limit_time_page(request):
 
 # url: /panel/online-appointment/insurances/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_insurances_page(request):
 
     insurances = InsuranceModel.objects.all()
@@ -106,7 +106,7 @@ def oa_insurances_page(request):
 
 # url: /panel/online-appointment/tips/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_tips_page(request):
 
     if request.method == 'POST':
@@ -130,7 +130,7 @@ def oa_tips_page(request):
 
 # url: /panel/online-appointment/tips/sms/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_smstips_page(request):
 
     if request.method == 'POST':
@@ -154,7 +154,7 @@ def oa_smstips_page(request):
 
 # url: /panel/online-appointment/skill/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_skilltitle_page(request):
 
     if request.method == 'POST':
@@ -178,7 +178,7 @@ def oa_skilltitle_page(request):
 
 # url: /panel/online-appointment/degree/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_degree_page(request):
 
     insurances = InsuranceModel.objects.all()
@@ -227,7 +227,7 @@ def oa_degree_page(request):
 
 # url: /panel/online-appointment/unit/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_unit_page(request):
 
     if request.method == 'POST':
@@ -251,7 +251,7 @@ def oa_unit_page(request):
 
 # url: /panel/online-appointment/subunit/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_subunit_page(request):
 
     paraclinics = [_('فیزیوتراپی'), _('آزمایشگاه'), _('پاتولوژی'), _('تصویر برداری')]
@@ -313,7 +313,7 @@ def oa_subunit_page(request):
 
 # url: /panel/online-appointment/doctor/list/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_doctorlist_page(request):
     doctors = DoctorModel.objects.filter(is_active=True).all()
 
@@ -329,7 +329,7 @@ def oa_doctorlist_page(request):
 
 # url: /panel/online-appointment/doctor/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_doctorcreate_page(request):
 
     if request.method == 'POST':
@@ -351,7 +351,7 @@ def oa_doctorcreate_page(request):
 
 # url: /panel/online-appointment/doctor/<doctorId>/times/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_doctorlist_time_page(request, doctorId):
 
     doctor = get_object_or_404(DoctorModel, id=doctorId, is_active=True)
@@ -377,7 +377,7 @@ def oa_doctorlist_time_page(request, doctorId):
 
 # url: /panel/online-appointment/doctor/<doctorId>/edit/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_doctorlist_edit_page(request, doctorId):
 
     doctor = get_object_or_404(DoctorModel, id=doctorId, is_active=True)
@@ -402,7 +402,7 @@ def oa_doctorlist_edit_page(request, doctorId):
 
 # url: /panel/online-appointment/price/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_price_page(request):
 
     insurances = InsuranceModel.objects.all()
@@ -464,7 +464,7 @@ def oa_price_page(request):
 
 # url: /panel/online-appointment/time/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_time_page(request):
 
     times = None
@@ -501,7 +501,7 @@ def oa_time_page(request):
 
 # url: /panel/online-appointment/time/<appointmentID>/edit/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_time_edit_page(request, appointmentID):
 
     if not appointmentID or not AppointmentTimeModel.objects.filter(id=appointmentID).exists():
@@ -555,7 +555,7 @@ def oa_time_edit_page(request, appointmentID):
 
 # url: /panel/online-appointment/time/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_time_create0_page(request):
 
     units = UnitModel.objects.all()
@@ -574,7 +574,7 @@ def oa_time_create0_page(request):
 
 # url: /panel/online-appointment/time/create/<unitID>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_time_create1_page(request, unitID):
 
     if unitID != 'doctors' and UnitModel.objects.filter(id=unitID).exists():
@@ -607,7 +607,7 @@ def oa_time_create1_page(request, unitID):
 
 # url: /panel/online-appointment/time/create/<unitID>/<doctorId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_time_create2_page(request, unitID, doctorId):
 
     if unitID != 'doctors' and UnitModel.objects.filter(id=unitID).exists():
@@ -676,7 +676,7 @@ def oa_time_create2_page(request, unitID, doctorId):
 
 # url: /panel/online-appointment/patient/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_patient_page(request):
 
     if request.GET.get('paid') == 'yes':
@@ -717,7 +717,7 @@ def oa_patient_page(request):
 
 # url: /panel/online-appointment/e-turn/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_eturn_list_page(request):
 
     turns = ElectronicPrescriptionModel.objects.filter(is_send=False).all()
@@ -728,7 +728,7 @@ def oa_eturn_list_page(request):
 
 # url: /panel/online-appointment/e-turn/<eturnID>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_eturn_check_page(request, eturnID):
 
     if eturnID and ElectronicPrescriptionModel.objects.filter(id=eturnID).exists():
@@ -787,7 +787,7 @@ def oa_eturn_check_page(request, eturnID):
 
 # url: /panel/online-appointment/missions/lvl1/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_1(request):
     return render(request, 'panel/missions/lvl1.html', {
         'limit': LimitTurnTimeModel.objects.first().hours if LimitTurnTimeModel.objects.exists() else 6,
@@ -797,7 +797,7 @@ def oa_mission_1(request):
 
 # url: /panel/online-appointment/missions/lvl2/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_2(request):
     return render(request, 'panel/missions/lvl2.html', {
         'units': UnitModel.objects.all()
@@ -806,7 +806,7 @@ def oa_mission_2(request):
 
 # url: /panel/online-appointment/missions/lvl3/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_3(request):
     return render(request, 'panel/missions/lvl3.html', {
         'doctors': DoctorModel.objects.filter(is_active=True).all()
@@ -815,7 +815,7 @@ def oa_mission_3(request):
 
 # url: /panel/online-appointment/missions/lvl4/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_4(request):
     return render(request, 'panel/missions/lvl4.html', {
         'tips': AppointmentTipModel.objects.all(),
@@ -824,7 +824,7 @@ def oa_mission_4(request):
 
 # url: /panel/online-appointment/missions/lvl5/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_5(request):
     return render(request, 'panel/missions/lvl5.html', {
         'sms_tips': AppointmentTipSMSModel.objects.all(),
@@ -833,6 +833,6 @@ def oa_mission_5(request):
 
 # url: /panel/online-appointment/missions/lvl6/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_appointment_required(login_url='/403')
+@online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_mission_6(request):
     return render(request, 'panel/missions/lvl6.html')

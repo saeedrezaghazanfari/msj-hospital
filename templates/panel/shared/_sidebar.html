@@ -70,6 +70,13 @@
 <hr>
 {% endif %}
 
+{% if request.user.is_ipd_manager %}
+<li>
+    <a href="{% url 'panel:ipd-list' %}">مدیریت IPD</a>
+</li>
+<hr>
+{% endif %}
+
 {% if request.user.is_contact_manager %}
 <li>
     <a href="{% url 'panel:contact' %}">مدیریت ارتباطات</a>

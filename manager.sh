@@ -59,7 +59,7 @@ elif [ $FLAG = 2 ]; then
 	
 	clear
 	echo "Enter your comment of this Commit:"
-	read COMMENT
+	read -p "> " COMMENT
 
 	git add .
 	echo

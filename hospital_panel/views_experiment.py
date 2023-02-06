@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from hospital_auth.models import PatientModel
@@ -17,14 +18,14 @@ from . import forms
 
 # url: /panel/experiment/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@experiment_required(login_url='/403')
+@experiment_required(login_url=f'/{get_language()}/403')
 def experiment_page(request):
     return render(request, 'panel/experiment/home.html', {})
 
 
 # url: /panel/experiment/list/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@experiment_required(login_url='/403')
+@experiment_required(login_url=f'/{get_language()}/403')
 def experiment_list_page(request):
 
     results = ExprimentResultModel.objects.all()    
@@ -53,7 +54,7 @@ def experiment_list_page(request):
 
 # url: /panel/experiment/patient/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@experiment_required(login_url='/403')
+@experiment_required(login_url=f'/{get_language()}/403')
 def experiment_patient_page(request):
 
     if request.method == 'POST':

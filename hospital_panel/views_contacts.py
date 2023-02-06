@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -13,14 +14,14 @@ from . import forms
 
 # url: /panel/contact/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_page(request):
     return render(request, 'panel/contacts/home.html', {})
 
 
 # url: /panel/contact/careers/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_careers_page(request):
 
     if request.method == 'POST':
@@ -45,7 +46,7 @@ def contact_careers_page(request):
 
 # url: /panel/contact/careers/edit/<careerCode>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_career_edit_page(request, careerCode):
 
     career = get_object_or_404(CareersModel, code=careerCode)
@@ -72,7 +73,7 @@ def contact_career_edit_page(request, careerCode):
 
 # url: /panel/contact/recruitations/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_recruitations_page(request):
     return render(request, 'panel/contacts/recruitations.html', {
         'checked': HireFormModel.objects.filter(is_checked=True).all(),
@@ -82,7 +83,7 @@ def contact_recruitations_page(request):
 
 # url: /panel/contact/recruitations/info/<hireId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_recruitations_info_page(request, hireId):
 
     hire = get_object_or_404(HireFormModel, id=hireId)
@@ -103,7 +104,7 @@ def contact_recruitations_info_page(request, hireId):
 
 # url: /panel/contact/suggestions/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_suggestions_page(request):
 
     return render(request, 'panel/contacts/suggestions.html', {
@@ -114,7 +115,7 @@ def contact_suggestions_page(request):
 
 # url: /panel/contact/suggestions/info/<suggestionCode>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_suggestions_info_page(request, suggestionCode):
 
     suggestion = get_object_or_404(CriticismSuggestionModel, code=suggestionCode)
@@ -135,7 +136,7 @@ def contact_suggestions_info_page(request, suggestionCode):
 
 # url: /panel/contact/contacts/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_contacts_page(request):
 
     return render(request, 'panel/contacts/contacts.html', {
@@ -146,7 +147,7 @@ def contact_contacts_page(request):
 
 # url: /panel/contact/contacts/info/<contactId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@contact_required
+@contact_required(login_url=f'/{get_language()}/403')
 def contact_contacts_info_page(request, contactId):
 
     contact = get_object_or_404(ContactUsModel, id=contactId)

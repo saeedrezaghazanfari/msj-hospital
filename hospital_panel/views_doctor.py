@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from hospital_doctor.models import DoctorModel
@@ -15,14 +16,14 @@ from . import forms
 
 # url: /panel/doctor/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_page(request):
     return render(request, 'panel/doctor/home.html', {})
 
 
 # url: /panel/doctor/info/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_info_page(request):
 
     doctor = None
@@ -61,7 +62,7 @@ def doctor_info_page(request):
 
 # url: /panel/doctor/vacation/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_vacation_page(request):
 
     doctor = DoctorModel.objects.get(user=request.user)
@@ -94,7 +95,7 @@ def doctor_vacation_page(request):
 
 # url: /panel/doctor/work/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_work_page(request):
 
     doctor = DoctorModel.objects.get(user=request.user)
@@ -126,7 +127,7 @@ def doctor_work_page(request):
 
 # url: /panel/doctor/insurances/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_insurances_page(request):
 
     doctor = DoctorModel.objects.get(user=request.user)
@@ -152,7 +153,7 @@ def doctor_insurances_page(request):
 
 # url: /panel/doctor/patients/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@online_doctor_required
+@online_doctor_required(login_url=f'/{get_language()}/403')
 def doctor_patients_page(request):
 
     patients = PatientTurnModel.objects.filter(

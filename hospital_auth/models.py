@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -5,11 +6,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
-from ckeditor.fields import RichTextField
 from extentions.utils import (
     profile_image_path,
     jalali_convertor, 
-    ipd_doc_image_path,
     get_random_code,
     get_links_code
 )
@@ -91,36 +90,6 @@ class PatientModel(models.Model):
         ordering = ['-id']
         verbose_name = _('بیمار')
         verbose_name_plural = _('بیماران')
-
-
-class IPDModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-    username = models.CharField(max_length=10, unique=True, verbose_name=_('شماره پاسپورت / کدملی'))
-    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
-    phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
-    email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
-    age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
-    description = RichTextField(verbose_name=_('شرح بیماری'))
-    document = models.FileField(upload_to=ipd_doc_image_path, null=True, blank=True, verbose_name=_('مستندات'))
-    country = models.CharField(max_length=100, verbose_name=_('کشور'))
-    state = models.CharField(max_length=100, null=True, verbose_name=_('استان'))
-    city = models.CharField(max_length=100, null=True, verbose_name=_('شهر'))
-    is_answered = models.BooleanField(default=False, verbose_name=_('آیا جواب داده شده است؟'))
-    created = models.DateTimeField(auto_now_add=True)
-
-    def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
-
-    def __str__(self):
-        return self.get_full_name()
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('بیمار بین الملل')
-        verbose_name_plural = _('بیماران بین الملل')
 
 
 class LoginCodeModel(models.Model):

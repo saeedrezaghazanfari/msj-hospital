@@ -4,8 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import (
     User, 
     PatientModel,
-    IPDModel,
-    LoginCodeModel, 
+    LoginCodeModel,
     UserFullNameModel
 )
 
@@ -49,11 +48,6 @@ class PatientModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class IPDModel_Admin(admin.ModelAdmin):
-    list_display = ['get_full_name']
-    ordering = ['-id']
-
-
 class LoginCodeModel_Admin(admin.ModelAdmin):
     list_display = ['user', 'code', 'j_date', 'j_expire', 'is_use']
     search_field = ['is_use', 'user']
@@ -63,6 +57,6 @@ class LoginCodeModel_Admin(admin.ModelAdmin):
 admin.site.register(User, AdminUser)
 admin.site.register(UserFullNameModel, UserFullNameModel_Admin)
 admin.site.register(PatientModel, PatientModel_Admin)
-admin.site.register(IPDModel, IPDModel_Admin)
 admin.site.register(LoginCodeModel, LoginCodeModel_Admin)
+
 admin.site.site_header = _('پنل ادمین بیمارستان موسی ابن جعفر')

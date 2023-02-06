@@ -2,6 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -22,7 +23,7 @@ from . import forms
 
 # url: /panel/blog/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_page(request):
     unpub_blogs = BlogModel.objects.filter(
         writer=request.user,
@@ -41,7 +42,7 @@ def blog_page(request):
 
 # url: /panel/blog/create/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_create_page(request):
 
     if request.method == 'POST':
@@ -88,7 +89,7 @@ def blog_create_page(request):
 
 # url: /panel/blog/edit/<blogSlug>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_edit_page(request, blogSlug):
 
     blog = BlogModel.objects.filter(
@@ -139,7 +140,7 @@ def blog_edit_page(request, blogSlug):
 
 # url: /panel/blog/tag/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_tag_page(request):
 
     if request.method == 'POST':
@@ -162,7 +163,7 @@ def blog_tag_page(request):
 
 # url: /panel/blog/category/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_category_page(request):
 
     if request.method == 'POST':
@@ -185,7 +186,7 @@ def blog_category_page(request):
 
 # url: /panel/blog/gallery/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_gallery_page(request):
 
     if request.method == 'POST':
@@ -208,7 +209,7 @@ def blog_gallery_page(request):
 
 # url: /panel/blog/comment/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_comment_page(request):
 
     if request.method == 'POST':
@@ -253,7 +254,7 @@ def blog_comment_page(request):
 # url: /panel/blog/pamphlet/
 @csrf_exempt
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_pamphlet_page(request):
 
     if request.method == 'POST':
@@ -277,7 +278,7 @@ def blog_pamphlet_page(request):
 # url: /panel/blog/comment/read/<commentId>/
 @csrf_exempt
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_comment_read_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_read=False)
@@ -288,7 +289,7 @@ def blog_comment_read_page(request, commentId):
 
 # url: /panel/blog/comment/show/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_comment_show_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
@@ -300,7 +301,7 @@ def blog_comment_show_page(request, commentId):
 
 # url: /panel/blog/comment/delete/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_comment_delete_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
@@ -311,7 +312,7 @@ def blog_comment_delete_page(request, commentId):
 
 # url: /panel/blog/comment/edit/<commentId>/
 @login_required(login_url=reverse_lazy('auth:signin'))
-@blog_required(login_url='/403')
+@blog_required(login_url=f'/{get_language()}/403')
 def blog_comment_edit_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)

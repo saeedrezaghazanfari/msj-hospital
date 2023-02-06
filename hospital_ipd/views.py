@@ -9,7 +9,7 @@ from . import forms
 
 
 # url: /ipd/register/
-def ipd_register_page(request):
+def register_page(request):
     
     if request.method == 'POST':
         form = forms.IPDForm(request.POST, request.FILES or None)
@@ -36,9 +36,6 @@ def ipd_register_page(request):
             new_ipd.save()
             write_action(f'user via {new_ipd.username} nationalCode/passport sent ipd form.', 'ANONYMOUS')
 
-            if new_ipd.email:
-                # TODO send email to new_ipd.email
-                ...
             # TODO send sms to new_ipd.phone
 
             messages.success(request, _('فرم شما با موفقیت ارسال شد. تیم پزشکی ما در اسرع وقت بررسی خواهد کرد.'))

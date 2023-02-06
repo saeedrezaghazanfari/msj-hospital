@@ -1,7 +1,7 @@
 from django.urls import path
 from . import (
     views, views_appointment, views_doctor, views_contacts,
-    views_experiment, views_blog, views_news, views_notes
+    views_experiment, views_blog, views_news, views_notes, views_ipd
 )
 
 
@@ -13,6 +13,11 @@ urlpatterns = [
     path('panel/read/notification/<notificationID>/', views.read_notification, name='read-notif'),
     path('panel/edit-info/', views.edit_data, name='editdata'),
     path('panel/edit-info/fullname/', views.edit_fullname, name='editdata-fullname'),
+
+
+    # doctor management
+    path('panel/ipd/list/', views_ipd.ipd_list_page, name='ipd-list'),
+    path('panel/ipd/list/<ipdId>/', views_ipd.ipd_info_page, name='ipd-info'),
 
 
     # doctor management
