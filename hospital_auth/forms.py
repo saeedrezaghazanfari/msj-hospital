@@ -127,5 +127,6 @@ class IPDForm(forms.ModelForm):
 
     def clean_document(self):
         data = self.cleaned_data.get('document')
-        output = file_val(file=data, file_type='text', required=True)
+        output = file_val(file=data, file_type='text-image', required=False)
         return output
+

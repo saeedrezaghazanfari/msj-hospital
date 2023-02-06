@@ -30,6 +30,7 @@ class User(AbstractUser):
     is_expriment_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل ثبت آزمایش و تصویربرداری'))
     is_appointment_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل نوبت دهی آنلاین'))
     is_contact_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل ارتباطات'))
+    is_ipd_manager = models.BooleanField(default=False, verbose_name=_('مدیریت پنل IPD'))
     
     def firstname(self):
         try:

@@ -77,8 +77,13 @@ def file_val(file, file_type, required):
         elif file_type == 'image':
             if not is_image(file):
                 raise forms.ValidationError(_('فرمت فایل شما باید یکی از فرمت های jpg, jpeg, png باشد.'))
-
+            
         elif file_type == 'audio':
             if not is_audio(file):
                 raise forms.ValidationError(_('فرمت فایل شما باید mp3 باشد.'))
+
+        elif file_type == 'text-image':
+            if not is_image(file) and not is_text(file):
+                raise forms.ValidationError(_('فرمت فایل شما باید یکی از فرمت های pdf, jpg, jpeg, png باشد.'))
+            
         return file

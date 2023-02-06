@@ -14,16 +14,16 @@ def ipd_register_page(request):
     if request.method == 'POST':
         form = forms.IPDForm(request.POST, request.FILES or None)
 
+        country = request.POST.get('country')
+        state = request.POST.get('state')
+        city = request.POST.get('city')
+
+        if not country or not state or not city:
+            messages.error(request, _('باید مقادیر کشور استان و شهر را وارد کنید.'))
+            return redirect('auth:ipd-register')
+
         if form.is_valid():
             new_ipd = form.save(commit=False)
-
-            country = request.POST.get('country')
-            state = request.POST.get('state')
-            city = request.POST.get('city')
-
-            if not country or not state or not city:
-                messages.error(request, _('باید مقادیر کشور استان و شهر را وارد کنید.'))
-                return redirect('auth:ipd-register')
             
             if IPDModel.objects.filter(username=new_ipd.username, is_answered=False).exists():
                 messages.error(request, _('شما قبلا یک فرم ارسال کرده اید. در صورتی که به آن فرم پاسخ داده شده باشد میتوانید فرم جدید ارسال کنید.'))
