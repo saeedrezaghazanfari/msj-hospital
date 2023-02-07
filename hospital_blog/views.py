@@ -70,13 +70,12 @@ def info_page(request, blogSlug):
             
             if form.cleaned_data.get('comment_id'):
                 comment.reply = get_object_or_404(BlogCommentModel, id=form.cleaned_data.get('comment_id'))
-                write_action(f'user via {comment.phone} phone sent a reply for a Blog.', 'ANONYMOUS')
                 messages.success(request, _('پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
             else:
-                write_action(f'user via {comment.phone} phone sent a comment for a Blog.', 'ANONYMOUS')
                 messages.success(request, _('نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
 
             comment.save()
+            write_action(f'user via {comment.phone} phone sent a comment for a Blog. blogSlug: {comment.blog.slug} commentId: {comment.id}', 'ANONYMOUS')
             return redirect(f'/{get_language()}/blog/info/{blogSlug}/')
 
     else:
@@ -118,8 +117,8 @@ def like_dislike_page(request):
             if blog_feeling.like_dislike != mission_type:
                 blog_feeling.like_dislike = mission_type
 
-                write_action(f'user via {blog_feeling.user_ip} IP {blog_feeling.like_dislike}d a Blog.', 'ANONYMOUS')
                 blog_feeling.save()
+                write_action(f'user via {blog_feeling.user_ip} IP {blog_feeling.like_dislike}d a Blog. blogSlug: {blog.slug}', 'ANONYMOUS')
 
             return JsonResponse({
                 'type': mission_type, 

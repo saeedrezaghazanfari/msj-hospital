@@ -3,7 +3,7 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from hospital_setting.models import NewsLetterEmailsModel, FAQModel
-from extentions.utils import is_email
+from extentions.utils import is_email, write_action
 
 
 # url: /
@@ -33,6 +33,9 @@ def newsletter_page(request):
             NewsLetterEmailsModel.objects.create(
                 email=email_field
             )
+
+            write_action(f'register an email to newsletter. email: {email_field}', 'ANONYMOUS')
+
             messages.success(request, _('ایمیل شما با موفقیت در سیستم ثبت شد.'))
             return redirect(redirect_field)
             

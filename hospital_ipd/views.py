@@ -129,7 +129,7 @@ def register_page(request, uidb64, token):
                 new_ipd.city = city
 
                 new_ipd.save()
-                write_action(f'user via {new_ipd.username} nationalCode/passport sent ipd form.', 'ANONYMOUS')
+                write_action(f'user via {new_ipd.username} nationalCode/passport sent ipd form. IPDId: {new_ipd.id}', 'ANONYMOUS')
 
                 # TODO send sms to new_ipd.phone
 

@@ -51,9 +51,11 @@ def blog_create_page(request):
         if form.is_valid():
             blog = form.save(commit=False)
             blog.writer = request.user
+
             blog.save()
             form.save_m2m()
-            write_action(f'{request.user.username} User created a Blog.', 'USER')
+
+            write_action(f'{request.user.username} User created a Blog. blogSlug: {blog.slug}', 'USER')
 
             if blog.is_publish and not blog.is_emailed:
 
@@ -103,7 +105,7 @@ def blog_edit_page(request, blogSlug):
         if form.is_valid():
 
             form.save()
-            write_action(f'{request.user.username} User edited a Blog.', 'USER')
+            write_action(f'{request.user.username} User edited a Blog. blogSlug: {blogSlug}', 'USER')
             
             if blog.is_publish and not blog.is_emailed:
 
@@ -147,8 +149,8 @@ def blog_tag_page(request):
         form = forms.TagForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a Tag in blog panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a Tag in blog panel. tagTitle: {obj.title_fa}', 'USER')
             messages.success(request, _('عنوان تگ با موفقیت ذخیره شد.'))
             return redirect('panel:blog-tag')
 
@@ -170,8 +172,8 @@ def blog_category_page(request):
         form = forms.CategoryForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a Category in blog panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a Category in blog panel. categoryTitle: {obj.title_fa}', 'USER')
             messages.success(request, _('عنوان دسته بندی با موفقیت ذخیره شد.'))
             return redirect('panel:blog-category')
 
@@ -193,8 +195,9 @@ def blog_gallery_page(request):
         form = forms.BlogGalleryForm(request.POST, request.FILES or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a blog Gallery.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a blog Gallery. galleryId: {obj.id}', 'USER')
+
             messages.success(request, _('گالری پست با موفقیت ذخیره شد.'))
             return redirect('panel:blog-gallery')
 
@@ -230,7 +233,7 @@ def blog_comment_page(request):
             comment.is_show = True
             
             comment.save()
-            write_action(f'{request.user.username} User sent a Reply in Blog panel.', 'USER')
+            write_action(f'{request.user.username} User sent a Reply in Blog panel. blogSlug: {comment.blog.slug} commentId: {comment.id}', 'USER')
 
             comment.reply.is_read = True
             comment.reply.is_show = True
@@ -261,8 +264,8 @@ def blog_pamphlet_page(request):
         form = forms.PampheletForm(request.POST, request.FILES or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a pamphlet in Blog panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a pamphlet in Blog panel. pamphletId: {obj.id}', 'USER')
             messages.success(request, _('پمفلت آموزشی شما با موفقیت ثبت شد.'))
             return redirect('panel:blog-pamphlet')
 
@@ -306,7 +309,7 @@ def blog_comment_delete_page(request, commentId):
 
     comment = get_object_or_404(BlogCommentModel, id=commentId, is_show=False)
     comment.delete()
-    write_action(f'{request.user.username} User Deleted a comment of users in Blog panel.', 'USER')
+    write_action(f'{request.user.username} User Deleted a comment of users in Blog panel. commentId: {commentId}', 'USER')
     return redirect('panel:blog-comments')
 
 
@@ -326,7 +329,7 @@ def blog_comment_edit_page(request, commentId):
             comment.is_read = True
 
             comment.save()
-            write_action(f'{request.user.username} User Edited a comment of users in Blog panel.', 'USER')
+            write_action(f'{request.user.username} User Edited a comment of users in Blog panel. commentId: {commentId}', 'USER')
 
             messages.success(request, _('کامنت کاربر با موفقیت ویرایش شد.'))
             return redirect('panel:blog-comments')

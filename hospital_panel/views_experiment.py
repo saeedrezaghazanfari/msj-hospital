@@ -35,7 +35,7 @@ def experiment_list_page(request):
 
         if form.is_valid():
             exp = form.save()
-            write_action(f'{request.user.username} User created a expriment result.', 'USER')
+            write_action(f'{request.user.username} User created a expriment result. experimentCode: {exp.code}', 'USER')
 
             # TODO send sms: send code of experiment to patient
             print(exp.code)
@@ -63,8 +63,8 @@ def experiment_patient_page(request):
         if form.is_valid():
 
             if not PatientModel.objects.filter(username=form.cleaned_data.get('username')).exists():
-                form.save()
-                write_action(f'{request.user.username} User Created a patient in Experiment panel.', 'USER')
+                obj = form.save()
+                write_action(f'{request.user.username} User Created a patient in Experiment panel. patientUsername: {obj.username}', 'USER')
 
             else:
                 patient = PatientModel.objects.get(username=form.cleaned_data.get('username'))
@@ -73,8 +73,9 @@ def experiment_patient_page(request):
                 patient.phone = form.cleaned_data.get('phone')
                 patient.gender = form.cleaned_data.get('gender')
                 patient.age = form.cleaned_data.get('age')
+
                 patient.save()
-                write_action(f'{request.user.username} User Updated a patient in Experiment panel.', 'USER')
+                write_action(f'{request.user.username} User Updated a patient in Experiment panel. patientUsername: {patient.username}', 'USER')
             
             messages.success(request, _('اطلاعات بیمار با موفقیت ثبت شد.'))
             return redirect('panel:experiment-list')

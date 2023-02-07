@@ -31,8 +31,8 @@ def careers_info_page(request, careerCode):
                 messages.warning(request, _('شما قبلا یک بار درخواست ارسال کرده اید.'))
                 return redirect('contact:careers')
             else:
-                write_action(f'user via {hireform.national_code} NationalCode sent a hire form.', 'ANONYMOUS')
                 hireform.save()
+                write_action(f'user via {hireform.national_code} NationalCode sent a hire form. hireformId: {hireform.id}', 'ANONYMOUS')
 
             # TODO send sms to hireform.phone
 
@@ -62,8 +62,8 @@ def suggestions_page(request):
                 messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
                 return redirect('website:home')
             else:
-                write_action(f'user via {suggestion.national_code} NationalCode sent a suggestion.', 'ANONYMOUS')
                 suggestion.save()
+                write_action(f'user via {suggestion.national_code} NationalCode sent a suggestion. suggestionCode: {suggestion.code}', 'ANONYMOUS')
 
             # TODO send sms to suggestion.phone
 
@@ -93,8 +93,8 @@ def contactus_page(request):
                 messages.warning(request, _('فرم قبلی که ارسال کرده اید هنوز بررسی نشده است.'))
                 return redirect('website:home')
             else:
-                write_action(f'user via {contact.phone} Phone sent a contact us form.', 'ANONYMOUS')
                 contact.save()
+                write_action(f'user via {contact.phone} Phone sent a contact us form. contactId: {contact.id}', 'ANONYMOUS')
 
             # TODO send sms to contact.phone
 

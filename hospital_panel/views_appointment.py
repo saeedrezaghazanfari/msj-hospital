@@ -67,8 +67,8 @@ def oa_insurances_page(request):
         form = forms.InsuranceForm(request.POST, request.FILES or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User set insurance in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User set insurance in Appointment panel. insuranceId: {obj.id}', 'USER')
 
             list_data = []
             for insurance in insurances:
@@ -113,8 +113,8 @@ def oa_tips_page(request):
         form = forms.AppointmentTipForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User set a tip in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User set a tip in Appointment panel. tipId: {obj.id}', 'USER')
             
             messages.success(request, _('نکته ی نوبت دهی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-tips')
@@ -137,8 +137,8 @@ def oa_smstips_page(request):
         form = forms.AppointmentTipSMSForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User set a sms tip in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User set a sms tip in Appointment panel. smstipId: {obj.id}', 'USER')
 
             messages.success(request, _('نکته ی نوبت دهی پیامکی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-smstips')
@@ -161,8 +161,8 @@ def oa_skilltitle_page(request):
         form = forms.SkillForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a skill in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a skill in Appointment panel. skillId: {obj.id}', 'USER')
 
             messages.success(request, _('تخصص مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-skill')
@@ -188,8 +188,8 @@ def oa_degree_page(request):
         form = forms.DegreeForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a degree in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a degree in Appointment panel. degreeId: {obj.id}', 'USER')
 
             list_data = []
             for insurance in insurances:
@@ -234,8 +234,8 @@ def oa_unit_page(request):
         form = forms.UnitForm(request.POST, request.FILES or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a unit in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a unit in Appointment panel. unitId: {obj.id}', 'USER')
 
             messages.success(request, _('بخش مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-unit')
@@ -296,8 +296,8 @@ def oa_subunit_page(request):
         form = forms.SubUnitForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a subunit in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a subunit in Appointment panel. subunitId: {obj.id}', 'USER')
 
             messages.success(request, _('زیربخش مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:appointment-subunit')
@@ -336,8 +336,9 @@ def oa_doctorcreate_page(request):
         form = forms.DoctorForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
-            write_action(f'{request.user.username} User created a doctor in Appointment panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a doctor in Appointment panel. doctormedicalCode: {obj.medical_code}', 'USER')
+
             messages.success(request, _('پزشک با موفقیت اضافه شد.'))
             return redirect('panel:appointment-doctorlist')
 
@@ -387,7 +388,7 @@ def oa_doctorlist_edit_page(request, doctorId):
 
         if form.is_valid():
             form.save()
-            write_action(f'{request.user.username} User edited a doctor in Appointment panel.', 'USER')
+            write_action(f'{request.user.username} User edited a doctor in Appointment panel. doctorMedicalcode: {doctor.medical_code}', 'USER')
             
             messages.success(request, _('پزشک مورد نظر با موفقیت ویرایش شد.'))
             return redirect('panel:appointment-doctorlist')
@@ -454,7 +455,7 @@ def oa_price_page(request):
             appointment.price = price
 
             appointment.save()
-            write_action(f'{request.user.username} User updated a appointment price in Appointment panel.', 'USER')
+            write_action(f'{request.user.username} User updated a appointment price in Appointment panel. appointmentPriceId: {appointment.id}', 'USER')
 
         messages.success(request, _('تعرفه ی مورد نظر شما با موفقیت بروزرسانی شد.'))
         return redirect('panel:appointment-price')
@@ -536,7 +537,7 @@ def oa_time_edit_page(request, appointmentID):
                 appointment.status = form.cleaned_data.get('status')
 
             appointment.save()
-            write_action(f'{request.user.username} User edited time appointment in Appointment panel.', 'USER')
+            write_action(f'{request.user.username} User edited time appointment in Appointment panel. appointmentId: {appointment.id}', 'USER')
             
             messages.success(request, _('زمان نوبت دهی موردنظر با موفقیت تغییر یافت.'))
             return redirect('panel:appointment-time')
@@ -750,7 +751,7 @@ def oa_eturn_check_page(request, eturnID):
             turn.is_send = True
             
             turn.save()
-            write_action(f'{request.user.username} User set time for e-turn of patient in Appointment panel.', 'USER')
+            write_action(f'{request.user.username} User set time for e-turn of patient in Appointment panel. turnId: {turn.id}', 'USER')
 
             # TODO  send sms to patient
 

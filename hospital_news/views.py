@@ -71,13 +71,12 @@ def info_page(request, newsSlug):
             
             if form.cleaned_data.get('comment_id'):
                 comment.reply = get_object_or_404(NewsCommentModel, id=form.cleaned_data.get('comment_id'))
-                write_action(f'user via {comment.phone} phone sent a reply for a News.', 'ANONYMOUS')
                 messages.success(request, _('پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
             else:
-                write_action(f'user via {comment.phone} phone sent a comment for a News.', 'ANONYMOUS')
                 messages.success(request, _('نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!'))
 
             comment.save()
+            write_action(f'user via {comment.phone} phone sent a comment for a News. newsSlug: {comment.news.slug} newsId: {news.id}', 'ANONYMOUS')
             return redirect(f'/news/info/{newsSlug}/')
 
     else:
@@ -119,8 +118,8 @@ def like_dislike_page(request):
             if news_feeling.like_dislike != mission_type:
                 news_feeling.like_dislike = mission_type
 
-                write_action(f'user via {news_feeling.user_ip} IP {news_feeling.like_dislike}d a News.', 'ANONYMOUS')
                 news_feeling.save()
+                write_action(f'user via {news_feeling.user_ip} IP {news_feeling.like_dislike}d a News. newsSlug: {news.slug}', 'ANONYMOUS')
 
             return JsonResponse({
                 'type': mission_type, 

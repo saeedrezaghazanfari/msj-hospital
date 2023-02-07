@@ -21,8 +21,8 @@ def notes_page(request):
 
         if form.is_valid():
 
-            form.save()
-            write_action(f'{request.user.username} User wrote a note.', 'USER')
+            object = form.save()
+            write_action(f'{request.user.username} User wrote a note. noteId: {object.id}', 'USER')
 
             messages.success(request, _('نوت پزشکی مورد نظر شما ثبت شد.'))
             return redirect('panel:notes-list')

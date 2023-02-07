@@ -29,8 +29,8 @@ def contact_careers_page(request):
 
         if form.is_valid():
 
-            form.save()
-            write_action(f'{request.user.username} User created a career in Contact panel.', 'USER')
+            obj = form.save()
+            write_action(f'{request.user.username} User created a career in Contact panel. careerCode: {obj.code}', 'USER')
 
             messages.success(request, _('موقعیت شغلی مورد نظر با موفقیت اضافه شد.'))
             return redirect('panel:contact-careers')
@@ -57,7 +57,7 @@ def contact_career_edit_page(request, careerCode):
         if form.is_valid():
 
             form.save()
-            write_action(f'{request.user.username} User edited a career in Contact panel.', 'USER')
+            write_action(f'{request.user.username} User edited a career in Contact panel. careerCode: {careerCode}', 'USER')
 
             messages.success(request, _('موقعیت شغلی مورد نظر با موفقیت ویرایش شد.'))
             return redirect('panel:contact-careers')
@@ -92,7 +92,7 @@ def contact_recruitations_info_page(request, hireId):
         hire.is_checked = True
         hire.save()
 
-        write_action(f'{request.user.username} User checked a user Recruitations in Contact panel.', 'USER')
+        write_action(f'{request.user.username} User checked a user Recruitations in Contact panel. hireId: {hireId}', 'USER')
 
         messages.success(request, _('فرم استخدامی بررسی شد.'))
         return redirect('panel:contact-recruitations')
@@ -124,7 +124,7 @@ def contact_suggestions_info_page(request, suggestionCode):
         suggestion.is_read = True
         suggestion.save()
 
-        write_action(f'{request.user.username} User checked a user Suggestions in Contact panel.', 'USER')
+        write_action(f'{request.user.username} User checked a user Suggestions in Contact panel. suggestionCode: {suggestionCode}', 'USER')
 
         messages.success(request, _('رکورد مورد نظر خوانده شد.'))
         return redirect('panel:contact-suggestions')
@@ -156,7 +156,7 @@ def contact_contacts_info_page(request, contactId):
         contact.is_read = True
         contact.save()
 
-        write_action(f'{request.user.username} User checked a user ContactsUs form in Contact panel.', 'USER')
+        write_action(f'{request.user.username} User checked a user ContactsUs form in Contact panel. contactId: {contactId}', 'USER')
 
         messages.success(request, _('رکورد مورد نظر خوانده شد.'))
         return redirect('panel:contact-contacts')
