@@ -5,17 +5,21 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from ckeditor.fields import RichTextField
+from hospital_auth.models import User
 from extentions.utils import (
     jalali_convertor, 
     ipd_doc_image_path,
     get_random_code,
+    get_patient_tracking_code
 )
 
 
 class IPDModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-    username = models.CharField(max_length=10, unique=True, verbose_name=_('شماره پاسپورت / کدملی'))
+    code = models.IntegerField(null=True, default=get_patient_tracking_code, verbose_name=_('کد'))
+    username = models.CharField(max_length=10, verbose_name=_('شماره پاسپورت / کدملی'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
     last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
@@ -27,8 +31,10 @@ class IPDModel(models.Model):
     country = models.CharField(max_length=100, verbose_name=_('کشور'))
     state = models.CharField(max_length=100, null=True, verbose_name=_('استان'))
     city = models.CharField(max_length=100, null=True, verbose_name=_('شهر'))
-    is_answered = models.BooleanField(default=False, verbose_name=_('آیا جواب داده شده است؟'))
     created = models.DateTimeField(auto_now_add=True)
+    answer = RichTextField(blank=True, null=True, verbose_name=_('پاسخ'))
+    doctor_answerer = models.ForeignKey(to=User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پزشک پاسخگو'))
+    is_answered = models.BooleanField(default=False, verbose_name=_('آیا جواب داده شده است؟'))
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
@@ -39,7 +45,7 @@ class IPDModel(models.Model):
     j_created.short_description = _('تاریخ ارسال درخواست')
 
     def __str__(self):
-        return self.get_full_name()
+        return self.username
 
     class Meta:
         ordering = ['-id']
@@ -47,31 +53,13 @@ class IPDModel(models.Model):
         verbose_name_plural = _('بیماران بین الملل')
 
 
-# class IPDAnswerModel(models.Model):
-#     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-#     ipd = models.ForeignKey(to=IPDModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار ipd'))
-#     answer = RichTextField(verbose_name=_('پاسخ'))
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     def j_created(self):
-#         return jalali_convertor(time=self.created, output='j_date')
-#     j_created.short_description = _('تاریخ ارسال درخواست')
-
-#     def __str__(self):
-#         return self.get_full_name()
-
-#     class Meta:
-#         ordering = ['-id']
-#         verbose_name = _('پاسخ بیمار بین الملل')
-#         verbose_name_plural = _('پاسخ بیماران بین الملل')
-
-
 class IPDCodeModel(models.Model):
-    ipd = models.ForeignKey(IPDModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بیمار'))
+    phone = models.CharField(max_length=30, null=True, verbose_name=_('شماره تلفن'))
     code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
-    expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'), help_text=_('این فیلد لازم نیست پر شود. بعد از ثبت رکورد بصورت اتوماتیک ثبت میشود.'))
+    expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'))
     is_use = models.BooleanField(default=False, verbose_name=_('استفاده شده؟'))
+    expire_mission = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای عملیات'))
 
     def __str__(self):
         return str(self.id)
@@ -91,9 +79,9 @@ class IPDCodeModel(models.Model):
 
 
 # signals
-
 @receiver(post_save, sender=IPDCodeModel)
 def set_expire_date(sender, instance, created, **kwargs):
     if created:
-        instance.expire_date = timezone.now() + timezone.timedelta(hours=24)
+        instance.expire_date = timezone.now() + timezone.timedelta(seconds=90)
+        instance.expire_mission = timezone.now() + timezone.timedelta(minutes=30)
         instance.save()

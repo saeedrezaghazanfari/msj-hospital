@@ -1,0 +1,27 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'آمپول | ورود' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>ipd - جواب</h1>
+
+    <div class="container bg-light border p-3">
+        
+        <p title="username">{{ ipd.username }}</p>
+        <p title="first_name">{{ ipd.first_name }} {{ ipd.last_name }}</p>
+        <p title="gender">{{ ipd.gender }}</p>
+        <p title="age">{{ ipd.age }}</p>
+        <p title="description">{{ ipd.description }}</p>
+        <p title="j_created">{{ ipd.j_created }}</p>
+        <p title="answer">{{ ipd.answer }}</p>
+        <p title="doctor_answerer">{{ ipd.doctor_answerer }}</p>
+
+    </div>
+
+{% endblock %}

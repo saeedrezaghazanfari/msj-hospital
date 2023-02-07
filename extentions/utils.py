@@ -60,11 +60,11 @@ def write_action(action, usertype):
         usertype must be 'USER' or 'ANONYMOUS'
     """
     if usertype == 'USER':
-        with open('user_actions.log', 'a') as file:
+        with open('actions_users.log', 'a') as file:
             file.write('DATE: ' + str(jdatetime.datetime.now()) + ' .:. ACTION: ' + action)
             file.write('\n')
     elif usertype == 'ANONYMOUS':
-        with open('anonymous_actions.log', 'a') as file:
+        with open('actions_anonymous.log', 'a') as file:
             file.write('DATE: ' + str(jdatetime.datetime.now()) + ' .:. ACTION: ' + action)
             file.write('\n')
 
@@ -396,7 +396,7 @@ def get_news_code():
 
 def get_patient_tracking_code():
     output = '4' + daily_code_generator()
-    # 40012010000 => 4 => tracking_code  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
+    # 40012010000 => 4 => tracking_code or IPD  // 00 => 1400 // 12 => month // 01 => day // 0000 => random
     return output
 
 

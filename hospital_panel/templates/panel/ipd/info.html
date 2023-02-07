@@ -1,0 +1,70 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+
+        <h1>پاسخ به ipd</h1>
+
+        <div class="alert alert-light text-primary">
+
+            <p title="username">{{ ipd.username }}</p>
+            <p title="first_name">{{ ipd.first_name }} {{ ipd.last_name }}</p>
+            <p title="phone">{{ ipd.phone }}</p>
+            <p title="email">{{ ipd.email }}</p>
+            <p title="gender">{{ ipd.gender }}</p>
+            <p title="age">{{ ipd.age }}</p>
+            <p title="description">{{ ipd.description }}</p>
+            {% if ipd.document %}<p title="document">{{ ipd.document.url }}</p>{% endif %}
+            <p title="country">{{ ipd.country }}</p>
+            <p title="state">{{ ipd.state }}</p>
+            <p title="city">{{ ipd.city }}</p>
+            <p title="created">{{ ipd.j_created }}</p>
+
+            <hr>
+
+            {% if ipd.answer %}answer: <p title="answer">{{ ipd.answer|safe }}</p>{% endif %}
+            {% if ipd.doctor_answerer %}doctor: <p title="doctor_answerer">{{ ipd.doctor_answerer }}</p>{% endif %}
+
+        </div>
+        
+
+        <form method="POST">
+
+            {% if ipd.is_answered %}
+            <p>در صورت ارسال مجدد فرم تنها متن پاسخ بروزرسانی میشود و یک پیامک به کاربر برای اطلاع رسانی وی درمورد بروزرسانی پاسخ ارسال میشود.</p>
+            {% endif %}
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <label for="surement">آیا از ارسال پاسخ خود مطمین هستید؟</label>
+            <input type="checkbox" name="surement" id="surement">
+
+            <br>
+            <button type="submit">ارسال</button>
+        </form>
+        
+    </div>
+
+</div>
+
+{% endblock %}

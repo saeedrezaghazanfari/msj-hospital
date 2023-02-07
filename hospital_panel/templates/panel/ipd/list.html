@@ -23,7 +23,7 @@
 
         <h1>لیست ipd</h1>
 
-        <h1>پاسخ داده نشده ها</h1>
+        <h4>پاسخ داده نشده ها</h4>
         {% for item in noanswered_ipds %}
         <div class="alert alert-light text-primary d-flex">
 
@@ -38,8 +38,8 @@
         {% endfor %}
 
 
-        <h1>پاسخ داده شده ها</h1>
-        {% for item in noanswered_ipds %}
+        <h4>پاسخ داده شده ها</h4>
+        {% for item in answered_ipds %}
         <div class="alert alert-light text-primary d-flex">
 
             <p style="flex: 1;">{{ item.first_name }} {{ item.last_name }}</p>

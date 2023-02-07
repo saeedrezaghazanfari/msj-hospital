@@ -17,9 +17,8 @@ from hospital_blog.models import (
 from hospital_news.models import (
     NewsModel, NewsGalleryModel
 )
-from hospital_contact.models import (
-    CareersModel
-)
+from hospital_contact.models import CareersModel
+from hospital_ipd.models import IPDModel
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 
@@ -662,4 +661,17 @@ class CareersForm(forms.ModelForm):
         data = self.cleaned_data.get('image')
         output = file_val(file=data, file_type='image', required=False)
         return output
+
+
+class IPDAnswerForm(forms.ModelForm):
+    class Meta:
+        model = IPDModel
+        fields = ['answer']
+
+    def clean_answer(self):
+        answer = self.cleaned_data.get('answer')
+        if not answer:
+            raise forms.ValidationError(_('محتوای فیلد را وارد کنید.'))
+        return answer
+    
 

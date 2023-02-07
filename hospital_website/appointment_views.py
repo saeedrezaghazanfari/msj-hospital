@@ -107,7 +107,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid, is_use=False, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect(f'/{get_language()}/404')
@@ -152,7 +152,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid, is_use=True, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect(f'/{get_language()}/404')
@@ -229,7 +229,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid, is_use=True, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect(f'/{get_language()}/404')
@@ -380,7 +380,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid, is_use=False, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect(f'/{get_language()}/404')
@@ -427,7 +427,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        code = LoginCodePatientModel.objects.get(id=uid, expire_mission__gt=timezone.now())
+        code = LoginCodePatientModel.objects.get(id=uid, is_use=True, expire_mission__gt=timezone.now())
     except(TypeError, ValueError, OverflowError, LoginCodePatientModel.DoesNotExist):
         code = None
         return redirect(f'/{get_language()}/404')

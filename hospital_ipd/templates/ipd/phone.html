@@ -1,0 +1,29 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'آمپول | ورود' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>ipd - phone</h1>
+    <p>تلفن تماس خود را وارد کنید.</p>
+    <p><a href="{% url 'ipd:login' %}">بررسی پاسخ پزشکان</a></p>
+
+    <div class="container bg-light border p-3">
+        
+        <form method="POST" novalidate autocomplete="off">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <br>
+            <button type="submit">ارسال</button>
+        </form>
+
+    </div>
+
+{% endblock %}
