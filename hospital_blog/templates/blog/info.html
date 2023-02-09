@@ -166,11 +166,11 @@
         window.onload = () => {
             let slug = window.location.pathname.substring(14, 25);
 
-            if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '1') {
+            if (JSON.parse(localStorage.getItem('msj_contents')) && JSON.parse(localStorage.getItem('msj_contents'))[slug] == '1') {
                 document.getElementById('you-like-this-post').classList.remove('d-none');
                 document.getElementById('like-btn').setAttribute('disabled', '');
             }
-            else if (JSON.parse(localStorage.getItem(slug)) && JSON.parse(localStorage.getItem(slug)) == '0') {
+            else if (JSON.parse(localStorage.getItem('msj_contents')) && JSON.parse(localStorage.getItem('msj_contents'))[slug] == '0') {
                 document.getElementById('you-dislike-this-post').classList.remove('d-none');
                 document.getElementById('dislike-btn').setAttribute('disabled', '');
             }
@@ -214,12 +214,13 @@
                         let likes = response.likes;
                         let dislikes = response.dislikes;
 
-                        if (JSON.parse(localStorage.getItem(slug))) {
-                            localStorage.removeItem(slug);
-                            localStorage.setItem(slug, JSON.stringify("1"));
-                        } else {
-                            localStorage.setItem(slug, JSON.stringify("1"));
-                        }
+                        let msj_contents = JSON.parse(localStorage.getItem('msj_contents'));
+
+                        if(msj_contents)
+                            msj_contents[slug] = '1'
+                        else
+                            msj_contents = {[slug]: '1'}
+                        localStorage.setItem('msj_contents', JSON.stringify(msj_contents));
 
                         document.getElementById('likes-span').innerText = likes;
                         document.getElementById('dislikes-span').innerText = dislikes;
@@ -261,12 +262,13 @@
                         let likes = response.likes;
                         let dislikes = response.dislikes;
 
-                        if (JSON.parse(localStorage.getItem(slug))) {
-                            localStorage.removeItem(slug);
-                            localStorage.setItem(slug, JSON.stringify("0"));
-                        } else {
-                            localStorage.setItem(slug, JSON.stringify("0"));
-                        }
+                        let msj_contents = JSON.parse(localStorage.getItem('msj_contents'));
+
+                        if(msj_contents)
+                            msj_contents[slug] = '0'
+                        else
+                            msj_contents = {[slug]: '0'}
+                        localStorage.setItem('msj_contents', JSON.stringify(msj_contents));
 
                         document.getElementById('likes-span').innerText = likes;
                         document.getElementById('dislikes-span').innerText = dislikes;
