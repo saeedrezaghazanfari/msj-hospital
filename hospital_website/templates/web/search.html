@@ -16,6 +16,7 @@
         <br>
 
         <h3>نمایش خروحی</h3>
+        <p id="queryshow">عبارت جستجو شده ی شما: <span></span><br><b></b></p>
         <div id="wrapper-outputs">
         </div>
 
@@ -40,7 +41,14 @@
         let lang = `${window.location.pathname[1]}${window.location.pathname[2]}`;
         let query = document.getElementById('querysearch');
         let outputs = [];
+
+        if(query.value.length >= 1)
+            document.querySelector('#queryshow').classList.remove('d-none')
+        else
+            document.querySelector('#queryshow').classList.add('d-none')
+
         document.getElementById('wrapper-outputs').innerHTML = '';
+        document.querySelector('#queryshow span').innerHTML = '';
         
         let links = [
             
@@ -61,11 +69,15 @@
         links.forEach(link => {
             link[1].forEach(item => {
                 
-                if(item.includes(query.value))
+                if(item.includes(query.value) && query.value.length >= 1){
                     outputs.push([item, link[0]]);
+                    document.querySelector('#queryshow span').innerHTML = query.value;
+                }
                 
             });
         });
+
+        document.querySelector('#queryshow b').innerHTML = `نتیجه(${outputs.length})`;
 
         outputs.forEach(element => {
             document.getElementById('wrapper-outputs').innerHTML += `<div class="alert alert-light text-primary div-outputs"><a target="_blank" href="${element[1]}">${element[0]}</a></div>`;
