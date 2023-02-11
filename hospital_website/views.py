@@ -13,6 +13,11 @@ def home_page(request):
     })
 
 
+# url: /search/?query=
+def search_page(request):
+    return render(request, 'web/search.html')
+
+
 # url: /newsletter/register/
 def newsletter_page(request):
     

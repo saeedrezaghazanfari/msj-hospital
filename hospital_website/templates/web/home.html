@@ -13,6 +13,12 @@
     <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
     {% endfor %}
 
+    
+    <form class="d-flex" method="GET" action="{% url 'website:search' %}">
+        <input type="text" name="query" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
+        <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
+    </form>
+    
     <ul>
         <li><a href="{% url 'panel:home' %}">پنل کاربری</a></li>
         <li><a href="{% url 'website:oa-home' %}">نوبت دهی اینترنتی</a></li>
@@ -35,29 +41,3 @@
 
 {% endblock %}
 
-{% block extraScript %}
-
-    <script>
-
-        let host = window.location.host;
-        let links = [
-            
-            [ /* panel */
-                `${host}/${window.location.pathname[1]}${window.location.pathname[2]}/panel/`, [
-                    'word1', 'word2', 'word3'
-                ]
-            ],
-
-            [ /* panel */
-                `${host}/${window.location.pathname[1]}${window.location.pathname[2]}/panel/`, [
-                    'word1', 'word2', 'word3'
-                ]
-            ],
-
-
-        ]
-
-        console.log(links);
-    </script>
-
-{% endblock %}

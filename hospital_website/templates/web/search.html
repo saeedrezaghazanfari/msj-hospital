@@ -1,0 +1,76 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks web_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <form class="d-flex" method="GET" action="{% url 'website:search' %}">
+            <input type="text" name="query" oninput="search_query_txt()" id="querysearch" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
+            <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
+        </form>
+
+        <br>
+
+        <h3>نمایش خروحی</h3>
+        <div id="wrapper-outputs">
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block extraScript %}
+
+<script>
+
+    window.onload = function() {
+        let searched = window.location.search;
+        let query = searched.substring(7);
+        document.getElementById('querysearch').value = query;
+        search_query_txt();
+    };
+
+    function search_query_txt() {
+
+        let host = window.location.host;
+        let lang = `${window.location.pathname[1]}${window.location.pathname[2]}`;
+        let query = document.getElementById('querysearch');
+        let outputs = [];
+        document.getElementById('wrapper-outputs').innerHTML = '';
+        
+        let links = [
+            
+            [ /* panel */
+                `${host}/${lang}/1/`, [
+                    'word1', 'word2', 'word3'
+                ]
+            ],
+
+            [ /* panel */
+                `${host}/${lang}/2/`, [
+                    'word4', 'word5', 'word6', 'word1'
+                ]
+            ],
+
+        ];
+
+        links.forEach(link => {
+            link[1].forEach(item => {
+                
+                if(item.includes(query.value))
+                    outputs.push([item, link[0]]);
+                
+            });
+        });
+
+        outputs.forEach(element => {
+            document.getElementById('wrapper-outputs').innerHTML += `<div class="alert alert-light text-primary div-outputs"><a target="_blank" href="${element[1]}">${element[0]}</a></div>`;
+        });
+    }
+
+</script>
+{% endblock %}
