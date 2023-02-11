@@ -74,7 +74,7 @@ class SubUnitModel(models.Model):
     slug = models.SlugField(default=get_links_code, unique=True, verbose_name=_('نمایش در url'))
     category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام')))
-    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو مرحله ای است؟'))
+    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو قسمتی است؟'), help_text=_('در بخش نوبت دهی اینترنتی باعث میشود که کاربر به ۲ طریق مختلف رزرو اینترنتی انجام دهد.'))
 
     class Meta:
         ordering = ['-id']
@@ -244,7 +244,7 @@ class OnlinePaymentModel(models.Model):
 
 class LimitTurnTimeModel(models.Model):
     hours = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('تا چند ساعت قبل؟'))
-    rules = RichTextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'))
+    rules = RichTextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'), help_text=_('این قوانین در صفحه ی اول قبل از انجام مراحل رزرو اینترنتی نمایش داده میشود.'))
 
     class Meta:
         ordering = ['-id']
