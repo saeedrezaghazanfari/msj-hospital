@@ -11,10 +11,9 @@
     {% skill_list as skill_items %}
     {% degree_list as degree_items %}
 
-
     <h1>دکتر ها</h1>
 
-    {% for doctor in page_obj %}
+    {% for doctor in doctors %}
     <div class="alert alert-light text-primary d-flex">
         {% if doctor.user.profile %}<div style="flex: 1;" title="profile"><img src="{{ doctor.user.profile.url }}" style="height: 50px; width: 50px;" alt=""></div>{% endif %}
         <div style="flex: 1;" title="user">دکتر {{ doctor.user.get_full_name }}</div>
@@ -22,37 +21,8 @@
         <div style="flex: 1;" title="short_desc"><a class="btn btn-primary" href="{% url 'doctor:info' doctor.id %}">نمایش</a></div>
     </div>
     {% endfor %}
-
-    <ul class="paginator__items">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a href="?page={{ page_obj.previous_page_number }}">
-                prev
-            </a>
-        </li>
-        {% endif %}
-        {% for page in paginator.page_range %}
-            {% if page == page_obj.number %}
-                <li class="active">
-                    <a href="?page={{ page }}">{{ page }}</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="?page={{ page }}">{{ page }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a href="?page={{ page_obj.next_page_number }}">
-                next
-            </a>
-        </li>
-        {% endif %}
-
-    </ul>
     
-    <form method="GET" action="{% url 'doctor:search' %}">
+    <form method="GET">
 
         {% comment %}
         <input id="doctor_entered" onkeyup="check_doctor()" type="text" name="doctor">
@@ -80,7 +50,7 @@
 
     </form>
 
-    <form method="GET" action="{% url 'doctor:search' %}">
+    <form method="GET">
 
         <div class="accordion" id="accordionExample">
 
