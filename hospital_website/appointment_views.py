@@ -36,7 +36,7 @@ def eoa_categories_page(request):
     unit_list_index = []
     unit_list = ['doctors']
     times = AppointmentTimeModel.objects.filter(
-        unit__subunit__category='paraclinic',
+        # unit__subunit__category='paraclinic',  # show all of units
         date__gt=datetime.now(),
         doctor__is_active=True
     ).iterator()
@@ -54,7 +54,7 @@ def eoa_categories_page(request):
 # url: /electronic/appointment/<unitSlug>/router/
 def eoa_router_page(request, unitSlug):
     
-    if unitSlug == 'doctors':
+    if unitSlug == 'doctors' or SubUnitModel.objects.filter(slug=unitSlug, have_2_box=False).exists():
         return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/')
     elif unitSlug != 'doctors' and SubUnitModel.objects.filter(slug=unitSlug, have_2_box=True).exists():
         return render(request, 'web/electronic-services/oa-router.html', {
