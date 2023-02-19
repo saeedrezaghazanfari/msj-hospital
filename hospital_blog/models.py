@@ -47,6 +47,39 @@ class MedicalNoteModel(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+
+class SMSTextModel(models.Model):
+    RECEIVERS = (
+        ('patients', _('بیماران بخش نوبت اینترنتی')), 
+        ('patientsipd', _('بیماران بخش ipd')), 
+        ('doctors', _('پزشکان')), 
+        ('bloggers', _('ادمین های بخش پست')), 
+        ('news', _('ادمین های بخش خبر')), 
+        ('lab', _('ادمین های بخش ثبت آزمایش و تصویربرداری')), 
+        ('appointment', _('ادمین های پذیرش اینترنتی')), 
+        ('contacts', _('ادمین های بخش ارتباطات')), 
+        ('ipdmanager', _('ادمین های بخش ipd')), 
+        ('all', _('همه (پزشکان و بیماران و کاربران)')), 
+    )
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+    text = models.TextField(max_length=400, verbose_name=_('متن'))
+    receivers = models.CharField(max_length=20, choices=RECEIVERS, verbose_name=_('جامعه ی دریافت کننده ی پیامک'))
+    is_sent = models.BooleanField(default=False, verbose_name=_('آیا پیامک به اعضای نام برده ارسال شود؟'))
+    is_sent_sms = models.BooleanField(default=False, editable=False, verbose_name=_('آیا پیامک ارسال شده است؟'))
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name = _('پیامک')
+        verbose_name_plural = _('پیامک ها')
+
+    def j_created(self):
+        return jalali_convertor(time=self.created, output='j_date')
+    j_created.short_description = _('تاریخ ثبت')
+
+    def __str__(self):
+        return str(self.id)
 
 
 class PampheletModel(models.Model):

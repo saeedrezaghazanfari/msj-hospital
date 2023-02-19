@@ -1,0 +1,48 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+
+        <h1>پیامک ها</h1>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">ذخیره</button>
+        </form><br>
+
+        {% for sms in smss %}
+        <div class="alert alert-primary text-dark d-flex">
+            <p>{{ sms.receivers }}</p>
+            <p>{{ sms.is_sent }}</p>
+            <p>{{ sms.is_sent_sms }}</p>
+            <p>{{ sms.j_created }}</p>
+            <p style="flex: 1;"><a class="btn btn-primary" href="{% url 'panel:notes-smsinfo' sms.id %}">ویرایش</a></p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

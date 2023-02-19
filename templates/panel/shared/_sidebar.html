@@ -47,6 +47,7 @@
 {% if request.user.is_note_manager %}
 <li>
     <a href="{% url 'panel:notes-list' %}">پنل مدیریت نوت ها</a>
+    <li><a href="{% url 'panel:notes-smslist' %}">مدیریت پیامک</a></li>
 </li>
 <hr>
 {% endif %}

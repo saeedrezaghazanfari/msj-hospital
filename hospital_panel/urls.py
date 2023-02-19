@@ -73,6 +73,8 @@ urlpatterns = [
     # note management
     path('panel/notes/', views_notes.notes_page, name='notes-list'),
     path('panel/notes/<noteId>/', views_notes.notes_edit_page, name='notes-edit'),
+    path('panel/notes/sms/list/', views_notes.notes_smslist_page, name='notes-smslist'),
+    path('panel/notes/sms/<smsId>/', views_notes.notes_smsinfo_page, name='notes-smsinfo'),
 
 
     # experiment management

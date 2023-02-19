@@ -12,7 +12,7 @@ from hospital_units.models import (
     AppointmentTipSMSModel, SubUnitModel, ElectronicPrescriptionModel, ExprimentResultModel
 )
 from hospital_blog.models import (
-    BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel, PampheletModel
+    BlogModel, TagModel, CategoryModel, BlogGalleryModel, MedicalNoteModel, SMSTextModel, PampheletModel
 )
 from hospital_news.models import (
     NewsModel, NewsGalleryModel
@@ -616,6 +616,12 @@ class PatientForm(forms.ModelForm):
 class MedicalNoteForm(forms.ModelForm):
     class Meta:
         model = MedicalNoteModel
+        fields = '__all__'
+
+
+class SMSTextForm(forms.ModelForm):
+    class Meta:
+        model = SMSTextModel
         fields = '__all__'
 
 

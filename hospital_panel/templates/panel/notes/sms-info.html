@@ -1,0 +1,53 @@
+{% extends 'panel/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'online-appointment' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" media="screen and (min-width: 801px)">
+<link rel="stylesheet" href="{% static 'css/responsive/auth-res.css' %}" media="screen and (max-width: 800px)">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="display: flex; direction: rtl !important;">
+
+    <div style="flex: 1; padding: 1rem 0; border: 1px solid #ccc; margin: 0.3rem; border-radius: 7px;" class="bg-light">
+        <ul>
+            
+            {% include 'panel/shared/_sidebar.html' %}
+
+        </ul>
+    </div>
+    <div style="flex: 4; padding: 1rem; margin: 0.3rem;">
+
+        <h1>ویرایش پیامک</h1>
+
+        {% if not sms.is_sent_sms %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {{ form.text }}
+            <br>
+            
+            {{ form.receivers }}
+            <br>
+
+            <label for="{{ form.is_sent.id_for_label }}">آیا پیامک به اعضای نام برده ارسال شود؟</label>
+            {{ form.is_sent }}        
+            <br>
+            
+            <button type="submit">ذخیره</button>
+        </form><br>
+
+        {% else %}
+
+            <b>پیامک برای {{sms.receivers}} ارسال شده است و امکان ویرایش وجود ندارد.</b> 
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

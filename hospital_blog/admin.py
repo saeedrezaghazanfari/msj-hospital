@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
     MedicalNoteModel,
+    SMSTextModel,
     PampheletModel,
     CreditEduModel,
     BlogModel,
@@ -16,6 +17,12 @@ class MedicalNoteModel_Admin(admin.ModelAdmin):
     list_display = ['text', 'is_active']
     search_fields = ['text', 'is_active']
     ordering = ['-id']
+
+
+class SMSTextModel_Admin(admin.ModelAdmin):
+    list_display = ['receivers', 'is_sent_sms']
+    search_fields = ['receivers', 'is_sent_sms']
+    ordering = ['-created']
 
 
 class PampheletModel_Admin(admin.ModelAdmin):
@@ -65,6 +72,7 @@ class BlogLikeModel_Admin(admin.ModelAdmin):
 
 
 admin.site.register(MedicalNoteModel, MedicalNoteModel_Admin)
+admin.site.register(SMSTextModel, SMSTextModel_Admin)
 admin.site.register(PampheletModel, PampheletModel_Admin)
 admin.site.register(CreditEduModel, CreditEduModel_Admin)
 admin.site.register(BlogModel, BlogModel_Admin)
