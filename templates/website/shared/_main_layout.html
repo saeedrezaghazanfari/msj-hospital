@@ -60,6 +60,16 @@
 
     {% include 'website/shared/_header.html' %}
 
+    <!-- lang activator -->
+    <div class="container mt-3 bg-white d-none"  style="border: 1px solid #ccc; border-radius: 15px;">
+        <ul class="text-dark d-flex">
+            <li style="flex: 1;"><a href="{% url 'activate_lang' %}?lang=fa&url={{ request.path|slice:'4:' }}" class="dn_btn mr-3">فارسی</a></li></li>
+            <li style="flex: 1;"><a href="{% url 'activate_lang' %}?lang=en&url={{ request.path|slice:'4:' }}" class="dn_btn mr-3">English</a></li></li>
+            <li style="flex: 1;"><a href="{% url 'activate_lang' %}?lang=ar&url={{ request.path|slice:'4:' }}" class="dn_btn mr-3">العربیه</a></li></li>
+            <li style="flex: 1;"><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}" class="dn_btn mr-3">Russian</a></li></li>
+        </ul>
+    </div>
+
     <div class="container mt-3 p-3 bg-white" style="border: 1px solid #ccc; border-radius: 15px;">
         {% block content %}{% endblock %}
     </div>
