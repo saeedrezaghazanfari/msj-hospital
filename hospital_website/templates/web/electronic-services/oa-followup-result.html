@@ -7,9 +7,9 @@
 
 {% block content %}
 
-    <h1>نوبت دهی اینترنتی - <span style="color: red;">پیگیری نتیجه آزمایش</span></h1>
+    <h1><span style="color: red;">پیگیری نتیجه آزمایش</span></h1>
 
-    {% if not turn %}
+    {% if not result %}
 
     <form method="POST" novalidate>
         {% csrf_token %}

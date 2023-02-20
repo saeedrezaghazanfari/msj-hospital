@@ -806,7 +806,10 @@ def eoa_followresult_page(request):
         if form.is_valid():
             if not ExprimentResultModel.objects.filter(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone')).exists():
                 return redirect(f'/{get_language()}/404')
-            result = ExprimentResultModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
+            else:
+                result = ExprimentResultModel.objects.get(code=form.cleaned_data.get('code'), patient__phone=form.cleaned_data.get('phone'))
+                # TODO send request to FACS
+
     else:
         form = forms.FollowUpResultForm()
 
@@ -814,3 +817,6 @@ def eoa_followresult_page(request):
         'form': form,
         'result': result
     })
+
+
+# edit ExprimentResultModel  ---   fields: patient_id, patinet_phone
