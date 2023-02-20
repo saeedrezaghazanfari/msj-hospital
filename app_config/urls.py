@@ -19,15 +19,15 @@ urlpatterns += i18n_patterns(
 
     # APPLICATIONS
     path('', include('hospital_auth.urls', namespace='auth')),
-    path('', include('hospital_setting.urls', namespace='setting')),
     path('', include('hospital_blog.urls', namespace='blog')),
     path('', include('hospital_news.urls', namespace='news')),
     path('', include('hospital_contact.urls', namespace='contact')),
     path('', include('hospital_website.urls', namespace='website')),
     path('', include('hospital_doctor.urls', namespace='doctor')),
     path('', include('hospital_panel.urls', namespace='panel')),
-    path('', include('hospital_units.urls', namespace='units')),
     path('', include('hospital_ipd.urls', namespace='ipd')),
+    # path('', include('hospital_units.urls', namespace='units')),
+    # path('', include('hospital_setting.urls', namespace='setting')),
 
     # PACKAGES
     path('change/language/', views.activate_language, name='activate_lang'),

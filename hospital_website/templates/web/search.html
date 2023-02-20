@@ -31,45 +31,319 @@
     window.onload = function() {
         let searched = window.location.search;
         let query = searched.substring(7);
+        if(query.includes('%')) {
+            query = decodeURIComponent(query);
+        }
         document.getElementById('querysearch').value = query;
         search_query_txt();
     };
 
     function search_query_txt() {
 
-        let host = window.location.host;
         let lang = `${window.location.pathname[1]}${window.location.pathname[2]}`;
+        let baseUrl = '/' + lang;
         let query = document.getElementById('querysearch');
         let outputs = [];
 
-        if(query.value.length >= 1)
+        if(query.value.length >= 2)
             document.querySelector('#queryshow').classList.remove('d-none')
         else
             document.querySelector('#queryshow').classList.add('d-none')
 
         document.getElementById('wrapper-outputs').innerHTML = '';
         document.querySelector('#queryshow span').innerHTML = '';
-        
-        let links = [
-            
-            [ /* panel */
-                `${host}/${lang}/1/`, [
-                    'word1', 'word2', 'word3'
-                ]
-            ],
 
-            [ /* panel */
-                `${host}/${lang}/2/`, [
-                    'word4', 'word5', 'word6', 'word1'
-                ]
-            ],
+        let links = [];
 
-        ];
+        if(lang == 'fa') {
+            links = [
+                
+                [ //url: /fa/blog/list/ 
+                    "{% url 'blog:blogs' %}", [
+                        'لیست پست‌ها و بلاگ‌ها', 'پست‌های پزشکی', 'لایک و دیسلایک بلاگ', 'ارسال کامنت برای بلاگ', 'دسته‌بندی بلاگ‌ها و پست‌ها', 
+                    ]
+                ],
+
+                [ //url: /fa/contact/careers/
+                    "{% url 'contact:careers' %}", [
+                        'همکاری باما', 'لیست پوزیشن‌ها و فرصت‌های شغلی', 'نیروهای مورد نیاز بیمارستان',  
+                    ]
+                ],
+
+                [ //url: /fa/contact/suggestions/
+                    "{% url 'contact:suggestions' %}", [
+                        'ارسال انتقادات و پیشنهادات به بیمارستان', 
+                    ]
+                ],
+
+                [ //url: /fa/contact/contactus/
+                    "{% url 'contact:contactus' %}", [
+                        'ارسال فرم ارتباط باما', 'ارسال پیام متنی',  
+                    ]
+                ],
+
+                [ //url: /fa/doctor/list/
+                    "{% url 'doctor:doctors' %}", [
+                        'لیست پزشکان', 'لیست متخصصین و فوق تخصص‌ها', 'جستجوی پزشک', 
+                    ]
+                ],
+
+                [ //url: /fa/ipd/phone/
+                    "{% url 'ipd:enter-phone' %}", [
+                        'خدمات بیماران بین‌الملل', 
+                    ]
+                ],
+
+                [ //url: /fa/news/list/
+                    "{% url 'news:news' %}", [
+                        'لیست اخبار', 'لایک و دیسلایک خبر', 'ارسال کامنت برای خبر', 'دسته‌بندی اخبار', 
+                    ]
+                ],
+
+                [ //url: /fa/
+                    "{% url 'website:home' %}", [
+                        'خانه، صفحه‌ی ایندکس بیمارستان', 
+                    ]
+                ],
+
+                [ //url: /fa/electronic/appointment/turn/
+                    "{% url 'website:oa-followupturn' %}", [
+                        'بررسی و پیگیری نوبت اینترنتی', 
+                    ]
+                ],
+                
+                [ //url: /fa/electronic/appointment/result/
+                    "{% url 'website:oa-followupresult' %}", [
+                        'بررسی و پیگیری نتیجه‌ی آزمایش و تصویربرداری',   
+                    ]
+                ],
+
+                [ //url: /fa/electronic/appointment/
+                    "{% url 'website:oa-home' %}", [
+                        'ارائه‌ی خدمات اینترنتی', 'نوبت‌دهی و رزور اینترنتی', 
+                    ]
+                ],
+
+            ]
+        }
+
+        else if(lang == 'en') {
+            links = [
+                
+                [ //url: /en/blog/list/ 
+                    "{% url 'blog:blogs' %}", [
+                        'List of Posts and Blogs', 'Medical Posts', 'Like and dislike Blog', 'Post a comment for the blog', 'Categorizing blogs and posts', 
+                    ]
+                ],
+
+                [ //url: /en/contact/careers/
+                    "{% url 'contact:careers' %}", [
+                        'Work with us', 'List of positions and job opportunities', 'The required forces of the hospital',
+                    ]
+                ],
+
+                [ //url: /en/contact/suggestions/
+                    "{% url 'contact:suggestions' %}", [
+                        'Send comments and suggestions to the hospital', 
+                    ]
+                ],
+
+                [ //url: /en/contact/contactus/
+                    "{% url 'contact:contactus' %}", [
+                        'Send us a contact form', 'Send a text message',
+                    ]
+                ],
+
+                [ //url: /en/doctor/list/
+                    "{% url 'doctor:doctors' %}", [
+                        'List of doctors', 'List of specialists', 'Search for a doctor',
+                    ]
+                ],
+
+                [ //url: /en/ipd/phone/
+                    "{% url 'ipd:enter-phone' %}", [
+                        'International patient services',
+                    ]
+                ],
+
+                [ //url: /en/news/list/
+                    "{% url 'news:news' %}", [
+                        'News list', 'Like and dislike the news', 'Send a comment for the news', 'News category',
+                    ]
+                ],
+
+                [ //url: /en/
+                    "{% url 'website:home' %}", [
+                        'Home, hospital index page',
+                    ]
+                ],
+
+                [ //url: /en/electronic/appointment/turn/
+                    "{% url 'website:oa-followupturn' %}", [
+                        'Check and follow up online appointments',
+                    ]
+                ],
+                
+                [ //url: /en/electronic/appointment/result/
+                    "{% url 'website:oa-followupresult' %}", [
+                        'Checking and following up the test and imaging results',
+                    ]
+                ],
+
+                [ //url: /en/electronic/appointment/
+                    "{% url 'website:oa-home' %}", [
+                        'Providing internet services', 'Queuing and internet reservation',
+                    ]
+                ],
+            ]
+        }
+
+        else if(lang == 'ar') {
+            links = [
+                
+                [ //url: /ar/blog/list/ 
+                    "{% url 'blog:blogs' %}", [
+                        'قائمة الوظائف والمدونات', 'المشاركات الطبية', 'اعجبني و كرهت المدونة', 'انشر تعليق على المدونة', 'تصنيف المدونات والمشاركات', 
+                    ]
+                ],
+
+                [ //url: /ar/contact/careers/
+                    "{% url 'contact:careers' %}", [
+                        'اعمل معنا', 'قائمة الوظائف وفرص العمل', 'قوات المستشفى المطلوبة',
+                    ]
+                ],
+
+                [ //url: /ar/contact/suggestions/
+                    "{% url 'contact:suggestions' %}", [
+                        'إرسال التعليقات والاقتراحات إلى المستشفى',
+                    ]
+                ],
+
+                [ //url: /ar/contact/contactus/
+                    "{% url 'contact:contactus' %}", [
+                        'أرسل لنا نموذج اتصال', 'ارسل رسالة نصية ',
+                    ]
+                ],
+
+                [ //url: /ar/doctor/list/
+                    "{% url 'doctor:doctors' %}", [
+                        'قائمة الأطباء', 'قائمة المتخصصين والمتخصصين', 'ابحث عن طبيب',
+                    ]
+                ],
+
+                [ //url: /ar/ipd/phone/
+                    "{% url 'ipd:enter-phone' %}", [
+                        'خدمات المرضى الدوليين',
+                    ]
+                ],
+
+                [ //url: /ar/news/list/
+                    "{% url 'news:news' %}", [
+                        'قائمة الأخبار', 'اعجاب و كره الاخبار', 'إرسال تعليق على الأخبار', 'فئة الأخبار',
+                    ]
+                ],
+
+                [ //url: /ar/
+                    "{% url 'website:home' %}", [
+                        'الصفحة الرئيسية ، فهرس المستشفى ',
+                    ]
+                ],
+
+                [ //url: /ar/electronic/appointment/turn/
+                    "{% url 'website:oa-followupturn' %}", [
+                        'تحقق ومتابعة المواعيد عبر الإنترنت',
+                    ]
+                ],
+                
+                [ //url: /ar/electronic/appointment/result/
+                    "{% url 'website:oa-followupresult' %}", [
+                        'فحص ومتابعة نتائج الفحص والتصوير',
+                    ]
+                ],
+
+                [ //url: /ar/electronic/appointment/
+                    "{% url 'website:oa-home' %}", [
+                        'تقديم خدمات الإنترنت', 'الطابور والحجز عبر الإنترنت',
+                    ]
+                ],
+            ]
+        }
+
+        else if(lang == 'ru') {
+            links = [
+                
+                [ //url: /ru/blog/list/ 
+                    "{% url 'blog:blogs' %}", [
+                        'Список постов и блогов', 'Медицинские посты', 'Нравится и не нравится блог', 'Оставить комментарий для блога', 'Категоризация блогов и постов',
+                    ]
+                ],
+
+                [ //url: /ru/contact/careers/
+                    "{% url 'contact:careers' %}", [
+                        'Работать с нами', 'Список должностей и возможностей трудоустройства', 'Требуемые силы госпиталя',
+                    ]
+                ],
+
+                [ //url: /ru/contact/suggestions/
+                    "{% url 'contact:suggestions' %}", [
+                        'Отправить комментарии и предложения в больницу',
+                    ]
+                ],
+
+                [ //url: /ru/contact/contactus/
+                    "{% url 'contact:contactus' %}", [
+                        'Отправьте нам контактную форму', 'Отправить текстовое сообщение ',
+                    ]
+                ],
+
+                [ //url: /ru/doctor/list/
+                    "{% url 'doctor:doctors' %}", [
+                        'Список врачей', 'Список специалистов и специалистов', 'Поиск врача',
+                    ]
+                ],
+
+                [ //url: /ru/ipd/phone/
+                    "{% url 'ipd:enter-phone' %}", [
+                        'Международные услуги для пациентов',
+                    ]
+                ],
+
+                [ //url: /ru/news/list/
+                    "{% url 'news:news' %}", [
+                        'Список новостей', 'Нравится и не нравится новость', 'Отправить комментарий к новости', 'Категория новостей',
+                    ]
+                ],
+
+                [ //url: /ru/
+                    "{% url 'website:home' %}", [
+                        'Домашняя страница, индексная страница больницы',
+                    ]
+                ],
+
+                [ //url: /ru/electronic/appointment/turn/
+                    "{% url 'website:oa-followupturn' %}", [
+                        'Проверяйте и следите за онлайн-встречами',
+                    ]
+                ],
+                
+                [ //url: /ru/electronic/appointment/result/
+                    "{% url 'website:oa-followupresult' %}", [
+                        'Проверка и отслеживание результатов теста и визуализации',
+                    ]
+                ],
+
+                [ //url: /ru/electronic/appointment/
+                    "{% url 'website:oa-home' %}", [
+                        'Предоставление интернет-услуг', 'Очереди и интернет-бронирование',
+                    ]
+                ],
+            ]
+        }
 
         links.forEach(link => {
             link[1].forEach(item => {
                 
-                if(item.includes(query.value) && query.value.length >= 1){
+                if(item.includes(query.value) && query.value.length >= 2){
                     outputs.push([item, link[0]]);
                     document.querySelector('#queryshow span').innerHTML = query.value;
                 }
