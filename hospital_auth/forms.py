@@ -7,9 +7,10 @@ from extentions.validations import (
     national_code_val, name_val
 )
 from extentions.utils import is_phone
+from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(CustomizedModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     gender = forms.ChoiceField(
         choices=GENDER_USER, 
@@ -55,7 +56,7 @@ class SignUpForm(forms.ModelForm):
         return phone
 
 
-class SignInForm(forms.Form):
+class SignInForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('شماره تلفن خود را وارد کنید') }))
     captcha = CaptchaField()
 
@@ -70,7 +71,7 @@ class SignInForm(forms.Form):
         return phone
 
 
-class EnterCodePWForm(forms.Form):
+class EnterCodePWForm(CustomizedForm):
     code = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder': _('مانند: 12345')}))
 
     def clean_code(self):

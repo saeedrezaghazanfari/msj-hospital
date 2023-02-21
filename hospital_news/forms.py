@@ -2,9 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import NewsCommentModel
 from extentions.validations import name_val, phone_val
+from extentions.customs import CustomizedModelForm
 
 
-class NewsCommentForm(forms.ModelForm):
+class NewsCommentForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:
@@ -27,7 +28,7 @@ class NewsCommentForm(forms.ModelForm):
         return output
 
 
-class NewsReplyForm(forms.ModelForm):
+class NewsReplyForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
     news_slug = forms.CharField(widget=forms.HiddenInput())
     
@@ -36,7 +37,7 @@ class NewsReplyForm(forms.ModelForm):
         fields = ['message']
 
 
-class NewsCommentEditForm(forms.ModelForm):
+class NewsCommentEditForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
     
     class Meta:

@@ -4,9 +4,10 @@ from .models import HireFormModel, CriticismSuggestionModel, ContactUsModel
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 from extentions.validations import national_code_val, name_val, phone_val, email_val, file_val
+from extentions.customs import CustomizedModelForm
 
 
-class HireForm(forms.ModelForm):
+class HireForm(CustomizedModelForm):
     birthday_date = forms.DateField(widget=forms.DateInput())
     end_date = forms.DateField(widget=forms.DateInput())
 
@@ -69,7 +70,7 @@ class HireForm(forms.ModelForm):
         return output
 
 
-class CriticismSuggestionForm(forms.ModelForm):
+class CriticismSuggestionForm(CustomizedModelForm):
     class Meta:
         model = CriticismSuggestionModel
         exclude = ['code', 'is_read', 'created']
@@ -106,7 +107,7 @@ class CriticismSuggestionForm(forms.ModelForm):
         return output
 
 
-class ContactUsForm(forms.ModelForm):
+class ContactUsForm(CustomizedModelForm):
 
     class Meta:
         model = ContactUsModel

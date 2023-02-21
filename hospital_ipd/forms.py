@@ -8,9 +8,10 @@ from extentions.validations import (
 )
 from extentions.utils import is_passport, is_national_code
 from .models import IPDModel, IPDCodeModel
+from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
-class PhoneForm(forms.Form):
+class PhoneForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
     
@@ -20,7 +21,7 @@ class PhoneForm(forms.Form):
         return output
 
 
-class LoginForm(forms.Form):
+class LoginForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput())
     code = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
@@ -41,7 +42,7 @@ class LoginForm(forms.Form):
         return code
 
 
-class EnterCodePhoneForm(forms.Form):
+class EnterCodePhoneForm(CustomizedForm):
     code = forms.CharField(widget=forms.TextInput())
 
     def clean_code(self):
@@ -55,7 +56,7 @@ class EnterCodePhoneForm(forms.Form):
         return code
 
 
-class IPDForm(forms.ModelForm):
+class IPDForm(CustomizedModelForm):
 
     class Meta:
         model = IPDModel
@@ -96,7 +97,7 @@ class IPDForm(forms.ModelForm):
         return output
 
 
-# class IPDForm(forms.ModelForm):
+# class IPDForm(CustomizedModelForm):
 
 #     class Meta:
 #         model = IPDModel

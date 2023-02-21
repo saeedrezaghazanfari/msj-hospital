@@ -39,48 +39,16 @@
                 <p>بیمه های " {{ appointment.doctor.get_full_name }} " عبارت است از:</p>
                 <div class="alert alert-light"> {% for item in appointment.doctor.insurances.all %}{{ item.title }} - {% endfor %}</div>
 
-                <select name="insurances" multiple>
-                    {% for insurance in insurances %}
-                    <option value="{{ insurance.id }}" {% if insurance in appointment.insurances.all %}selected{% endif %}>{{ insurance.title }}</option>
-                    {% endfor %}
-                </select>
+                {% for insurance in insurances %}
+                <div class="customform">
+                    <input type="checkbox" name="insurances" value="{{ insurance.id }}" id="{{ insurance.id }}" {% if insurance in appointment.insurances.all %}checked{% endif %}>
+                    <label for="{{ insurance.id }}" >{{ insurance.title }}</label>
+                </div>
+                {% endfor %}
+
             </div>
 
-            <p>{{ form.time_from.label_tag }}</p>
-            {{ form.time_from }}
-            {% for msg in time_from.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-            
-            <p>{{ form.time_to.label_tag }}</p>
-            {{ form.time_to }}
-            {% for msg in time_to.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-            
-            <p>{{ form.capacity.label_tag }}</p>
-            {{ form.capacity }}
-            {% for msg in capacity.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-                        
-            <p>{{ form.status.label_tag }}</p>
-            {{ form.status }}
-            {% for msg in status.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-
-            <p>{{ form.tip.label_tag }}</p>
-            {{ form.tip }}
-            {% for msg in tip.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
-            
-            <p>{{ form.tip_sms.label_tag }}</p>
-            {{ form.tip_sms }}
-            {% for msg in tip_sms.errors %}
-            <p style="color: red;">{{ msg }}</p>
-            {% endfor %}
+            {{ form.as_p }}
             
             <br><br>
             <button type="submit">بروزرسانی</button>

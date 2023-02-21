@@ -13,7 +13,7 @@ from .models import LoginCodePatientModel
 from captcha.fields import CaptchaField
 from extentions.validations import name_val, national_code_val, phone_val
 from extentions.utils import is_phone, is_national_code
-from extentions.customs import CustomizedForm, CustomizeModelForm
+from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class PhoneForm(CustomizedForm):
@@ -26,7 +26,7 @@ class PhoneForm(CustomizedForm):
         return output
 
 
-class EnterCodePhoneForm(forms.Form):
+class EnterCodePhoneForm(CustomizedForm):
     code = forms.CharField(widget=forms.TextInput())
 
     def clean_code(self):
@@ -40,7 +40,7 @@ class EnterCodePhoneForm(forms.Form):
         return code
 
 
-class PriceAppointmentForm(forms.ModelForm):
+class PriceAppointmentForm(CustomizedModelForm):
     class Meta:
         model = PriceAppointmentModel
         fields = ['insurance', 'degree', 'price']
@@ -54,7 +54,7 @@ class PriceAppointmentForm(forms.ModelForm):
         return value
 
 
-class TimeAppointmentForm(forms.ModelForm):
+class TimeAppointmentForm(CustomizedModelForm):
     date_from = forms.DateField(widget=forms.DateInput())
     date_to = forms.DateField(widget=forms.DateInput())
 
@@ -93,7 +93,7 @@ class TimeAppointmentForm(forms.ModelForm):
         return time_to
 
 
-class PatientForm(forms.ModelForm):
+class PatientForm(CustomizedModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = forms.CharField(widget=forms.TextInput())
     first_name = forms.CharField(widget=forms.TextInput())
@@ -134,7 +134,7 @@ class PatientForm(forms.ModelForm):
         return output
 
 
-class ElectronicPrescriptionForm(forms.ModelForm):
+class ElectronicPrescriptionForm(CustomizedModelForm):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
 
     username = forms.CharField(widget=forms.TextInput())
@@ -183,7 +183,7 @@ class ElectronicPrescriptionForm(forms.ModelForm):
         output = name_val(name=data, required=True)
         return output
 
-class CheckRulesForm(forms.Form):
+class CheckRulesForm(CustomizedForm):
     check_rules = forms.BooleanField(required=False, widget=forms.widgets.CheckboxInput())
 
     def clean_check_rules(self):
@@ -193,7 +193,7 @@ class CheckRulesForm(forms.Form):
         return check_rules
 
 
-class FollowUpTurnForm(forms.Form):
+class FollowUpTurnForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput())
     code = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
@@ -219,7 +219,7 @@ class FollowUpTurnForm(forms.Form):
         return code
 
 
-class FollowUpResultForm(forms.Form):
+class FollowUpResultForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput())
     code = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()

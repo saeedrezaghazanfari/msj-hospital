@@ -22,10 +22,10 @@ from hospital_ipd.models import IPDModel
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 from extentions.validations import name_val, file_val, email_val, phone_val, national_code_val
-from extentions.customs import CustomizedForm, CustomizeModelForm
+from extentions.customs import CustomizedModelForm
 
 
-class EditInfoForm(forms.ModelForm):
+class EditInfoForm(CustomizedModelForm):
 
     class Meta:
         model = User
@@ -45,7 +45,7 @@ class EditInfoForm(forms.ModelForm):
         return output
 
 
-class SkillForm(forms.ModelForm):
+class SkillForm(CustomizedModelForm):
     class Meta:
         model = TitleSkillModel
         fields = '__all__'
@@ -68,7 +68,7 @@ class SkillForm(forms.ModelForm):
         return output
 
 
-class DegreeForm(forms.ModelForm):
+class DegreeForm(CustomizedModelForm):
     class Meta:
         model = DegreeModel
         fields = '__all__'
@@ -91,7 +91,7 @@ class DegreeForm(forms.ModelForm):
         return output
 
 
-class UnitForm(forms.ModelForm):
+class UnitForm(CustomizedModelForm):
     class Meta:
         model = UnitModel
         fields = '__all__'
@@ -134,7 +134,7 @@ class UnitForm(forms.ModelForm):
         return output
 
 
-class SubUnitForm(forms.ModelForm):
+class SubUnitForm(CustomizedModelForm):
     class Meta:
         model = SubUnitModel
         exclude = ['slug']
@@ -176,7 +176,7 @@ class SubUnitForm(forms.ModelForm):
         return title_ru
 
 
-class LimitTurnTimeForm(forms.ModelForm):
+class LimitTurnTimeForm(CustomizedModelForm):
 
     class Meta:
         model = LimitTurnTimeModel
@@ -199,7 +199,7 @@ class LimitTurnTimeForm(forms.ModelForm):
         return rules
 
 
-class InsuranceForm(forms.ModelForm):
+class InsuranceForm(CustomizedModelForm):
     
     class Meta:
         model = InsuranceModel
@@ -219,7 +219,7 @@ class InsuranceForm(forms.ModelForm):
         return output
 
 
-class AppointmentTipForm(forms.ModelForm):
+class AppointmentTipForm(CustomizedModelForm):
 
     class Meta:
         model = AppointmentTipModel
@@ -234,7 +234,7 @@ class AppointmentTipForm(forms.ModelForm):
         return title
 
 
-class AppointmentTipSMSForm(forms.ModelForm):
+class AppointmentTipSMSForm(CustomizedModelForm):
     class Meta:
         model = AppointmentTipSMSModel
         fields = '__all__'
@@ -248,13 +248,13 @@ class AppointmentTipSMSForm(forms.ModelForm):
         return title
 
 
-class Time1AppointmentForm(forms.ModelForm):
+class Time1AppointmentForm(CustomizedModelForm):
     class Meta:
         model = AppointmentTimeModel
         fields = ['doctor']
 
 
-class Time2AppointmentForm(forms.ModelForm):
+class Time2AppointmentForm(CustomizedModelForm):
     date_from = forms.DateField(widget=forms.DateInput())
     date_to = forms.DateField(widget=forms.DateInput())
 
@@ -304,7 +304,7 @@ class Time2AppointmentForm(forms.ModelForm):
         return time_to
 
 
-class AllAppointmentForm(forms.ModelForm):
+class AllAppointmentForm(CustomizedModelForm):
 
     class Meta:
         model = AppointmentTimeModel
@@ -325,19 +325,19 @@ class AllAppointmentForm(forms.ModelForm):
         return time_to
 
 
-class DoctorForm(forms.ModelForm):
+class DoctorForm(CustomizedModelForm):
     class Meta:
         model = DoctorModel
         fields = '__all__'
 
 
-class DoctorEditForm(forms.ModelForm):
+class DoctorEditForm(CustomizedModelForm):
     class Meta:
         model = DoctorModel
         exclude = ['id', 'insurances', 'medical_code', 'user', 'unit', 'is_medicalteam', 'is_intenational', 'is_public', 'is_clinic', 'is_active']
 
 
-class DoctorVacationForm(forms.ModelForm):
+class DoctorVacationForm(CustomizedModelForm):
     class Meta:
         model = DoctorVacationModel
         fields = ['from_date', 'to_date', 'from_time', 'to_time'] 
@@ -383,13 +383,13 @@ class DoctorVacationForm(forms.ModelForm):
         return to_time
 
 
-class DoctorWorkForm(forms.ModelForm):
+class DoctorWorkForm(CustomizedModelForm):
     class Meta:
         model = DoctorWorkTimeModel
         fields = ['day_from', 'day_to', 'time_from', 'time_to'] 
 
 
-class ElectronicPrescriptionForm(forms.ModelForm):
+class ElectronicPrescriptionForm(CustomizedModelForm):
     selected_date = forms.DateField(widget=forms.DateInput())
 
     class Meta:
@@ -403,7 +403,7 @@ class ElectronicPrescriptionForm(forms.ModelForm):
         )
 
 
-class ExprimentResultForm(forms.ModelForm):
+class ExprimentResultForm(CustomizedModelForm):
     date = forms.DateField(widget=forms.DateInput())
 
     class Meta:
@@ -432,7 +432,7 @@ class ExprimentResultForm(forms.ModelForm):
         return output
 
 
-class BlogForm(forms.ModelForm):
+class BlogForm(CustomizedModelForm):
     class Meta:
         model = BlogModel
         exclude = ['slug', 'qr_img', 'writer']
@@ -465,7 +465,7 @@ class BlogForm(forms.ModelForm):
         return output
 
 
-class NewsForm(forms.ModelForm):
+class NewsForm(CustomizedModelForm):
     class Meta:
         model = NewsModel
         exclude = ['slug', 'writer']
@@ -493,7 +493,7 @@ class NewsForm(forms.ModelForm):
         return output
 
 
-class TagForm(forms.ModelForm):
+class TagForm(CustomizedModelForm):
     class Meta:
         model = TagModel
         fields = '__all__'
@@ -520,7 +520,7 @@ class TagForm(forms.ModelForm):
         return title_ru
 
 
-class CategoryForm(forms.ModelForm):
+class CategoryForm(CustomizedModelForm):
     class Meta:
         model = CategoryModel
         fields = '__all__'
@@ -547,7 +547,7 @@ class CategoryForm(forms.ModelForm):
         return title_ru
 
 
-class BlogGalleryForm(forms.ModelForm):
+class BlogGalleryForm(CustomizedModelForm):
     class Meta:
         model = BlogGalleryModel
         fields = '__all__'
@@ -567,7 +567,7 @@ class BlogGalleryForm(forms.ModelForm):
             raise forms.ValidationError(_('هر دو فیلد نمیتوانند مقدار داشته باشند.'))
 
 
-class NewsGalleryForm(forms.ModelForm):
+class NewsGalleryForm(CustomizedModelForm):
     class Meta:
         model = NewsGalleryModel
         fields = '__all__'
@@ -587,7 +587,7 @@ class NewsGalleryForm(forms.ModelForm):
             raise forms.ValidationError(_('هر دو فیلد نمیتوانند مقدار داشته باشند.'))
 
 
-class PatientForm(CustomizeModelForm):
+class PatientForm(CustomizedModelForm):
     class Meta:
         model = PatientModel
         fields = '__all__'
@@ -613,19 +613,19 @@ class PatientForm(CustomizeModelForm):
         return output
 
 
-class MedicalNoteForm(forms.ModelForm):
+class MedicalNoteForm(CustomizedModelForm):
     class Meta:
         model = MedicalNoteModel
         fields = '__all__'
 
 
-class SMSTextForm(forms.ModelForm):
+class SMSTextForm(CustomizedModelForm):
     class Meta:
         model = SMSTextModel
         fields = '__all__'
 
 
-class PampheletForm(forms.ModelForm):
+class PampheletForm(CustomizedModelForm):
     class Meta:
         model = PampheletModel
         fields = '__all__'
@@ -653,7 +653,7 @@ class PampheletForm(forms.ModelForm):
         return output
 
 
-class CareersForm(forms.ModelForm):
+class CareersForm(CustomizedModelForm):
     class Meta:
         model = CareersModel
         exclude = ['code']
@@ -669,7 +669,7 @@ class CareersForm(forms.ModelForm):
         return output
 
 
-class IPDAnswerForm(forms.ModelForm):
+class IPDAnswerForm(CustomizedModelForm):
     class Meta:
         model = IPDModel
         fields = ['answer']

@@ -2,9 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import BlogCommentModel
 from extentions.validations import name_val, phone_val
+from extentions.customs import CustomizedModelForm
 
 
-class BlogCommentForm(forms.ModelForm):
+class BlogCommentForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:
@@ -27,7 +28,7 @@ class BlogCommentForm(forms.ModelForm):
         return output
 
 
-class BlogReplyForm(forms.ModelForm):
+class BlogReplyForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
     blog_slug = forms.CharField(widget=forms.HiddenInput())
     
@@ -36,7 +37,7 @@ class BlogReplyForm(forms.ModelForm):
         fields = ['message']
 
 
-class BlogCommentEditForm(forms.ModelForm):
+class BlogCommentEditForm(CustomizedModelForm):
     comment_id = forms.CharField(widget=forms.HiddenInput())
     
     class Meta:

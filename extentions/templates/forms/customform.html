@@ -1,5 +1,4 @@
 
-<h1>Custom Dj Form</h1>
 {{ errors }}
 
 {% if errors and not fields %}
@@ -7,22 +6,23 @@
 {% endif %}
 
 {% for field, errors in fields %}
-	{{ errors }}
-	<p {% with classes=field.css_classes %}{% if classes %}class="{{ classes }}"{% endif %}{% endwith %}>
-		
-		{% if field.label %}{{ field.label_tag }}{% endif %}
+	<div class="customform">
 		
 		{{ field }}
 		
+		{% if field.label %}{{ field.label_tag }}{% endif %}
+		
 		{% if field.help_text %}
-			<span class="helptext">{{ field.help_text|safe }}</span>
+			<p class="helptext">{{ field.help_text|safe }}</p>
 		{% endif %}
 
 		{% if forloop.last %}
 			{% for field in hidden_fields %}{{ field }}{% endfor %}
 		{% endif %}
 
-	</p>
+	</div>
+	{{ errors }}
+
 {% endfor %}
 
 {% if not fields and not errors %}
@@ -66,4 +66,5 @@
 {% if not fields and not errors %}
 	{% for field in hidden_fields %}{{ field }}{% endfor %}
 {% endif %}
+
 {% endcomment %}
