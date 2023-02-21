@@ -13,9 +13,10 @@ from .models import LoginCodePatientModel
 from captcha.fields import CaptchaField
 from extentions.validations import name_val, national_code_val, phone_val
 from extentions.utils import is_phone, is_national_code
+from extentions.customs import CustomizedForm, CustomizeModelForm
 
 
-class PhoneForm(forms.Form):
+class PhoneForm(CustomizedForm):
     phone = forms.CharField(widget=forms.TextInput())
     captcha = CaptchaField()
     
