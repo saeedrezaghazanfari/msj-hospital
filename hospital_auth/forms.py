@@ -57,8 +57,8 @@ class SignUpForm(CustomizedModelForm):
 
 
 class SignInForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('شماره تلفن خود را وارد کنید') }))
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    captcha = CaptchaField(label=_('کد کپچا'))
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
@@ -72,7 +72,7 @@ class SignInForm(CustomizedForm):
 
 
 class EnterCodePWForm(CustomizedForm):
-    code = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder': _('مانند: 12345')}))
+    code = forms.IntegerField(widget=forms.NumberInput(), label=_('کد پیامک شده'))
 
     def clean_code(self):
         code = self.cleaned_data.get('code')

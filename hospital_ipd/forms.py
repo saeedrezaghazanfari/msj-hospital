@@ -12,8 +12,8 @@ from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class PhoneForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput())
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    captcha = CaptchaField(label=_('کد کپچا'))
     
     def clean_phone(self):
         data = self.cleaned_data.get('phone')
@@ -22,9 +22,9 @@ class PhoneForm(CustomizedForm):
 
 
 class LoginForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput())
-    code = forms.CharField(widget=forms.TextInput())
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    code = forms.CharField(widget=forms.TextInput(), label=_('کد پیامک شده'))
+    captcha = CaptchaField(label=_('کد کپچا'))
     
     def clean_phone(self):
         data = self.cleaned_data.get('phone')
@@ -43,7 +43,7 @@ class LoginForm(CustomizedForm):
 
 
 class EnterCodePhoneForm(CustomizedForm):
-    code = forms.CharField(widget=forms.TextInput())
+    code = forms.CharField(widget=forms.TextInput(), label=_('کد پیامک شده'))
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
@@ -96,9 +96,3 @@ class IPDForm(CustomizedModelForm):
         output = file_val(file=data, file_type='text-image', required=False)
         return output
 
-
-# class IPDForm(CustomizedModelForm):
-
-#     class Meta:
-#         model = IPDModel
-#         fields = ['username', 'first_name', 'last_name', 'phone', 'email', 'gender', 'age', 'description', 'document']

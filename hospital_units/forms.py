@@ -17,8 +17,8 @@ from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class PhoneForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput())
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    captcha = CaptchaField(label=_('کد کپچا'))
     
     def clean_phone(self):
         data = self.cleaned_data.get('phone')
@@ -27,7 +27,7 @@ class PhoneForm(CustomizedForm):
 
 
 class EnterCodePhoneForm(CustomizedForm):
-    code = forms.CharField(widget=forms.TextInput())
+    code = forms.CharField(widget=forms.TextInput(), label=_('کد پیامک شده'))
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
@@ -194,9 +194,9 @@ class CheckRulesForm(CustomizedForm):
 
 
 class FollowUpTurnForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput())
-    code = forms.CharField(widget=forms.TextInput())
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    code = forms.CharField(widget=forms.TextInput(), label=_('کد پیامک شده'))
+    captcha = CaptchaField(label=_('کد کپچا'))
     
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
@@ -220,9 +220,9 @@ class FollowUpTurnForm(CustomizedForm):
 
 
 class FollowUpResultForm(CustomizedForm):
-    phone = forms.CharField(widget=forms.TextInput())
-    code = forms.CharField(widget=forms.TextInput())
-    captcha = CaptchaField()
+    phone = forms.CharField(widget=forms.TextInput(), label=_('شماره تلفن'))
+    code = forms.CharField(widget=forms.TextInput(), label=_('کد پیامک شده'))
+    captcha = CaptchaField(label=_('کد کپچا'))
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
