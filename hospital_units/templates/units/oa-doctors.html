@@ -21,7 +21,7 @@
         <div style="flex: 1;">{{ doctor.user.firstname }} {{ doctor.user.lastname }}</div>
         <div style="flex: 1;">{{ doctor.skill_title.title }}</div>
         <div style="flex: 1;">{{ doctor.degree.title }}</div>
-        <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'website:oa-phone' unitSlug doctor.id %}">ادامه</a></div>
+        <div style="flex: 1;"><a class="btn btn-primary" href="{% url 'units:oa-phone' unitSlug doctor.id %}">ادامه</a></div>
     </div>
     {% endfor %}
 

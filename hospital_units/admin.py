@@ -10,7 +10,8 @@ from .models import (
     PatientTurnModel,
     ElectronicPrescriptionModel,
     OnlinePaymentModel,
-    LimitTurnTimeModel
+    LimitTurnTimeModel,
+    LoginCodePatientModel
 )
 
 
@@ -80,3 +81,4 @@ admin.site.register(PatientTurnModel, PatientTurnModel_Admin)
 admin.site.register(ElectronicPrescriptionModel, ElectronicPrescriptionModel_Admin)
 admin.site.register(OnlinePaymentModel, OnlinePaymentModel_Admin)
 admin.site.register(LimitTurnTimeModel, LimitTurnTimeModel_Admin)
+admin.site.register(LoginCodePatientModel)

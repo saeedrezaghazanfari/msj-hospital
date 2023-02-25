@@ -17,8 +17,8 @@
     {% endif %}
 
     <div>
-        {% if next and month %}<a href="{% url 'website:oa-calendar' unitSlug doctor.id uidb64 token next %}" class="btn btn-primary btn-sm">ماه بعد</a>{% endif %}
-        {% if prev and month %}<a href="{% url 'website:oa-calendar' unitSlug doctor.id uidb64 token prev %}" class="btn btn-primary btn-sm">ماه قبل</a>{% endif %}
+        {% if next and month %}<a href="{% url 'units:oa-calendar' unitSlug doctor.id uidb64 token next %}" class="btn btn-primary btn-sm">ماه بعد</a>{% endif %}
+        {% if prev and month %}<a href="{% url 'units:oa-calendar' unitSlug doctor.id uidb64 token prev %}" class="btn btn-primary btn-sm">ماه قبل</a>{% endif %}
     </div>
 
     {% if month %}
@@ -39,7 +39,7 @@
             <div style="flex: 1;" title="date">{{ time.date|to_jalali }}</div>
             <div style="flex: 1;" title="day">{{ time.day }}</div>
             <div style="flex: 1;" title="time_from">{{ time.time_from }} - {{ time.time_to }}</div>
-            {% if time.is_active and time.status == 'normal' and time.reserved < time.capacity %}<a class="btn btn-primary" href="{% url 'website:oa-info' unitSlug doctor.id time.id uidb64 token %}">ادامه دادن</a>{% endif %}
+            {% if time.is_active and time.status == 'normal' and time.reserved < time.capacity %}<a class="btn btn-primary" href="{% url 'units:oa-info' unitSlug doctor.id time.id uidb64 token %}">ادامه دادن</a>{% endif %}
         </div>
         {% endfor %}
     

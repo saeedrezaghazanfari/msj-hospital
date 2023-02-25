@@ -26,7 +26,7 @@ urlpatterns += i18n_patterns(
     path('', include('hospital_doctor.urls', namespace='doctor')),
     path('', include('hospital_panel.urls', namespace='panel')),
     path('', include('hospital_ipd.urls', namespace='ipd')),
-    # path('', include('hospital_units.urls', namespace='units')),
+    path('', include('hospital_units.urls', namespace='units')),
     # path('', include('hospital_setting.urls', namespace='setting')),
 
     # PACKAGES

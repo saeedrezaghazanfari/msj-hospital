@@ -173,6 +173,10 @@ elif [ $FLAG = 7 ]; then
 		echo
 		python3 manage.py migrate
 
+		echo
+		echo "at now, You must create superUser with this Command: "
+		echo ". venv/bin/activate; python3 manage.py createsuperuser"
+
 	else
 		echo "Exited!"
 	fi
@@ -189,6 +193,7 @@ elif [ $FLAG = 8 ]; then
 		. venv/bin/activate
 		python3 manage.py flush
 
+		echo
 		echo "at now, You must create superUser with this Command: "
 		echo ". venv/bin/activate; python3 manage.py createsuperuser"
 
