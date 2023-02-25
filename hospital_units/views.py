@@ -22,12 +22,12 @@ from hospital_auth.tokens import account_activation_phone_token
 
 
 # url: /electronic/appointment/
-def eoa_home_page(request):
+def home_page(request):
     return render(request, 'units/oa-home.html', {})
 
 
 # url: /electronic/appointment/categories/
-def eoa_categories_page(request):
+def categories_page(request):
 
     unit_list_index = []
     unit_list = ['doctors']
@@ -48,7 +48,7 @@ def eoa_categories_page(request):
 
 
 # url: /electronic/appointment/<unitSlug>/router/
-def eoa_router_page(request, unitSlug):
+def router_page(request, unitSlug):
     
     if unitSlug == 'doctors' or SubUnitModel.objects.filter(slug=unitSlug, have_2_box=False).exists():
         return redirect(f'/{get_language()}/electronic/appointment/{unitSlug}/')
@@ -61,7 +61,7 @@ def eoa_router_page(request, unitSlug):
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/phone/
-def eoa_phone_epresc_page(request, unitSlug):
+def phone_epresc_page(request, unitSlug):
 
     if unitSlug == 'doctors' or not SubUnitModel.objects.filter(slug=unitSlug).exists():
         return redirect(f'/{get_language()}/404')
@@ -99,7 +99,7 @@ def eoa_phone_epresc_page(request, unitSlug):
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/enter-sms-code/<uidb64>/<token>/
-def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
+def entercode_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -144,7 +144,7 @@ def eoa_entercode_pres_page(request, unitSlug, uidb64, token):
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/form/
-def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
+def electronic_pres_page(request, unitSlug, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -222,7 +222,7 @@ def eoa_electronic_pres_page(request, unitSlug, uidb64, token):
 
 
 # url: /electronic/appointment/e-prescription/<unitSlug>/<uidb64>/<token>/show-details/
-def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
+def showdetails_pres_page(request, unitSlug, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         code = LoginCodePatientModel.objects.get(id=uid, is_use=True, expire_mission__gt=timezone.now())
@@ -238,7 +238,7 @@ def eoa_showdetails_pres_page(request, unitSlug, uidb64, token):
 
 
 # url: /electronic/appointment/<unitSlug>/
-def eoa_unit_page(request, unitSlug):
+def unit_page(request, unitSlug):
     
     list_medicalcode = []
     list_doctors = []
@@ -331,7 +331,7 @@ def eoa_unit_page(request, unitSlug):
 
 
 # url: /electronic/appointment/<unitSlug>/<doctorID>/phone/
-def eoa_phone_page(request, unitSlug, doctorID):
+def phone_page(request, unitSlug, doctorID):
 
     if unitSlug != 'doctors' and not SubUnitModel.objects.filter(slug=unitSlug).exists():
         return redirect(f'/{get_language()}/404')
@@ -372,7 +372,7 @@ def eoa_phone_page(request, unitSlug, doctorID):
 
 
 # url: /electronic/appointment/<unitSlug>/enter-sms-code/<doctorID>/<uidb64>/<token>/
-def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
+def entercode_page(request, unitSlug, doctorID, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -419,7 +419,7 @@ def eoa_entercode_page(request, unitSlug, doctorID, uidb64, token):
 
 
 # url: /electronic/appointment/<unitSlug>/<doctorID>/<uidb64>/<token>/<monthNum>/calendar/
-def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
+def calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -540,7 +540,7 @@ def eoa_calendar_page(request, unitSlug, doctorID, uidb64, token, monthNum):
 
 
 # url: /electronic/appointment/<unitSlug>/<doctorID>/<appointmentID>/<uidb64>/<token>/info/
-def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
+def info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -647,7 +647,7 @@ def eoa_info_page(request, unitSlug, doctorID, appointmentID, uidb64, token):
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/show-details/
-def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
+def showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -675,7 +675,7 @@ def eoa_showdetails_page(request, unitSlug, patientTurnId, uidb64, token):
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/trust/
-def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
+def trust_page(request, unitSlug, patientTurnId, uidb64, token):
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -720,7 +720,7 @@ def eoa_trust_page(request, unitSlug, patientTurnId, uidb64, token):
 
 
 # url: /electronic/appointment/<unitSlug>/<patientTurnId>/<uidb64>/<token>/end/
-def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
+def end_page(request, unitSlug, patientTurnId, uidb64, token):
     
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -764,7 +764,7 @@ def eoa_end_page(request, unitSlug, patientTurnId, uidb64, token):
 
 
 # url: /electronic/appointment/turn/
-def eoa_followturn_page(request):
+def followturn_page(request):
 
     turn = None
     msg = None
@@ -792,7 +792,7 @@ def eoa_followturn_page(request):
 
 
 # url: /electronic/appointment/result/
-def eoa_followresult_page(request):
+def followresult_page(request):
 
     result = None
 

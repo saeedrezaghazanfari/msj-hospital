@@ -4,12 +4,12 @@ from django import forms
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
 from hospital_setting.models import PriceAppointmentModel
-from hospital_units.models import (
-    AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel, ExprimentResultModel
+from .models import (
+    AppointmentTimeModel, PatientTurnModel, ElectronicPrescriptionModel, 
+    ExprimentResultModel, LoginCodePatientModel,
 )
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
-from .models import LoginCodePatientModel
 from captcha.fields import CaptchaField
 from extentions.validations import name_val, national_code_val, phone_val
 from extentions.utils import is_phone, is_national_code
