@@ -18,17 +18,88 @@
         <input type="text" name="query" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
         <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
     </form>
+
+    <hr>
     
     <ul>
+
+        <li><a href="/admin">پنل ادمین</a></li>
         <li><a href="{% url 'panel:home' %}">پنل کاربری</a></li>
-        <li><a href="{% url 'units:oa-home' %}">خدمات اینترنتی</a></li>
-        <li><a href="{% url 'blog:blogs' %}">پست ها</a></li>
-        <li><a href="{% url 'news:news' %}">خبر ها</a></li>
-        <li><a href="{% url 'doctor:doctors' %}">پزشک ها</a></li>
-        <li><a href="{% url 'ipd:enter-phone' %}">IPD</a></li>
-        <li><a href="{% url 'contact:careers' %}">فرصت های شغلی</a></li>
-        <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
-        <li><a href="{% url 'contact:contactus' %}">ارتباط با ما</a></li>
+        <li><a href="{% url 'website:home' %}">خانه</a></li>
+
+        <li>درباره ما</li>
+        <ul>
+            <li><a href="{% url 'website:aboutus' %}">درباره ما</a></li>
+            <li><a href="">تاریخچه ی بیمارستان</a></li>
+            <li><a href="">دوره ها و کارگاه ها</a></li>
+            <li><a href="">افتخارات و گواهی نامه ها</a></li>
+            <li><a href="">گالری تصاویر</a></li>
+            <li><a href="">گالری ویدئو</a></li>
+            <li><a href="">سیاست های بیمارستان</a></li>
+            <li><a href="">هیات مدیره</a></li>
+            <li><a href="">مدیرعامل و گروه مدیریت</a></li>
+            <li><a href="">چارت بیمارستان</a></li>
+            <li><a href="">اهداف، سیاست ها</a></li>
+            <li><a href="">چشم انداز، رسالت و ارزش ها</a></li>
+            <li><a href="">چهره های سرشناس مراجعه کننده</a></li>
+            <li><a href="">منشور حقوق بيمار</a></li>
+            <li><a href="">کمیته های بیمارستانی</a></li>
+            <li><a href="">اعتبار بخشی</a></li>
+            <li><a href="">واحد بهبود کیفیت</a></li>
+            <li><a href="">گذشتگان بیمارستان</a></li>
+        </ul>
+
+        <li>راهنمای بیمار</li>
+        <ul>
+            <li><a href="{% url 'doctor:doctors' %}">فهرست و جستجوی پزشکان</a></li>
+            <li><a href="">برنامه کلینیک</a></li>
+            <li><a href="{% url 'units:oa-home' %}">راهنمای نوبت دهی آنلاین</a></li>
+            <li><a href="">تعرفه ها</a></li>
+            <li><a href="">بیمه های طرف قرارداد</a></li>
+            <li><a href="">تلفن ها</a></li>
+            <li><a href="">راهنمای مراجعین</a></li>
+        </ul>
+
+        <li>خدمات و امکانات</li>
+        <ul>
+            <li><a href="">خدمات پشتیبانی</a></li>
+            <li><a href="">پاراکلینیک ها</a></li>
+            <li><a href="">بخش های درمانی</a></li>
+        </ul>
+
+        <li>خدمات الکترونیکی</li>
+        <ul>
+            <li><a href="{% url 'units:oa-categories' %}">نوبت دهی آنلاین</a></li>
+            <li><a href="{% url 'units:oa-followupresult' %}">جوابدهی نتايج راديولوژي</a></li>
+            <li><a href="{% url 'units:oa-followupresult' %}">جوابدهی نتايج آزمايشات</a></li>
+        </ul>
+
+        <li>گردشگری سلامت</li>
+        <ul>
+            <li><a href="{% url 'ipd:enter-phone' %}">فرم آنلاین مشاوره ی پزشکی</a></li>
+            <li><a href="">خدمات ویژه بیماران بین الملل</a></li>
+            <li><a href="">اطلاعات تماس با بخش IPD</a></li>
+            <li><a href="">لیست پزشکان بیماران بین الملل</a></li>
+            <li><a href="">تعرفه خدمات درمانی</a></li>
+            <li><a href="">منشور حقوق بیماران بین الملل</a></li>
+        </ul>
+
+        <li><a href="{% url 'news:news' %}">اخبار</a></li>
+
+        <li><a href="{% url 'blog:blogs' %}">مجله‌ی سلامت</a></li>
+
+        <li><a href="">آموزش بیمار</a></li>
+
+        <li>تماس</li>
+        <ul>
+            <li><a href="">اطلاعات تماس</a></li>
+            <li><a href="{% url 'contact:contactus' %}">فرم تماس باما</a></li>
+            <li><a href="{% url 'contact:careers' %}">همکاری با ما</a></li>
+            <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
+            <li><a href="">نظرات ذینفعان</a></li>
+            <li><a href="">دیدگاه بیماران</a></li>
+        </ul>
+
     </ul>
 
     <div class="container">

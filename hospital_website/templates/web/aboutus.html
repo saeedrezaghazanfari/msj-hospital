@@ -1,0 +1,18 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks web_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+    {% doctor_notes as notes %}
+
+    {% for note in notes %}
+    <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
+    {% endfor %}
+    
+
+{% endblock %}
+

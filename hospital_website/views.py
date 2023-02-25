@@ -47,3 +47,9 @@ def newsletter_page(request):
         return redirect(f'/{get_language()}/404')
     return redirect(f'/{get_language()}/404')
 
+
+# url: /about-us/
+def aboutus_page(request):
+    return render(request, 'web/aboutus.html')
+
+
