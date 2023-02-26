@@ -7,6 +7,12 @@
 
 {% block content %}
 
+    {% for element in videos %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ element.title }}</div>
+        <div style="flex: 1;">{% for item in element.items %}{{ item.file_link }}{% endfor %}</div>
+    </div>
+    {% endfor %}
     
 
 {% endblock %}

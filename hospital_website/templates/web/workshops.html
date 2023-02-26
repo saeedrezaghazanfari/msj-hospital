@@ -7,6 +7,40 @@
 
 {% block content %}
 
+    <h3>کارگاه‌های در‌حال برگزاری</h3>
+
+    {% for workshop in active_workshops %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ workshop.title }}</div>
+        <div style="flex: 1;">{{ workshop.length }}</div>
+        <div style="flex: 1;">{{ workshop.category }}</div>
+        <div style="flex: 1;">{{ workshop.capacity }}</div>
+        <div style="flex: 1;">{{ workshop.nums }}</div>
+        <div style="flex: 1;">{{ workshop.times }}</div>
+        <div style="flex: 1;">{{ workshop.proffessors }}</div>
+        <div style="flex: 1;">{{ workshop.have_degree }}</div>
+        <div style="flex: 1;">{{ workshop.image }}</div>
+        <div style="flex: 1;">{{ workshop.j_start_date }}</div>
+        <div style="flex: 1;"><button>more by modal</button></div>
+    </div>
+    {% endfor %}
+
+    <h3>کارگاه‌های برگزار‌شده</h3>
+    {% for workshop in prevs_workshops %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ workshop.title }}</div>
+        <div style="flex: 1;">{{ workshop.length }}</div>
+        <div style="flex: 1;">{{ workshop.category }}</div>
+        <div style="flex: 1;">{{ workshop.capacity }}</div>
+        <div style="flex: 1;">{{ workshop.nums }}</div>
+        <div style="flex: 1;">{{ workshop.times }}</div>
+        <div style="flex: 1;">{{ workshop.proffessors }}</div>
+        <div style="flex: 1;">{{ workshop.have_degree }}</div>
+        <div style="flex: 1;">{{ workshop.image }}</div>
+        <div style="flex: 1;">{{ workshop.j_start_date }}</div>
+        <div style="flex: 1;"><button>more by modal</button></div>
+    </div>
+    {% endfor %}
 
 
 {% endblock %}

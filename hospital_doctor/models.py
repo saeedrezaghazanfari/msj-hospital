@@ -6,7 +6,7 @@ from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from ckeditor.fields import RichTextField
-from extentions.utils import famous_profile_image_path, DAYS, TIMES
+from extentions.utils import DAYS, TIMES
 
 
 class DoctorModel(models.Model):
@@ -94,17 +94,3 @@ class DoctorVacationModel(models.Model):
     def __str__(self):  
         return self.doctor.get_full_name()
 
-
-class FamousPatientModel(models.Model):
-    first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
-    profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
-    desc = TranslatedField(RichTextField(verbose_name=_('متن')))
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = _('چهره سرشناس مراجعه کننده')
-        verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
-    
-    def __str__(self):  
-        return f'{self.first_name} {self.last_name}'

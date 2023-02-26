@@ -7,6 +7,13 @@
 
 {% block content %}
 
+{% for face in faces %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ face.first_name }} {{ face.last_name }}</div>
+    <div style="flex: 1;">{{ face.profile.url }}</div>
+    <div style="flex: 1;">{{ face.desc }}</div>
+</div>
+{% endfor %}
 
 
 {% endblock %}

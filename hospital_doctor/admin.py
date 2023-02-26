@@ -5,7 +5,6 @@ from .models import (
     DoctorWorkTimeModel,
     DoctorVacationModel,
     DegreeModel,
-    FamousPatientModel
 )
 
 
@@ -36,16 +35,10 @@ class DoctorVacationModel_Admin(admin.ModelAdmin):
     list_display = ['doctor', 'from_time', 'to_time']
     search_fields = ['doctor']
     ordering = ['-id']
-
-
-class FamousPatientModel_Admin(admin.ModelAdmin):
-    list_display = ['__str__']
-    ordering = ['-id']
-
+    
 
 admin.site.register(DoctorModel, DoctorModel_Admin)
 admin.site.register(TitleSkillModel, TitleSkillModel_Admin)
 admin.site.register(DoctorWorkTimeModel, DoctorWorkTimeModel_Admin)
 admin.site.register(DoctorVacationModel, DoctorVacationModel_Admin)
 admin.site.register(DegreeModel, DegreeModel_Admin)
-admin.site.register(FamousPatientModel, FamousPatientModel_Admin)

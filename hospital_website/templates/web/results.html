@@ -7,6 +7,11 @@
 
 {% block content %}
 
-
+    {% for result in results %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ result.title }}</div>
+        <div style="flex: 1;">{{ result.desc }}</div>
+    </div>
+    {% endfor %}
 
 {% endblock %}

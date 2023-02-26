@@ -7,6 +7,12 @@
 
 {% block content %}
 
-
+{% for cost in costs %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ cost.title }}</div>
+    <div style="flex: 1;">{{ cost.image.url }}</div>
+    <div style="flex: 1;">{{ cost.year }}</div>
+</div>
+{% endfor %}
 
 {% endblock %}

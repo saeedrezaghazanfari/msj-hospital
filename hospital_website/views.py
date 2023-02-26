@@ -4,9 +4,12 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from hospital_setting.models import (
-    NewsLetterEmailsModel, FAQModel, SettingModel
+    NewsLetterEmailsModel, FAQModel, SettingModel, HomeGalleryModel, CertificateModel, 
+    HospitalImageGalleryModel, HospitalVideoGalleryModel, HospitalPoliticModel, ResultModel, CostModel, AncientsModel
 )
-from hospital_contact.models import WorkshopModel
+from hospital_units.models import UnitModel
+from hospital_blog.models import CreditEduModel
+from hospital_contact.models import FamousPatientModel, WorkshopModel
 from extentions.utils import is_email, write_action
 
 
@@ -14,6 +17,7 @@ from extentions.utils import is_email, write_action
 def home_page(request):
     return render(request, 'web/home.html', {
         'faqs': FAQModel.objects.all(),
+        'galleries': HomeGalleryModel.objects.all(),
     })
 
 
@@ -79,72 +83,114 @@ def workshops_page(request):
 
 # url: /certificates/
 def certificates_page(request):
-    return render(request, 'web/certificates.html', {})
+
+    return render(request, 'web/certificates.html', {
+        'certificates': CertificateModel.objects.all(),
+    })
 
 
 # url: /gallery/images/
 def gallery_imgs_page(request):
-    return render(request, 'web/gallery-imgs.html', {})
+
+    return render(request, 'web/gallery-imgs.html', {
+        'images': HospitalImageGalleryModel.objects.all(),
+    })
+
+
+# >>>>  2 model before  <<<<
+# HospitalGalleryModel
+# HospitalGalleryItemModel
 
 
 # url: /gallery/videos/
 def gallery_vids_page(request):
-    return render(request, 'web/gallery-vids.html', {})
+
+    return render(request, 'web/gallery-vids.html', {
+        'videos': HospitalVideoGalleryModel.objects.all(),
+    })
 
 
-# url: /policies
+# url: /policies/
 def policies_page(request):
-    return render(request, 'web/policies.html', {})
+
+    return render(request, 'web/policies.html', {
+        'policies': HospitalPoliticModel.objects.all()
+    })
 
 
-# url: /management
+# url: /management/
 def management_page(request):
-    return render(request, 'web/management.html', {})
+    #TODO
+    return render(request, 'web/management.html')
 
 
-# url: /chart
+# url: /chart/
 def chart_page(request):
-    return render(request, 'web/chart.html', {})
+    #TODO
+    return render(request, 'web/chart.html')
 
 
-# url: /targets
-def targets_page(request):
-    return render(request, 'web/targets.html', {})
+# url: /results/
+def results_page(request):
+
+    return render(request, 'web/results.html', {
+        'results': ResultModel.objects.all()
+    })
 
 
-# url: /perspective
+# url: /perspective/
 def perspective_page(request):
-    return render(request, 'web/perspective.html', {})
+
+    return render(request, 'web/perspective.html', {
+        'costs': CostModel.objects.all()
+    })
 
 
-# url: /visiting-famous-faces
+# url: /visiting-famous-faces/
 def visiting_famous_page(request):
-    return render(request, 'web/visiting-famous-faces.html', {})
+
+    return render(request, 'web/visiting-famous-faces.html', {
+        'faces': FamousPatientModel.objects.all()
+    })
 
 
-# url: /patient-chart
+# url: /patient-chart/
 def patient_chart_page(request):
-    return render(request, 'web/patient-chart.html', {})
+    #TODO
+    return render(request, 'web/patient-chart.html')
 
 
-# url: /committees
+# url: /committees/
 def committees_page(request):
-    return render(request, 'web/committees.html', {})
+
+    committees = UnitModel.objects.filter(
+        subunit__title_fa='کمیته', 
+        subunit__category='official'
+    ).all()
+
+    return render(request, 'web/committees.html', {
+        'committees': committees
+    })
 
 
-# url: /credit
+# url: /credit/
 def credit_page(request):
-    return render(request, 'web/credit.html', {})
+    
+    return render(request, 'web/credit.html', {
+        'credits': CreditEduModel.objects.all()
+    })
 
 
-# url: /quality-improvement
+# url: /quality-improvement/
 def quality_improvement_page(request):
+    # TODO
     return render(request, 'web/quality-improvement.html', {})
 
 
-# url: /deceaseds
+# url: /deceaseds/
 def deceaseds_page(request):
-    return render(request, 'web/deceaseds.html', {})
 
-
+    return render(request, 'web/deceaseds.html', {
+        'ancients': AncientsModel.objects.all()
+    })
 

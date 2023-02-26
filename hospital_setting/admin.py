@@ -8,8 +8,10 @@ from .models import (
     FAQModel,
     NewsLetterEmailsModel,
     InsuranceModel,
-    HospitalGalleryModel,
-    HospitalGalleryItemModel,
+    HospitalImageGalleryModel,
+    HospitalImageGalleryItemModel,
+    HospitalVideoGalleryModel,
+    HospitalVideoGalleryItemModel,
     ReportModel,
     PriceAppointmentModel,
     ResultModel,
@@ -63,15 +65,9 @@ class InsuranceModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class HospitalGalleryModel_Admin(admin.ModelAdmin):
+class HospitalGalleries_Admin(admin.ModelAdmin):
     list_display = ['title']
     search_field = ['title']
-    ordering = ['-id']
-
-
-class HospitalGalleryItemModel_Admin(admin.ModelAdmin):
-    list_display = ['title', 'file_type']
-    search_field = ['title', 'file_type']
     ordering = ['-id']
 
 
@@ -141,8 +137,10 @@ admin.site.register(HospitalFacilityModel, HospitalFacilityModel_Admin)
 admin.site.register(FAQModel, FAQModel_Admin)
 admin.site.register(NewsLetterEmailsModel, NewsLetterEmailsModel_Admin)
 admin.site.register(InsuranceModel, InsuranceModel_Admin)
-admin.site.register(HospitalGalleryModel, HospitalGalleryModel_Admin)
-admin.site.register(HospitalGalleryItemModel, HospitalGalleryItemModel_Admin)
+admin.site.register(HospitalImageGalleryModel, HospitalGalleries_Admin)
+admin.site.register(HospitalImageGalleryItemModel, HospitalGalleries_Admin)
+admin.site.register(HospitalVideoGalleryModel, HospitalGalleries_Admin)
+admin.site.register(HospitalVideoGalleryItemModel, HospitalGalleries_Admin)
 admin.site.register(ReportModel, ReportModel_Admin)
 admin.site.register(PriceAppointmentModel, PriceAppointmentModel_Admin)
 admin.site.register(ResultModel, ResultModel_Admin)

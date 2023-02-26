@@ -7,6 +7,20 @@
 
 {% block content %}
 
-
+{% for committee in committees %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ committee.subunit }}</div>
+    <div style="flex: 1;">{{ committee.title }}</div>
+    <div style="flex: 1;">{{ committee.desc }}</div>
+    <div style="flex: 1;">{{ committee.image }}</div>
+    <div style="flex: 1;">{{ committee.phone }}</div>
+    <div style="flex: 1;">{{ committee.inside }}</div>
+    <div style="flex: 1;">{{ committee.address }}</div>
+    <div style="flex: 1;">{{ committee.work_times }}</div>
+    <div style="flex: 1;">{{ committee.manager }}</div>
+    <div style="flex: 1;">{{ committee.manager_phone }}</div>
+    <div style="flex: 1;">{{ committee.email }}</div>
+</div>
+{% endfor %}
 
 {% endblock %}

@@ -14,6 +14,7 @@ from extentions.utils import (
     career_image_path,
     career_code,
     criticic_suggestion_code,
+    famous_profile_image_path
 )
 
 
@@ -234,3 +235,21 @@ class WorkshopModel(models.Model):
     def __str__(self):
         return self.title
 
+    def j_start_date(self):
+        return jalali_convertor(time=self.start_date, output='j_date')
+    j_start_date.short_description = _('تاریخ شروع دوره')
+
+
+class FamousPatientModel(models.Model):
+    first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
+    desc = TranslatedField(RichTextField(verbose_name=_('متن')))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('چهره سرشناس مراجعه کننده')
+        verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
+    
+    def __str__(self):  
+        return f'{self.first_name} {self.last_name}'

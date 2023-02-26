@@ -7,6 +7,15 @@
 
 {% block content %}
 
-
+{% for ancient in ancients %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ ancient.title }}</div>
+    <div style="flex: 1;">{{ ancient.image }}</div>
+    <div style="flex: 1;">{{ ancient.full_name }}</div>
+    <div style="flex: 1;">{{ ancient.description }}</div>
+    <div style="flex: 1;">{% for item in ancient.gallery.all }}{{ item.image }}{{ item.video_link }}{% endfor %}</div>
+    <div style="flex: 1;">{{ ancient.video_link }}</div>
+</div>
+{% endfor %}
 
 {% endblock %}

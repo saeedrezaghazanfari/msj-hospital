@@ -54,8 +54,8 @@ class IPDModel(models.Model):
 
 
 class IPDCodeModel(models.Model):
-    phone = models.CharField(max_length=30, null=True, verbose_name=_('شماره تلفن'))
-    code = models.IntegerField(default=get_random_code, verbose_name=_('کد'))
+    phone = models.CharField(max_length=30, verbose_name=_('شماره تلفن'))
+    code = models.IntegerField(default=get_random_code, unique=True, verbose_name=_('کد'))
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('تاریخ تولید کد'))
     expire_date = models.DateTimeField(blank=True, null=True, verbose_name=_('تاریخ انقضای کد'))
     is_use = models.BooleanField(default=False, verbose_name=_('استفاده شده؟'))

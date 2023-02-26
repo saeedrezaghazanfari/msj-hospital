@@ -10,6 +10,7 @@ from .models import (
     CareersModel,
     HireFormModel,
     WorkshopModel,
+    FamousPatientModel
 )
 
 
@@ -71,6 +72,11 @@ class WorkshopModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
+class FamousPatientModel_Admin(admin.ModelAdmin):
+    list_display = ['__str__']
+    ordering = ['-id']
+
+
 admin.site.register(NotificationModel, NotificationModel_Admin)
 admin.site.register(PatientSightModel, PatientSightModel_Admin)
 admin.site.register(BeneficiaryCommentModel, BeneficiaryCommentModel_Admin)
@@ -81,3 +87,4 @@ admin.site.register(BenefactorModel, BenefactorModel_Admin)
 admin.site.register(CareersModel, CareersModel_Admin)
 admin.site.register(HireFormModel, HireFormModel_Admin)
 admin.site.register(WorkshopModel, WorkshopModel_Admin)
+admin.site.register(FamousPatientModel, FamousPatientModel_Admin)

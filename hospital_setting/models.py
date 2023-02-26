@@ -13,7 +13,8 @@ from extentions.utils import (
     certificate_image_path,
     insurance_image_path,
     report_image_path,
-    ancient_image_path
+    ancient_image_path,
+    ancient_gallery_image_path
 )
 
 
@@ -127,30 +128,53 @@ class InsuranceModel(models.Model):
         return self.title
 
 
-class HospitalGalleryModel(models.Model):
+class HospitalImageGalleryModel(models.Model):
     title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
-    items = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
+    items = models.ManyToManyField('HospitalImageGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('گالری بیمارستان')
-        verbose_name_plural = _('گالری های بیمارستان')
+        verbose_name = _('گالری تصویر بیمارستان')
+        verbose_name_plural = _('گالری تصاویر بیمارستان')
 
     def __str__(self):
         return self.title
 
 
-class HospitalGalleryItemModel(models.Model):
-    FILE_TYPES = (('video', _('ویدیو')), ('image', _('تصویر')))
+class HospitalImageGalleryItemModel(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('عنوان'))
-    file_type = models.CharField(max_length=20, choices=FILE_TYPES, verbose_name=_('نوع فایل'))
-    file = models.ImageField(upload_to=gallery_image_path, blank=True, null=True, verbose_name=_('فایل'), help_text=_('اگر فایل شما تصویر میباشد تصویر مورد نظر را وارد کنید.'))
-    file_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک فایل'), help_text=_('اگر فایل شما ویدیو میباشد لینک فیلم را وارد کنید.'))
+    image = models.ImageField(upload_to=gallery_image_path, blank=True, null=True, verbose_name=_('تصویر'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('آیتم گالری')
-        verbose_name_plural = _('آیتم های گالری')
+        verbose_name = _('آیتم گالری تصویر')
+        verbose_name_plural = _('آیتم های گالری تصاویر')
+
+    def __str__(self):
+        return self.title
+    
+
+class HospitalVideoGalleryModel(models.Model):
+    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    items = models.ManyToManyField('HospitalVideoGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('گالری ویدیو بیمارستان')
+        verbose_name_plural = _('گالری ویدیوهای بیمارستان')
+
+    def __str__(self):
+        return self.title
+
+
+class HospitalVideoGalleryItemModel(models.Model):
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    file_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک فایل'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('آیتم گالری ویدیو')
+        verbose_name_plural = _('آیتم های گالری ویدیوها')
 
     def __str__(self):
         return self.title
@@ -299,7 +323,7 @@ class AncientsModel(models.Model):
     image = models.ImageField(upload_to=ancient_image_path, verbose_name=_('تصویر'))
     full_name = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام پزشک مرحوم')))
     description = TranslatedField(RichTextField(verbose_name=_('متن')))
-    gallery = models.ManyToManyField('HospitalGalleryItemModel', verbose_name=_('گالری'))
+    gallery = models.ManyToManyField('GalleryAncientsModel', verbose_name=_('گالری'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
 
     class Meta:
@@ -311,3 +335,15 @@ class AncientsModel(models.Model):
         return self.full_name
 
 
+class GalleryAncientsModel(models.Model):
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    image = models.ImageField(upload_to=ancient_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'), help_text=_('اگر فایل شما تصویر میباشد تصویر مورد نظر را وارد کنید.'))
+    video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'), help_text=_('اگر فایل شما ویدیو میباشد لینک فیلم را وارد کنید.'))
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('گالری گذشتگان')
+        verbose_name_plural = _('گالری گذشتگان')
+
+    def __str__(self):
+        return self.title

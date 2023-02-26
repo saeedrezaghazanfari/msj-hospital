@@ -7,7 +7,17 @@
 
 {% block content %}
 
-    
+    {% for certificate in certificates %}
+    <div class="alert alert-light text-primary d-flex">
+        <div style="flex: 1;">{{ certificate.title }}</div>
+        <div style="flex: 1;">{{ certificate.description }}</div>
+        <div style="flex: 1;">{{ certificate.image.url }}</div>
+        <div style="flex: 1;">{{ certificate.year_certif }}</div>
+        <div style="flex: 1;">{{ certificate.year_expire }}</div>
+        <div style="flex: 1;"><button>more by modal</button></div>
+    </div>
+    {% endfor %}
+
 
 {% endblock %}
 

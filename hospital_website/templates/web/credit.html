@@ -7,6 +7,12 @@
 
 {% block content %}
 
-
+{% for credit in credits %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ credit.slug }}</div>
+    <div style="flex: 1;">{{ credit.title }}</div>
+    <div style="flex: 1;">{{ credit.image.url }}</div>
+</div>
+{% endfor %}
 
 {% endblock %}

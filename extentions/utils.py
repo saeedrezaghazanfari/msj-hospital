@@ -352,6 +352,12 @@ def ancient_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"ancient/{final_name}"
 
+# ######### for ancient gallery ######### #
+def ancient_gallery_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"ancient-gallery/{final_name}"
+
 
 # =============== end static path
 
