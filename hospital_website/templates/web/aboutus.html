@@ -7,12 +7,83 @@
 
 {% block content %}
 
-    {% doctor_notes as notes %}
 
-    {% for note in notes %}
-    <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
-    {% endfor %}
-    
+    <div class="alert alert-light text-primary">
+        <p>مقیاس ایکس:</p>
+        {{ setting.x_scale }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>مقیاس ایگرگ:</p>
+        {{ setting.y_scale }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>متن شما روی نقشه':</p>
+        {{ setting.marker_text }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>آدرس':</p>
+        {{ setting.address }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>ایمیل:</p>
+        {{ setting.email }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>تلفن:</p>
+        {{ setting.phone }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>فکس:</p>
+        {{ setting.facs }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>زمان گشایش':</p>
+        {{ setting.from_to }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>آپارات:</p>
+        {{ setting.aparat }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>لینکدین:</p>
+        {{ setting.linkedin }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>فیسبوک:</p>
+        {{ setting.facebook }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>توییتر:</p>
+        {{ setting.twitter }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>اینستاگرام:</p>
+        {{ setting.instagram }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>واتساپ:</p>
+        {{ setting.whatsapp }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>نام بانک':</p>
+        {{ setting.bank_name }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>نام صاحب حساب':</p>
+        {{ setting.bank_account_owner }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>شماره کارت:</p>
+        {{ setting.bank_account_cardnum }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>شماره حساب:</p>
+        {{ setting.bank_account_num }}
+    </div>
+    <div class="alert alert-light text-primary">
+        <p>شماره شبا:</p>
+        {{ setting.bank_account_shabanum }}
+    </div>
 
 {% endblock %}
 
