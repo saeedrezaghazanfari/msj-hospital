@@ -24,21 +24,23 @@ class SettingModel(models.Model):
     marker_text = TranslatedField(models.CharField(max_length=50, blank=True, null=True, verbose_name=_('متن شما روی نقشه')))
     address = TranslatedField(models.CharField(max_length=255, verbose_name=_('آدرس')))
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
-    phone = models.CharField(max_length=255, verbose_name=_('تلفن'))
+    phone = TranslatedField(RichTextField(verbose_name=_('شماره تلفن/ها')))
     facs = models.CharField(max_length=255, verbose_name=_('فکس'))
     from_to = TranslatedField(models.CharField(max_length=200, verbose_name=_('زمان گشایش')))
     history = TranslatedField(RichTextField(verbose_name=_('تاریخچه')))
-    aparat = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('آپارات'))
-    linkedin = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('لینکدین'))
-    facebook = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('فیسبوک'))
-    twitter = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('توییتر'))
-    instagram = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('اینستاگرام'))
-    whatsapp = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('واتساپ'))
-    bank_name = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام بانک')))
-    bank_account_owner = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('نام صاحب حساب')))
-    bank_account_cardnum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره کارت'))
-    bank_account_num = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره حساب'))
-    bank_account_shabanum = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره شبا'))
+    aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آپارات'))
+    linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
+    facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('فیسبوک'))
+    twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('توییتر'))
+    instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('اینستاگرام'))
+    whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('واتساپ'))
+    bank_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام بانک')))
+    bank_account_owner = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام صاحب حساب')))
+    bank_account_cardnum = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره کارت'))
+    bank_account_num = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره حساب'))
+    bank_account_shabanum = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره شبا'))
+    ipd_services = TranslatedField(RichTextField(verbose_name=_('خدمات بخش بیماران بین الملل'), blank=True, null=True))
+    quality_improvement = TranslatedField(RichTextField(verbose_name=_('بهبود کیفیت'), blank=True, null=True))
     have_signup_page = models.BooleanField(default=False, verbose_name=_('صفحه ثبتنام کاربران نمایش داده شود؟'))
 
     class Meta:
@@ -51,7 +53,7 @@ class SettingModel(models.Model):
 
 
 class CostModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=costs_image_path, verbose_name=_('تصویر'))
     year = models.PositiveIntegerField(verbose_name=_('سال'))
 
@@ -65,7 +67,7 @@ class CostModel(models.Model):
 
 
 class HospitalPoliticModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
 
     class Meta:
         ordering = ['-id']
@@ -77,7 +79,7 @@ class HospitalPoliticModel(models.Model):
 
 
 class HospitalFacilityModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=facility_image_path, verbose_name=_('تصویر'))
 
     class Meta:
@@ -116,7 +118,7 @@ class NewsLetterEmailsModel(models.Model):
 
 class InsuranceModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-    title = models.CharField(max_length=100, verbose_name=_('نام بیمه'))
+    title = models.CharField(max_length=255, verbose_name=_('نام بیمه'))
     img = models.ImageField(upload_to=insurance_image_path, verbose_name=_('تصویر'))
 
     class Meta:
@@ -129,7 +131,7 @@ class InsuranceModel(models.Model):
 
 
 class HospitalImageGalleryModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     items = models.ManyToManyField('HospitalImageGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
 
     class Meta:
@@ -142,7 +144,7 @@ class HospitalImageGalleryModel(models.Model):
 
 
 class HospitalImageGalleryItemModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=gallery_image_path, blank=True, null=True, verbose_name=_('تصویر'))
 
     class Meta:
@@ -155,7 +157,7 @@ class HospitalImageGalleryItemModel(models.Model):
     
 
 class HospitalVideoGalleryModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     items = models.ManyToManyField('HospitalVideoGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
 
     class Meta:
@@ -168,7 +170,7 @@ class HospitalVideoGalleryModel(models.Model):
 
 
 class HospitalVideoGalleryItemModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
     file_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک فایل'))
 
     class Meta:
@@ -181,7 +183,7 @@ class HospitalVideoGalleryItemModel(models.Model):
 
 
 class ReportModel(models.Model):
-    time_bound = models.CharField(max_length=100, verbose_name=_('مدت عملکرد'))
+    time_bound = models.CharField(max_length=255, verbose_name=_('مدت عملکرد'))
     description = TranslatedField(RichTextField(verbose_name=_('توضیحات')))
     image = models.ImageField(upload_to=report_image_path, blank=True, null=True, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینک ویدیو'))
@@ -213,7 +215,7 @@ class PriceAppointmentModel(models.Model):
 
 
 class ResultModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=100, verbose_name=_('عنوان')))
+    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
     desc = TranslatedField(RichTextField(verbose_name=_('متن')))
 
     class Meta:
@@ -257,7 +259,7 @@ class CertificateModel(models.Model):
 
 class ContactInfoModel(models.Model):
     title = TranslatedField(models.CharField(max_length=500, verbose_name=_('عنوان')))
-    phones = models.CharField(max_length=100, verbose_name=_('تلفن ها'))
+    phones = models.CharField(max_length=255, verbose_name=_('تلفن ها'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
 
     class Meta:
@@ -336,7 +338,7 @@ class AncientsModel(models.Model):
 
 
 class GalleryAncientsModel(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=ancient_gallery_image_path, null=True, blank=True, verbose_name=_('تصویر'), help_text=_('اگر فایل شما تصویر میباشد تصویر مورد نظر را وارد کنید.'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'), help_text=_('اگر فایل شما ویدیو میباشد لینک فیلم را وارد کنید.'))
 

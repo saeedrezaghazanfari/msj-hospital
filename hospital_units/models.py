@@ -17,6 +17,7 @@ from extentions.utils import (
     code_patient_turn,
     DAYS, TIMES,
     unit_member_image_path,
+    managers_image_path,
     get_links_code,
     get_random_code,
 )
@@ -86,6 +87,37 @@ class SubUnitModel(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class ManagemersModel(models.Model):
+    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره تلفن'))
+    email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
+    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    job = TranslatedField(models.CharField(max_length=255, verbose_name=_('سمت')))
+    profile = models.ImageField(upload_to=managers_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
+    linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
+    facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('فیسبوک'))
+    twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('توییتر'))
+    instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('اینستاگرام'))
+    whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('واتساپ'))
+    #TODO label of this manager ..
+# هیات مدیره
+# مدیرعامل و گروه مدیریت
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('مدیریت بیمارستان')
+        verbose_name_plural = _('مدیریت بیمارستان')
+
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+    get_full_name.short_description = _('نام و نام خانوادگی')
+
+    def __str__(self):
+        return self.get_full_name()
 
 
 class UnitMemberModel(models.Model):

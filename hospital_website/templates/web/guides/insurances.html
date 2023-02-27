@@ -1,0 +1,17 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks web_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+{% for insurance in insurances %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ insurance.title }}</div>
+    <div style="flex: 1;">{{ insurance.img.url }}</div>
+</div>
+{% endfor %}
+
+{% endblock %}

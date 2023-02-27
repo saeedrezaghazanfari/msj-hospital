@@ -1,0 +1,23 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks web_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+<div style="flex: 1;">{{ unit.subunit }}</div>
+<div style="flex: 1;">{{ unit.title }}</div>
+<div style="flex: 1;">{{ unit.desc }}</div>
+<div style="flex: 1;">{{ unit.image.url }}</div>
+<div style="flex: 1;">{{ unit.phone }}</div>
+<div style="flex: 1;">{{ unit.inside }}</div>
+<div style="flex: 1;">{{ unit.address }}</div>
+<div style="flex: 1;">{{ unit.work_times }}</div>
+<div style="flex: 1;">{{ unit.manager }}</div>
+<div style="flex: 1;">{{ unit.manager_phone }}</div>
+<div style="flex: 1;">{{ unit.email }}</div>
+
+
+{% endblock %}

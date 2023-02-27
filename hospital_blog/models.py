@@ -98,7 +98,7 @@ class PampheletModel(models.Model):
 
 
 class CreditEduModel(models.Model):
-    slug = models.SlugField(unique=True, default=get_credit_edu_code, verbose_name=_('مقدار در url'))
+    slug = models.SlugField(unique=True, default=get_credit_edu_code, verbose_name=_('مقدار در url')) #TODO is this not extra?
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     image = models.ImageField(upload_to=credit_edu_image_path, verbose_name=_('تصویر'))
 

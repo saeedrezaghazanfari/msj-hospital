@@ -4,6 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.contrib import messages
 from extentions.utils import write_action
+from hospital_units.models import UnitModel
+from hospital_setting.models import SettingModel
+from hospital_doctor.models import DoctorModel
 from .models import IPDModel, IPDCodeModel 
 from . import forms
 # imports for activatings
@@ -176,3 +179,43 @@ def info_page(request, ipdId):
     return render(request, 'ipd/info.html', {
         'ipd': ipd_obj,
     })
+
+
+# url: /ipd/services/
+def services_page(request):
+    return render(request, 'ipd/services.html', {
+        'service': SettingModel.objects.first().ipd_services,
+    })
+
+
+# url: /ipd/contact/
+def contact_page(request):
+
+    ipd = None
+    if UnitModel.objects.filter(subunit__title_en='ipd', subunit__category='medical').exists():
+        ipd = UnitModel.objects.filter(subunit__title_en='ipd', subunit__category='medical').first() 
+
+    return render(request, 'ipd/contact.html', {
+        'ipd': ipd
+    })
+
+
+# url: /ipd/doctors/
+def doctors_page(request):
+
+    return render(request, 'ipd/doctors.html', {
+        'doctors': DoctorModel.objects.filter(is_intenational=True, is_active=True).all()
+    })
+
+
+# url: /ipd/prices/
+def prices_page(request):
+    #TODO STATIC
+    return render(request, 'ipd/prices.html', {})
+
+
+# url: /ipd/chart/
+def chart_page(request):
+    #TODO STATIC
+    return render(request, 'ipd/chart.html', {})
+

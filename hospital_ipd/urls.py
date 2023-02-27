@@ -10,4 +10,10 @@ urlpatterns = [
 
     path('ipd/login/', views.login_page, name='login'),
     path('ipd/info/<ipdId>/', views.info_page, name='info'),
+
+    path('ipd/services/', views.services_page, name='services'),
+    path('ipd/contact/', views.contact_page, name='contact'),
+    path('ipd/doctors/', views.doctors_page, name='doctors'),
+    path('ipd/prices/', views.prices_page, name='prices'),
+    path('ipd/chart/', views.chart_page, name='chart'),
 ]

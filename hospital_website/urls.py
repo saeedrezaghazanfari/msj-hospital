@@ -30,5 +30,17 @@ urlpatterns = [
     path('deceaseds/', views.deceaseds_page, name='deceaseds'),
 
     # patient guidence tab
+    path('clinic/program/', views.clinic_program_page, name='clinic-program'),
+    path('prices/', views.prices_page, name='prices'),
+    path('prices/bed/', views.prices_bed_page, name='prices-bed'),
+    path('prices/services/', views.prices_services_page, name='prices-services'),
+    path('prices/surgray/', views.prices_surgray_page, name='prices-surgray'),
+    path('insurances/', views.insurances_page, name='insurances'),
+    path('phones/', views.phones_page, name='phones'),
+    path('visitors-guide/', views.visitors_guide_page, name='visitors-guide'),
+
+    # services tab
+    path('clinic/list/', views.clinic_list_page, name='clinic-list'),
+    path('unit/<unitId>/', views.unit_page, name='unit-info'),
 
 ]

@@ -1,0 +1,18 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks web_tags %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+{% for clinic in clinics %}
+<div class="alert alert-light text-primary d-flex">
+    <div style="flex: 1;">{{ clinic.title }}</div>
+    <div style="flex: 1;">{{ clinic.image.url }}</div>
+    <div style="flex: 1;"><a href="{% url 'website:unit-info' clinic.id %}">بیشتر</a></div>
+</div>
+{% endfor %}
+
+{% endblock %}

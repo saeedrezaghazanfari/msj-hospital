@@ -334,6 +334,12 @@ def unit_member_image_path(instance, filename):
     final_name = f"{output}{ext}"
     return f"unit-member/{final_name}"
 
+# ######### for managers of hospital ######### #
+def managers_image_path(instance, filename):
+    ext, output = get_filename_ext_rand(filename)
+    final_name = f"{output}{ext}"
+    return f"hospital-managers/{final_name}"
+
 # ######### for credit_edu ######### #
 def credit_edu_image_path(instance, filename):
     ext, output = get_filename_ext_rand(filename)

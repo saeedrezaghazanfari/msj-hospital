@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from extentions.utils import write_action
-from .models import CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
+from hospital_setting.models import SettingModel
+from .models import CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel, PatientSightModel, BeneficiaryCommentModel
 from . import forms
 
 
@@ -107,3 +108,28 @@ def contactus_page(request):
     return render(request, 'contact/contactus.html', {
         'form': form
     })
+
+
+# url: /contact/info/
+def info_page(request):
+
+    return render(request, 'contact/info.html', {
+        'phones': SettingModel.objects.first().phone if SettingModel.objects.exists() else None,
+    })
+
+
+# url: /contact/beneficiaries-comments/
+def beneficiaries_comments_page(request):
+
+    return render(request, 'contact/beneficiaries-comments.html', {
+        'comments': BeneficiaryCommentModel.objects.all()[:6],
+    })
+
+
+# url: /contact/patients-comments/
+def patients_comments_page(request):
+
+    return render(request, 'contact/patients-comments.html', {
+        'comments': PatientSightModel.objects.all()[:6],
+    })
+

@@ -21,8 +21,8 @@ class DoctorModel(models.Model):
     bio = TranslatedField(RichTextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی')))
     is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
     is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
-    is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
-    is_clinic = models.BooleanField(default=False, verbose_name=_('آیا این پزشک درمانگاه است؟'))
+    # is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
+    # is_clinic = models.BooleanField(default=False, verbose_name=_('آیا این پزشک درمانگاه است؟'))
     is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
     class Meta:

@@ -8,12 +8,16 @@
 {% block content %}
 
     {% doctor_notes as notes %}
+    {% list_paraclinics as list_paraclinics %}
+    {% list_officials as list_officials %}
+    {% list_medicals as list_medicals %}
+
 
     {% for note in notes %}
     <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
     {% endfor %}
 
-    
+
     <form class="d-flex" method="GET" action="{% url 'website:search' %}">
         <input type="text" name="query" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
         <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
@@ -51,19 +55,35 @@
         <li>راهنمای بیمار</li>
         <ul>
             <li><a href="{% url 'doctor:doctors' %}">فهرست و جستجوی پزشکان</a></li>
-            <li><a href="">برنامه کلینیک</a></li>
+            <li><a href="{% url 'website:clinic-program' %}">برنامه کلینیک</a></li>
             <li><a href="{% url 'units:oa-home' %}">راهنمای نوبت دهی آنلاین</a></li>
-            <li><a href="">تعرفه‌ها</a></li>
-            <li><a href="">بیمه های طرف قرارداد</a></li>
-            <li><a href="">تلفن‌ها</a></li>
-            <li><a href="">راهنمای مراجعین</a></li>
+            <li><a href="{% url 'website:prices' %}">تعرفه‌ها</a></li>
+            <li><a href="{% url 'website:insurances' %}">بیمه های طرف قرارداد</a></li>
+            <li><a href="{% url 'website:phones' %}">تلفن‌ها</a></li>
+            <li><a href="{% url 'website:visitors-guide' %}">راهنمای مراجعین</a></li>
         </ul>
 
         <li>خدمات و امکانات</li>
         <ul>
-            <li><a href="">خدمات پشتیبانی</a></li>
-            <li><a href="">پاراکلینیک‌ها</a></li>
-            <li><a href="">بخش های درمانی</a></li>
+            <li><a href="{% url 'website:clinic-list' %}">کلینیک‌ها</a></li>
+            <li>خدمات پشتیبانی</li>
+            <ul>
+                {% for item in list_officials %}
+                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
+                {% endfor %}
+            </ul>
+            <li>پاراکلینیک‌ها</li>
+            <ul>
+                {% for item in list_paraclinics %}
+                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
+                {% endfor %}
+            </ul>
+            <li>بخش های درمانی</li>
+            <ul>
+                {% for item in list_medicals %}
+                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
+                {% endfor %}
+            </ul>
         </ul>
 
         <li>خدمات الکترونیکی</li>
@@ -76,11 +96,11 @@
         <li>گردشگری سلامت</li>
         <ul>
             <li><a href="{% url 'ipd:enter-phone' %}">فرم آنلاین مشاوره ی پزشکی</a></li>
-            <li><a href="">خدمات ویژه بیماران بین الملل</a></li>
-            <li><a href="">اطلاعات تماس با بخش IPD</a></li>
-            <li><a href="">لیست پزشکان بیماران بین الملل</a></li>
-            <li><a href="">تعرفه خدمات درمانی</a></li>
-            <li><a href="">منشور حقوق بیماران بین الملل</a></li>
+            <li><a href="{% url 'ipd:services' %}">خدمات ویژه بیماران بین الملل</a></li>
+            <li><a href="{% url 'ipd:contact' %}">اطلاعات تماس با بخش IPD</a></li>
+            <li><a href="{% url 'ipd:doctors' %}">لیست پزشکان بیماران بین الملل</a></li>
+            <li><a href="{% url 'ipd:prices' %}">تعرفه خدمات درمانی</a></li>
+            <li><a href="{% url 'ipd:chart' %}">منشور حقوق بیماران بین الملل</a></li>
         </ul>
 
         <li><a href="{% url 'news:news' %}">اخبار</a></li>
@@ -91,12 +111,12 @@
 
         <li>تماس</li>
         <ul>
-            <li><a href="">اطلاعات تماس</a></li>
+            <li><a href="{% url 'contact:info' %}">اطلاعات تماس</a></li>
             <li><a href="{% url 'contact:contactus' %}">فرم تماس باما</a></li>
             <li><a href="{% url 'contact:careers' %}">همکاری با ما</a></li>
             <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
-            <li><a href="">نظرات ذینفعان</a></li>
-            <li><a href="">دیدگاه بیماران</a></li>
+            <li><a href="{% url 'contact:beneficiaries-comments' %}">نظرات ذینفعان</a></li>
+            <li><a href="{% url 'contact:patients-comments' %}">دیدگاه بیماران</a></li>
         </ul>
 
     </ul>
