@@ -82,6 +82,27 @@
                     ]
                 ],
 
+                [ //url: /fa/contact/info/
+                    "{% url 'contact:info' %}", [
+                        'اطلاعات تماس بیمارستان',  
+                    ]
+                ],
+                [ //url: /fa/contact/beneficiaries-comments/
+                    "{% url 'contact:beneficiaries-comments' %}", [
+                        'دیدگاه و نظرات خیرین و بنیانگذاران', 
+                    ]
+                ],
+                [ //url: /fa/contact/patients-comments/
+                    "{% url 'contact:patients-comments' %}", [
+                        'دیدگاه و نظرات بیماران',   
+                    ]
+                ],
+                [ //url: /fa/contact/people-aids/
+                    "{% url 'contact:people-aids' %}", [
+                        'کمک‌های مردمی',   
+                    ]
+                ],
+
                 [ //url: /fa/doctor/list/
                     "{% url 'doctor:doctors' %}", [
                         'لیست پزشکان', 'لیست متخصصین و فوق تخصص‌ها', 'جستجوی پزشک', 
@@ -90,19 +111,43 @@
 
                 [ //url: /fa/ipd/phone/
                     "{% url 'ipd:enter-phone' %}", [
+                        'فرم بیماران بین‌الملل', 
+                    ]
+                ],
+
+                [ //url: /fa/ipd/services/
+                    "{% url 'ipd:services' %}", [
                         'خدمات بیماران بین‌الملل', 
+                    ]
+                ],
+
+                [ //url: /fa/ipd/contact/
+                    "{% url 'ipd:contact' %}", [
+                        'اطلاعات تماس با واحد بیماران بین‌الملل', 
+                    ]
+                ],
+
+                [ //url: /fa/ipd/doctors/
+                    "{% url 'ipd:doctors' %}", [
+                        'پزشکان مربوط به بخش بیماران بین‌الملل',  
+                    ]
+                ],
+
+                [ //url: /fa/ipd/prices/
+                    "{% url 'ipd:prices' %}", [
+                        'تعرفه‌های بخش بیماران بین‌الملل',  
+                    ]
+                ],
+
+                [ //url: /fa/ipd/chart/
+                    "{% url 'ipd:chart' %}", [
+                        'چارت و منشور بیماران بین‌الملل',  
                     ]
                 ],
 
                 [ //url: /fa/news/list/
                     "{% url 'news:news' %}", [
                         'لیست اخبار', 'لایک و دیسلایک خبر', 'ارسال کامنت برای خبر', 'دسته‌بندی اخبار', 
-                    ]
-                ],
-
-                [ //url: /fa/
-                    "{% url 'website:home' %}", [
-                        'خانه، صفحه‌ی ایندکس بیمارستان', 
                     ]
                 ],
 
@@ -124,219 +169,222 @@
                     ]
                 ],
 
+                [ //url: /fa/
+                    "{% url 'website:home' %}", [
+                        'خانه، صفحه‌ی ایندکس بیمارستان', 
+                    ]
+                ],
+
+                [ //url: /fa/about-us/
+                    "{% url 'website:aboutus' %}", [
+                        'درباره‌ی ما', 'چرا ما', 
+                    ],
+                ],
+
+                [ //url: /fa/history/
+                    "{% url 'website:history' %}", [
+                        'تاریخچه‌ی بیمارستان', 'گذشته‌ی بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/workshops/
+                    "{% url 'website:workshops' %}", [
+                        'کارگاه‌ها و دوره‌های آموزشی', 
+                    ],
+                ],
+
+                [ //url: /fa/certificates/
+                    "{% url 'website:certificates' %}", [
+                        'گواهینامه‌های بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/gallery/images/
+                    "{% url 'website:gallery-imgs' %}", [
+                        'گالری تصاویر بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/gallery/videos/
+                    "{% url 'website:gallery-vids' %}", [
+                        'گالری ویدئوهای بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/policies/
+                    "{% url 'website:policies' %}", [
+                        'سیاست‌های بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/board-of-directors/
+                    "{% url 'website:board-of-directors' %}", [
+                        'هیئت مدیره', 
+                    ],
+                ],
+
+                [ //url: /fa/ceo-management/
+                    "{% url 'website:ceo-management' %}", [
+                        'مدیرعامل و گروه مدیریت', 
+                    ],
+                ],
+
+                [ //url: /fa/chart/
+                    "{% url 'website:chart' %}", [
+                        'چارت و منشور بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/results/
+                    "{% url 'website:results' %}", [
+                        'دستاوردها و افتخارات بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/perspective/
+                    "{% url 'website:perspective' %}", [
+                        'ارزش‌های بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/visiting-famous-faces/
+                    "{% url 'website:visiting-famous' %}", [
+                        'چهره‌های سرشناس مراجعه کننده',  
+                    ],
+                ],
+
+                [ //url: /fa/patient/chart/
+                    "{% url 'website:patient-chart' %}", [
+                        'چارت و منشور بیماران',  
+                    ],
+                ],
+
+                [ //url: /fa/patient/edu/
+                    "{% url 'website:patient-edu' %}", [
+                        'آموزش بیماران', 'پمفلت‌های آموزشی', 
+                    ],
+                ],
+
+                [ //url: /fa/committees/
+                    "{% url 'website:committees' %}", [
+                        'کمیته‌های بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/credit/
+                    "{% url 'website:credit' %}", [
+                        'اعتباربخشی‌',  
+                    ],
+                ],
+
+                [ //url: /fa/quality-improvement/
+                    "{% url 'website:quality-improvement' %}", [
+                        'واحد بهبود کیفیت بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/deceaseds/
+                    "{% url 'website:deceaseds' %}", [
+                        'گذشتگان بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/benefactors/
+                    "{% url 'website:benefactors' %}", [
+                        'خیرین و نیکوکاران بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/facility/
+                    "{% url 'website:facility' %}", [
+                        'امکانات رفاهی بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/reports/
+                    "{% url 'website:reports' %}", [
+                        'گزارش‌ عملکرد بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/clinic/program/
+                    "{% url 'website:clinic-program' %}", [
+                        'برنامه‌ی کلینیک‌ها و پزشکان',  
+                    ],
+                ],
+
+                [ //url: /fa/prices/
+                    "{% url 'website:prices' %}", [
+                        'لیست انواع تعرفه‌های بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/prices/bed/
+                    "{% url 'website:prices-bed' %}", [
+                        'تعرفه‌‌ی تخت‌ها بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/prices/services/
+                    "{% url 'website:prices-services' %}", [
+                        'تعرفه‌ی خدمات بیمارستان', 
+                    ],
+                ],
+
+                [ //url: /fa/prices/surgray/
+                    "{% url 'website:prices-surgray' %}", [
+                        'تعرفه‌ی عمل‌های جراحی بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/insurances/
+                    "{% url 'website:insurances' %}", [
+                        'بیمه‌های طرف قرارداد بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/phones/
+                    "{% url 'website:phones' %}", [
+                        'تلفن‌ها',  
+                    ],
+                ],
+
+                [ //url: /fa/visitors-guide/
+                    "{% url 'website:visitors-guide' %}", [
+                        'راهنمایی ملاقات‌کنندگان', 
+                    ],
+                ],
+
+                [ //url: /fa/clinic/list/
+                    "{% url 'website:clinic-list' %}", [
+                        'لیست کلینیک‌های بیمارستان',  
+                    ],
+                ],
+
             ]
         }
 
         else if(lang == 'en') {
             links = [
                 
-                [ //url: /en/blog/list/ 
-                    "{% url 'blog:blogs' %}", [
-                        'List of Posts and Blogs', 'Medical Posts', 'Like and dislike Blog', 'Post a comment for the blog', 'Categorizing blogs and posts', 
-                    ]
-                ],
+                // here
 
-                [ //url: /en/contact/careers/
-                    "{% url 'contact:careers' %}", [
-                        'Work with us', 'List of positions and job opportunities', 'The required forces of the hospital',
-                    ]
-                ],
-
-                [ //url: /en/contact/suggestions/
-                    "{% url 'contact:suggestions' %}", [
-                        'Send comments and suggestions to the hospital', 
-                    ]
-                ],
-
-                [ //url: /en/contact/contactus/
-                    "{% url 'contact:contactus' %}", [
-                        'Send us a contact form', 'Send a text message',
-                    ]
-                ],
-
-                [ //url: /en/doctor/list/
-                    "{% url 'doctor:doctors' %}", [
-                        'List of doctors', 'List of specialists', 'Search for a doctor',
-                    ]
-                ],
-
-                [ //url: /en/ipd/phone/
-                    "{% url 'ipd:enter-phone' %}", [
-                        'International patient services',
-                    ]
-                ],
-
-                [ //url: /en/news/list/
-                    "{% url 'news:news' %}", [
-                        'News list', 'Like and dislike the news', 'Send a comment for the news', 'News category',
-                    ]
-                ],
-
-                [ //url: /en/
-                    "{% url 'website:home' %}", [
-                        'Home, hospital index page',
-                    ]
-                ],
-
-                [ //url: /en/electronic/appointment/turn/
-                    "{% url 'units:oa-followupturn' %}", [
-                        'Check and follow up online appointments',
-                    ]
-                ],
-                
-                [ //url: /en/electronic/appointment/result/
-                    "{% url 'units:oa-followupresult' %}", [
-                        'Checking and following up the test and imaging results',
-                    ]
-                ],
-
-                [ //url: /en/electronic/appointment/
-                    "{% url 'units:oa-home' %}", [
-                        'Providing internet services', 'Queuing and internet reservation',
-                    ]
-                ],
             ]
         }
 
         else if(lang == 'ar') {
             links = [
                 
-                [ //url: /ar/blog/list/ 
-                    "{% url 'blog:blogs' %}", [
-                        'قائمة الوظائف والمدونات', 'المشاركات الطبية', 'اعجبني و كرهت المدونة', 'انشر تعليق على المدونة', 'تصنيف المدونات والمشاركات', 
-                    ]
-                ],
+                // here
 
-                [ //url: /ar/contact/careers/
-                    "{% url 'contact:careers' %}", [
-                        'اعمل معنا', 'قائمة الوظائف وفرص العمل', 'قوات المستشفى المطلوبة',
-                    ]
-                ],
-
-                [ //url: /ar/contact/suggestions/
-                    "{% url 'contact:suggestions' %}", [
-                        'إرسال التعليقات والاقتراحات إلى المستشفى',
-                    ]
-                ],
-
-                [ //url: /ar/contact/contactus/
-                    "{% url 'contact:contactus' %}", [
-                        'أرسل لنا نموذج اتصال', 'ارسل رسالة نصية ',
-                    ]
-                ],
-
-                [ //url: /ar/doctor/list/
-                    "{% url 'doctor:doctors' %}", [
-                        'قائمة الأطباء', 'قائمة المتخصصين والمتخصصين', 'ابحث عن طبيب',
-                    ]
-                ],
-
-                [ //url: /ar/ipd/phone/
-                    "{% url 'ipd:enter-phone' %}", [
-                        'خدمات المرضى الدوليين',
-                    ]
-                ],
-
-                [ //url: /ar/news/list/
-                    "{% url 'news:news' %}", [
-                        'قائمة الأخبار', 'اعجاب و كره الاخبار', 'إرسال تعليق على الأخبار', 'فئة الأخبار',
-                    ]
-                ],
-
-                [ //url: /ar/
-                    "{% url 'website:home' %}", [
-                        'الصفحة الرئيسية ، فهرس المستشفى ',
-                    ]
-                ],
-
-                [ //url: /ar/electronic/appointment/turn/
-                    "{% url 'units:oa-followupturn' %}", [
-                        'تحقق ومتابعة المواعيد عبر الإنترنت',
-                    ]
-                ],
-                
-                [ //url: /ar/electronic/appointment/result/
-                    "{% url 'units:oa-followupresult' %}", [
-                        'فحص ومتابعة نتائج الفحص والتصوير',
-                    ]
-                ],
-
-                [ //url: /ar/electronic/appointment/
-                    "{% url 'units:oa-home' %}", [
-                        'تقديم خدمات الإنترنت', 'الطابور والحجز عبر الإنترنت',
-                    ]
-                ],
             ]
         }
 
         else if(lang == 'ru') {
             links = [
                 
-                [ //url: /ru/blog/list/ 
-                    "{% url 'blog:blogs' %}", [
-                        'Список постов и блогов', 'Медицинские посты', 'Нравится и не нравится блог', 'Оставить комментарий для блога', 'Категоризация блогов и постов',
-                    ]
-                ],
+                // here
 
-                [ //url: /ru/contact/careers/
-                    "{% url 'contact:careers' %}", [
-                        'Работать с нами', 'Список должностей и возможностей трудоустройства', 'Требуемые силы госпиталя',
-                    ]
-                ],
-
-                [ //url: /ru/contact/suggestions/
-                    "{% url 'contact:suggestions' %}", [
-                        'Отправить комментарии и предложения в больницу',
-                    ]
-                ],
-
-                [ //url: /ru/contact/contactus/
-                    "{% url 'contact:contactus' %}", [
-                        'Отправьте нам контактную форму', 'Отправить текстовое сообщение ',
-                    ]
-                ],
-
-                [ //url: /ru/doctor/list/
-                    "{% url 'doctor:doctors' %}", [
-                        'Список врачей', 'Список специалистов и специалистов', 'Поиск врача',
-                    ]
-                ],
-
-                [ //url: /ru/ipd/phone/
-                    "{% url 'ipd:enter-phone' %}", [
-                        'Международные услуги для пациентов',
-                    ]
-                ],
-
-                [ //url: /ru/news/list/
-                    "{% url 'news:news' %}", [
-                        'Список новостей', 'Нравится и не нравится новость', 'Отправить комментарий к новости', 'Категория новостей',
-                    ]
-                ],
-
-                [ //url: /ru/
-                    "{% url 'website:home' %}", [
-                        'Домашняя страница, индексная страница больницы',
-                    ]
-                ],
-
-                [ //url: /ru/electronic/appointment/turn/
-                    "{% url 'units:oa-followupturn' %}", [
-                        'Проверяйте и следите за онлайн-встречами',
-                    ]
-                ],
-                
-                [ //url: /ru/electronic/appointment/result/
-                    "{% url 'units:oa-followupresult' %}", [
-                        'Проверка и отслеживание результатов теста и визуализации',
-                    ]
-                ],
-
-                [ //url: /ru/electronic/appointment/
-                    "{% url 'units:oa-home' %}", [
-                        'Предоставление интернет-услуг', 'Очереди и интернет-бронирование',
-                    ]
-                ],
             ]
         }
 

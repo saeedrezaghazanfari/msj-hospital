@@ -12,7 +12,6 @@
     {% list_officials as list_officials %}
     {% list_medicals as list_medicals %}
 
-
     {% for note in notes %}
     <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
     {% endfor %}
@@ -40,7 +39,8 @@
             <li><a href="{% url 'website:gallery-imgs' %}">گالری تصاویر</a></li>
             <li><a href="{% url 'website:gallery-vids' %}">گالری ویدئو</a></li>
             <li><a href="{% url 'website:policies' %}">سیاست‌های بیمارستان</a></li>
-            <li><a href="{% url 'website:management' %}">هیات مدیره</a></li>
+            <li><a href="{% url 'website:board-of-directors' %}">هیات مدیره</a></li>
+            <li><a href="{% url 'website:ceo-management' %}">مدیرعامل و گروه مدیریت</a></li>
             <li><a href="{% url 'website:chart' %}">چارت بیمارستان</a></li>
             <li><a href="{% url 'website:results' %}">دستاوردها</a></li>
             <li><a href="{% url 'website:perspective' %}">چشم انداز، رسالت و ارزش‌ها</a></li>
@@ -49,11 +49,16 @@
             <li><a href="{% url 'website:committees' %}">کمیته های بیمارستانی</a></li>
             <li><a href="{% url 'website:credit' %}">اعتبار بخشی</a></li>
             <li><a href="{% url 'website:quality-improvement' %}">واحد بهبود کیفیت</a></li>
-            <li><a href="{% url 'website:deceaseds' %}">درگذشتگان بیمارستان</a></li>
+            <li><a href="{% url 'website:deceaseds' %}">گذشتگان بیمارستان</a></li>
+            <li><a href="{% url 'website:benefactors' %}">خیر و نیکوکار</a></li>
+            <li><a href="{% url 'website:facility' %}">امکانات رفاهی بیمارستان</a></li>
+            <li><a href="{% url 'website:reports' %}">گزارش عملکرد بیمارستان</a></li>
+
         </ul>
 
         <li>راهنمای بیمار</li>
         <ul>
+            <li><a href="{% url 'website:patient-edu' %}">آموزش بیمار</a></li>
             <li><a href="{% url 'doctor:doctors' %}">فهرست و جستجوی پزشکان</a></li>
             <li><a href="{% url 'website:clinic-program' %}">برنامه کلینیک</a></li>
             <li><a href="{% url 'units:oa-home' %}">راهنمای نوبت دهی آنلاین</a></li>
@@ -107,16 +112,15 @@
 
         <li><a href="{% url 'blog:blogs' %}">مجله‌ی سلامت</a></li>
 
-        <li><a href="">آموزش بیمار</a></li>
-
         <li>تماس</li>
         <ul>
             <li><a href="{% url 'contact:info' %}">اطلاعات تماس</a></li>
             <li><a href="{% url 'contact:contactus' %}">فرم تماس باما</a></li>
-            <li><a href="{% url 'contact:careers' %}">همکاری با ما</a></li>
+            <li><a href="{% url 'contact:careers' %}">همکاری باما</a></li>
             <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
             <li><a href="{% url 'contact:beneficiaries-comments' %}">نظرات ذینفعان</a></li>
             <li><a href="{% url 'contact:patients-comments' %}">دیدگاه بیماران</a></li>
+            <li><a href="{% url 'contact:people-aids' %}">کمک‌های مردمی</a></li>
         </ul>
 
     </ul>
@@ -130,4 +134,3 @@
     </div>
 
 {% endblock %}
-

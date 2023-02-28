@@ -1,0 +1,23 @@
+{% extends 'website/shared/_main_layout.html' %}
+{% load static i18n widget_tweaks %}
+{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block extraCss %}
+<meta name="keywords" content="">
+{% endblock %}
+
+{% block content %}
+
+
+    {% for aid in aids %}
+    <div class="alert alert-light text-primary d-flex text-center">
+        <p style="flex: 1;">{{ aid.first_name }}</p>
+        <p style="flex: 1;">{{ aid.last_name }}</p>
+        <p style="flex: 1;">{{ aid.email }}</p>
+        <p style="flex: 1;">{{ aid.phone }}</p>
+        <p style="flex: 1;">{{ aid.price }}</p>
+        <p style="flex: 1;">{{ aid.date_of_aid }}</p>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+

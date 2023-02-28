@@ -11,4 +11,5 @@ urlpatterns = [
     path('contact/info/', views.info_page, name='info'),
     path('contact/beneficiaries-comments/', views.beneficiaries_comments_page, name='beneficiaries-comments'),
     path('contact/patients-comments/', views.patients_comments_page, name='patients-comments'),
+    path('contact/people-aids/', views.people_aids_page, name='people-aids'),
 ]

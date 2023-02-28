@@ -89,8 +89,11 @@ class SubUnitModel(models.Model):
         return f'{self.title}'
 
 
-class ManagemersModel(models.Model):
+class ManagersModel(models.Model):
     GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
+    USER_TYPE = (('hm', _('هیات مدیره')), ('magm', _('مدیرعامل و گروه مدیریت')))# 
+
+    label = models.CharField(max_length=255, choices=USER_TYPE, verbose_name=_('دسته‌بندی نمایش'))
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
     last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
     phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره تلفن'))
@@ -103,9 +106,6 @@ class ManagemersModel(models.Model):
     twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('توییتر'))
     instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('اینستاگرام'))
     whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('واتساپ'))
-    #TODO label of this manager ..
-# هیات مدیره
-# مدیرعامل و گروه مدیریت
 
     class Meta:
         ordering = ['-id']

@@ -104,8 +104,8 @@ class CreditEduModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('آموزش اعتبار بخشی')
-        verbose_name_plural = _('آموزش های اعتباربخشی')
+        verbose_name = _('اعتباربخشی')
+        verbose_name_plural = _('اعتباربخشی‌ها')
 
     def __str__(self):
         return self.title

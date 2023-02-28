@@ -3,7 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from extentions.utils import write_action
 from hospital_setting.models import SettingModel
-from .models import CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel, PatientSightModel, BeneficiaryCommentModel
+from .models import (
+    CareersModel, HireFormModel, CriticismSuggestionModel, 
+    ContactUsModel, PatientSightModel, BeneficiaryCommentModel, 
+    PeopleAidModel,
+)
 from . import forms
 
 
@@ -133,3 +137,10 @@ def patients_comments_page(request):
         'comments': PatientSightModel.objects.all()[:6],
     })
 
+
+# url: /contact/people-aids/
+def people_aids_page(request):
+
+    return render(request, 'contact/people-aids.html', {
+        'aids': PeopleAidModel.objects.all(),
+    })

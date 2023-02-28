@@ -3,7 +3,7 @@ from .models import (
     UnitModel, 
     SubUnitModel,
     UnitMemberModel,
-    ManagemersModel,
+    ManagersModel,
     ExprimentResultModel,
     AppointmentTimeModel,
     AppointmentTipModel,
@@ -33,7 +33,7 @@ class UnitMemberModel_Admin(admin.ModelAdmin):
     ordering = ['-id']
 
 
-class ManagemersModel_Admin(admin.ModelAdmin):
+class ManagersModel_Admin(admin.ModelAdmin):
     list_display = ['__str__', 'job']
     ordering = ['-id']
 
@@ -79,7 +79,7 @@ class LimitTurnTimeModel_Admin(admin.ModelAdmin):
 admin.site.register(UnitModel, UnitModel_Admin)
 admin.site.register(SubUnitModel, SubUnitModel_Admin)
 admin.site.register(UnitMemberModel, UnitMemberModel_Admin)
-admin.site.register(ManagemersModel, ManagemersModel_Admin)
+admin.site.register(ManagersModel, ManagersModel_Admin)
 admin.site.register(ExprimentResultModel, ExprimentResultModel_Admin)
 admin.site.register(AppointmentTimeModel, AppointmentTimeModel_Admin)
 admin.site.register(AppointmentTipModel, AppointmentTipModel_Admin)

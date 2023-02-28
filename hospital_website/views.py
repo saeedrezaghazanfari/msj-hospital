@@ -4,14 +4,16 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from hospital_setting.models import (
-    NewsLetterEmailsModel, FAQModel, SettingModel, HomeGalleryModel, CertificateModel, 
-    HospitalImageGalleryModel, HospitalVideoGalleryModel, HospitalPoliticModel, ResultModel, CostModel, AncientsModel,
-    PriceBedModel, PriceServiceModel, PriceSurgrayModel, InsuranceModel, ContactInfoModel
+    NewsLetterEmailsModel, FAQModel, SettingModel, HomeGalleryModel, 
+    CertificateModel, HospitalImageGalleryModel, HospitalVideoGalleryModel,
+    HospitalPoliticModel, ResultModel, CostModel, AncientsModel, 
+    PriceBedModel, PriceServiceModel, PriceSurgrayModel,
+    InsuranceModel, ContactInfoModel, HospitalFacilityModel, ReportModel
 )
 from hospital_doctor.models import DoctorWorkTimeModel, DoctorModel, TitleSkillModel
-from hospital_units.models import UnitModel
-from hospital_blog.models import CreditEduModel
-from hospital_contact.models import FamousPatientModel, WorkshopModel
+from hospital_units.models import UnitModel, ManagersModel
+from hospital_blog.models import CreditEduModel, PampheletModel
+from hospital_contact.models import FamousPatientModel, WorkshopModel, BenefactorModel
 from extentions.utils import is_email, write_action
 
 
@@ -123,10 +125,20 @@ def policies_page(request):
     })
 
 
-# url: /management/
-def management_page(request):
-    #
-    return render(request, 'web/aboutus/management.html')
+# url: /board-of-directors/
+def board_of_directors_page(request):
+
+    return render(request, 'web/aboutus/board-of-directors.html', {
+        'managers': ManagersModel.objects.filter(label='hm').all(),
+    })
+
+
+# url: /ceo-management/
+def ceo_management_page(request):
+
+    return render(request, 'web/aboutus/ceo-management.html', {
+        'managers': ManagersModel.objects.filter(label='magm').all(),
+    })
 
 
 # url: /chart/
@@ -159,10 +171,18 @@ def visiting_famous_page(request):
     })
 
 
-# url: /patient-chart/
+# url: /patient/chart/
 def patient_chart_page(request):
     #TODO STATIC
     return render(request, 'web/aboutus/patient-chart.html')
+
+
+# url: /patient/edu/
+def patient_edu_page(request):
+
+    return render(request, 'web/aboutus/patient-edu.html', {
+        'pamphlets': PampheletModel.objects.all(),
+    })
 
 
 # url: /committees/
@@ -199,6 +219,30 @@ def deceaseds_page(request):
 
     return render(request, 'web/aboutus/deceaseds.html', {
         'ancients': AncientsModel.objects.all()
+    })
+
+
+# url: /benefactors/
+def benefactors_page(request):
+
+    return render(request, 'web/aboutus/benefactors.html', {
+        'benefactors': BenefactorModel.objects.all(),
+    })
+
+
+# url: /facility/
+def facility_page(request):
+
+    return render(request, 'web/aboutus/facility.html', {
+        'facilities': HospitalFacilityModel.objects.all(),
+    })
+
+
+# url: /reports/
+def reports_page(request):
+
+    return render(request, 'web/aboutus/reports.html', {
+        'reports': ReportModel.objects.all(),
     })
 
 
@@ -293,9 +337,11 @@ def clinic_list_page(request):
 
 # url: /unit/<unitId>/
 def unit_page(request, unitId):
+
     unit = get_object_or_404(UnitModel, id=unitId)
+    members = unit.unitmembermodel_set.all()
 
     return render(request, 'web/service-list/unit-info.html', {
         'clinic': unit,
+        'members': members,
     })
-

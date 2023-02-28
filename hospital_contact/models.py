@@ -118,10 +118,11 @@ class CriticismSuggestionModel(models.Model):
 
 
 class PeopleAidModel(models.Model):
-    name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
-    email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
-    phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
-    price = models.PositiveBigIntegerField(verbose_name=_('مبلغ کمک شده'))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    email = models.EmailField(max_length=100, blank=True, null=True, verbose_name=_('ایمیل'))
+    phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('شماره تلفن'))
+    price = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ کمک شده'))
     date_of_aid = models.DateTimeField(default=timezone.now, verbose_name=_('تاریخ کمک'))
 
     class Meta:
@@ -130,7 +131,7 @@ class PeopleAidModel(models.Model):
         verbose_name_plural = _('کمک های مردمی')
 
     def __str__(self):
-        return str(self.name)
+        return f'{self.first_name} {self.last_name}'
 
     def j_date_of_aid(self):
         return jalali_convertor(time=self.date_of_aid, output='j_date')
@@ -138,7 +139,8 @@ class PeopleAidModel(models.Model):
 
 
 class BenefactorModel(models.Model):
-    name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی')))
+    first_name = models.CharField(max_length=100, verbose_name=_('نام'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
     is_founder = models.BooleanField(default=False, verbose_name=_('بنیانگذار است؟'))
     about = TranslatedField(RichTextField(verbose_name=_('درباره ی نیکوکار')))
 
@@ -148,7 +150,7 @@ class BenefactorModel(models.Model):
         verbose_name_plural = _('خیرین و نیکوکاران')
 
     def __str__(self):
-        return str(self.name)
+        return f'{self.first_name} {self.last_name}'
 
 
 class CareersModel(models.Model):

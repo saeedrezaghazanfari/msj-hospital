@@ -44,14 +44,14 @@ class CriticismSuggestionModel_Admin(admin.ModelAdmin):
 
 
 class PeopleAidModel_Admin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'j_date_of_aid']
-    search_fields = ['name']
+    list_display = ['__str__', 'price', 'j_date_of_aid']
+    search_fields = ['__str__']
     ordering = ['-id']
 
 
 class BenefactorModel_Admin(admin.ModelAdmin):
-    list_display = ['name', 'is_founder']
-    search_fields = ['name']
+    list_display = ['__str__', 'is_founder']
+    search_fields = ['__str__']
     ordering = ['-id']
 
 

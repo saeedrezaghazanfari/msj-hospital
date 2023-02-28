@@ -43,8 +43,7 @@ class HospitalPoliticModel_Admin(admin.ModelAdmin):
 
 
 class HospitalFacilityModel_Admin(admin.ModelAdmin):
-    list_display = ['title']
-    search_field = ['title']
+    list_display = ['id']
     ordering = ['-id']
 
 
