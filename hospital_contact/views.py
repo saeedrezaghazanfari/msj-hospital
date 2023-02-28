@@ -143,4 +143,9 @@ def people_aids_page(request):
 
     return render(request, 'contact/people-aids.html', {
         'aids': PeopleAidModel.objects.all(),
+        'bank_name': SettingModel.objects.first().bank_name,
+        'bank_account_owner': SettingModel.objects.first().bank_account_owner,
+        'bank_account_cardnum': SettingModel.objects.first().bank_account_cardnum,
+        'bank_account_num': SettingModel.objects.first().bank_account_num,
+        'bank_account_shabanum': SettingModel.objects.first().bank_account_shabanum,
     })

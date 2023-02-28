@@ -142,38 +142,38 @@ class SubUnitForm(CustomizedModelForm):
     def clean_title_fa(self):
         title_fa = self.cleaned_data.get('title_fa') 
         category = self.cleaned_data.get('category') 
-        if SubUnitModel.objects.filter(category=category, title_fa=title_fa).exists():
+        if SubUnitModel.objects.filter(category=category, title_fa=title_fa.upper()).exists():
             raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
         if SubUnitModel.objects.filter(title_fa=title_fa).exists():
             raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
-        return title_fa
+        return title_fa.upper()
 
     def clean_title_en(self):
         title_en = self.cleaned_data.get('title_en') 
         category = self.cleaned_data.get('category') 
-        if SubUnitModel.objects.filter(category=category, title_en=title_en).exists():
+        if SubUnitModel.objects.filter(category=category, title_en=title_en.upper()).exists():
             raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
         if SubUnitModel.objects.filter(title_en=title_en).exists():
             raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
-        return title_en
+        return title_en.upper()
 
     def clean_title_ar(self):
         title_ar = self.cleaned_data.get('title_ar') 
         category = self.cleaned_data.get('category') 
-        if SubUnitModel.objects.filter(category=category, title_ar=title_ar).exists():
+        if SubUnitModel.objects.filter(category=category, title_ar=title_ar.upper()).exists():
             raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
         if SubUnitModel.objects.filter(title_ar=title_ar).exists():
             raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
-        return title_ar
+        return title_ar.upper()
 
     def clean_title_ru(self):
         title_ru = self.cleaned_data.get('title_ru') 
         category = self.cleaned_data.get('category') 
-        if SubUnitModel.objects.filter(category=category, title_ru=title_ru).exists():
+        if SubUnitModel.objects.filter(category=category, title_ru=title_ru.upper()).exists():
             raise forms.ValidationError(_('این آیتم در جدول موجود میباشد.'))
         if SubUnitModel.objects.filter(title_ru=title_ru).exists():
             raise forms.ValidationError(_('شما یک داده با این نام ثبت کرده اید.'))
-        return title_ru
+        return title_ru.upper()
 
 
 class LimitTurnTimeForm(CustomizedModelForm):

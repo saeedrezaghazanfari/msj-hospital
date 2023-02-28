@@ -254,35 +254,44 @@ def oa_unit_page(request):
 @online_appointment_required(login_url=f'/{get_language()}/403')
 def oa_subunit_page(request):
 
-    paraclinics = [_('فیزیوتراپی'), _('آزمایشگاه'), _('پاتولوژی'), _('تصویر برداری')]
-    medicals = [_('دیالیز'), _('IPD'), _('اورزانس'), _('درمانگاه'), _('قلب'), _('ccu'), _('آنژیوگرافی'), _('اتاق عمل مرکزی'), _('اتاق عمل قلب باز'), _('CSR'), _('ICU بزرگسال'), _('جراحی زنان'), _('زنان و زایمان'), _('جراحی مردان'), _('اطفال و نوزادان یا NICU')]
-    officials = [_('حسابداری'), _('منابع انسانی'), _('اسناد پزشکی'), _('ترخیص و پذیرش'), _('آی تی'), _('تاسیسات'), _('لنژری'), _('آشپزحانه'), _('تجهیزات پزشکی'), _('بهداشت حرفه ای'), _('بهداشت محیط'), _('بهبود کیفیت'), _('نگهبانی'), _('مددکاری'), _('انبارها'), _('زباله سوز'), _('کمیته')]
+    paraclinics_en = ['Physiotherapy', 'Laboratory', 'Pathology', 'Imaging']
+    medicals_en = ['Dialysis', 'IPD', 'emergency', 'clinic', 'Heart', 'CCU', 'angiography', 'Central operating room', 'Open heart operating room', 'CSR', 'Adult ICU', 'Gynecological surgery', 'Obstetrics and Gynecology', "Men's surgery", 'Pediatrics and Infants or NICU']
+    officials_en = ['Accounting', 'human resources', 'Medical documents', 'Clearance and admission', 'IT', 'facilities', 'lingerie', 'kitchen', 'Medical Equipment', 'Health Professional', 'Environmental Health', 'Improve quality', 'guarding', 'helper', 'warehouses', 'Garbage incinerator', 'Committee']
+    paraclinics_ar = ['العلاج الطبيعي', 'معمل', 'علم الأمراض', 'التصوير']
+    medicals_ar = ['غسيل الكلى', 'IPD', 'طارئ', 'عيادة', 'قلب', 'CCU', 'تصوير الأوعية', 'غرفة العمليات المركزية', 'غرفة عمليات القلب المفتوح', 'المسؤولية الاجتماعية للشركات', 'وحدة العناية المركزة للبالغين', 'جراحة أمراض النساء', 'أمراض النساء والتوليد', 'جراحة الرجال', 'طب الأطفال والرضع NICU']
+    officials_ar = ['محاسبة', 'الموارد البشرية', 'المستندات الطبية', 'التخليص والقبول', 'IT', 'مرافق', 'الملابس الداخلية', 'مطبخ', 'معدات طبية', 'الصحة المهنية', 'الصحة البيئية', 'حسن الجودة', 'حراسة', 'المساعد', 'المستودعات', 'محرقة نفايات', 'لجنة']
+    paraclinics_ru = ['Физиотерапия', 'Лаборатория', 'Патология', 'визуализация']
+    medicals_ru = ['Диализ', 'ИПД', 'чрезвычайная ситуация', 'клиника', 'Сердце', 'центральный блок управления', 'ангиография', 'Центральная операционная', 'Операционная на открытом сердце', 'КСО', 'ОИТ для взрослых', 'Гинекологическая хирургия', 'Акушерство и гинекология', 'мужская хирургия', 'Педиатрия и младенцы или NICU']
+    officials_ru = ['Бухгалтерский учет', 'человеческие ресурсы', 'Медицинские документы', 'Оформление и допуск', 'это', 'удобства', 'Дамское белье', 'кухня', 'Медицинское оборудование', 'Медицинский работник', 'Состояние окружающей среды', 'Улучшить качество', 'охрана', 'помощник', 'складские помещения', 'Мусоросжигатель', 'комитет']
 
+    paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویربرداری']
+    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'CCU', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU بزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
+    officials = ['حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی‌تی', 'تاسیسات', 'لنژری', 'آشپزخانه', 'تجهیزات پزشکی', 'بهداشت حرفه‌ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
     paraclinics_list = []
     medicals_list = []
     officials_list = []
 
-    for item in paraclinics:
+    for index, item in enumerate(paraclinics):
         if not SubUnitModel.objects.filter(category='paraclinic', title_fa=item).exists():
-            if item == 'آزمایشگاه' or item == 'تصویر برداری':
+            if item == 'آزمایشگاه' or item == 'تصویربرداری':
                 paraclinics_list.append(
-                    SubUnitModel(category='paraclinic', title_fa=item, have_2_box=True)
+                    SubUnitModel(category='paraclinic', title_fa=item, title_en=str(paraclinics_en[index]), title_ar=str(paraclinics_ar[index]), title_ru=str(paraclinics_ru[index]), have_2_box=True)
                 )
             else:
                 paraclinics_list.append(
-                    SubUnitModel(category='paraclinic', title_fa=item)
+                    SubUnitModel(category='paraclinic', title_fa=item, title_en=str(paraclinics_en[index]), title_ar=str(paraclinics_ar[index]), title_ru=str(paraclinics_ru[index]))
                 )
 
-    for item in medicals:
+    for index, item in enumerate(medicals):
         if not SubUnitModel.objects.filter(category='medical', title_fa=item).exists():
             medicals_list.append(
-                SubUnitModel(category='medical', title_fa=item)
+                SubUnitModel(category='medical', title_fa=item, title_en=str(medicals_en[index]), title_ar=str(medicals_ar[index]), title_ru=str(medicals_ru[index]))
             )
 
-    for item in officials:
+    for index, item in enumerate(officials):
         if not SubUnitModel.objects.filter(category='official', title_fa=item).exists():
             officials_list.append(
-                SubUnitModel(category='official', title_fa=item)
+                SubUnitModel(category='official', title_fa=item, title_en=str(officials_en[index]), title_ar=str(officials_ar[index]), title_ru=str(officials_ru[index]))
             )
 
     if len(paraclinics_list) > 0:

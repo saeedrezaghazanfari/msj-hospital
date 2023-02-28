@@ -127,12 +127,17 @@
 
     <div class="alert alert-primary text-dark d-flex">
         <div style="flex: 1;"></div>
-        <div style="flex: 1;"></div>
-        <div style="flex: 1;"></div>
-        <div style="flex: 1;"></div>
-        <div style="flex: 1;"></div>
     </div>
 
 </div>
+
+<script>
+
+    let data = "{{ plans|safe }}";
+    data = Array(data);
+    console.log(data);
+    console.log(typeof(data));
+
+</script>
 
 {% endblock %}

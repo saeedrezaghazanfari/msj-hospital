@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 from django.contrib import messages
 from django.views import generic
 from .models import (
@@ -12,7 +13,7 @@ class DoctorList(generic.ListView):
     template_name = 'doctor/list.html'
     model = DoctorModel
     paginate_by = 1
-
+    #TODO edit paginateby to some digits
     def get_queryset(self):
         return DoctorModel.objects.filter(is_active=True).all()[:12]
 
@@ -24,6 +25,9 @@ def doctor_search(request):
     skill_search = request.GET.get('skill')
     degree_search = request.GET.get('degree')
     gender_search = request.GET.get('gender')
+
+    if not gender_search in ['male', 'female']:
+        return redirect(f'/{get_language()}/404')
 
     all_doctors_fullname = {}
     doctor_found = []

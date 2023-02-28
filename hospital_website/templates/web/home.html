@@ -46,7 +46,7 @@
             <li><a href="{% url 'website:perspective' %}">چشم انداز، رسالت و ارزش‌ها</a></li>
             <li><a href="{% url 'website:visiting-famous' %}">چهره های سرشناس مراجعه کننده</a></li>
             <li><a href="{% url 'website:patient-chart' %}">منشور حقوق بيمار</a></li>
-            <li><a href="{% url 'website:committees' %}">کمیته های بیمارستانی</a></li>
+            <li><a href="{% url 'website:committees' %}">کمیته های بیمارستان</a></li>
             <li><a href="{% url 'website:credit' %}">اعتبار بخشی</a></li>
             <li><a href="{% url 'website:quality-improvement' %}">واحد بهبود کیفیت</a></li>
             <li><a href="{% url 'website:deceaseds' %}">گذشتگان بیمارستان</a></li>
@@ -58,7 +58,6 @@
 
         <li>راهنمای بیمار</li>
         <ul>
-            <li><a href="{% url 'website:patient-edu' %}">آموزش بیمار</a></li>
             <li><a href="{% url 'doctor:doctors' %}">فهرست و جستجوی پزشکان</a></li>
             <li><a href="{% url 'website:clinic-program' %}">برنامه کلینیک</a></li>
             <li><a href="{% url 'units:oa-home' %}">راهنمای نوبت دهی آنلاین</a></li>
@@ -111,6 +110,8 @@
         <li><a href="{% url 'news:news' %}">اخبار</a></li>
 
         <li><a href="{% url 'blog:blogs' %}">مجله‌ی سلامت</a></li>
+
+        <li><a href="{% url 'website:patient-edu' %}">آموزش بیمار</a></li>
 
         <li>تماس</li>
         <ul>

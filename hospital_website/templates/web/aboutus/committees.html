@@ -20,6 +20,7 @@
     <div style="flex: 1;">{{ committee.manager }}</div>
     <div style="flex: 1;">{{ committee.manager_phone }}</div>
     <div style="flex: 1;">{{ committee.email }}</div>
+    <div style="flex: 1;"><a href="{% url 'website:unit-info' committee.id %}">بیشتر</a></div>
 </div>
 {% endfor %}
 

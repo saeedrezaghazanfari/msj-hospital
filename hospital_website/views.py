@@ -21,7 +21,7 @@ from extentions.utils import is_email, write_action
 def home_page(request):
     return render(request, 'web/home.html', {
         'faqs': FAQModel.objects.all(),
-        'galleries': HomeGalleryModel.objects.all(),
+        'galleries': HomeGalleryModel.objects.all()[:6],
     })
 
 
@@ -194,7 +194,7 @@ def committees_page(request):
     ).all()
 
     return render(request, 'web/aboutus/committees.html', {
-        'committees': committees
+        'committees': committees,
     })
 
 
@@ -252,22 +252,44 @@ def reports_page(request):
 # url: /clinic/program/
 def clinic_program_page(request):
 
-    skill_query = request.GET.get('skill')
-    gender_query = request.GET.get('gender')
-    doctor_query = request.GET.get('doctor')
-    day_query = request.GET.get('day')
-    from_query = request.GET.get('from')
-    to_query = request.GET.get('to')
+    plan_generated = []
 
-    plans = None
+    for doctor in DoctorModel.objects.iterator():
+        if doctor.doctorworktimemodel_set.exists():
 
-    if skill_query:
-        ...
-    else:
-        plans = DoctorWorkTimeModel.objects.all()
+            days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+
+            for doc_time in doctor.doctorworktimemodel_set.iterator():
+                
+                if doc_time.day_from == doc_time.day_to:
+                    plan_generated.append({
+                        'doctor': doctor.get_full_name(),
+                        'gender': doctor.user.gender,
+                        'skill': doctor.skill_title.title,
+                        'degree': doctor.degree.title,
+                        'day': doc_time.day_from,
+                        'from': doc_time.time_from,
+                        'to': doc_time.time_to,
+                    })
+                else:
+                    dayfrom_index = days.index(doc_time.day_from)
+                    dayto_index = days.index(doc_time.day_to)
+
+                    if dayfrom_index < dayto_index:
+                      
+                        for i in range(dayfrom_index, (dayto_index + 1)):
+                            plan_generated.append({
+                                'doctor': doctor.get_full_name(),
+                                'gender': doctor.user.gender,
+                                'skill': doctor.skill_title.title,
+                                'degree': doctor.degree.title,
+                                'day': days[i],
+                                'from': doc_time.time_from,
+                                'to': doc_time.time_to,
+                            })
 
     return render(request, 'web/guides/clinic-program.html', {
-        'plans': plans,
+        'plans': plan_generated,
         'doctors': DoctorModel.objects.filter(is_active=True).all(),
         'skills': TitleSkillModel.objects.all(),
     })

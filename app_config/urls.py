@@ -13,8 +13,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     
     # Custom Views
-    path('404', views.page_not_found_view),
     path('403', views.page_forbidden_view),
+    path('404', views.page_not_found_view),
     path('500', views.page_server_error_view),
 
     # APPLICATIONS

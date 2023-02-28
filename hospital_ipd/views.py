@@ -183,6 +183,7 @@ def info_page(request, ipdId):
 
 # url: /ipd/services/
 def services_page(request):
+    
     return render(request, 'ipd/services.html', {
         'service': SettingModel.objects.first().ipd_services,
     })
@@ -193,10 +194,11 @@ def contact_page(request):
 
     ipd = None
     if UnitModel.objects.filter(subunit__title_en='ipd', subunit__category='medical').exists():
-        ipd = UnitModel.objects.filter(subunit__title_en='ipd', subunit__category='medical').first() 
+        ipd = UnitModel.objects.filter(subunit__title_en='IPD', subunit__category='medical').first() 
 
     return render(request, 'ipd/contact.html', {
-        'ipd': ipd
+        'ipd': ipd,
+        'members': ipd.unitmembermodel_set.all(),
     })
 
 
