@@ -36,6 +36,7 @@ urlpatterns = [
 
     # patient guidence tab
     path('clinic/program/', views.clinic_program_page, name='clinic-program'),
+    path('clinic/program/get-data/', views.clinic_program_getdata, name='clinic-programgetdata'),
     path('prices/', views.prices_page, name='prices'),
     path('prices/bed/', views.prices_bed_page, name='prices-bed'),
     path('prices/services/', views.prices_services_page, name='prices-services'),

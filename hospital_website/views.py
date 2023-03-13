@@ -1,4 +1,6 @@
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
@@ -251,48 +253,80 @@ def reports_page(request):
 
 # url: /clinic/program/
 def clinic_program_page(request):
+    return render(request, 'web/guides/clinic-program.html')
 
-    plan_generated = []
 
-    for doctor in DoctorModel.objects.iterator():
-        if doctor.doctorworktimemodel_set.exists():
+# url: /clinic/program/get-data/
+@csrf_exempt
+def clinic_program_getdata(request):
 
-            days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+    if request.method == 'POST':
 
-            for doc_time in doctor.doctorworktimemodel_set.iterator():
-                
-                if doc_time.day_from == doc_time.day_to:
-                    plan_generated.append({
-                        'doctor': doctor.get_full_name(),
-                        'gender': doctor.user.gender,
-                        'skill': doctor.skill_title.title,
-                        'degree': doctor.degree.title,
-                        'day': doc_time.day_from,
-                        'from': doc_time.time_from,
-                        'to': doc_time.time_to,
-                    })
-                else:
-                    dayfrom_index = days.index(doc_time.day_from)
-                    dayto_index = days.index(doc_time.day_to)
+        plan_generated = []
 
-                    if dayfrom_index < dayto_index:
-                      
-                        for i in range(dayfrom_index, (dayto_index + 1)):
-                            plan_generated.append({
-                                'doctor': doctor.get_full_name(),
-                                'gender': doctor.user.gender,
-                                'skill': doctor.skill_title.title,
-                                'degree': doctor.degree.title,
-                                'day': days[i],
-                                'from': doc_time.time_from,
-                                'to': doc_time.time_to,
-                            })
+        for doctor in DoctorModel.objects.iterator():
+            if doctor.doctorworktimemodel_set.exists():
 
-    return render(request, 'web/guides/clinic-program.html', {
-        'plans': plan_generated,
-        'doctors': DoctorModel.objects.filter(is_active=True).all(),
-        'skills': TitleSkillModel.objects.all(),
-    })
+                days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+
+                for doc_time in doctor.doctorworktimemodel_set.iterator():
+                    
+                    if doc_time.day_from == doc_time.day_to:
+                        plan_generated.append({
+                            'doctor': doctor.get_full_name(),
+                            'gender': doctor.user.gender,
+                            'skill': doctor.skill_title.title,
+                            'degree': doctor.degree.title,
+                            'day': doc_time.day_from,
+                            'from': doc_time.time_from,
+                            'to': doc_time.time_to,
+                        })
+                    else:
+                        dayfrom_index = days.index(doc_time.day_from)
+                        dayto_index = days.index(doc_time.day_to)
+
+                        if dayfrom_index < dayto_index:
+                        
+                            for i in range(dayfrom_index, (dayto_index + 1)):
+                                plan_generated.append({
+                                    'doctor': doctor.get_full_name(),
+                                    'gender': doctor.user.gender,
+                                    'skill': doctor.skill_title.title,
+                                    'degree': doctor.degree.title,
+                                    'day': days[i],
+                                    'from': doc_time.time_from,
+                                    'to': doc_time.time_to,
+                                })
+
+        counter = int(request.POST.get('counter'))
+        if not counter:
+            counter = 1000
+        plan_generated = plan_generated[:counter]
+
+        if get_language() == 'fa':
+            get_skills = list(TitleSkillModel.objects.values('title_fa'))
+        elif get_language() == 'en':
+            get_skills = list(TitleSkillModel.objects.values('title_en'))
+        elif get_language() == 'ar':
+            get_skills = list(TitleSkillModel.objects.values('title_ar'))
+        elif get_language() == 'ru':
+            get_skills = list(TitleSkillModel.objects.values('title_ru'))
+
+
+        get_doctor_list = list()
+        for doctor_item in DoctorModel.objects.filter(is_active=True).iterator():
+            if not doctor_item.get_full_name() in get_doctor_list: 
+                get_doctor_list.append(doctor_item.get_full_name())
+
+        return JsonResponse({
+            'status': 200,
+            'plans': plan_generated,
+            'doctors': get_doctor_list,
+            'skills': get_skills,
+        })
+    
+    return JsonResponse({'status': 400})
+
 
 
 # url: /prices/

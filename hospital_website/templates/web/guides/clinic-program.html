@@ -7,40 +7,48 @@
 
 {% block content %}
 
-<form method="GET">
+<select name="counter" id="counter_section" style="width: 150px;">
+    <option value="10">10</option>
+    <option value="30">30</option>
+    <option value="50">50</option>
+    <option value="100" selected>100</option>
+    <option value="200">200</option>
+    <option value="1000">همه</option>
+</select>
 
-    <select name="skill">
+<button id="reset_form" class="btn btn-danger">بازیابی فرم</button>
+
+<br>
+<br>
+
+<form method="GET" style="display: flex;">
+
+    <select name="skill" id="skills_section" class="onchange_formclass" style="flex: 1;">
         <option value="none" selected>تخصص</option>
-        {% for skill in skills %}
-        <option value="{{ skill.title }}">{{ skill.title }}</option>
-        {% endfor %}
     </select>
 
-    <select name="gender">
+    <select name="gender" id="gender_section" class="onchange_formclass" style="flex: 1;">
         <option value="none" selected>جنسیت</option>
         <option value="male">آقا</option>
         <option value="female">خانم</option>
     </select>
 
-    <select name="doctor">
-        <option value="none">نام پزشک</option>
-        {% for doctor in doctors %}
-        <option value="{{ doctor.medical_code }}">{{ doctor.get_full_name }}</option>
-        {% endfor %}
+    <select name="doctor" id="doctors_section" class="onchange_formclass" style="flex: 1;">
+        <option value="none" selected>نام پزشک</option>
     </select>
 
-    <select name="day">
+    <select name="day" id="day_section" class="onchange_formclass" style="flex: 1;">
         <option value="none" selected>روز</option>
-        <option value="sat">شنبه</option>
-        <option value="sun">یک شنبه</option>
-        <option value="mon">دو شنبه</option>
-        <option value="tue">سه شنبه</option>
-        <option value="wed">چهار شنبه</option>
-        <option value="thu">پنج شنبه</option>
-        <option value="fri">جمعه</option>
+        <option value="saturday">شنبه</option>
+        <option value="sunday">یک شنبه</option>
+        <option value="monday">دو شنبه</option>
+        <option value="tuesday">سه شنبه</option>
+        <option value="wednesday">چهار شنبه</option>
+        <option value="thursday">پنج شنبه</option>
+        <option value="friday">جمعه</option>
     </select>
 
-    <select name="from">
+    <select name="from" id="from_section" class="onchange_formclass" style="flex: 1;">
         <option value="none" selected>از ساعت</option>
         <option value="6:00">6:00</option>
         <option value="6:30">6:30</option>
@@ -80,7 +88,7 @@
         <option value="23:30">23:30</option>
     </select>
 
-    <select name="to">
+    <select name="to" id="to_section" class="onchange_formclass" style="flex: 1;">
         <option value="none" selected>تا ساعت</option>
         <option value="6:00">6:00</option>
         <option value="6:30">6:30</option>
@@ -120,23 +128,137 @@
         <option value="23:30">23:30</option>
     </select>
 
-    <button type="submit">جستجو</button>
+    <div style="flex: 1; text-align: center;">
+        وضعیت
+    </div>
+
 </form>
 
 <div class="container">
 
-    <div class="alert alert-primary text-dark d-flex">
-        <div style="flex: 1;"></div>
-    </div>
+    <div id="output_plan_wrapper"></div>
 
 </div>
 
 <script>
 
-    let data = "{{ plans|safe }}";
-    data = Array(data);
-    console.log(data);
-    console.log(typeof(data));
+    let plans;
+
+    get_clinics_data = (counter) => {
+
+        let formdata = new FormData();
+        formdata.append('counter', counter);
+
+        (async () => {
+            await fetch('/' + window.location.pathname[1] + window.location.pathname[2] + '/clinic/program/get-data/', {
+                method: "POST",
+                body: new URLSearchParams(formdata),
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded"
+                }
+            })
+            .then(response => response.json())
+            .then( (response) => {
+                if(response.status == 200) {
+
+                    plans = response.plans;
+                    let doctors = response.doctors;
+                    let skills = response.skills;
+
+                    skills.forEach(skill => {
+                        if(window.location.pathname[1] + window.location.pathname[2] == 'fa')
+                            document.getElementById('skills_section').innerHTML += `<option value="${skill.title_fa}">${skill.title_fa}</option>`;
+                        else if(window.location.pathname[1] + window.location.pathname[2] == 'en')
+                            document.getElementById('skills_section').innerHTML += `<option value="${skill.title_en}">${skill.title_en}</option>`;
+                        else if(window.location.pathname[1] + window.location.pathname[2] == 'ar')
+                            document.getElementById('skills_section').innerHTML += `<option value="${skill.title_ar}">${skill.title_ar}</option>`;
+                        else if(window.location.pathname[1] + window.location.pathname[2] == 'ru')
+                            document.getElementById('skills_section').innerHTML += `<option value="${skill.title_ru}">${skill.title_ru}</option>`;
+                    });
+
+                    doctors.forEach(doctor => {
+                        document.getElementById('doctors_section').innerHTML += `<option value="${doctor}">${doctor}</option>`;
+                    });
+
+                    plans.forEach(plan => {
+                        document.getElementById('output_plan_wrapper').innerHTML += `<div class="alert alert-primary text-dark d-flex"><div style="flex: 1;">${plan.skill}</div><div style="flex: 1;">${plan.gender}</div><div style="flex: 1;">${plan.doctor}</div><div style="flex: 1;">${plan.day}</div><div style="flex: 1;">${plan.from}</div><div style="flex: 1;">${plan.to}</div><div style="flex: 1;">${plan.degree}</div></div>`;
+                    });
+                }
+            })
+            .catch(err => {
+                console.log('ERR: ', err);
+            });
+        })();
+    }
+
+    window.onload = () => {
+        get_clinics_data(document.getElementById('counter_section').value);
+    }
+
+    document.getElementById('counter_section').addEventListener('change', (ev) => {
+        get_clinics_data(ev.target.value);
+    });
+
+    document.getElementById('reset_form').addEventListener('click', () => {
+        document.getElementById('skills_section').value = 'none';
+        document.getElementById('doctors_section').value = 'none';
+        document.getElementById('gender_section').value = 'none';
+        document.getElementById('day_section').value = 'none';
+        document.getElementById('from_section').value = 'none';
+        document.getElementById('to_section').value = 'none';
+
+        let filter_plans = plans;
+
+        document.getElementById('output_plan_wrapper').innerHTML = '';
+        filter_plans.forEach(plan => {
+            document.getElementById('output_plan_wrapper').innerHTML += `<div class="alert alert-primary text-dark d-flex"><div style="flex: 1;">${plan.skill}</div><div style="flex: 1;">${plan.gender}</div><div style="flex: 1;">${plan.doctor}</div><div style="flex: 1;">${plan.day}</div><div style="flex: 1;">${plan.from}</div><div style="flex: 1;">${plan.to}</div><div style="flex: 1;">${plan.degree}</div></div>`;
+        });
+    });
+
+    document.querySelectorAll('.onchange_formclass').forEach(element => {
+        element.addEventListener('change', (ev) => {
+
+            let skill_selected = document.getElementById('skills_section').value;
+            let doctor_selected = document.getElementById('doctors_section').value;
+            let gender_selected = document.getElementById('gender_section').value;
+            let day_selected = document.getElementById('day_section').value;
+            let from_selected = document.getElementById('from_section').value;
+            let to_selected = document.getElementById('to_section').value;
+
+            let filter_plans = plans;
+            
+            if(skill_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.skill == skill_selected);
+            }
+
+            if(doctor_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.doctor == doctor_selected);
+            }
+
+            if(gender_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.gender == gender_selected);
+            }
+
+            if(day_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.day == day_selected);
+            }
+
+            if(from_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.from == from_selected);
+            }
+
+            if(to_selected != 'none'){
+                filter_plans = filter_plans.filter(el => el.to == to_selected);
+            }
+
+            document.getElementById('output_plan_wrapper').innerHTML = '';
+            filter_plans.forEach(plan => {
+                document.getElementById('output_plan_wrapper').innerHTML += `<div class="alert alert-primary text-dark d-flex"><div style="flex: 1;">${plan.skill}</div><div style="flex: 1;">${plan.gender}</div><div style="flex: 1;">${plan.doctor}</div><div style="flex: 1;">${plan.day}</div><div style="flex: 1;">${plan.from}</div><div style="flex: 1;">${plan.to}</div><div style="flex: 1;">${plan.degree}</div></div>`;
+            });
+
+        });
+    });
+
 
 </script>
 
