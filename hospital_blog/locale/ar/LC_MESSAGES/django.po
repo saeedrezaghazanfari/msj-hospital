@@ -1,0 +1,316 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: apps.py:8
+msgid "ماژول بلاگ"
+msgstr "وحدة المدونة"
+
+#: models.py:35 models.py:66
+msgid "متن"
+msgstr "نص"
+
+#: models.py:36
+msgid "فعال/غیرفعال"
+msgstr "نشط سلبي"
+
+#: models.py:41
+msgid "نوت پزشکی"
+msgstr "ملاحظة طبية"
+
+#: models.py:42
+msgid "نوت‌های پزشکی"
+msgstr "ملاحظات طبية"
+
+#: models.py:46 models.py:170
+msgid "تاریخ انتشار"
+msgstr "تاريخ الإفراج"
+
+#: models.py:54
+msgid "بیماران بخش نوبت اینترنتی"
+msgstr "مرضى قسم المواعيد عبر الإنترنت"
+
+#: models.py:55
+msgid "بیماران بخش ipd"
+msgstr "مرضى قسم ipd"
+
+#: models.py:56
+msgid "پزشکان"
+msgstr "الأطباء"
+
+#: models.py:57
+msgid "ادمین‌های بخش پست"
+msgstr "مدراء قسم البريد"
+
+#: models.py:58
+msgid "ادمین‌های بخش خبر"
+msgstr "مديرو قسم الأخبار"
+
+#: models.py:59
+msgid "ادمین‌های بخش ثبت آزمایش و تصویربرداری"
+msgstr "مديرو قسم التسجيل والتصوير للاختبار"
+
+#: models.py:60
+msgid "ادمین‌های پذیرش اینترنتی"
+msgstr "مسؤولي القبول على الإنترنت"
+
+#: models.py:61
+msgid "ادمین‌های بخش ارتباطات"
+msgstr "مدراء قسم الاتصالات"
+
+#: models.py:62
+msgid "ادمین‌های بخش ipd"
+msgstr "مديرو قسم ipd"
+
+#: models.py:63
+msgid "همه (پزشکان و بیماران و کاربران)"
+msgstr "الكل (الأطباء والمرضى والمستخدمون)"
+
+#: models.py:67
+msgid "جامعه‌ی دریافت کننده‌ی پیامک"
+msgstr "مجتمع استقبال الرسائل القصيرة"
+
+#: models.py:68
+msgid "آیا پیامک به اعضای نام‌برده ارسال شود؟"
+msgstr "هل يجب إرسال الرسائل القصيرة إلى الأعضاء المحددين؟"
+
+#: models.py:69
+msgid "آیا پیامک ارسال شده است؟"
+msgstr "هل تم إرسال الرسائل القصيرة؟"
+
+#: models.py:74
+msgid "پیامک"
+msgstr "رسالة قصيرة"
+
+#: models.py:75
+msgid "پیامک‌ها"
+msgstr "رسائل نصية"
+
+#: models.py:79
+msgid "تاریخ ثبت"
+msgstr "تاريخ التسجيل"
+
+#: models.py:87 models.py:103 models.py:116 models.py:197
+msgid "تصویر"
+msgstr "صورة"
+
+#: models.py:88 models.py:102 models.py:123 models.py:196 models.py:235
+#: models.py:247
+msgid "عنوان"
+msgstr "عنوان"
+
+#: models.py:93
+msgid "پمفلت آموزشی"
+msgstr "كتيب تعليمي"
+
+#: models.py:94
+msgid "پمفلت‌های آموزشی"
+msgstr "كتيبات تعليمية"
+
+#: models.py:101 models.py:115
+msgid "مقدار در url"
+msgstr "القيمة في url"
+
+#: models.py:107
+msgid "اعتباربخشی"
+msgstr "الاعتماد الاكاديمي"
+
+#: models.py:108
+msgid "اعتباربخشی‌ها"
+msgstr "الاعتمادات"
+
+#: models.py:117
+msgid "پی‌دی‌اف بلاگ"
+msgstr "مدونة PDF"
+
+#: models.py:118
+msgid "تصویر کد QR"
+msgstr "صورة رمز الاستجابة السريعة"
+
+#: models.py:119 models.py:198
+msgid "لینک ویدیو"
+msgstr "رابط الفيديو"
+
+#: models.py:120
+msgid "نویسنده"
+msgstr "الكاتب"
+
+#: models.py:121 models.py:240
+msgid "دسته بندی‌ها"
+msgstr "فئات"
+
+#: models.py:122 models.py:252
+msgid "تگ‌ها"
+msgstr "العلامات"
+
+#: models.py:124
+msgid "زمان خواندن"
+msgstr "وقت القراءة"
+
+#: models.py:125
+msgid "متن مقاله"
+msgstr "نص المقال"
+
+#: models.py:126
+msgid "متن کوتاه"
+msgstr "نص قصير"
+
+#: models.py:126
+msgid "سعی کنید خلاصه ای بنویسید که شامل کلمات کلیدی باشد."
+msgstr "حاول كتابة ملخص يتضمن كلمات رئيسية."
+
+#: models.py:127
+msgid "آیا منتشر شود؟"
+msgstr "هل سيتم نشرها؟"
+
+#: models.py:127
+msgid "اگر این تیک فعال باشد بعد از ذخیره شدن ایمیل برای اعضای خبرنامه ارسال میشود."
+msgstr "إذا كانت هذه العلامة نشطة ، فسيتم إرسال البريد الإلكتروني إلى أعضاء النشرة الإخبارية بعد حفظها."
+
+#: models.py:128
+msgid "آیا ایمیل شده است؟"
+msgstr "هل تم إرسالها بالبريد الإلكتروني؟"
+
+#: models.py:129
+msgid "امکان لایک دارد؟"
+msgstr "هل من الممكن أن يعجبني؟"
+
+#: models.py:130
+msgid "امکان دیسلایک دارد؟"
+msgstr "هل من الممكن أن تكره؟"
+
+#: models.py:131
+msgid "امکان کامنت دارد؟"
+msgstr "هل من الممكن التعليق؟"
+
+#: models.py:132 models.py:202
+msgid "گالری بلاگ"
+msgstr "معرض المدونة"
+
+#: models.py:133
+msgid "بخش‌ها"
+msgstr "الأقسام"
+
+#: models.py:138 models.py:216 models.py:261
+msgid "بلاگ"
+msgstr "مدونة"
+
+#: models.py:139
+msgid "بلاگ‌ها"
+msgstr "المدونات"
+
+#: models.py:192
+msgid "نام نویسنده"
+msgstr "اسم المؤلف"
+
+#: models.py:203
+msgid "گالری بلاگ‌ها"
+msgstr "معرض المدونات"
+
+#: models.py:211
+msgid "پاسخ"
+msgstr "إجابة"
+
+#: models.py:212
+msgid "نظر"
+msgstr "رأي"
+
+#: models.py:213
+msgid "نام"
+msgstr "اسم"
+
+#: models.py:214
+msgid "نام‌خانوادگی"
+msgstr "اسم العائلة"
+
+#: models.py:215
+msgid "شماره تلفن"
+msgstr "رقم التليفون"
+
+#: models.py:218
+msgid "نمایش داده شود؟"
+msgstr "ليتم عرضها؟"
+
+#: models.py:219
+msgid "توسط نویسنده خوانده شده؟"
+msgstr "قرأه المؤلف؟"
+
+#: models.py:223
+msgid "نظر کاربر برای بلاگ"
+msgstr "تعليقات المستخدم للمدونة"
+
+#: models.py:224
+msgid "نظرات کاربران برای بلاگ‌ها"
+msgstr "تعليقات المستخدم للمدونات"
+
+#: models.py:228
+msgid "تاریخ نظر"
+msgstr "تاريخ التعليق"
+
+#: models.py:239
+msgid "دسته بندی"
+msgstr "التجمع"
+
+#: models.py:251
+msgid "تگ"
+msgstr "بطاقة شعار"
+
+#: models.py:259
+msgid "لایک"
+msgstr "يحب"
+
+#: models.py:259
+msgid "دیسلایک"
+msgstr "لم يعجبنى"
+
+#: models.py:262
+msgid "لایک یا دیسلایک"
+msgstr "مثل أو كره"
+
+#: models.py:266
+msgid "لایک یا دیسلایک بلاگ"
+msgstr "إبداء الإعجاب أو عدم الإعجاب بالمدونة"
+
+#: models.py:267
+msgid "لایک یا دیسلایک بلاگ‌ها"
+msgstr "إبداء الإعجاب أو عدم الإعجاب بالمدونات"
+
+#: templates/blog/info.html:3 templates/blog/list.html:3
+msgid "خانه"
+msgstr "بيت"
+
+#: templates/blog/info.html:55
+msgid "پست قبلی"
+msgstr "المنشور السابق"
+
+#: templates/blog/info.html:69
+msgid "پست بعدی"
+msgstr "آخر بعد"
+
+#: templates/blog/info.html:140
+msgid "جواب دادن"
+msgstr "إجابة"
+
+#: views.py:73
+msgid "پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!"
+msgstr "تم تسجيل إجابتك. سيتم عرضه على الموقع بعد الموافقة. شكرا لكم على دعمكم والتشجيع!"
+
+#: views.py:75
+msgid "نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!"
+msgstr "تم تسجيل تعليقك. سيتم عرضها على الموقع بعد الموافقة. شكرا لكم على دعمكم والتشجيع!"

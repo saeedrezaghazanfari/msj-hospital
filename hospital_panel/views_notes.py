@@ -8,7 +8,7 @@ from .decorators import note_required
 from hospital_blog.models import MedicalNoteModel, SMSTextModel
 from hospital_auth.models import PatientModel, User
 from hospital_ipd.models import IPDModel
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from . import forms
 
 

@@ -6,11 +6,11 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.views import generic
 from django.utils.translation import get_language
+from hospital_extentions.utils import get_client_ip, write_action
 from .models import (
     NewsModel, NewsCommentModel, NewsLikeModel
 )
 from . import forms
-from extentions.utils import get_client_ip, write_action
 
 
 # url: /news/list/

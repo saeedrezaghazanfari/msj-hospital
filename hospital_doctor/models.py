@@ -6,23 +6,21 @@ from translated_fields import TranslatedField
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from ckeditor.fields import RichTextField
-from extentions.utils import DAYS, TIMES
+from hospital_extentions.utils import DAYS, TIMES
 
 
 class DoctorModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-    medical_code = models.CharField(max_length=15, unique=True, verbose_name=_('کد نظام پزشکی'))
+    medical_code = models.CharField(max_length=15, unique=True, verbose_name=_('کد نظام‌پزشکی'))
     skill_title = models.ForeignKey('TitleSkillModel', on_delete=models.SET_NULL, null=True, verbose_name=_('عنوان تخصص'))
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
-    insurances = models.ManyToManyField('hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
+    insurances = models.ManyToManyField('hospital_setting.InsuranceModel', verbose_name=_('بیمه‌های طرف قرارداد'))
     degree = models.ForeignKey('DegreeModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
     position = TranslatedField(RichTextField(max_length=500, null=True, blank=True, verbose_name=_('موقعیت')))
     bio = TranslatedField(RichTextField(max_length=500, blank=True, null=True, verbose_name=_('بیوگرافی')))
-    is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم پزشکی است؟'))
-    is_intenational = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین الملل است؟'))
-    # is_public = models.BooleanField(default=False, verbose_name=_('آیا این پزشک معمولی است؟'))
-    # is_clinic = models.BooleanField(default=False, verbose_name=_('آیا این پزشک درمانگاه است؟'))
+    is_medicalteam = models.BooleanField(default=False, verbose_name=_('آیا این پزشک عضو تیم‌پزشکی است؟'))
+    is_international = models.BooleanField(default=False, verbose_name=_('آیا این پزشک بین‌الملل است؟'))
     is_active = models.BooleanField(default=True, verbose_name=_('فعال؟'))
 
     class Meta:
@@ -44,7 +42,7 @@ class TitleSkillModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('عنوان تخصص')
-        verbose_name_plural = _('عناوین تخصص‌ها')
+        verbose_name_plural = _('عنوان تخصص‌ها')
 
     def __str__(self):
         return self.title
@@ -56,7 +54,7 @@ class DegreeModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('نوع مدرک')
-        verbose_name_plural = _('نوع مدرک ها')
+        verbose_name_plural = _('نوع مدرک‌ها')
 
     def __str__(self):
         return self.title

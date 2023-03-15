@@ -6,12 +6,12 @@ from .models import (
 
 class IPDModel_Admin(admin.ModelAdmin):
     list_display = ['username', 'age', 'gender', 'country', 'is_answered', 'j_created']
-    search_field = ['phone', 'username']
+    search_field = ['phone']
     ordering = ['-id']
 
 class IPDCodeModel_Admin(admin.ModelAdmin):
     list_display = ['phone', 'code', 'j_date', 'j_expire', 'is_use']
-    search_field = ['is_use', 'phone']
+    search_field = ['phone']
     ordering = ['-id']
 
 

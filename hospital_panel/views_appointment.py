@@ -1,4 +1,5 @@
 import calendar
+from jalali_date import date2jalali
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -14,9 +15,8 @@ from hospital_units.models import (
 )
 from hospital_setting.models import PriceAppointmentModel, InsuranceModel
 from hospital_doctor.models import DoctorModel, DoctorVacationModel, DegreeModel
-from extentions.utils import date_range_list
-from jalali_date import date2jalali
-from extentions.utils import write_action
+from hospital_extentions.utils import date_range_list
+from hospital_extentions.utils import write_action
 from .decorators import online_appointment_required
 from . import forms
 
@@ -255,17 +255,17 @@ def oa_unit_page(request):
 def oa_subunit_page(request):
 
     paraclinics_en = ['Physiotherapy', 'Laboratory', 'Pathology', 'Imaging']
-    medicals_en = ['Dialysis', 'IPD', 'emergency', 'clinic', 'Heart', 'CCU', 'angiography', 'Central operating room', 'Open heart operating room', 'CSR', 'Adult ICU', 'Gynecological surgery', 'Obstetrics and Gynecology', "Men's surgery", 'Pediatrics and Infants or NICU']
-    officials_en = ['Accounting', 'human resources', 'Medical documents', 'Clearance and admission', 'IT', 'facilities', 'lingerie', 'kitchen', 'Medical Equipment', 'Health Professional', 'Environmental Health', 'Improve quality', 'guarding', 'helper', 'warehouses', 'Garbage incinerator', 'Committee']
+    medicals_en = ['Dialysis', 'IPD', 'Emergency', 'Clinic', 'Heart', 'CCU', 'Angiography', 'Operating Room', 'CSR', 'Adult ICU', 'Gynecological surgery', 'Obstetrics and Gynecology', "Men's surgery", 'Pediatrics and Infants or NICU']
+    officials_en = ['Accounting', 'Human Resources', 'Medical Documents', 'Clearance and Admission', 'IT', 'Facilities', 'Lingerie', 'Kitchen', 'Medical Equipment', 'Health Professional', 'Environmental Health', 'Improve Quality', 'Guarding', 'Helper', 'Warehouses', 'Garbage Incinerator', 'Committee']
     paraclinics_ar = ['العلاج الطبيعي', 'معمل', 'علم الأمراض', 'التصوير']
-    medicals_ar = ['غسيل الكلى', 'IPD', 'طارئ', 'عيادة', 'قلب', 'CCU', 'تصوير الأوعية', 'غرفة العمليات المركزية', 'غرفة عمليات القلب المفتوح', 'المسؤولية الاجتماعية للشركات', 'وحدة العناية المركزة للبالغين', 'جراحة أمراض النساء', 'أمراض النساء والتوليد', 'جراحة الرجال', 'طب الأطفال والرضع NICU']
+    medicals_ar = ['غسيل الكلى', 'IPD', 'طارئ', 'عيادة', 'قلب', 'CCU', 'تصوير الأوعية', 'غرفة العمليات', 'المسؤولية الاجتماعية للشركات', 'وحدة العناية المركزة للبالغين', 'جراحة أمراض النساء', 'أمراض النساء والتوليد', 'جراحة الرجال', 'طب الأطفال والرضع NICU']
     officials_ar = ['محاسبة', 'الموارد البشرية', 'المستندات الطبية', 'التخليص والقبول', 'IT', 'مرافق', 'الملابس الداخلية', 'مطبخ', 'معدات طبية', 'الصحة المهنية', 'الصحة البيئية', 'حسن الجودة', 'حراسة', 'المساعد', 'المستودعات', 'محرقة نفايات', 'لجنة']
     paraclinics_ru = ['Физиотерапия', 'Лаборатория', 'Патология', 'визуализация']
-    medicals_ru = ['Диализ', 'ИПД', 'чрезвычайная ситуация', 'клиника', 'Сердце', 'центральный блок управления', 'ангиография', 'Центральная операционная', 'Операционная на открытом сердце', 'КСО', 'ОИТ для взрослых', 'Гинекологическая хирургия', 'Акушерство и гинекология', 'мужская хирургия', 'Педиатрия и младенцы или NICU']
+    medicals_ru = ['Диализ', 'ИПД', 'чрезвычайная ситуация', 'клиника', 'Сердце', 'центральный блок управления', 'ангиография', 'операционная', 'КСО', 'ОИТ для взрослых', 'Гинекологическая хирургия', 'Акушерство и гинекология', 'мужская хирургия', 'Педиатрия и младенцы или NICU']
     officials_ru = ['Бухгалтерский учет', 'человеческие ресурсы', 'Медицинские документы', 'Оформление и допуск', 'это', 'удобства', 'Дамское белье', 'кухня', 'Медицинское оборудование', 'Медицинский работник', 'Состояние окружающей среды', 'Улучшить качество', 'охрана', 'помощник', 'складские помещения', 'Мусоросжигатель', 'комитет']
 
     paraclinics = ['فیزیوتراپی', 'آزمایشگاه', 'پاتولوژی', 'تصویربرداری']
-    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'CCU', 'آنژیوگرافی', 'اتاق عمل مرکزی', 'اتاق عمل قلب باز', 'CSR', 'ICU بزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
+    medicals = ['دیالیز', 'IPD', 'اورزانس', 'درمانگاه', 'قلب', 'CCU', 'آنژیوگرافی', 'اتاق عمل', 'CSR', 'ICU بزرگسال', 'جراحی زنان', 'زنان و زایمان', 'جراحی مردان', 'اطفال و نوزادان یا NICU']
     officials = ['حسابداری', 'منابع انسانی', 'اسناد پزشکی', 'ترخیص و پذیرش', 'آی‌تی', 'تاسیسات', 'لنژری', 'آشپزخانه', 'تجهیزات پزشکی', 'بهداشت حرفه‌ای', 'بهداشت محیط', 'بهبود کیفیت', 'نگهبانی', 'مددکاری', 'انبارها', 'زباله سوز', 'کمیته']
     paraclinics_list = []
     medicals_list = []

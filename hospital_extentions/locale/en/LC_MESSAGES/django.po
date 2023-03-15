@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: utils.py:12
+msgid "مرد"
+msgstr "Male"
+
+#: utils.py:13
+msgid "زن"
+msgstr "Female"
+
+#: utils.py:16
+msgid "شنبه"
+msgstr "Saturday"
+
+#: utils.py:17
+msgid "یک‌شنبه"
+msgstr "Sunday"
+
+#: utils.py:18
+msgid "دو‌شنبه"
+msgstr "Monday"
+
+#: utils.py:19
+msgid "سه‌شنبه"
+msgstr "Tuesday"
+
+#: utils.py:20
+msgid "چهار‌شنبه"
+msgstr "Wednesday"
+
+#: utils.py:21
+msgid "پنج‌شنبه"
+msgstr "Thursday"
+
+#: utils.py:22
+msgid "جمعه"
+msgstr "Friday"
+
+#: utils.py:93
+msgid "مقدار فیلد را وارد کنید."
+msgstr "Enter the field value."
+
+#: utils.py:97
+msgid "محتوای متن نباید شامل علامت باشد."
+msgstr "Text content should not contain symbols."
+
+#: validations.py:13
+msgid "کدملی خود را وارد کنید."
+msgstr "Enter your country code."
+
+#: validations.py:15
+msgid "الگوی کدملی شما صحیح نیست."
+msgstr "Your national code template is not correct."
+
+#: validations.py:18
+msgid "کدملی شما یک بار در سیستم ثبت شده است."
+msgstr "Your national code has been registered in the system once."
+
+#: validations.py:25
+msgid "محتوای فیلد را وارد کنید."
+msgstr "Enter the content of the field."
+
+#: validations.py:27
+msgid "این فیلد باید بیشتر از 1 کاراکتر باشد."
+msgstr "This field must be more than 1 character."
+
+#: validations.py:29
+msgid "این فیلد باید کمتر از 255 کاراکتر باشد."
+msgstr "This field must be less than 255 characters."
+
+#: validations.py:32
+msgid "این فیلد باید شامل کاراکترهای غیر از اعداد باشد."
+msgstr "This field must contain characters other than numbers."
+
+#: validations.py:39
+msgid "سن خود را وارد کنید"
+msgstr "Enter your age"
+
+#: validations.py:41
+msgid "سن نباید منفی باشد."
+msgstr "Age should not be negative."
+
+#: validations.py:43
+msgid "عدد سن معتبر نیست."
+msgstr "The age number is not valid."
+
+#: validations.py:50
+msgid "شماره تلفن خود را وارد کنید."
+msgstr "Enter your phone number."
+
+#: validations.py:52
+msgid "الگوی شماره تلفن شما صحیح نیست."
+msgstr "Your phone number pattern is incorrect."
+
+#: validations.py:59
+msgid "الگوی ایمیل شما صحیح نیست."
+msgstr "Your email template is incorrect."
+
+#: validations.py:62
+msgid "قبلا این آدرس ایمیل در سیستم ثبت شده است."
+msgstr "This email address has already been registered in the system."
+
+#: validations.py:71
+msgid "فرمت فایل شما باید pdf باشد."
+msgstr "Your file format must be pdf."
+
+#: validations.py:75
+msgid "فرمت فایل شما باید یکی از فرمت های mp4, webm, mkv باشد."
+msgstr "Your file format must be one of mp4, webm, mkv formats."
+
+#: validations.py:79
+msgid "فرمت فایل شما باید یکی از فرمت های jpg, jpeg, png باشد."
+msgstr "Your file format must be one of jpg, jpeg, png."
+
+#: validations.py:83
+msgid "فرمت فایل شما باید mp3 باشد."
+msgstr "Your file format must be mp3."
+
+#: validations.py:87
+msgid "فرمت فایل شما باید یکی از فرمت های pdf, jpg, jpeg, png باشد."
+msgstr "Your file format should be one of pdf, jpg, jpeg, png."

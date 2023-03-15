@@ -44,13 +44,12 @@ class UserFullNameModel_Admin(admin.ModelAdmin):
 
 class PatientModel_Admin(admin.ModelAdmin):
     list_display = ['username', 'gender', 'age']
-    search_field = ['username', 'gender', 'age']
+    search_field = ['username']
     ordering = ['-id']
 
 
 class LoginCodeModel_Admin(admin.ModelAdmin):
     list_display = ['user', 'code', 'j_date', 'j_expire', 'is_use']
-    search_field = ['is_use', 'user']
     ordering = ['-id']
 
 

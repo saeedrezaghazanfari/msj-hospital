@@ -355,11 +355,36 @@
                     ],
                 ],
 
-                [ //url: /fa/clinic/list/
+                [ //url: /fa/unit/clinic/list/
                     "{% url 'website:clinic-list' %}", [
                         'لیست کلینیک‌های بیمارستان',  
                     ],
                 ],
+
+                [ //url: /fa/unit/operating-room/list/
+                    "{% url 'website:operatingroom-list' %}", [
+                        'لیست اتاق‌ عمل‌های بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/unit/official/list/
+                    "{% url 'website:official-list' %}", [
+                        'لیست بخش‌های اداری و خدماتی بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/unit/paraclinic/list/
+                    "{% url 'website:paraclinic-list' %}", [
+                        'لیست پاراکلینیک‌های بیمارستان',  
+                    ],
+                ],
+
+                [ //url: /fa/unit/medical/list/
+                    "{% url 'website:medical-list' %}", [
+                        'لیست بخش‌های درمانی بیمارستان',  
+                    ],
+                ],
+
 
             ]
         }
@@ -402,7 +427,7 @@
         document.querySelector('#queryshow b').innerHTML = `نتیجه(${outputs.length})`;
 
         outputs.forEach(element => {
-            document.getElementById('wrapper-outputs').innerHTML += `<div class="alert alert-light text-primary div-outputs"><a target="_blank" href="${element[1]}">${element[0]}</a></div>`;
+            document.getElementById('wrapper-outputs').innerHTML += `<div class="alert alert-light text-primary div-outputs"><a target="_blank" href="${element[1]}">${element[0]}</a><br>${element[1]}</div>`;
         });
     }
 

@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps.py:8
+msgid "ماژول های وبسایت"
+msgstr ""
+
+#: templates/web/aboutus/aboutus.html:3
+#: templates/web/aboutus/board-of-directors.html:3
+#: templates/web/aboutus/ceo-management.html:3
+#: templates/web/aboutus/certificates.html:3 templates/web/aboutus/chart.html:3
+#: templates/web/aboutus/committees.html:3 templates/web/aboutus/credit.html:3
+#: templates/web/aboutus/deceaseds.html:3
+#: templates/web/aboutus/gallery-imgs.html:3
+#: templates/web/aboutus/gallery-vids.html:3
+#: templates/web/aboutus/history.html:3
+#: templates/web/aboutus/patient-chart.html:3
+#: templates/web/aboutus/patient-edu.html:3
+#: templates/web/aboutus/perspective.html:3
+#: templates/web/aboutus/policies.html:3
+#: templates/web/aboutus/quality-improvement.html:3
+#: templates/web/aboutus/results.html:3
+#: templates/web/aboutus/visiting-famous-faces.html:3
+#: templates/web/aboutus/workshops.html:3
+#: templates/web/guides/clinic-program.html:3
+#: templates/web/guides/insurances.html:3 templates/web/guides/phones.html:3
+#: templates/web/guides/prices-bed.html:3
+#: templates/web/guides/prices-services.html:3
+#: templates/web/guides/prices-surgray.html:3
+#: templates/web/guides/prices.html:3
+#: templates/web/guides/visitors-guide.html:3 templates/web/home.html:3
+#: templates/web/search.html:3 templates/web/service-list/unit-info.html:3
+#: templates/web/service-list/unit-list.html:3
+msgid "خانه"
+msgstr ""
+
+#: views.py:46
+msgid "الگوی ایمیل شما صحیح نیست."
+msgstr ""
+
+#: views.py:50
+msgid "قبلا این آدرس ایمیل در خبرنامه ثبت شده است."
+msgstr ""
+
+#: views.py:59
+msgid "ایمیل شما با موفقیت در سیستم ثبت شد."
+msgstr ""

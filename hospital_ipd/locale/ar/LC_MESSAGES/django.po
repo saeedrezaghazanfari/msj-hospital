@@ -1,0 +1,177 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: apps.py:8
+msgid "ماژول IPD"
+msgstr "وحدة IPD"
+
+#: forms.py:15 forms.py:25 models.py:24 models.py:56
+msgid "شماره تلفن"
+msgstr "رقم التليفون"
+
+#: forms.py:16 forms.py:27
+msgid "کد کپچا"
+msgstr "كود الكابتشا"
+
+#: forms.py:26 forms.py:46
+msgid "کد پیامک شده"
+msgstr "رمز الرسائل القصيرة"
+
+#: forms.py:37 forms.py:51
+msgid "کد پیامک شده را وارد کنید."
+msgstr "أدخل رمز SMS."
+
+#: forms.py:39 forms.py:53
+msgid "الگوی کد پیامک شده شما صحیح نیست."
+msgstr "نمط رمز SMS الخاص بك غير صحيح."
+
+#: forms.py:41 forms.py:55 views.py:82
+msgid "کد شما منقضی شده و یا اینکه اعتبار ندارد."
+msgstr "انتهت صلاحية الرمز الخاص بك أو أنه غير صالح."
+
+#: forms.py:69
+msgid "شماره پاسپورت یا کد ملی خود را وارد کنید."
+msgstr "أدخل رقم جواز السفر أو الرمز الوطني."
+
+#: forms.py:71
+msgid "الگوی کدملی یا شماره پاسپورت شما صحیح نیست."
+msgstr "نمط الرمز الوطني أو رقم جواز السفر غير صحيح."
+
+#: models.py:20 models.py:57
+msgid "کد"
+msgstr "شفرة"
+
+#: models.py:21
+msgid "شماره پاسپورت/کدملی"
+msgstr "رقم جواز السفر / الجنسية"
+
+#: models.py:22
+msgid "نام"
+msgstr "اسم"
+
+#: models.py:23
+msgid "نام‌خانوادگی"
+msgstr "اسم العائلة"
+
+#: models.py:25
+msgid "ایمیل"
+msgstr "بريد إلكتروني"
+
+#: models.py:26
+msgid "جنسیت"
+msgstr "جنس"
+
+#: models.py:27
+msgid "سن"
+msgstr "عمر"
+
+#: models.py:28
+msgid "شرح بیماری"
+msgstr "وصف المرض"
+
+#: models.py:29
+msgid "مستندات"
+msgstr "توثيق"
+
+#: models.py:30
+msgid "کشور"
+msgstr "دولة"
+
+#: models.py:31
+msgid "استان"
+msgstr "ولاية"
+
+#: models.py:32
+msgid "شهر"
+msgstr "مدينة"
+
+#: models.py:34
+msgid "پاسخ"
+msgstr "إجابة"
+
+#: models.py:35
+msgid "پزشک پاسخگو"
+msgstr "طبيب مسؤول"
+
+#: models.py:36
+msgid "آیا جواب داده شده است؟"
+msgstr "هل تم الرد عليه؟"
+
+#: models.py:40
+msgid "نام و نام‌خانوادگی"
+msgstr "الاسم الأول واسم العائلة"
+
+#: models.py:44
+msgid "تاریخ ارسال درخواست"
+msgstr "تاريخ تقديم الطلب"
+
+#: models.py:51
+msgid "بیمار بین‌الملل"
+msgstr "مريض دولي"
+
+#: models.py:52
+msgid "بیماران بین‌الملل"
+msgstr "المرضى الدوليون"
+
+#: models.py:58 models.py:68
+msgid "تاریخ تولید کد"
+msgstr "تاريخ إنشاء الكود"
+
+#: models.py:59 models.py:72
+msgid "تاریخ انقضای کد"
+msgstr "تاريخ انتهاء الكود"
+
+#: models.py:60
+msgid "استفاده شده؟"
+msgstr "مستخدم؟"
+
+#: models.py:61
+msgid "تاریخ انقضای عملیات"
+msgstr "تاريخ انتهاء العملية"
+
+#: models.py:76
+msgid "کد احراز هویت ipd"
+msgstr "كود المصادقة ipd"
+
+#: models.py:77
+msgid "کدهای احراز هویت ipd"
+msgstr "رموز المصادقة ipd"
+
+#: templates/ipd/info.html:3 templates/ipd/login.html:3
+#: templates/ipd/phone.html:3 templates/ipd/register.html:3
+#: templates/ipd/sms-code.html:3
+msgid "آمپول | ورود"
+msgstr "أمبولة | تسجيل الدخول"
+
+#: views.py:42
+msgid "یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد."
+msgstr "تم إرسال رسالة نصية قصيرة تحتوي على كلمة مرور إلى رقم الاتصال الخاص بك."
+
+#: views.py:118
+msgid "باید مقادیر کشور استان و شهر را وارد کنید."
+msgstr "يجب إدخال قيم البلد والمقاطعة والمدينة."
+
+#: views.py:126
+msgid "شما قبلا یک فرم ارسال کرده اید. در صورتی که به آن فرم پاسخ داده شده باشد میتوانید فرم جدید ارسال کنید."
+msgstr "لقد قدمت بالفعل نموذجًا. إذا تم الرد على هذا النموذج ، يمكنك إرسال نموذج جديد."
+
+#: views.py:139
+msgid "فرم شما با موفقیت ارسال شد. تیم پزشکی ما در اسرع وقت درخواست شما را بررسی خواهد کرد."
+msgstr "تم تسليم إستمارتك بنجاح. سيقوم فريقنا الطبي بمراجعة طلبك في أقرب وقت ممكن."

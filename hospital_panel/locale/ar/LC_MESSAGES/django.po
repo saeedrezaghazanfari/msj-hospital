@@ -1,0 +1,363 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: apps.py:8
+msgid "ماژول پنل کاربری"
+msgstr ""
+
+#: forms.py:34
+msgid "ایمیل خود را وارد کنید"
+msgstr ""
+
+#: forms.py:146 forms.py:155 forms.py:164 forms.py:173
+msgid "این آیتم در جدول موجود میباشد."
+msgstr ""
+
+#: forms.py:148 forms.py:157 forms.py:166 forms.py:175
+msgid "شما یک داده با این نام ثبت کرده اید."
+msgstr ""
+
+#: forms.py:188
+msgid "عدد ساعت را وارد کنید."
+msgstr ""
+
+#: forms.py:190
+msgid "عدد ساعت نباید بزرگتر از 168 یا یک هفته باشد."
+msgstr ""
+
+#: forms.py:192
+msgid "عدد ساعت باید بیشتر از 1 ساعت باشد."
+msgstr ""
+
+#: forms.py:198
+msgid "قوانین را وارد کنید."
+msgstr ""
+
+#: forms.py:211 forms.py:231 forms.py:245
+msgid "مقدار فیلد نباید بزرگتر از 90 کاراکتر باشد."
+msgstr ""
+
+#: forms.py:213 forms.py:233 forms.py:247
+msgid "شما قبلا یک مقدار شبیه به این داده ثبت کرده اید."
+msgstr ""
+
+#: forms.py:267 forms.py:347
+msgid "از تاریخ"
+msgstr ""
+
+#: forms.py:270 forms.py:350
+msgid "تا تاریخ"
+msgstr ""
+
+#: forms.py:278 forms.py:286 forms.py:357 forms.py:365
+msgid "تاریخ نباید از زمان حال کوچکتر باشد."
+msgstr ""
+
+#: forms.py:289 forms.py:368
+msgid "تاریخ مقصد نباید از تاریخ مبدا کوچکتر باشد."
+msgstr ""
+
+#: forms.py:300 forms.py:303 forms.py:321 forms.py:324 forms.py:379
+#: forms.py:382
+msgid "ساعت مقصد نباید از ساعت مبدا کوچکتر باشد."
+msgstr ""
+
+#: forms.py:401
+msgid "تاریخ حضور"
+msgstr ""
+
+#: forms.py:415
+msgid "تاریخ"
+msgstr ""
+
+#: forms.py:504 forms.py:509 forms.py:514 forms.py:519
+msgid "شما قبلا یک تگ با همین نام ایجاد کرده اید."
+msgstr ""
+
+#: forms.py:531 forms.py:536 forms.py:541 forms.py:546
+msgid "شما قبلا یک عنوان دسته بندی با همین نام ایجاد کرده اید."
+msgstr ""
+
+#: forms.py:565 forms.py:585
+msgid "هر دو فیلد نمیتوانند خالی باشند."
+msgstr ""
+
+#: forms.py:567 forms.py:587
+msgid "هر دو فیلد نمیتوانند مقدار داشته باشند."
+msgstr ""
+
+#: forms.py:680
+msgid "محتوای فیلد را وارد کنید."
+msgstr ""
+
+#: templates/panel/blog/category.html:3
+#: templates/panel/blog/comment-edit.html:3 templates/panel/blog/comment.html:3
+#: templates/panel/blog/create.html:3 templates/panel/blog/edit.html:3
+#: templates/panel/blog/gallery.html:3 templates/panel/blog/home.html:3
+#: templates/panel/blog/pamphlet.html:3 templates/panel/blog/tag.html:3
+#: templates/panel/contacts/careers-edit.html:3
+#: templates/panel/contacts/careers.html:3
+#: templates/panel/contacts/contacts-info.html:3
+#: templates/panel/contacts/contacts.html:3
+#: templates/panel/contacts/home.html:3
+#: templates/panel/contacts/recruitations-info.html:3
+#: templates/panel/contacts/recruitations.html:3
+#: templates/panel/contacts/suggestions-info.html:3
+#: templates/panel/contacts/suggestions.html:3
+#: templates/panel/doctor/home.html:3 templates/panel/doctor/info.html:3
+#: templates/panel/doctor/insurances.html:3
+#: templates/panel/doctor/patients.html:3
+#: templates/panel/doctor/vacation.html:3 templates/panel/doctor/work.html:3
+#: templates/panel/experiment/home.html:3
+#: templates/panel/experiment/list.html:3
+#: templates/panel/experiment/patient.html:3 templates/panel/ipd/info.html:3
+#: templates/panel/ipd/list.html:3 templates/panel/missions/lvl1.html:3
+#: templates/panel/missions/lvl2.html:3 templates/panel/missions/lvl3.html:3
+#: templates/panel/missions/lvl4.html:3 templates/panel/missions/lvl5.html:3
+#: templates/panel/missions/lvl6.html:3 templates/panel/news/category.html:3
+#: templates/panel/news/comment-edit.html:3 templates/panel/news/comment.html:3
+#: templates/panel/news/create.html:3 templates/panel/news/edit.html:3
+#: templates/panel/news/gallery.html:3 templates/panel/news/home.html:3
+#: templates/panel/news/tag.html:3 templates/panel/notes/edit.html:3
+#: templates/panel/notes/list.html:3 templates/panel/notes/sms-info.html:3
+#: templates/panel/notes/sms-list.html:3
+#: templates/panel/online-appointment/degree.html:3
+#: templates/panel/online-appointment/doctor-create.html:3
+#: templates/panel/online-appointment/doctor-edit.html:3
+#: templates/panel/online-appointment/doctor-list.html:3
+#: templates/panel/online-appointment/doctor-time.html:3
+#: templates/panel/online-appointment/edit-time-appointment.html:3
+#: templates/panel/online-appointment/eturns-check.html:3
+#: templates/panel/online-appointment/eturns.html:3
+#: templates/panel/online-appointment/home.html:3
+#: templates/panel/online-appointment/insurances.html:3
+#: templates/panel/online-appointment/limittime.html:3
+#: templates/panel/online-appointment/patient.html:3
+#: templates/panel/online-appointment/price-appointment.html:3
+#: templates/panel/online-appointment/skill.html:3
+#: templates/panel/online-appointment/sms-tips.html:3
+#: templates/panel/online-appointment/subunit.html:3
+#: templates/panel/online-appointment/time-appointment.html:3
+#: templates/panel/online-appointment/time-p0-appointment.html:3
+#: templates/panel/online-appointment/time-p1-appointment.html:3
+#: templates/panel/online-appointment/time-p2-appointment.html:3
+#: templates/panel/online-appointment/tips.html:3
+#: templates/panel/online-appointment/unit.html:3
+msgid "online-appointment"
+msgstr ""
+
+#: templates/panel/editdata.html:3 templates/panel/home.html:3
+msgid "home"
+msgstr ""
+
+#: views.py:73
+msgid "اطلاعات حساب کاربری شما با موفقیت تغییر یافت."
+msgstr ""
+
+#: views.py:103 views.py:108 views.py:113 views.py:119 views.py:124
+#: views.py:129
+msgid "اطلاعات شما با موفقیت ذخیره شد."
+msgstr ""
+
+#: views.py:134
+msgid "باید فیلد های نام و نام خانوادگی فارسی را وارد کنید."
+msgstr ""
+
+#: views_appointment.py:46
+msgid "حد زمانی نوبت اینترنتی با موفقیت تنظیم شد."
+msgstr ""
+
+#: views_appointment.py:95
+msgid "بیمه ی مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:119
+msgid "نکته ی نوبت دهی مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:143
+msgid "نکته ی نوبت دهی پیامکی مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:167
+msgid "تخصص مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:216
+msgid "مدرک مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:240
+msgid "بخش مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:311
+msgid "زیربخش مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:351
+msgid "پزشک با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:402
+msgid "پزشک مورد نظر با موفقیت ویرایش شد."
+msgstr ""
+
+#: views_appointment.py:455
+msgid "مقدار مبلغ را وارد کنید."
+msgstr ""
+
+#: views_appointment.py:459
+msgid "مقدار این مبلغ نمیتواند منفی باشد."
+msgstr ""
+
+#: views_appointment.py:469
+msgid "تعرفه ی مورد نظر شما با موفقیت بروزرسانی شد."
+msgstr ""
+
+#: views_appointment.py:551
+msgid "زمان نوبت دهی موردنظر با موفقیت تغییر یافت."
+msgstr ""
+
+#: views_appointment.py:610
+msgid "باید حداقل یکی از فیلد ها مقدار داشته باشد."
+msgstr ""
+
+#: views_appointment.py:639
+msgid "لطفا روز های مورد نظر خود را انتخاب کنید."
+msgstr ""
+
+#: views_appointment.py:675
+msgid "زمان نوبت دهی مورد نظر شما با موفقیت اضافه شد."
+msgstr ""
+
+#: views_appointment.py:753
+msgid "باید تمامی فیلدها مقدار داشته باشند."
+msgstr ""
+
+#: views_appointment.py:784
+msgid "....."
+msgstr ""
+
+#: views_blog.py:66 views_blog.py:116 views_news.py:64
+msgid "بیمارستان موسی ابن جعفر - پست جدید"
+msgstr ""
+
+#: views_blog.py:81 views_blog.py:131
+msgid "بلاگ با موفقیت ویرایش شد."
+msgstr ""
+
+#: views_blog.py:154 views_news.py:153
+msgid "عنوان تگ با موفقیت ذخیره شد."
+msgstr ""
+
+#: views_blog.py:177 views_news.py:177
+msgid "عنوان دسته بندی با موفقیت ذخیره شد."
+msgstr ""
+
+#: views_blog.py:201 views_news.py:202
+msgid "گالری پست با موفقیت ذخیره شد."
+msgstr ""
+
+#: views_blog.py:244 views_news.py:245
+msgid "پاسخ شما با موفقیت ثبت شد."
+msgstr ""
+
+#: views_blog.py:269
+msgid "پمفلت آموزشی شما با موفقیت ثبت شد."
+msgstr ""
+
+#: views_blog.py:334 views_news.py:312
+msgid "کامنت کاربر با موفقیت ویرایش شد."
+msgstr ""
+
+#: views_contacts.py:35
+msgid "موقعیت شغلی مورد نظر با موفقیت اضافه شد."
+msgstr ""
+
+#: views_contacts.py:62
+msgid "موقعیت شغلی مورد نظر با موفقیت ویرایش شد."
+msgstr ""
+
+#: views_contacts.py:97
+msgid "فرم استخدامی بررسی شد."
+msgstr ""
+
+#: views_contacts.py:129 views_contacts.py:161
+msgid "رکورد مورد نظر خوانده شد."
+msgstr ""
+
+#: views_doctor.py:52
+msgid "اطلاعات شما با موفقیت تغییر یافت."
+msgstr ""
+
+#: views_doctor.py:84
+msgid ""
+"درخواست شما با موفقیت ارسال شد. پس از بررسی تغییرات لازم روی نوبت دهی انجام "
+"میشود."
+msgstr ""
+
+#: views_doctor.py:116
+msgid "زمان کاری شما با موفقیت ثبت شد."
+msgstr ""
+
+#: views_doctor.py:145
+msgid "بیمه های موردنظر با موفقیت برای شما ثبت شدند."
+msgstr ""
+
+#: views_experiment.py:43
+msgid "نتیجه ی آزمایش با موفقیت ثبت شد."
+msgstr ""
+
+#: views_experiment.py:80
+msgid "اطلاعات بیمار با موفقیت ثبت شد."
+msgstr ""
+
+#: views_ipd.py:35
+msgid "برای ارسال پاسخ باید اطمینان کامل را داشته باشید."
+msgstr ""
+
+#: views_ipd.py:56
+msgid "پاسخ شما با موفقیت ارسال شد."
+msgstr ""
+
+#: views_news.py:79 views_news.py:129
+msgid "خبر با موفقیت ویرایش شد."
+msgstr ""
+
+#: views_news.py:114
+msgid "بیمارستان موسی ابن جعفر - خبر جدید"
+msgstr ""
+
+#: views_notes.py:28
+msgid "نوت پزشکی مورد نظر شما ثبت شد."
+msgstr ""
+
+#: views_notes.py:53
+msgid "نوت پزشکی مورد نظر شما ویرایش شد."
+msgstr ""
+
+#: views_notes.py:129
+msgid "پیامک مورد نظر شما ثبت شد."
+msgstr ""
+
+#: views_notes.py:158
+msgid "پیامک مورد نظر شما ویرایش شد."
+msgstr ""

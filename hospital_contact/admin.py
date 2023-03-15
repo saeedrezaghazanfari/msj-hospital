@@ -16,13 +16,11 @@ from .models import (
 
 class NotificationModel_Admin(admin.ModelAdmin):
     list_display = ['title', 'is_from_boss', 'is_published', 'user']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class PatientSightModel_Admin(admin.ModelAdmin):
     list_display = ['patient', 'unit']
-    search_fields = ['patient', 'unit']
     ordering = ['-id']
 
 
@@ -57,7 +55,7 @@ class BenefactorModel_Admin(admin.ModelAdmin):
 
 class CareersModel_Admin(admin.ModelAdmin):
     list_display = ['code', 'title', 'skill', 'degree']
-    search_fields = ['code', 'title', 'skill', 'degree']
+    search_fields = ['code']
     ordering = ['-id']
 
 
@@ -68,7 +66,6 @@ class HireFormModel_Admin(admin.ModelAdmin):
 
 class WorkshopModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 

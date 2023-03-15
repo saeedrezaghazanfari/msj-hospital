@@ -8,14 +8,17 @@ from django.utils.translation import get_language
 import os, re
 from random import randint, choice
 
-
+GENDERS = (
+    ('male', _('مرد')), 
+    ('female', _('زن')),
+)
 DAYS = (
     ('saturday', _('شنبه')),
-    ('sunday', _('یک شنبه')),
-    ('monday', _('دو شنبه')),
-    ('tuesday', _('سه شنبه')),
-    ('wednesday', _('چهار شنبه')),
-    ('thursday', _('پنج شنبه')),
+    ('sunday', _('یک‌شنبه')),
+    ('monday', _('دو‌شنبه')),
+    ('tuesday', _('سه‌شنبه')),
+    ('wednesday', _('چهار‌شنبه')),
+    ('thursday', _('پنج‌شنبه')),
     ('friday', _('جمعه')),
 )
 TIMES = (

@@ -1,11 +1,10 @@
 import uuid
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
 from hospital_doctor.models import DegreeModel
 from ckeditor.fields import RichTextField
-from extentions.utils import (
+from hospital_extentions.utils import (
     costs_image_path, 
     facility_image_path,
     gallery_image_path,
@@ -27,7 +26,6 @@ class SettingModel(models.Model):
     phone = TranslatedField(RichTextField(verbose_name=_('شماره تلفن/ها')))
     facs = models.CharField(max_length=255, verbose_name=_('فکس'))
     rules_hours = TranslatedField(RichTextField(verbose_name=_('ساعات و قوانین ملاقات')))
-    history = TranslatedField(RichTextField(verbose_name=_('تاریخچه')))
     aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
     facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('فیسبوک'))
@@ -35,13 +33,14 @@ class SettingModel(models.Model):
     instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('اینستاگرام'))
     whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('واتساپ'))
     bank_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام بانک')))
-    bank_account_owner = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام صاحب حساب')))
+    bank_account_owner = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام صاحب‌حساب')))
     bank_account_cardnum = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره کارت'))
     bank_account_num = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره حساب'))
     bank_account_shabanum = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('شماره شبا'))
     ipd_services = TranslatedField(RichTextField(verbose_name=_('خدمات بخش بیماران بین الملل'), blank=True, null=True))
     quality_improvement = TranslatedField(RichTextField(verbose_name=_('بهبود کیفیت'), blank=True, null=True))
     whyus = TranslatedField(RichTextField(verbose_name=_('چرا ما؟'), blank=True, null=True))
+    history = TranslatedField(RichTextField(verbose_name=_('تاریخچه'), blank=True, null=True))
     have_signup_page = models.BooleanField(default=False, verbose_name=_('صفحه ثبتنام کاربران نمایش داده شود؟'))
 
     class Meta:
@@ -61,7 +60,7 @@ class CostModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('ارزش بیمارستان')
-        verbose_name_plural = _('ارزش های بیمارستان')
+        verbose_name_plural = _('ارزش‌های بیمارستان')
 
     def __str__(self):
         return self.title
@@ -73,7 +72,7 @@ class HospitalPoliticModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('سیاست بیمارستان')
-        verbose_name_plural = _('سیاست های بیمارستان')
+        verbose_name_plural = _('سیاست‌های بیمارستان')
 
     def __str__(self):
         return self.title
@@ -86,7 +85,7 @@ class HospitalFacilityModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('امکانات بیمارستان')
-        verbose_name_plural = _('امکانات های بیمارستان')
+        verbose_name_plural = _('امکانات‌ بیمارستان')
 
     def __str__(self):
         return self.title
@@ -98,8 +97,8 @@ class FAQModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('سوال پر تکرار')
-        verbose_name_plural = _('سوالات پر تکرار')
+        verbose_name = _('سوال پر‌تکرار')
+        verbose_name_plural = _('سوالات پر‌تکرار')
 
     def __str__(self):
         return self.question
@@ -111,7 +110,7 @@ class NewsLetterEmailsModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('ایمیل خبرنامه')
-        verbose_name_plural = _('ایمیل های خبرنامه')
+        verbose_name_plural = _('ایمیل‌های خبرنامه')
 
     def __str__(self):
         return self.email
@@ -125,7 +124,7 @@ class InsuranceModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('بیمه طرف قرارداد')
-        verbose_name_plural = _('بیمه های طرف قرارداد')
+        verbose_name_plural = _('بیمه‌های طرف قرارداد')
 
     def __str__(self):
         return self.title
@@ -133,7 +132,7 @@ class InsuranceModel(models.Model):
 
 class HospitalImageGalleryModel(models.Model):
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
-    items = models.ManyToManyField('HospitalImageGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
+    items = models.ManyToManyField('HospitalImageGalleryItemModel', verbose_name=_('آیتم/ها'))
 
     class Meta:
         ordering = ['-id']
@@ -151,7 +150,7 @@ class HospitalImageGalleryItemModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('آیتم گالری تصویر')
-        verbose_name_plural = _('آیتم های گالری تصاویر')
+        verbose_name_plural = _('آیتم‌های گالری تصاویر')
 
     def __str__(self):
         return self.title
@@ -159,7 +158,7 @@ class HospitalImageGalleryItemModel(models.Model):
 
 class HospitalVideoGalleryModel(models.Model):
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
-    items = models.ManyToManyField('HospitalVideoGalleryItemModel', verbose_name=_('آیتم/آیتم ها'))
+    items = models.ManyToManyField('HospitalVideoGalleryItemModel', verbose_name=_('آیتم/ها'))
 
     class Meta:
         ordering = ['-id']
@@ -177,7 +176,7 @@ class HospitalVideoGalleryItemModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('آیتم گالری ویدیو')
-        verbose_name_plural = _('آیتم های گالری ویدیوها')
+        verbose_name_plural = _('آیتم‌های گالری ویدیوها')
 
     def __str__(self):
         return self.title
@@ -192,7 +191,7 @@ class ReportModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('گزارش عملکرد بیمارستان')
-        verbose_name_plural = _('گزارش عملکرد های بیمارستان')
+        verbose_name_plural = _('گزارش عملکرد‌های بیمارستان')
 
     def __str__(self):
         return self.time_bound
@@ -206,7 +205,7 @@ class PriceAppointmentModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('تعرفه ی نوبت دهی')
-        verbose_name_plural = _('تعرفه ی نوبت دهی ها')
+        verbose_name_plural = _('تعرفه ی نوبت دهی‌ها')
 
     def __str__(self):
         try:
@@ -222,7 +221,7 @@ class ResultModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('دستاورد بیمارستان')
-        verbose_name_plural = _('دستاورد های بیمارستان')
+        verbose_name_plural = _('دستاوردهای بیمارستان')
 
     def __str__(self):
         return self.title
@@ -235,8 +234,8 @@ class HomeGalleryModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('آیتم گالری صفحه ی خانه')
-        verbose_name_plural = _('آیتم های گالری صفحه ی خانه')
+        verbose_name = _('آیتم گالری صفحه‌ی خانه')
+        verbose_name_plural = _('آیتم‌های گالری صفحه‌ی خانه')
 
     def __str__(self):
         return self.title
@@ -252,7 +251,7 @@ class CertificateModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('گواهینامه')
-        verbose_name_plural = _('گواهینامه ها')
+        verbose_name_plural = _('گواهینامه‌ها')
 
     def __str__(self):
         return self.title
@@ -260,7 +259,7 @@ class CertificateModel(models.Model):
 
 class ContactInfoModel(models.Model):
     title = TranslatedField(models.CharField(max_length=500, verbose_name=_('عنوان')))
-    phones = models.CharField(max_length=255, verbose_name=_('تلفن ها'))
+    phones = models.CharField(max_length=255, verbose_name=_('تلفن‌/ها'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
 
     class Meta:
@@ -299,7 +298,7 @@ class PriceBedModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('تعرفه تخت بیمارستان')
-        verbose_name_plural = _('تعرفه تخت های بیمارستان')
+        verbose_name_plural = _('تعرفه تخت‌های بیمارستان')
 
     def __str__(self):
         return self.title
@@ -315,7 +314,7 @@ class PriceSurgrayModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('تعرفه عمل جراحی بیمارستان')
-        verbose_name_plural = _('تعرفه عمل جراحی های بیمارستان')
+        verbose_name_plural = _('تعرفه عمل جراحی‌های بیمارستان')
 
     def __str__(self):
         return self.title

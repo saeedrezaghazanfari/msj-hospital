@@ -17,8 +17,9 @@
     {% for doctor in page_obj %}
     <div class="alert alert-light text-primary d-flex">
         {% if doctor.user.profile %}<div style="flex: 1;" title="profile"><img src="{{ doctor.user.profile.url }}" style="height: 50px; width: 50px;" alt=""></div>{% endif %}
-        <div style="flex: 1;" title="user">دکتر {{ doctor.user.get_full_name }}</div>
-        <div style="flex: 1;" title="user">{{ doctor.degree }} {{ doctor.skill_title }}</div>
+        <div style="flex: 1;" title="get_full_name">دکتر {{ doctor.user.get_full_name }}</div>
+        <div style="flex: 1;" title="degree">{{ doctor.degree }} {{ doctor.skill_title }}</div>
+        <div style="flex: 1;"><span title="is_medicalteam">{{ doctor.is_medicalteam }}</span> - <span title="is_international">{{ doctor.is_international }}</span></div>
         <div style="flex: 1;" title="short_desc"><a class="btn btn-primary" href="{% url 'doctor:info' doctor.id %}">نمایش</a></div>
     </div>
     {% endfor %}
@@ -134,6 +135,25 @@
 
                         <label for="female">زن</label>
                         <input type="radio" name="gender" value="female" id="female">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading3">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                        سایر فیلترها
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse show" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        
+                        <label for="medicalteam"></label>
+                        <input type="checkbox" name="medicalteam" id="medicalteam">
+
+                        <label for="international"></label>
+                        <input type="checkbox" name="international" id="international">
 
                     </div>
                 </div>

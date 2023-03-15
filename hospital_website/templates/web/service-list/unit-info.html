@@ -10,7 +10,7 @@
 <div style="flex: 1;">{{ unit.subunit }}</div>
 <div style="flex: 1;">{{ unit.title }}</div>
 <div style="flex: 1;">{{ unit.desc }}</div>
-<div style="flex: 1;">{{ unit.image.url }}</div>
+{% if unit.image %}<div style="flex: 1;">{{ unit.image.url }}</div>{% endif %}
 <div style="flex: 1;">{{ unit.phone }}</div>
 <div style="flex: 1;">{{ unit.inside }}</div>
 <div style="flex: 1;">{{ unit.address }}</div>

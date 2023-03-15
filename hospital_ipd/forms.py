@@ -3,12 +3,12 @@ from django.utils import timezone
 from django import forms
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
-from extentions.validations import (
+from hospital_extentions.validations import (
     name_val, phone_val, email_val, file_val, age_val
 )
-from extentions.utils import is_passport, is_national_code
+from hospital_extentions.utils import is_passport, is_national_code
+from hospital_extentions.customs import CustomizedForm, CustomizedModelForm
 from .models import IPDModel, IPDCodeModel
-from extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class PhoneForm(CustomizedForm):

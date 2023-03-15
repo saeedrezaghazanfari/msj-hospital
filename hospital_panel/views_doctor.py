@@ -8,7 +8,7 @@ from hospital_doctor.models import DoctorModel
 from django.contrib import messages
 from hospital_setting.models import InsuranceModel
 from hospital_units.models import PatientTurnModel
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .decorators import online_doctor_required
 # from .mixins import DoctorRequired
 from . import forms

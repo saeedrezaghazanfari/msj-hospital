@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.contrib import messages
 from hospital_setting.models import SettingModel
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .models import User, LoginCodeModel, UserFullNameModel
 from .forms import SignUpForm, SignInForm, EnterCodePWForm
 from .decorators import login_not_required

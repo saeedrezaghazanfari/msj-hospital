@@ -14,7 +14,7 @@ from .models import (
 )
 from hospital_auth.models import PatientModel
 from . import forms
-from extentions.utils import jnum_to_month_name, write_action
+from hospital_extentions.utils import jnum_to_month_name, write_action
 # imports for activatings
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode

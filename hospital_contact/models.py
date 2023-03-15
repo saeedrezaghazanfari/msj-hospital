@@ -7,7 +7,8 @@ from hospital_auth.models import User, PatientModel
 from hospital_units.models import UnitModel
 from hospital_doctor.models import TitleSkillModel, DegreeModel
 from ckeditor.fields import RichTextField
-from extentions.utils import (
+from hospital_extentions.utils import (
+    GENDERS,
     jalali_convertor, 
     resume_image_path, 
     workshop_image_path, 
@@ -54,7 +55,7 @@ class PatientSightModel(models.Model):
 
 class BeneficiaryCommentModel(models.Model):
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی')))
     desc = TranslatedField(RichTextField(verbose_name=_('متن')))
     bio = TranslatedField(RichTextField(blank=True, null=True, verbose_name=_('بیوگرافی')))
     created = models.DateTimeField(auto_now_add=True)
@@ -71,7 +72,7 @@ class BeneficiaryCommentModel(models.Model):
 class ContactUsModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     message = RichTextField(verbose_name=_('متن ارتباط'))
-    name = models.CharField(max_length=100, verbose_name=_('نام و نام خانوادگی'))
+    name = models.CharField(max_length=100, verbose_name=_('نام و نام‌خانوادگی'))
     email = models.EmailField(max_length=100, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان ارتباط'))
@@ -81,7 +82,7 @@ class ContactUsModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('تماس مخاطب')
-        verbose_name_plural = _('تماس های مخاطبان')
+        verbose_name_plural = _('تماس‌های مخاطبان')
 
     def __str__(self):
         return str(self.title)
@@ -95,13 +96,13 @@ class CriticismSuggestionModel(models.Model):
     code = models.CharField(default=criticic_suggestion_code, max_length=20, verbose_name=_('کد پیگیری'))
     message = RichTextField(verbose_name=_('متن ارتباط'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام بیمار'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی بیمار'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی بیمار'))
     national_code = models.PositiveBigIntegerField(verbose_name=_('کدملی بیمار'))
     email = models.EmailField(max_length=100, blank=True, null=True, verbose_name=_('ایمیل کاربر'))
     phone = models.BigIntegerField(verbose_name=_('شماره تلفن'))
-    manager = models.CharField(max_length=100, verbose_name=_('نام مسیول'))
+    manager = models.CharField(max_length=100, verbose_name=_('نام مسئول'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نام بخش'))
-    is_read = models.BooleanField(default=False, verbose_name=_('بررسی شده یا نه'))
+    is_read = models.BooleanField(default=False, verbose_name=_('بررسی‌شده یا نه'))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -119,7 +120,7 @@ class CriticismSuggestionModel(models.Model):
 
 class PeopleAidModel(models.Model):
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی'))
     email = models.EmailField(max_length=100, blank=True, null=True, verbose_name=_('ایمیل'))
     phone = models.BigIntegerField(blank=True, null=True, verbose_name=_('شماره تلفن'))
     price = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_('مبلغ کمک شده'))
@@ -128,7 +129,7 @@ class PeopleAidModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('کمک مردمی')
-        verbose_name_plural = _('کمک های مردمی')
+        verbose_name_plural = _('کمک‌های مردمی')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -140,9 +141,9 @@ class PeopleAidModel(models.Model):
 
 class BenefactorModel(models.Model):
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی'))
     is_founder = models.BooleanField(default=False, verbose_name=_('بنیانگذار است؟'))
-    about = TranslatedField(RichTextField(verbose_name=_('درباره ی نیکوکار')))
+    about = TranslatedField(RichTextField(verbose_name=_('درباره‌ی نیکوکار')))
 
     class Meta:
         ordering = ['-id']
@@ -154,12 +155,11 @@ class BenefactorModel(models.Model):
 
 
 class CareersModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     code = models.CharField(default=career_code, max_length=20, verbose_name=_('کد موقعیت شغلی'))
     unit = models.ForeignKey(to=UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش مربوطه'))
     skill = models.ForeignKey(to=TitleSkillModel, on_delete=models.SET_NULL, null=True, verbose_name=_('تخصص'))
     degree = models.ForeignKey(to=DegreeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('نوع مدرک'))
-    gender = models.CharField(choices=GENDER_USER, max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, max_length=7, verbose_name=_('جنسیت'))
     title = models.CharField(max_length=255, verbose_name=_('عنوان موقعیت'))
     desc = RichTextField(verbose_name=_('توضیحات'))
     min_age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('حداقل سن'))
@@ -171,7 +171,7 @@ class CareersModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('موقعیت شغلی بیمارستان')
-        verbose_name_plural = _('موقعیت های شغلی بیمارستان')
+        verbose_name_plural = _('موقعیت‌های شغلی بیمارستان')
 
     def __str__(self):
         return str(self.code)
@@ -179,14 +179,14 @@ class CareersModel(models.Model):
 
 class HireFormModel(models.Model):
     SINGLE_MARRIED = (('single', _('مجرد')), ('married', _('متاهل')))
-    SOLDIERING_TYPE = (('end', _('پایان خدمت')), ('abs_exemption', _('معافیت دایم')), ('edu_exemption', _('معافیت تحصیلی')), ('progressing', _('در حال انجام')), ('include', _('مشمول')))
+    SOLDIERING_TYPE = (('end', _('پایان خدمت')), ('abs_exemption', _('معافیت دائم')), ('edu_exemption', _('معافیت تحصیلی')), ('progressing', _('در حال انجام')), ('include', _('مشمول')))
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     career = models.ForeignKey(to=CareersModel, on_delete=models.SET_NULL, null=True, verbose_name=_('موقعیت شغلی'))
     created = models.DateTimeField(auto_now_add=True)
-    is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی شده است؟'))
+    is_checked = models.BooleanField(default=False, verbose_name=_('آیا بررسی‌شده است؟'))
 
     first_name = models.CharField(max_length=50, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=50, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=50, verbose_name=_('نام‌خانوادگی'))
     father = models.CharField(max_length=50, verbose_name=_('نام پدر'))
     national_code = models.CharField(max_length=10, verbose_name=_('کدملی'))
     national_number = models.CharField(max_length=20, verbose_name=_('شماره شناسنامه'))
@@ -194,20 +194,20 @@ class HireFormModel(models.Model):
     birthday_place = models.CharField(max_length=100, verbose_name=_('محل تولد'))
     single_married = models.CharField(choices=SINGLE_MARRIED, max_length=10, verbose_name=_('وضعیت تاهل'))
     num_childs = models.PositiveIntegerField(default=0, verbose_name=_('تعداد فرزندان'))
-    soldiering = models.CharField(max_length=20, choices=SOLDIERING_TYPE, verbose_name=_('وضعیت نظام وظیفه'))
+    soldiering = models.CharField(max_length=20, choices=SOLDIERING_TYPE, verbose_name=_('وضعیت نظام‌وظیفه'))
     end_date = models.DateField(verbose_name=_('تاریخ پایان طرح'))
     direct = models.CharField(max_length=100, verbose_name=_('معرف'))
     education = models.CharField(max_length=100, verbose_name=_('تحصیلات'))
     uni = models.CharField(max_length=100, verbose_name=_('نام دانشگاه'))
-    address = models.TextField(verbose_name=_('آدرس محل زندگی'))
+    address = models.TextField(verbose_name=_('آدرس محل‌زندگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     resume = models.FileField(upload_to=resume_image_path, verbose_name=_('رزومه کاری مرتبط با کار درخواستی'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('فرم های استخدام')
-        verbose_name_plural = _('فرم های استخدام')
+        verbose_name = _('فرم استخدام')
+        verbose_name_plural = _('فرم‌های استخدام')
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')
@@ -220,7 +220,7 @@ class HireFormModel(models.Model):
 class WorkshopModel(models.Model):
     title = TranslatedField(models.CharField(max_length=50, verbose_name=_('عنوان')))
     length = models.CharField(max_length=50, verbose_name=_('طول دوره'))
-    category = TranslatedField(models.CharField(max_length=100, verbose_name=_('دسته بندی دوره')))
+    category = TranslatedField(models.CharField(max_length=100, verbose_name=_('دسته‌بندی دوره')))
     capacity = models.PositiveIntegerField(verbose_name=_('ظرفیت دوره'))
     nums = models.PositiveIntegerField(verbose_name=_('تعداد شرکت کنندگان'))
     times = models.CharField(max_length=100, verbose_name=_('ساعات برگذاری'))
@@ -232,7 +232,7 @@ class WorkshopModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('کارگاه و دوره آموزشی')
-        verbose_name_plural = _('کارگاه ها و دوره های آموزشی')
+        verbose_name_plural = _('کارگاه‌ها و دوره‌های آموزشی')
 
     def __str__(self):
         return self.title
@@ -244,14 +244,14 @@ class WorkshopModel(models.Model):
 
 class FamousPatientModel(models.Model):
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی')))
     profile = models.ImageField(upload_to=famous_profile_image_path, verbose_name=_('تصویر'))
     desc = TranslatedField(RichTextField(verbose_name=_('متن')))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('چهره سرشناس مراجعه کننده')
-        verbose_name_plural = _('چهره های سرشناس مراجعه کننده')
+        verbose_name_plural = _('چهره‌های سرشناس مراجعه کننده')
     
     def __str__(self):  
         return f'{self.first_name} {self.last_name}'

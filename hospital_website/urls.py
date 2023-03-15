@@ -46,7 +46,11 @@ urlpatterns = [
     path('visitors-guide/', views.visitors_guide_page, name='visitors-guide'),
 
     # services tab
-    path('clinic/list/', views.clinic_list_page, name='clinic-list'),
+    path('unit/clinic/list/', views.clinic_list_page, name='clinic-list'),
+    path('unit/operating-room/list/', views.operating_room_list_page, name='operatingroom-list'),
+    path('unit/official/list/', views.official_list_page, name='official-list'),
+    path('unit/paraclinic/list/', views.paraclinic_list_page, name='paraclinic-list'),
+    path('unit/medical/list/', views.medical_list_page, name='medical-list'),
     path('unit/<unitId>/', views.unit_page, name='unit-info'),
 
 ]

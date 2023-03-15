@@ -4,8 +4,7 @@ from . import views
 
 app_name = 'units'
 urlpatterns = [
-    
-    # electronic services: online appointment
+
     path('electronic/appointment/turn/', views.followturn_page, name='oa-followupturn'),
     path('electronic/appointment/result/', views.followresult_page, name='oa-followupresult'),
     

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from hospital_auth.models import UserFullNameModel
 from hospital_contact.models import NotificationModel
-from extentions.utils import safe_string, write_action
+from hospital_extentions.utils import safe_string, write_action
 from . import forms
 
 

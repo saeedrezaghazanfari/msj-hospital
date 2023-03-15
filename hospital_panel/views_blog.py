@@ -16,7 +16,7 @@ from hospital_blog.models import (
 )
 from hospital_setting.models import NewsLetterEmailsModel
 from hospital_blog.forms import BlogReplyForm, BlogCommentEditForm
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .decorators import blog_required
 from . import forms
  

@@ -1,0 +1,428 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: apps.py:8
+msgid "ماژول ارتباطات"
+msgstr "Communication module"
+
+#: forms.py:20 models.py:193
+msgid "تاریخ تولد"
+msgstr "Date of birth"
+
+#: forms.py:23 models.py:198
+msgid "تاریخ پایان طرح"
+msgstr "Plan end date"
+
+#: models.py:24
+msgid "کاربر"
+msgstr "user"
+
+#: models.py:25 models.py:221
+msgid "عنوان"
+msgstr "Title"
+
+#: models.py:26 models.py:44 models.py:59 models.py:249
+msgid "متن"
+msgstr "Text"
+
+#: models.py:27
+msgid "آیا این متن از سمت ریاست است؟"
+msgstr "Is this text from the directorate?"
+
+#: models.py:28
+msgid "منتشر شود؟"
+msgstr "To be published?"
+
+#: models.py:29
+msgid "توسط کاربر خوانده شده؟"
+msgstr "read by user?"
+
+#: models.py:34
+msgid "اعلان"
+msgstr "notification"
+
+#: models.py:35
+msgid "اعلانات"
+msgstr "Notifications"
+
+#: models.py:42
+msgid "بیمار"
+msgstr "Patient"
+
+#: models.py:43
+msgid "بخش"
+msgstr "the part"
+
+#: models.py:49
+msgid "دیدگاه بیمار"
+msgstr "The patient's perspective"
+
+#: models.py:50
+msgid "دیدگاه بیماران"
+msgstr "Patients' point of view"
+
+#: models.py:57 models.py:122 models.py:143 models.py:188 models.py:246
+msgid "نام"
+msgstr "name"
+
+#: models.py:58 models.py:123 models.py:144 models.py:189 models.py:247
+msgid "نام‌خانوادگی"
+msgstr "last name"
+
+#: models.py:60
+msgid "بیوگرافی"
+msgstr "Biography"
+
+#: models.py:65
+msgid "نظر ذینفع"
+msgstr "Stakeholder opinion"
+
+#: models.py:66
+msgid "نظرات ذینفعان"
+msgstr "Stakeholder comments"
+
+#: models.py:74 models.py:97
+msgid "متن ارتباط"
+msgstr "Communication text"
+
+#: models.py:75
+msgid "نام و نام‌خانوادگی"
+msgstr "first name and last name"
+
+#: models.py:76 models.py:101
+msgid "ایمیل کاربر"
+msgstr "User email"
+
+#: models.py:77 models.py:102 models.py:125 models.py:203
+msgid "شماره تلفن"
+msgstr "phone number"
+
+#: models.py:78
+msgid "عنوان ارتباط"
+msgstr "Communication title"
+
+#: models.py:79
+msgid "بررسی شده یا نه"
+msgstr "Checked or not"
+
+#: models.py:84
+msgid "تماس مخاطب"
+msgstr "contact contact"
+
+#: models.py:85
+msgid "تماس‌های مخاطبان"
+msgstr "Audience calls"
+
+#: models.py:92 models.py:139
+msgid "تاریخ انتشار"
+msgstr "Date of Release"
+
+#: models.py:96
+msgid "کد پیگیری"
+msgstr "Tracking Code"
+
+#: models.py:98
+msgid "نام بیمار"
+msgstr "patient name"
+
+#: models.py:99
+msgid "نام‌خانوادگی بیمار"
+msgstr "Patient's last name"
+
+#: models.py:100
+msgid "کدملی بیمار"
+msgstr "What is the patient's nationality?"
+
+#: models.py:103
+msgid "نام مسئول"
+msgstr "Name of the person in charge"
+
+#: models.py:104
+msgid "نام بخش"
+msgstr "Department Name"
+
+#: models.py:105
+msgid "بررسی‌شده یا نه"
+msgstr "Checked or not"
+
+#: models.py:110
+msgid "انتقاد و پیشنهاد مخاطب"
+msgstr "Criticism and suggestion of the audience"
+
+#: models.py:111
+msgid "انتقادات و پیشنهادات مخاطبان"
+msgstr "Criticisms and suggestions of the audience"
+
+#: models.py:115 models.py:214
+msgid "تاریخ"
+msgstr "Date"
+
+#: models.py:124 models.py:204
+msgid "ایمیل"
+msgstr "email"
+
+#: models.py:126
+msgid "مبلغ کمک شده"
+msgstr "Amount donated"
+
+#: models.py:127
+msgid "تاریخ کمک"
+msgstr "Help date"
+
+#: models.py:131
+msgid "کمک مردمی"
+msgstr "People's aid"
+
+#: models.py:132
+msgid "کمک‌های مردمی"
+msgstr "People's aid"
+
+#: models.py:145
+msgid "بنیانگذار است؟"
+msgstr "Is it the founder?"
+
+#: models.py:146
+msgid "درباره‌ی نیکوکار"
+msgstr "About the benefactor"
+
+#: models.py:150
+msgid "خیر و نیکوکار"
+msgstr "Good and benevolent"
+
+#: models.py:151
+msgid "خیرین و نیکوکاران"
+msgstr "Benefactors and benefactors"
+
+#: models.py:158
+msgid "کد موقعیت شغلی"
+msgstr "Job position code"
+
+#: models.py:159
+msgid "بخش مربوطه"
+msgstr "The relevant section"
+
+#: models.py:160
+msgid "تخصص"
+msgstr "Expertise"
+
+#: models.py:161
+msgid "نوع مدرک"
+msgstr "document type"
+
+#: models.py:162
+msgid "جنسیت"
+msgstr "gender"
+
+#: models.py:163
+msgid "عنوان موقعیت"
+msgstr "Position title"
+
+#: models.py:164
+msgid "توضیحات"
+msgstr "Description"
+
+#: models.py:165
+msgid "حداقل سن"
+msgstr "Minimum age"
+
+#: models.py:166
+msgid "حداکثر سن"
+msgstr "Maximum age"
+
+#: models.py:167 models.py:229 models.py:248
+msgid "تصویر"
+msgstr "Image"
+
+#: models.py:168
+msgid "تجربه ی مورد نیاز"
+msgstr "Experience required"
+
+#: models.py:169
+msgid "فعال؟"
+msgstr "active?"
+
+#: models.py:173
+msgid "موقعیت شغلی بیمارستان"
+msgstr "Hospital job position"
+
+#: models.py:174
+msgid "موقعیت‌های شغلی بیمارستان"
+msgstr "Hospital job positions"
+
+#: models.py:181
+msgid "مجرد"
+msgstr "Single"
+
+#: models.py:181
+msgid "متاهل"
+msgstr "married"
+
+#: models.py:182
+msgid "پایان خدمت"
+msgstr "the end of service"
+
+#: models.py:182
+msgid "معافیت دائم"
+msgstr "permanent exemption"
+
+#: models.py:182
+msgid "معافیت تحصیلی"
+msgstr "education pardon"
+
+#: models.py:182
+msgid "در حال انجام"
+msgstr "doing"
+
+#: models.py:182
+msgid "مشمول"
+msgstr "included"
+
+#: models.py:184
+msgid "موقعیت شغلی"
+msgstr "job position"
+
+#: models.py:186
+msgid "آیا بررسی‌شده است؟"
+msgstr "Has it been checked?"
+
+#: models.py:190
+msgid "نام پدر"
+msgstr "father's name"
+
+#: models.py:191
+msgid "کدملی"
+msgstr "National Code"
+
+#: models.py:192
+msgid "شماره شناسنامه"
+msgstr "Id"
+
+#: models.py:194
+msgid "محل تولد"
+msgstr "place of birth"
+
+#: models.py:195
+msgid "وضعیت تاهل"
+msgstr "marital status"
+
+#: models.py:196
+msgid "تعداد فرزندان"
+msgstr "Number of children"
+
+#: models.py:197
+msgid "وضعیت نظام‌وظیفه"
+msgstr "military service status"
+
+#: models.py:199
+msgid "معرف"
+msgstr "representative"
+
+#: models.py:200
+msgid "تحصیلات"
+msgstr "education"
+
+#: models.py:201
+msgid "نام دانشگاه"
+msgstr "University name"
+
+#: models.py:202
+msgid "آدرس محل‌زندگی"
+msgstr "Residential address"
+
+#: models.py:205
+msgid "رزومه کاری مرتبط با کار درخواستی"
+msgstr "Resume related to the requested job"
+
+#: models.py:209
+msgid "فرم استخدام"
+msgstr "employment form"
+
+#: models.py:210
+msgid "فرم‌های استخدام"
+msgstr "Employment forms"
+
+#: models.py:222
+msgid "طول دوره"
+msgstr "Course length"
+
+#: models.py:223
+msgid "دسته‌بندی دوره"
+msgstr "Course category"
+
+#: models.py:224
+msgid "ظرفیت دوره"
+msgstr "Course capacity"
+
+#: models.py:225
+msgid "تعداد شرکت کنندگان"
+msgstr "Number of participants"
+
+#: models.py:226
+msgid "ساعات برگذاری"
+msgstr "hours"
+
+#: models.py:227
+msgid "استادان دوره"
+msgstr "Course teachers"
+
+#: models.py:228
+msgid "آیا این دوره شامل مدرک میشود؟"
+msgstr "Does this course include a degree?"
+
+#: models.py:230 models.py:242
+msgid "تاریخ شروع دوره"
+msgstr "Course start date"
+
+#: models.py:234
+msgid "کارگاه و دوره آموزشی"
+msgstr "Workshop and training course"
+
+#: models.py:235
+msgid "کارگاه‌ها و دوره‌های آموزشی"
+msgstr "Workshops and training courses"
+
+#: models.py:253
+msgid "چهره سرشناس مراجعه کننده"
+msgstr "The famous face of the client"
+
+#: models.py:254
+msgid "چهره‌های سرشناس مراجعه کننده"
+msgstr "Visiting famous faces"
+
+#: templates/contact/contactus.html:3 templates/contact/people-aids.html:3
+#: templates/contact/recruitations-info.html:3
+#: templates/contact/recruitations.html:3 templates/contact/suggestions.html:3
+msgid "خانه"
+msgstr "Home"
+
+#: views.py:36
+msgid "شما قبلا یک بار درخواست ارسال کرده اید."
+msgstr "You have already submitted a request once."
+
+#: views.py:44
+msgid "فرم با موفقیت ارسال شد. پس از بررسی با شما تماس گرفته خواهد شد."
+msgstr "The form has been submitted successfully. You will be contacted after the review."
+
+#: views.py:67 views.py:98
+msgid "فرم قبلی که ارسال کرده اید هنوز بررسی نشده است."
+msgstr "The previous form you submitted has not been reviewed yet."
+
+#: views.py:75 views.py:106
+msgid "ممنون از تبادلات شما. در اسرع وقت بررسی خواهد شد!"
+msgstr "Thank you for your exchanges. Will review as soon as possible!"

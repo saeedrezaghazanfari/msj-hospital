@@ -3,8 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from .models import HireFormModel, CriticismSuggestionModel, ContactUsModel
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
-from extentions.validations import national_code_val, name_val, phone_val, email_val, file_val
-from extentions.customs import CustomizedModelForm
+from hospital_extentions.validations import national_code_val, name_val, phone_val, email_val, file_val
+from hospital_extentions.customs import CustomizedModelForm
 
 
 class HireForm(CustomizedModelForm):

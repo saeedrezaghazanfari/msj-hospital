@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from hospital_setting.models import SettingModel
 from .models import (
     CareersModel, HireFormModel, CriticismSuggestionModel, 

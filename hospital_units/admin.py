@@ -18,13 +18,13 @@ from .models import (
 
 class UnitModel_Admin(admin.ModelAdmin):
     list_display = ['subunit', 'title']
-    search_fields = ['subunit', 'title']
+    search_fields = ['title_fa']
     ordering = ['-id']
 
 
 class SubUnitModel_Admin(admin.ModelAdmin):
     list_display = ['slug', 'category', 'title', 'have_2_box']
-    search_fields = ['slug', 'category', 'title', 'have_2_box']
+    search_fields = ['slug', 'title_fa']
     ordering = ['-id']
 
 
@@ -40,13 +40,13 @@ class ManagersModel_Admin(admin.ModelAdmin):
 
 class ExprimentResultModel_Admin(admin.ModelAdmin):
     list_display = ['code', 'patient', 'unit']
-    search_fields = ['code', 'patient', 'unit']
+    search_fields = ['code']
     ordering = ['-id']
 
 
 class AppointmentTimeModel_Admin(admin.ModelAdmin):
     list_display = ['doctor', 'date', 'day', 'time_from', 'time_to', 'capacity', 'reserved']
-    search_fields = ['doctor', 'date', 'day']
+    search_fields = ['date', 'day']
     ordering = ['date']
 
 
@@ -57,17 +57,16 @@ class AppointmentTipModel_Admin(admin.ModelAdmin):
 
 class PatientTurnModel_Admin(admin.ModelAdmin):
     list_display = ['code', 'appointment', 'patient']
-    search_fields = ['code', 'appointment']
+    search_fields = ['code']
     ordering = ['-id']
 
 class ElectronicPrescriptionModel_Admin(admin.ModelAdmin):
     list_display = ['patient', 'unit', 'is_send']
-    search_fields = ['patient', 'unit', 'is_send']
     ordering = ['-id']
 
 class OnlinePaymentModel_Admin(admin.ModelAdmin):
     list_display = ['payer', 'price', 'is_success', 'code']
-    search_fields = ['payer', 'price', 'code']
+    search_fields = ['code']
     ordering = ['-id']
 
 

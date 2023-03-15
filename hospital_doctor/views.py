@@ -25,8 +25,10 @@ def doctor_search(request):
     skill_search = request.GET.get('skill')
     degree_search = request.GET.get('degree')
     gender_search = request.GET.get('gender')
+    medicalteam = request.GET.get('medicalteam')
+    international = request.GET.get('international')
 
-    if not gender_search in ['male', 'female']:
+    if gender_search and not gender_search in ['male', 'female']:
         return redirect(f'/{get_language()}/404')
 
     all_doctors_fullname = {}
@@ -73,6 +75,26 @@ def doctor_search(request):
             else:
                 for doctor in doctors_all:
                     if doctor.user.gender == gender_search:
+                        doctors.append(doctor)
+
+        if medicalteam:
+            if doctors:
+                for doctor in doctors:
+                    if not doctor.is_medicalteam:
+                        doctors.remove(doctor)
+            else:
+                for doctor in doctors_all:
+                    if doctor.is_medicalteam:
+                        doctors.append(doctor)
+
+        if international:
+            if doctors:
+                for doctor in doctors:
+                    if not doctor.is_international:
+                        doctors.remove(doctor)
+            else:
+                for doctor in doctors_all:
+                    if doctor.is_international:
                         doctors.append(doctor)
 
     else:

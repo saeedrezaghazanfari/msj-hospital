@@ -70,19 +70,20 @@
         <li>خدمات و امکانات</li>
         <ul>
             <li><a href="{% url 'website:clinic-list' %}">کلینیک‌ها</a></li>
-            <li>خدمات پشتیبانی</li>
+            <li><a href="{% url 'website:operatingroom-list' %}">اتاق های عمل</a></li>
+            <li><a href="{% url 'website:official-list' %}">خدمات پشتیبانی</a></li>
             <ul>
                 {% for item in list_officials %}
                 <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
                 {% endfor %}
             </ul>
-            <li>پاراکلینیک‌ها</li>
+            <li><a href="{% url 'website:paraclinic-list' %}">پاراکلینیک‌ها</a></li>
             <ul>
                 {% for item in list_paraclinics %}
                 <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
                 {% endfor %}
             </ul>
-            <li>بخش های درمانی</li>
+            <li><a href="{% url 'website:medical-list' %}">بخش های درمانی</a></li>
             <ul>
                 {% for item in list_medicals %}
                 <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>

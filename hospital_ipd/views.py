@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.contrib import messages
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from hospital_units.models import UnitModel
 from hospital_setting.models import SettingModel
 from hospital_doctor.models import DoctorModel

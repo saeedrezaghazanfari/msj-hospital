@@ -13,7 +13,7 @@ from django.conf import settings
 from hospital_blog.models import TagModel, CategoryModel
 from hospital_news.forms import NewsReplyForm, NewsCommentEditForm
 from hospital_setting.models import NewsLetterEmailsModel
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .decorators import news_required
 from . import forms
  

@@ -7,7 +7,7 @@ from django.contrib import messages
 from hospital_contact.models import (
     CareersModel, HireFormModel, CriticismSuggestionModel, ContactUsModel
 )
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .decorators import contact_required
 from . import forms
 

@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw
 from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from ckeditor.fields import RichTextField
-from extentions.utils import (
+from hospital_extentions.utils import (
     jalali_convertor, 
     blog_image_path,
     blog_pdf_image_path,
@@ -39,7 +39,7 @@ class MedicalNoteModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('نوت پزشکی')
-        verbose_name_plural = _('نوت های پزشکی')
+        verbose_name_plural = _('نوت‌های پزشکی')
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')
@@ -54,25 +54,25 @@ class SMSTextModel(models.Model):
         ('patients', _('بیماران بخش نوبت اینترنتی')), 
         ('patientsipd', _('بیماران بخش ipd')), 
         ('doctors', _('پزشکان')), 
-        ('bloggers', _('ادمین های بخش پست')), 
-        ('news', _('ادمین های بخش خبر')), 
-        ('lab', _('ادمین های بخش ثبت آزمایش و تصویربرداری')), 
-        ('appointment', _('ادمین های پذیرش اینترنتی')), 
-        ('contacts', _('ادمین های بخش ارتباطات')), 
-        ('ipdmanager', _('ادمین های بخش ipd')), 
+        ('bloggers', _('ادمین‌های بخش پست')), 
+        ('news', _('ادمین‌های بخش خبر')), 
+        ('lab', _('ادمین‌های بخش ثبت آزمایش و تصویربرداری')), 
+        ('appointment', _('ادمین‌های پذیرش اینترنتی')), 
+        ('contacts', _('ادمین‌های بخش ارتباطات')), 
+        ('ipdmanager', _('ادمین‌های بخش ipd')), 
         ('all', _('همه (پزشکان و بیماران و کاربران)')), 
     )
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     text = models.TextField(max_length=400, verbose_name=_('متن'))
-    receivers = models.CharField(max_length=20, choices=RECEIVERS, verbose_name=_('جامعه ی دریافت کننده ی پیامک'))
-    is_sent = models.BooleanField(default=False, verbose_name=_('آیا پیامک به اعضای نام برده ارسال شود؟'))
+    receivers = models.CharField(max_length=20, choices=RECEIVERS, verbose_name=_('جامعه‌ی دریافت کننده‌ی پیامک'))
+    is_sent = models.BooleanField(default=False, verbose_name=_('آیا پیامک به اعضای نام‌برده ارسال شود؟'))
     is_sent_sms = models.BooleanField(default=False, editable=False, verbose_name=_('آیا پیامک ارسال شده است؟'))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created']
         verbose_name = _('پیامک')
-        verbose_name_plural = _('پیامک ها')
+        verbose_name_plural = _('پیامک‌ها')
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')
@@ -91,7 +91,7 @@ class PampheletModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('پمفلت آموزشی')
-        verbose_name_plural = _('پمفلت های آموزشی')
+        verbose_name_plural = _('پمفلت‌های آموزشی')
 
     def __str__(self):
         return self.title
@@ -114,12 +114,12 @@ class CreditEduModel(models.Model):
 class BlogModel(models.Model):
     slug = models.SlugField(unique=True, default=get_blog_code, verbose_name=_('مقدار در url'))
     image = models.ImageField(upload_to=blog_image_path, verbose_name=_('تصویر'))
-    pdf = models.FileField(upload_to=blog_pdf_image_path, blank=True, null=True, verbose_name=_('پی دی اف بلاگ'))
+    pdf = models.FileField(upload_to=blog_pdf_image_path, blank=True, null=True, verbose_name=_('پی‌دی‌اف بلاگ'))
     qr_img = models.ImageField(upload_to=blog_qrcode_image_path, editable=False, blank=True, null=True, verbose_name=_('تصویر کد QR'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
-    categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی ها'))
-    tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ ها'))
+    categories = models.ManyToManyField(to='CategoryModel', verbose_name=_('دسته بندی‌ها'))
+    tags = models.ManyToManyField(to='TagModel', verbose_name=_('تگ‌ها'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     read_time = models.PositiveIntegerField(default=0, verbose_name=_('زمان خواندن'))
     desc = TranslatedField(RichTextField(verbose_name=_('متن مقاله')))
@@ -130,7 +130,7 @@ class BlogModel(models.Model):
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     gallery = models.ManyToManyField('BlogGalleryModel', blank=True, verbose_name=_('گالری بلاگ'))
-    units = models.ManyToManyField(to=UnitModel, blank=True, verbose_name=_('بخش ها'))
+    units = models.ManyToManyField(to=UnitModel, blank=True, verbose_name=_('بخش‌ها'))
     created = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
@@ -200,7 +200,7 @@ class BlogGalleryModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('گالری بلاگ')
-        verbose_name_plural = _('گالری بلاگ ها')
+        verbose_name_plural = _('گالری بلاگ‌ها')
 
     def __str__(self):
         return self.title
@@ -211,7 +211,7 @@ class BlogCommentModel(models.Model):
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = RichTextField(verbose_name=_('نظر'))
     first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام‌خانوادگی'))
     phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))
     blog = models.ForeignKey(to=BlogModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بلاگ'))
     created = models.DateTimeField(auto_now_add=True)
@@ -221,7 +221,7 @@ class BlogCommentModel(models.Model):
     class Meta:
         ordering = ['-created']
         verbose_name = _('نظر کاربر برای بلاگ')
-        verbose_name_plural = _('نظرات کاربران برای بلاگ ها')
+        verbose_name_plural = _('نظرات کاربران برای بلاگ‌ها')
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')
@@ -237,7 +237,7 @@ class CategoryModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('دسته بندی')
-        verbose_name_plural = _('دسته بندی ها')
+        verbose_name_plural = _('دسته بندی‌ها')
 
     def __str__(self):
         return self.title
@@ -249,7 +249,7 @@ class TagModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('تگ')
-        verbose_name_plural = _('تگ ها')
+        verbose_name_plural = _('تگ‌ها')
 
     def __str__(self):
         return self.title
@@ -264,7 +264,7 @@ class BlogLikeModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('لایک یا دیسلایک بلاگ')
-        verbose_name_plural = _('لایک یا دیسلایک بلاگ ها')
+        verbose_name_plural = _('لایک یا دیسلایک بلاگ‌ها')
 
     def __str__(self):
         return str(self.id)

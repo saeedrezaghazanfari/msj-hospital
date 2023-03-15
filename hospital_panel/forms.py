@@ -21,8 +21,8 @@ from hospital_contact.models import CareersModel
 from hospital_ipd.models import IPDModel
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
-from extentions.validations import name_val, file_val, email_val, phone_val, national_code_val
-from extentions.customs import CustomizedModelForm
+from hospital_extentions.validations import name_val, file_val, email_val, phone_val, national_code_val
+from hospital_extentions.customs import CustomizedModelForm
 
 
 class EditInfoForm(CustomizedModelForm):

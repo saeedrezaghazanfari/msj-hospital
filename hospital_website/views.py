@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -16,7 +17,7 @@ from hospital_doctor.models import DoctorWorkTimeModel, DoctorModel, TitleSkillM
 from hospital_units.models import UnitModel, ManagersModel
 from hospital_blog.models import CreditEduModel, PampheletModel
 from hospital_contact.models import FamousPatientModel, WorkshopModel, BenefactorModel
-from extentions.utils import is_email, write_action
+from hospital_extentions.utils import is_email, write_action
 
 
 # url: /
@@ -395,11 +396,43 @@ def visitors_guide_page(request):
 # ### services ### #
 
 
-# url: /clinic/list/
+# url: /unit/clinic/list/
 def clinic_list_page(request):
 
-    return render(request, 'web/service-list/clinic-list.html', {
-        'clinics': UnitModel.objects.filter(subunit__title_fa='درمانگاه', subunit__category='medical').all()
+    return render(request, 'web/service-list/unit-list.html', {
+        'units': UnitModel.objects.filter(subunit__title_fa='درمانگاه', subunit__category='medical').all()
+    })
+
+
+# url: /unit/operating-room/list/
+def operating_room_list_page(request):
+
+    return render(request, 'web/service-list/unit-list.html', {
+        'units': UnitModel.objects.filter(subunit__title_fa='اتاق عمل', subunit__category='medical').all()
+    })
+
+
+# url: /unit/official/list/
+def official_list_page(request):
+
+    return render(request, 'web/service-list/unit-list.html', {
+        'units': UnitModel.objects.filter(subunit__category='official').all()
+    })
+    
+
+# url: /unit/paraclinic/list/
+def paraclinic_list_page(request):
+
+    return render(request, 'web/service-list/unit-list.html', {
+        'units': UnitModel.objects.filter(subunit__category='paraclinic').all()
+    })
+    
+
+# url: /unit/medical/list/
+def medical_list_page(request):
+
+    return render(request, 'web/service-list/unit-list.html', {
+        'units': UnitModel.objects.filter(~Q(subunit__title_fa='درمانگاه'), subunit__category='medical').all()
     })
 
 
@@ -410,6 +443,6 @@ def unit_page(request, unitId):
     members = unit.unitmembermodel_set.all()
 
     return render(request, 'web/service-list/unit-info.html', {
-        'clinic': unit,
+        'unit': unit,
         'members': members,
     })

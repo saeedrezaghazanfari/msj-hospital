@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
-    'extentions',
+    'hospital_extentions',
     'hospital_auth.apps.HospitalAuthConfig',
     'hospital_setting.apps.HospitalSettingConfig',
     'hospital_blog.apps.HospitalBlogConfig',

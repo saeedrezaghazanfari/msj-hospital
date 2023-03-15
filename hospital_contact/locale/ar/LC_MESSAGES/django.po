@@ -1,0 +1,429 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: apps.py:8
+msgid "ماژول ارتباطات"
+msgstr "وحدة الاتصالات"
+
+#: forms.py:20 models.py:193
+msgid "تاریخ تولد"
+msgstr "تاريخ الميلاد"
+
+#: forms.py:23 models.py:198
+msgid "تاریخ پایان طرح"
+msgstr "تاريخ انتهاء الخطة"
+
+#: models.py:24
+msgid "کاربر"
+msgstr "مستخدم"
+
+#: models.py:25 models.py:221
+msgid "عنوان"
+msgstr "عنوان"
+
+#: models.py:26 models.py:44 models.py:59 models.py:249
+msgid "متن"
+msgstr "نص"
+
+#: models.py:27
+msgid "آیا این متن از سمت ریاست است؟"
+msgstr "هل هذا النص من المديرية؟"
+
+#: models.py:28
+msgid "منتشر شود؟"
+msgstr "لتنشر؟"
+
+#: models.py:29
+msgid "توسط کاربر خوانده شده؟"
+msgstr "قرأه المستخدم؟"
+
+#: models.py:34
+msgid "اعلان"
+msgstr "إشعار"
+
+#: models.py:35
+msgid "اعلانات"
+msgstr "إشعارات"
+
+#: models.py:42
+msgid "بیمار"
+msgstr "مريض"
+
+#: models.py:43
+msgid "بخش"
+msgstr "الجزء"
+
+#: models.py:49
+msgid "دیدگاه بیمار"
+msgstr "وجهة نظر المريض"
+
+#: models.py:50
+msgid "دیدگاه بیماران"
+msgstr "وجهة نظر المرضى"
+
+#: models.py:57 models.py:122 models.py:143 models.py:188 models.py:246
+msgid "نام"
+msgstr "اسم"
+
+#: models.py:58 models.py:123 models.py:144 models.py:189 models.py:247
+msgid "نام‌خانوادگی"
+msgstr "اسم العائلة"
+
+#: models.py:60
+msgid "بیوگرافی"
+msgstr "سيرة شخصية"
+
+#: models.py:65
+msgid "نظر ذینفع"
+msgstr "رأي أصحاب المصلحة"
+
+#: models.py:66
+msgid "نظرات ذینفعان"
+msgstr "تعليقات أصحاب المصلحة"
+
+#: models.py:74 models.py:97
+msgid "متن ارتباط"
+msgstr "نص التواصل"
+
+#: models.py:75
+msgid "نام و نام‌خانوادگی"
+msgstr "الاسم الأول واسم العائلة"
+
+#: models.py:76 models.py:101
+msgid "ایمیل کاربر"
+msgstr "البريد الالكتروني للمستخدم"
+
+#: models.py:77 models.py:102 models.py:125 models.py:203
+msgid "شماره تلفن"
+msgstr "رقم التليفون"
+
+#: models.py:78
+msgid "عنوان ارتباط"
+msgstr "عنوان الاتصال"
+
+#: models.py:79
+msgid "بررسی شده یا نه"
+msgstr "فحص أم لا"
+
+#: models.py:84
+msgid "تماس مخاطب"
+msgstr "جهة اتصال الاتصال"
+
+#: models.py:85
+msgid "تماس‌های مخاطبان"
+msgstr "مكالمات الجمهور"
+
+#: models.py:92 models.py:139
+msgid "تاریخ انتشار"
+msgstr "تاريخ الإفراج"
+
+#: models.py:96
+msgid "کد پیگیری"
+msgstr "شفرة التتبع"
+
+#: models.py:98
+msgid "نام بیمار"
+msgstr "اسم المريض"
+
+#: models.py:99
+msgid "نام‌خانوادگی بیمار"
+msgstr "الاسم الأخير للمريض"
+
+#: models.py:100
+msgid "کدملی بیمار"
+msgstr "ما هي جنسية المريض؟"
+
+#: models.py:103
+msgid "نام مسئول"
+msgstr "اسم الشخص المسؤول"
+
+#: models.py:104
+msgid "نام بخش"
+msgstr "اسم القسم"
+
+#: models.py:105
+msgid "بررسی‌شده یا نه"
+msgstr "فحص أم لا"
+
+#: models.py:110
+msgid "انتقاد و پیشنهاد مخاطب"
+msgstr "النقد والاقتراح من الجمهور"
+
+#: models.py:111
+msgid "انتقادات و پیشنهادات مخاطبان"
+msgstr "انتقادات واقتراحات الجمهور"
+
+#: models.py:115 models.py:214
+msgid "تاریخ"
+msgstr "تاريخ"
+
+#: models.py:124 models.py:204
+msgid "ایمیل"
+msgstr "بريد إلكتروني"
+
+#: models.py:126
+msgid "مبلغ کمک شده"
+msgstr "المبلغ المتبرع به"
+
+#: models.py:127
+msgid "تاریخ کمک"
+msgstr "تاريخ المساعدة"
+
+#: models.py:131
+msgid "کمک مردمی"
+msgstr "مساعدة الناس"
+
+#: models.py:132
+msgid "کمک‌های مردمی"
+msgstr "مساعدة الناس"
+
+#: models.py:145
+msgid "بنیانگذار است؟"
+msgstr "هل هو المؤسس؟"
+
+#: models.py:146
+msgid "درباره‌ی نیکوکار"
+msgstr "عن المستفيد"
+
+#: models.py:150
+msgid "خیر و نیکوکار"
+msgstr "خير وخير"
+
+#: models.py:151
+msgid "خیرین و نیکوکاران"
+msgstr "المحسنين والمحسنين"
+
+#: models.py:158
+msgid "کد موقعیت شغلی"
+msgstr "رمز الوظيفة"
+
+#: models.py:159
+msgid "بخش مربوطه"
+msgstr "القسم ذي الصلة"
+
+#: models.py:160
+msgid "تخصص"
+msgstr "خبرة"
+
+#: models.py:161
+msgid "نوع مدرک"
+msgstr "نوع الوثيقة"
+
+#: models.py:162
+msgid "جنسیت"
+msgstr "جنس"
+
+#: models.py:163
+msgid "عنوان موقعیت"
+msgstr "المسمى الوظيفي"
+
+#: models.py:164
+msgid "توضیحات"
+msgstr "وصف"
+
+#: models.py:165
+msgid "حداقل سن"
+msgstr "الحد الإدنى للعمر"
+
+#: models.py:166
+msgid "حداکثر سن"
+msgstr "العمر الأقصى"
+
+#: models.py:167 models.py:229 models.py:248
+msgid "تصویر"
+msgstr "صورة"
+
+#: models.py:168
+msgid "تجربه ی مورد نیاز"
+msgstr "الخبرات المطلوبة"
+
+#: models.py:169
+msgid "فعال؟"
+msgstr "نشيط؟"
+
+#: models.py:173
+msgid "موقعیت شغلی بیمارستان"
+msgstr "وظيفة المستشفى"
+
+#: models.py:174
+msgid "موقعیت‌های شغلی بیمارستان"
+msgstr "مناصب وظيفية في المستشفى"
+
+#: models.py:181
+msgid "مجرد"
+msgstr "أعزب"
+
+#: models.py:181
+msgid "متاهل"
+msgstr "متزوج"
+
+#: models.py:182
+msgid "پایان خدمت"
+msgstr "نهاية الخدمة"
+
+#: models.py:182
+msgid "معافیت دائم"
+msgstr "إعفاء دائم"
+
+#: models.py:182
+msgid "معافیت تحصیلی"
+msgstr "العفو التربوي"
+
+#: models.py:182
+msgid "در حال انجام"
+msgstr "عمل"
+
+#: models.py:182
+msgid "مشمول"
+msgstr "متضمن"
+
+#: models.py:184
+msgid "موقعیت شغلی"
+msgstr "وظيفه"
+
+#: models.py:186
+msgid "آیا بررسی‌شده است؟"
+msgstr "هل تم فحصها؟"
+
+#: models.py:190
+msgid "نام پدر"
+msgstr "اسم الاب"
+
+#: models.py:191
+msgid "کدملی"
+msgstr "رمز دولي"
+
+#: models.py:192
+msgid "شماره شناسنامه"
+msgstr "بطاقة تعريف"
+
+#: models.py:194
+msgid "محل تولد"
+msgstr "مكان الميلاد"
+
+#: models.py:195
+msgid "وضعیت تاهل"
+msgstr "الحالة الاجتماعية"
+
+#: models.py:196
+msgid "تعداد فرزندان"
+msgstr "عدد الاطفال"
+
+#: models.py:197
+msgid "وضعیت نظام‌وظیفه"
+msgstr "حالة الخدمة العسكرية"
+
+#: models.py:199
+msgid "معرف"
+msgstr "ممثل"
+
+#: models.py:200
+msgid "تحصیلات"
+msgstr "تعليم"
+
+#: models.py:201
+msgid "نام دانشگاه"
+msgstr "اسم الجامعة"
+
+#: models.py:202
+msgid "آدرس محل‌زندگی"
+msgstr "عنوان السكن"
+
+#: models.py:205
+msgid "رزومه کاری مرتبط با کار درخواستی"
+msgstr "السيرة الذاتية المتعلقة بالوظيفة المطلوبة"
+
+#: models.py:209
+msgid "فرم استخدام"
+msgstr "استمارة التوظيف"
+
+#: models.py:210
+msgid "فرم‌های استخدام"
+msgstr "نماذج التوظيف"
+
+#: models.py:222
+msgid "طول دوره"
+msgstr "طول المسار"
+
+#: models.py:223
+msgid "دسته‌بندی دوره"
+msgstr "فئة الدورة"
+
+#: models.py:224
+msgid "ظرفیت دوره"
+msgstr "قدرة الدورة"
+
+#: models.py:225
+msgid "تعداد شرکت کنندگان"
+msgstr "عدد المشاركين"
+
+#: models.py:226
+msgid "ساعات برگذاری"
+msgstr "ساعات"
+
+#: models.py:227
+msgid "استادان دوره"
+msgstr "مدرسو الدورة"
+
+#: models.py:228
+msgid "آیا این دوره شامل مدرک میشود؟"
+msgstr "هل تتضمن هذه الدورة درجة علمية؟"
+
+#: models.py:230 models.py:242
+msgid "تاریخ شروع دوره"
+msgstr "تاريخ بدء الدورة"
+
+#: models.py:234
+msgid "کارگاه و دوره آموزشی"
+msgstr "ورشة عمل ودورة تدريبية"
+
+#: models.py:235
+msgid "کارگاه‌ها و دوره‌های آموزشی"
+msgstr "ورش عمل ودورات تدريبية"
+
+#: models.py:253
+msgid "چهره سرشناس مراجعه کننده"
+msgstr "الوجه الشهير للعميل"
+
+#: models.py:254
+msgid "چهره‌های سرشناس مراجعه کننده"
+msgstr "زيارة الوجوه المشهورة"
+
+#: templates/contact/contactus.html:3 templates/contact/people-aids.html:3
+#: templates/contact/recruitations-info.html:3
+#: templates/contact/recruitations.html:3 templates/contact/suggestions.html:3
+msgid "خانه"
+msgstr "بيت"
+
+#: views.py:36
+msgid "شما قبلا یک بار درخواست ارسال کرده اید."
+msgstr "لقد قمت بالفعل بتقديم طلب مرة واحدة."
+
+#: views.py:44
+msgid "فرم با موفقیت ارسال شد. پس از بررسی با شما تماس گرفته خواهد شد."
+msgstr "تم تقديم النموذج بنجاح. سيتم الاتصال بك بعد المراجعة."
+
+#: views.py:67 views.py:98
+msgid "فرم قبلی که ارسال کرده اید هنوز بررسی نشده است."
+msgstr "النموذج السابق الذي قدمته لم تتم مراجعته بعد."
+
+#: views.py:75 views.py:106
+msgid "ممنون از تبادلات شما. در اسرع وقت بررسی خواهد شد!"
+msgstr "شكرا لك على التبادلات الخاصة بك. سوف نراجع في أقرب وقت ممكن!"

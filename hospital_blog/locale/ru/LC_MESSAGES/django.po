@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps.py:8
+msgid "ماژول بلاگ"
+msgstr "Модуль блога"
+
+#: models.py:35 models.py:66
+msgid "متن"
+msgstr "Текст"
+
+#: models.py:36
+msgid "فعال/غیرفعال"
+msgstr "Активный пассивный"
+
+#: models.py:41
+msgid "نوت پزشکی"
+msgstr "Медицинская справка"
+
+#: models.py:42
+msgid "نوت‌های پزشکی"
+msgstr "Медицинские заметки"
+
+#: models.py:46 models.py:170
+msgid "تاریخ انتشار"
+msgstr "Дата выпуска"
+
+#: models.py:54
+msgid "بیماران بخش نوبت اینترنتی"
+msgstr "Пациенты отделения онлайн-записи"
+
+#: models.py:55
+msgid "بیماران بخش ipd"
+msgstr "пациенты отделения ИПД"
+
+#: models.py:56
+msgid "پزشکان"
+msgstr "врачи"
+
+#: models.py:57
+msgid "ادمین‌های بخش پست"
+msgstr "Админы почтового отделения"
+
+#: models.py:58
+msgid "ادمین‌های بخش خبر"
+msgstr "Админы раздела новостей"
+
+#: models.py:59
+msgid "ادمین‌های بخش ثبت آزمایش و تصویربرداری"
+msgstr "Администраторы отдела регистрации тестов и визуализации"
+
+#: models.py:60
+msgid "ادمین‌های پذیرش اینترنتی"
+msgstr "Администраторы интернет-приема"
+
+#: models.py:61
+msgid "ادمین‌های بخش ارتباطات"
+msgstr "Администраторы отдела связи"
+
+#: models.py:62
+msgid "ادمین‌های بخش ipd"
+msgstr "Админы раздела ipd"
+
+#: models.py:63
+msgid "همه (پزشکان و بیماران و کاربران)"
+msgstr "Все (врачи, пациенты и пользователи)"
+
+#: models.py:67
+msgid "جامعه‌ی دریافت کننده‌ی پیامک"
+msgstr "Сообщество получателей СМС"
+
+#: models.py:68
+msgid "آیا پیامک به اعضای نام‌برده ارسال شود؟"
+msgstr "Следует ли отправлять SMS указанным участникам?"
+
+#: models.py:69
+msgid "آیا پیامک ارسال شده است؟"
+msgstr "СМС отправлено?"
+
+#: models.py:74
+msgid "پیامک"
+msgstr "SMS"
+
+#: models.py:75
+msgid "پیامک‌ها"
+msgstr "текстовые сообщения"
+
+#: models.py:79
+msgid "تاریخ ثبت"
+msgstr "Дата регистрации"
+
+#: models.py:87 models.py:103 models.py:116 models.py:197
+msgid "تصویر"
+msgstr "Изображение"
+
+#: models.py:88 models.py:102 models.py:123 models.py:196 models.py:235
+#: models.py:247
+msgid "عنوان"
+msgstr "Заголовок"
+
+#: models.py:93
+msgid "پمفلت آموزشی"
+msgstr "Образовательная брошюра"
+
+#: models.py:94
+msgid "پمفلت‌های آموزشی"
+msgstr "Образовательные брошюры"
+
+#: models.py:101 models.py:115
+msgid "مقدار در url"
+msgstr "значение в URL"
+
+#: models.py:107
+msgid "اعتباربخشی"
+msgstr "Аккредитация"
+
+#: models.py:108
+msgid "اعتباربخشی‌ها"
+msgstr "Аккредитации"
+
+#: models.py:117
+msgid "پی‌دی‌اف بلاگ"
+msgstr "PDF-блог"
+
+#: models.py:118
+msgid "تصویر کد QR"
+msgstr "Изображение QR-кода"
+
+#: models.py:119 models.py:198
+msgid "لینک ویدیو"
+msgstr "Ссылка на видео"
+
+#: models.py:120
+msgid "نویسنده"
+msgstr "писатель"
+
+#: models.py:121 models.py:240
+msgid "دسته بندی‌ها"
+msgstr "категории"
+
+#: models.py:122 models.py:252
+msgid "تگ‌ها"
+msgstr "теги"
+
+#: models.py:124
+msgid "زمان خواندن"
+msgstr "время читать"
+
+#: models.py:125
+msgid "متن مقاله"
+msgstr "Текст статьи"
+
+#: models.py:126
+msgid "متن کوتاه"
+msgstr "Короткий текст"
+
+#: models.py:126
+msgid "سعی کنید خلاصه ای بنویسید که شامل کلمات کلیدی باشد."
+msgstr "Попробуйте написать резюме, включающее ключевые слова."
+
+#: models.py:127
+msgid "آیا منتشر شود؟"
+msgstr "Будет ли он опубликован?"
+
+#: models.py:127
+msgid "اگر این تیک فعال باشد بعد از ذخیره شدن ایمیل برای اعضای خبرنامه ارسال میشود."
+msgstr "Если эта галочка активна, электронное письмо будет отправлено участникам рассылки после его сохранения."
+
+#: models.py:128
+msgid "آیا ایمیل شده است؟"
+msgstr "Это было отправлено по электронной почте?"
+
+#: models.py:129
+msgid "امکان لایک دارد؟"
+msgstr "Можно ли лайкнуть?"
+
+#: models.py:130
+msgid "امکان دیسلایک دارد؟"
+msgstr "Разве можно не любить?"
+
+#: models.py:131
+msgid "امکان کامنت دارد؟"
+msgstr "Можно ли прокомментировать?"
+
+#: models.py:132 models.py:202
+msgid "گالری بلاگ"
+msgstr "Галерея блога"
+
+#: models.py:133
+msgid "بخش‌ها"
+msgstr "Разделы"
+
+#: models.py:138 models.py:216 models.py:261
+msgid "بلاگ"
+msgstr "блог"
+
+#: models.py:139
+msgid "بلاگ‌ها"
+msgstr "Блоги"
+
+#: models.py:192
+msgid "نام نویسنده"
+msgstr "Имя автора"
+
+#: models.py:203
+msgid "گالری بلاگ‌ها"
+msgstr "Галерея блогов"
+
+#: models.py:211
+msgid "پاسخ"
+msgstr "Ответ"
+
+#: models.py:212
+msgid "نظر"
+msgstr "Мнение"
+
+#: models.py:213
+msgid "نام"
+msgstr "имя"
+
+#: models.py:214
+msgid "نام‌خانوادگی"
+msgstr "фамилия"
+
+#: models.py:215
+msgid "شماره تلفن"
+msgstr "номер телефона"
+
+#: models.py:218
+msgid "نمایش داده شود؟"
+msgstr "отображать?"
+
+#: models.py:219
+msgid "توسط نویسنده خوانده شده؟"
+msgstr "Читал автор?"
+
+#: models.py:223
+msgid "نظر کاربر برای بلاگ"
+msgstr "Комментарии пользователей для блога"
+
+#: models.py:224
+msgid "نظرات کاربران برای بلاگ‌ها"
+msgstr "Комментарии пользователей для блогов"
+
+#: models.py:228
+msgid "تاریخ نظر"
+msgstr "Дата комментария"
+
+#: models.py:239
+msgid "دسته بندی"
+msgstr "Группировка"
+
+#: models.py:251
+msgid "تگ"
+msgstr "ярлык"
+
+#: models.py:259
+msgid "لایک"
+msgstr "нравиться"
+
+#: models.py:259
+msgid "دیسلایک"
+msgstr "не нравится"
+
+#: models.py:262
+msgid "لایک یا دیسلایک"
+msgstr "Нравится или не нравится"
+
+#: models.py:266
+msgid "لایک یا دیسلایک بلاگ"
+msgstr "Нравится или не нравится блог"
+
+#: models.py:267
+msgid "لایک یا دیسلایک بلاگ‌ها"
+msgstr "Нравится или не нравится блоги"
+
+#: templates/blog/info.html:3 templates/blog/list.html:3
+msgid "خانه"
+msgstr "Дом"
+
+#: templates/blog/info.html:55
+msgid "پست قبلی"
+msgstr "предыдущий пост"
+
+#: templates/blog/info.html:69
+msgid "پست بعدی"
+msgstr "Следующий пост"
+
+#: templates/blog/info.html:140
+msgid "جواب دادن"
+msgstr "отвечать"
+
+#: views.py:73
+msgid "پاسخ شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!"
+msgstr "Ваш ответ записан. Он появится на сайте после одобрения. Спасибо за вашу поддержку и поощрение!"
+
+#: views.py:75
+msgid "نظر شما ثبت شد. بعد از تایید در سایت نمایش داده خواهد شد. ممنون از حمایت و دلگرمی شما!"
+msgstr "Ваш комментарий был записан. Он появится на сайте после одобрения. Спасибо за вашу поддержку и поощрение!"

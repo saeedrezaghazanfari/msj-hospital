@@ -1,0 +1,394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: apps.py:8
+msgid "تنظیمات"
+msgstr ""
+
+#: models.py:21
+msgid "مقیاس ایکس"
+msgstr ""
+
+#: models.py:22
+msgid "مقیاس ایگرگ"
+msgstr ""
+
+#: models.py:23
+msgid "متن شما روی نقشه"
+msgstr ""
+
+#: models.py:24
+msgid "آدرس"
+msgstr ""
+
+#: models.py:25 models.py:108 models.py:263
+msgid "ایمیل"
+msgstr ""
+
+#: models.py:26
+msgid "شماره تلفن/ها"
+msgstr ""
+
+#: models.py:27
+msgid "فکس"
+msgstr ""
+
+#: models.py:28
+msgid "ساعات و قوانین ملاقات"
+msgstr ""
+
+#: models.py:29
+msgid "آپارات"
+msgstr ""
+
+#: models.py:30
+msgid "لینکدین"
+msgstr ""
+
+#: models.py:31
+msgid "فیسبوک"
+msgstr ""
+
+#: models.py:32
+msgid "توییتر"
+msgstr ""
+
+#: models.py:33
+msgid "اینستاگرام"
+msgstr ""
+
+#: models.py:34
+msgid "واتساپ"
+msgstr ""
+
+#: models.py:35
+msgid "نام بانک"
+msgstr ""
+
+#: models.py:36
+msgid "نام صاحب‌حساب"
+msgstr ""
+
+#: models.py:37
+msgid "شماره کارت"
+msgstr ""
+
+#: models.py:38
+msgid "شماره حساب"
+msgstr ""
+
+#: models.py:39
+msgid "شماره شبا"
+msgstr ""
+
+#: models.py:40
+msgid "خدمات بخش بیماران بین الملل"
+msgstr ""
+
+#: models.py:41
+msgid "بهبود کیفیت"
+msgstr ""
+
+#: models.py:42
+msgid "چرا ما؟"
+msgstr ""
+
+#: models.py:43
+msgid "تاریخچه"
+msgstr ""
+
+#: models.py:44
+msgid "صفحه ثبتنام کاربران نمایش داده شود؟"
+msgstr ""
+
+#: models.py:48 models.py:49
+msgid "‌تنظیمات"
+msgstr ""
+
+#: models.py:52
+msgid "شما حتما باید یک مقدار در این جدول ذخیره کنید."
+msgstr ""
+
+#: models.py:56 models.py:70 models.py:82 models.py:134 models.py:147
+#: models.py:160 models.py:173 models.py:218 models.py:231 models.py:245
+#: models.py:261 models.py:275 models.py:292 models.py:308 models.py:324
+#: models.py:341
+msgid "عنوان"
+msgstr ""
+
+#: models.py:57 models.py:83 models.py:122 models.py:148 models.py:188
+#: models.py:232 models.py:247 models.py:325 models.py:342
+msgid "تصویر"
+msgstr ""
+
+#: models.py:58
+msgid "سال"
+msgstr ""
+
+#: models.py:62
+msgid "ارزش بیمارستان"
+msgstr ""
+
+#: models.py:63
+msgid "ارزش‌های بیمارستان"
+msgstr ""
+
+#: models.py:74
+msgid "سیاست بیمارستان"
+msgstr ""
+
+#: models.py:75
+msgid "سیاست‌های بیمارستان"
+msgstr ""
+
+#: models.py:87
+msgid "امکانات بیمارستان"
+msgstr ""
+
+#: models.py:88
+msgid "امکانات‌ بیمارستان"
+msgstr ""
+
+#: models.py:95
+msgid "پرسش"
+msgstr ""
+
+#: models.py:96
+msgid "پاسخ"
+msgstr ""
+
+#: models.py:100
+msgid "سوال پر‌تکرار"
+msgstr ""
+
+#: models.py:101
+msgid "سوالات پر‌تکرار"
+msgstr ""
+
+#: models.py:112
+msgid "ایمیل خبرنامه"
+msgstr ""
+
+#: models.py:113
+msgid "ایمیل‌های خبرنامه"
+msgstr ""
+
+#: models.py:121
+msgid "نام بیمه"
+msgstr ""
+
+#: models.py:126
+msgid "بیمه طرف قرارداد"
+msgstr ""
+
+#: models.py:127
+msgid "بیمه‌های طرف قرارداد"
+msgstr ""
+
+#: models.py:135 models.py:161
+msgid "آیتم/ها"
+msgstr ""
+
+#: models.py:139
+msgid "گالری تصویر بیمارستان"
+msgstr ""
+
+#: models.py:140
+msgid "گالری تصاویر بیمارستان"
+msgstr ""
+
+#: models.py:152
+msgid "آیتم گالری تصویر"
+msgstr ""
+
+#: models.py:153
+msgid "آیتم‌های گالری تصاویر"
+msgstr ""
+
+#: models.py:165
+msgid "گالری ویدیو بیمارستان"
+msgstr ""
+
+#: models.py:166
+msgid "گالری ویدیوهای بیمارستان"
+msgstr ""
+
+#: models.py:174
+msgid "لینک فایل"
+msgstr ""
+
+#: models.py:178
+msgid "آیتم گالری ویدیو"
+msgstr ""
+
+#: models.py:179
+msgid "آیتم‌های گالری ویدیوها"
+msgstr ""
+
+#: models.py:186
+msgid "مدت عملکرد"
+msgstr ""
+
+#: models.py:187 models.py:246
+msgid "توضیحات"
+msgstr ""
+
+#: models.py:189 models.py:329 models.py:343
+msgid "لینک ویدیو"
+msgstr ""
+
+#: models.py:193
+msgid "گزارش عملکرد بیمارستان"
+msgstr ""
+
+#: models.py:194
+msgid "گزارش عملکرد‌های بیمارستان"
+msgstr ""
+
+#: models.py:201 models.py:294 models.py:310
+msgid "بیمه"
+msgstr ""
+
+#: models.py:202
+msgid "نوع مدرک"
+msgstr ""
+
+#: models.py:203
+msgid "مبلغ"
+msgstr ""
+
+#: models.py:207
+msgid "تعرفه ی نوبت دهی"
+msgstr ""
+
+#: models.py:208
+msgid "تعرفه ی نوبت دهی‌ها"
+msgstr ""
+
+#: models.py:219 models.py:276 models.py:327
+msgid "متن"
+msgstr ""
+
+#: models.py:223
+msgid "دستاورد بیمارستان"
+msgstr ""
+
+#: models.py:224
+msgid "دستاوردهای بیمارستان"
+msgstr ""
+
+#: models.py:237
+msgid "آیتم گالری صفحه‌ی خانه"
+msgstr ""
+
+#: models.py:238
+msgid "آیتم‌های گالری صفحه‌ی خانه"
+msgstr ""
+
+#: models.py:248
+msgid "سال اخذ"
+msgstr ""
+
+#: models.py:249
+msgid "تاریخ اعتبار"
+msgstr ""
+
+#: models.py:253
+msgid "گواهینامه"
+msgstr ""
+
+#: models.py:254
+msgid "گواهینامه‌ها"
+msgstr ""
+
+#: models.py:262
+msgid "تلفن‌/ها"
+msgstr ""
+
+#: models.py:267 models.py:268
+msgid "اطلاعات تماس"
+msgstr ""
+
+#: models.py:277
+msgid "مبلغ خصوصی"
+msgstr ""
+
+#: models.py:278
+msgid "مبلغ دولتی"
+msgstr ""
+
+#: models.py:279
+msgid "تفاوت"
+msgstr ""
+
+#: models.py:280 models.py:296 models.py:312
+msgid "سال تعرفه"
+msgstr ""
+
+#: models.py:284 models.py:285
+msgid "تعرفه خدمات بیمارستان"
+msgstr ""
+
+#: models.py:293 models.py:309
+msgid "مبلغ آزاد"
+msgstr ""
+
+#: models.py:295 models.py:311
+msgid "مبلغ بیمه"
+msgstr ""
+
+#: models.py:300
+msgid "تعرفه تخت بیمارستان"
+msgstr ""
+
+#: models.py:301
+msgid "تعرفه تخت‌های بیمارستان"
+msgstr ""
+
+#: models.py:316
+msgid "تعرفه عمل جراحی بیمارستان"
+msgstr ""
+
+#: models.py:317
+msgid "تعرفه عمل جراحی‌های بیمارستان"
+msgstr ""
+
+#: models.py:326
+msgid "نام پزشک مرحوم"
+msgstr ""
+
+#: models.py:328
+msgid "گالری"
+msgstr ""
+
+#: models.py:333 models.py:334
+msgid "گذشتگان بیمارستان"
+msgstr ""
+
+#: models.py:342
+msgid "اگر فایل شما تصویر میباشد تصویر مورد نظر را وارد کنید."
+msgstr ""
+
+#: models.py:343
+msgid "اگر فایل شما ویدیو میباشد لینک فیلم را وارد کنید."
+msgstr ""
+
+#: models.py:347 models.py:348
+msgid "گالری گذشتگان"
+msgstr ""

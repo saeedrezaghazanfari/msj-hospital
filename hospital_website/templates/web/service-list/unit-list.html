@@ -7,11 +7,11 @@
 
 {% block content %}
 
-{% for clinic in clinics %}
+{% for unit in units %}
 <div class="alert alert-light text-primary d-flex">
-    <div style="flex: 1;">{{ clinic.title }}</div>
-    <div style="flex: 1;">{{ clinic.image.url }}</div>
-    <div style="flex: 1;"><a href="{% url 'website:unit-info' clinic.id %}">بیشتر</a></div>
+    <div style="flex: 1;">{{ unit.title }}</div>
+    <div style="flex: 1;">{{ unit.image.url }}</div>
+    <div style="flex: 1;"><a href="{% url 'website:unit-info' unit.id %}">بیشتر</a></div>
 </div>
 {% endfor %}
 

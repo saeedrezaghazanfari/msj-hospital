@@ -11,7 +11,7 @@ from django.contrib import messages
 from hospital_units.models import (
     ExprimentResultModel,
 )
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from .decorators import experiment_required
 from . import forms
 

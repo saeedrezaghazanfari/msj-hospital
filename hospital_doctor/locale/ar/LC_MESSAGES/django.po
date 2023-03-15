@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: apps.py:8
+msgid "ماژول پزشک"
+msgstr "وحدة الطبيب"
+
+#: models.py:14
+msgid "کد نظام‌پزشکی"
+msgstr "كود النظام الطبي"
+
+#: models.py:15 models.py:40 models.py:44
+msgid "عنوان تخصص"
+msgstr "عنوان التخصص"
+
+#: models.py:16
+msgid "کاربر"
+msgstr "مستخدم"
+
+#: models.py:17
+msgid "بخش"
+msgstr "الجزء"
+
+#: models.py:18
+msgid "بیمه‌های طرف قرارداد"
+msgstr "تأمينات طرف العقد"
+
+#: models.py:19 models.py:52 models.py:56
+msgid "نوع مدرک"
+msgstr "نوع الوثيقة"
+
+#: models.py:20
+msgid "موقعیت"
+msgstr "موقع"
+
+#: models.py:21
+msgid "بیوگرافی"
+msgstr "سيرة شخصية"
+
+#: models.py:22
+msgid "آیا این پزشک عضو تیم‌پزشکی است؟"
+msgstr "هل هذا الطبيب عضو في الفريق الطبي؟"
+
+#: models.py:23
+msgid "آیا این پزشک بین‌الملل است؟"
+msgstr "هل هذا طبيب دولي؟"
+
+#: models.py:24
+msgid "فعال؟"
+msgstr "نشيط؟"
+
+#: models.py:28 models.py:64 models.py:80
+msgid "پزشک"
+msgstr "طبيب"
+
+#: models.py:29
+msgid "پزشکان"
+msgstr "الأطباء"
+
+#: models.py:36
+msgid "نام پزشک"
+msgstr "اسم الطبيب"
+
+#: models.py:45
+msgid "عنوان تخصص‌ها"
+msgstr "عنوان التخصصات"
+
+#: models.py:57
+msgid "نوع مدرک‌ها"
+msgstr "أنواع الوثائق"
+
+#: models.py:65
+msgid "از روز"
+msgstr "اليوم"
+
+#: models.py:66
+msgid "تا روز"
+msgstr "حتي اليوم"
+
+#: models.py:67 models.py:83
+msgid "از ساعت"
+msgstr "من الساعة"
+
+#: models.py:68 models.py:84
+msgid "تا ساعت"
+msgstr "حتى"
+
+#: models.py:72
+msgid "زمان کاری پزشک"
+msgstr "ساعات عمل الطبيب"
+
+#: models.py:73
+msgid "زمان‌های کاری پزشکان"
+msgstr "ساعات عمل الأطباء"
+
+#: models.py:81
+msgid "از تاریخ"
+msgstr "من"
+
+#: models.py:82
+msgid "تا تاریخ"
+msgstr "حتى الآن"
+
+#: models.py:85
+msgid "آیا تایید شده است؟"
+msgstr "هل هو مؤكد؟"
+
+#: models.py:89
+msgid "زمان مرخصی پزشک"
+msgstr "وقت إجازة الطبيب"
+
+#: models.py:90
+msgid "زمان‌های مرخصی پزشکان"
+msgstr "أوقات إجازة الأطباء"
+
+#: templates/doctor/info.html:3 templates/doctor/list.html:3
+#: templates/doctor/search.html:3
+msgid "خانه"
+msgstr "بيت"

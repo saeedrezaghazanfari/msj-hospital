@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+#: apps.py:8
+msgid "ماژول IPD"
+msgstr "IPD-модуль"
+
+#: forms.py:15 forms.py:25 models.py:24 models.py:56
+msgid "شماره تلفن"
+msgstr "номер телефона"
+
+#: forms.py:16 forms.py:27
+msgid "کد کپچا"
+msgstr "капча-код"
+
+#: forms.py:26 forms.py:46
+msgid "کد پیامک شده"
+msgstr "СМС-код"
+
+#: forms.py:37 forms.py:51
+msgid "کد پیامک شده را وارد کنید."
+msgstr "Введите смс-код."
+
+#: forms.py:39 forms.py:53
+msgid "الگوی کد پیامک شده شما صحیح نیست."
+msgstr "Ваш шаблон кода SMS неверен."
+
+#: forms.py:41 forms.py:55 views.py:82
+msgid "کد شما منقضی شده و یا اینکه اعتبار ندارد."
+msgstr "Срок действия вашего кода истек или он недействителен."
+
+#: forms.py:69
+msgid "شماره پاسپورت یا کد ملی خود را وارد کنید."
+msgstr "Введите номер паспорта или национальный код."
+
+#: forms.py:71
+msgid "الگوی کدملی یا شماره پاسپورت شما صحیح نیست."
+msgstr "Ваш национальный код или номер паспорта неверны."
+
+#: models.py:20 models.py:57
+msgid "کد"
+msgstr "код"
+
+#: models.py:21
+msgid "شماره پاسپورت/کدملی"
+msgstr "Номер паспорта/национальность"
+
+#: models.py:22
+msgid "نام"
+msgstr "имя"
+
+#: models.py:23
+msgid "نام‌خانوادگی"
+msgstr "фамилия"
+
+#: models.py:25
+msgid "ایمیل"
+msgstr "электронная почта"
+
+#: models.py:26
+msgid "جنسیت"
+msgstr "пол"
+
+#: models.py:27
+msgid "سن"
+msgstr "Возраст"
+
+#: models.py:28
+msgid "شرح بیماری"
+msgstr "Описание болезни"
+
+#: models.py:29
+msgid "مستندات"
+msgstr "Документация"
+
+#: models.py:30
+msgid "کشور"
+msgstr "Страна"
+
+#: models.py:31
+msgid "استان"
+msgstr "Состояние"
+
+#: models.py:32
+msgid "شهر"
+msgstr "Город"
+
+#: models.py:34
+msgid "پاسخ"
+msgstr "Ответ"
+
+#: models.py:35
+msgid "پزشک پاسخگو"
+msgstr "Ответственный врач"
+
+#: models.py:36
+msgid "آیا جواب داده شده است؟"
+msgstr "Был ли на него дан ответ?"
+
+#: models.py:40
+msgid "نام و نام‌خانوادگی"
+msgstr "имя и фамилия"
+
+#: models.py:44
+msgid "تاریخ ارسال درخواست"
+msgstr "Дата подачи заявки"
+
+#: models.py:51
+msgid "بیمار بین‌الملل"
+msgstr "Международный пациент"
+
+#: models.py:52
+msgid "بیماران بین‌الملل"
+msgstr "Международные пациенты"
+
+#: models.py:58 models.py:68
+msgid "تاریخ تولید کد"
+msgstr "Дата создания кода"
+
+#: models.py:59 models.py:72
+msgid "تاریخ انقضای کد"
+msgstr "Срок действия кода"
+
+#: models.py:60
+msgid "استفاده شده؟"
+msgstr "использовал?"
+
+#: models.py:61
+msgid "تاریخ انقضای عملیات"
+msgstr "Срок действия операции"
+
+#: models.py:76
+msgid "کد احراز هویت ipd"
+msgstr "код аутентификации ipd"
+
+#: models.py:77
+msgid "کدهای احراز هویت ipd"
+msgstr "коды аутентификации ipd"
+
+#: templates/ipd/info.html:3 templates/ipd/login.html:3
+#: templates/ipd/phone.html:3 templates/ipd/register.html:3
+#: templates/ipd/sms-code.html:3
+msgid "آمپول | ورود"
+msgstr "ампула | авторизоваться"
+
+#: views.py:42
+msgid "یک پیامک حاوی کلمه ی عبور برای شماره تماس شما ارسال شد."
+msgstr "На ваш контактный номер отправлено SMS с паролем."
+
+#: views.py:118
+msgid "باید مقادیر کشور استان و شهر را وارد کنید."
+msgstr "Необходимо ввести значения страны, провинции и города."
+
+#: views.py:126
+msgid "شما قبلا یک فرم ارسال کرده اید. در صورتی که به آن فرم پاسخ داده شده باشد میتوانید فرم جدید ارسال کنید."
+msgstr "Вы уже отправили форму. Если на эту форму ответили, вы можете отправить новую форму."
+
+#: views.py:139
+msgid "فرم شما با موفقیت ارسال شد. تیم پزشکی ما در اسرع وقت درخواست شما را بررسی خواهد کرد."
+msgstr "Ваша форма успешно отправлена. Наша медицинская команда рассмотрит ваш запрос как можно скорее."

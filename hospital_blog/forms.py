@@ -1,8 +1,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import BlogCommentModel
-from extentions.validations import name_val, phone_val
-from extentions.customs import CustomizedModelForm
+from hospital_extentions.validations import name_val, phone_val
+from hospital_extentions.customs import CustomizedModelForm
 
 
 class BlogCommentForm(CustomizedModelForm):

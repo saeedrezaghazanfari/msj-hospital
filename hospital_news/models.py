@@ -7,7 +7,7 @@ from hospital_auth.models import User
 from hospital_units.models import UnitModel
 from hospital_blog.models import TagModel, CategoryModel
 from ckeditor.fields import RichTextField
-from extentions.utils import (
+from hospital_extentions.utils import (
     jalali_convertor, 
     news_image_path, 
     get_news_code, 
@@ -26,8 +26,8 @@ class NewsModel(models.Model):
     image = models.ImageField(upload_to=news_image_path, verbose_name=_('تصویر'))
     video_link = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('لینک ویدیو'))
     writer = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name=_('نویسنده'))
-    categories = models.ManyToManyField(to=CategoryModel, verbose_name=_('دسته بندی ها'))
-    tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ ها'))
+    categories = models.ManyToManyField(to=CategoryModel, verbose_name=_('دسته بندی‌ها'))
+    tags = models.ManyToManyField(to=TagModel, verbose_name=_('تگ‌ها'))
     title = TranslatedField(models.CharField(max_length=200, verbose_name=_('عنوان')))
     desc = TranslatedField(RichTextField(verbose_name=_('متن مقاله')))
     is_publish = models.BooleanField(default=False, verbose_name=_('آیا منتشر شود؟'), help_text=_('اگر این تیک فعال باشد بعد از ذخیره شدن ایمیل برای اعضای خبرنامه ارسال میشود.'))
@@ -36,13 +36,13 @@ class NewsModel(models.Model):
     is_dislikeable = models.BooleanField(default=True, verbose_name=_('امکان دیسلایک دارد؟'))
     is_commentable = models.BooleanField(default=True, verbose_name=_('امکان کامنت دارد؟'))
     gallery = models.ManyToManyField('NewsGalleryModel', verbose_name=_('گالری خبر'))
-    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش ها'))
+    units = models.ManyToManyField(to=UnitModel, verbose_name=_('بخش‌ها'))
     created = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         ordering = ['-created']
-        verbose_name = _('خبر')
-        verbose_name_plural = _('خبر‌ها')
+        verbose_name = _('خبر و رویداد')
+        verbose_name_plural = _('اخبار و رویدادها')
 
     objects = NewsModelManager()
 
@@ -100,7 +100,7 @@ class NewsCommentModel(models.Model):
     reply = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('پاسخ'))
     message = RichTextField(verbose_name=_('نظر'))
     first_name = models.CharField(max_length=255, null=True, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=255, null=True, verbose_name=_('نام‌خانوادگی'))
     phone = models.CharField(max_length=20, null=True, verbose_name=_('شماره تلفن'))
     news = models.ForeignKey(to=NewsModel, on_delete=models.SET_NULL, null=True, verbose_name=_('خبر'))
     created = models.DateTimeField(auto_now_add=True)
@@ -129,7 +129,7 @@ class NewsLikeModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('لایک یا دیسلایک خبر')
-        verbose_name_plural = _('لایک یا دیسلایک خبر ها')
+        verbose_name_plural = _('لایک یا دیسلایک خبر‌ها')
 
     def __str__(self):
         return str(self.id)

@@ -5,7 +5,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from translated_fields import TranslatedField
-from extentions.utils import (
+from hospital_extentions.utils import (
+    GENDERS,
     profile_image_path,
     jalali_convertor, 
     get_random_code,
@@ -14,10 +15,9 @@ from extentions.utils import (
 
 
 class User(AbstractUser):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     profile = models.ImageField(upload_to=profile_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     # actions
@@ -42,11 +42,11 @@ class User(AbstractUser):
             return self.userfullnamemodel.last_name
         except:
             return ''
-    lastname.short_description = _('نام خانوادگی')
+    lastname.short_description = _('نام‌خانوادگی')
 
     def get_full_name(self):
         return f'{self.userfullnamemodel.first_name} {self.userfullnamemodel.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
+    get_full_name.short_description = _('نام و نام‌خانوادگی')
     
     class Meta:
         ordering = ['-id']
@@ -57,7 +57,7 @@ class User(AbstractUser):
 class UserFullNameModel(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name=_('کاربر'))
     first_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام خانوادگی')))
+    last_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام‌خانوادگی')))
 
     def __str__(self):
         return self.user.username
@@ -69,12 +69,11 @@ class UserFullNameModel(models.Model):
 
 
 class PatientModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     username = models.CharField(max_length=10, unique=True, verbose_name=_('کدملی'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(verbose_name=_('سن'))
     created = models.DateTimeField(auto_now_add=True)
 
@@ -83,7 +82,7 @@ class PatientModel(models.Model):
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
+    get_full_name.short_description = _('نام و نام‌خانوادگی')
 
     class Meta:
         ordering = ['-id']
@@ -113,7 +112,7 @@ class LoginCodeModel(models.Model):
     class Meta: 
         ordering = ['-id']
         verbose_name = _('کد ورود به حساب کاربری')
-        verbose_name_plural = _('کدهای ورود به حساب های کاربری')
+        verbose_name_plural = _('کدهای ورود به حساب‌های کاربری')
 
 
 

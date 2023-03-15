@@ -32,13 +32,11 @@ class SettingModel_Admin(admin.ModelAdmin):
 
 class CostModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class HospitalPoliticModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
@@ -49,79 +47,66 @@ class HospitalFacilityModel_Admin(admin.ModelAdmin):
 
 class FAQModel_Admin(admin.ModelAdmin):
     list_display = ['question']
-    search_field = ['question']
     ordering = ['-id']
 
 
 class NewsLetterEmailsModel_Admin(admin.ModelAdmin):
     list_display = ['email']
-    search_field = ['email']
     ordering = ['-id']
 
 
 class InsuranceModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class HospitalGalleries_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class ReportModel_Admin(admin.ModelAdmin):
     list_display = ['id', 'time_bound']
-    search_field = ['time_bound']
     ordering = ['-id']
 
 
 class PriceAppointmentModel_Admin(admin.ModelAdmin):
     list_display = ['degree', 'insurance', 'price']
-    search_field = ['degree', 'insurance']
     ordering = ['-id']
 
 
 class ResultModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class HomeGalleryModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class CertificateModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class ContactInfoModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class PriceServiceModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class PriceBedModel_Admin(admin.ModelAdmin):
     list_display = ['title', 'insurance', 'price_free', 'price_insurance']
-    search_field = ['title']
     ordering = ['-id']
 
 
 class PriceSurgrayModel_Admin(admin.ModelAdmin):
     list_display = ['title', 'insurance', 'price_free', 'price_insurance']
-    search_field = ['title']
     ordering = ['-id']
 
 

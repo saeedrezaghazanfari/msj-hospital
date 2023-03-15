@@ -11,9 +11,9 @@ from .models import (
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 from captcha.fields import CaptchaField
-from extentions.validations import name_val, national_code_val, phone_val
-from extentions.utils import is_phone, is_national_code
-from extentions.customs import CustomizedForm, CustomizedModelForm
+from hospital_extentions.validations import name_val, national_code_val, phone_val
+from hospital_extentions.utils import is_phone, is_national_code
+from hospital_extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class PhoneForm(CustomizedForm):

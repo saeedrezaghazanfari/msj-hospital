@@ -8,7 +8,8 @@ from django.utils.translation import get_language
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from ckeditor.fields import RichTextField
-from extentions.utils import (
+from hospital_extentions.utils import (
+    GENDERS,
     jalali_convertor,
     units_image_path, 
     units_icon_image_path,
@@ -33,15 +34,15 @@ class UnitModel(models.Model):
     inside = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('داخلی'))
     address = TranslatedField(models.CharField(max_length=255, verbose_name=_('آدرس')))
     work_times = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('ساعات کاری'))
-    manager = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسیول')))
-    manager_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره مسیول'))
+    manager = TranslatedField(models.CharField(max_length=100, blank=True, null=True, verbose_name=_('مسئول')))
+    manager_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره مسئول'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
     icon = models.ImageField(upload_to=units_icon_image_path, blank=True, null=True, verbose_name=_('آیکون بخش'))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('بخش')
-        verbose_name_plural = _('بخش ها')
+        verbose_name_plural = _('بخش‌ها')
 
     def category_slug(self):
         return self.subunit.slug
@@ -78,7 +79,7 @@ class SubUnitModel(models.Model):
     slug = models.SlugField(default=get_links_code, unique=True, verbose_name=_('نمایش در url'))
     category = models.CharField(max_length=255, null=True, choices=CATEGORY_UNITS, verbose_name=_('دسته بندی بخش'))
     title = TranslatedField(models.CharField(max_length=255, verbose_name=_('نام')))
-    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو قسمتی است؟'), help_text=_('در بخش نوبت دهی اینترنتی باعث میشود که کاربر به ۲ طریق مختلف رزرو اینترنتی انجام دهد.'))
+    have_2_box = models.BooleanField(default=False, verbose_name=_('آیا دو قسمتی است؟'), help_text=_('در بخش نوبت‌دهی اینترنتی باعث میشود که کاربر به ۲ طریق مختلف رزرو اینترنتی انجام دهد.'))
 
     class Meta:
         ordering = ['-id']
@@ -90,15 +91,14 @@ class SubUnitModel(models.Model):
 
 
 class ManagersModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-    USER_TYPE = (('hm', _('هیات مدیره')), ('magm', _('مدیرعامل و گروه مدیریت')))# 
+    USER_TYPE = (('hm', _('هیات مدیره')), ('magm', _('مدیرعامل و گروه مدیریت')))
 
     label = models.CharField(max_length=255, choices=USER_TYPE, verbose_name=_('دسته‌بندی نمایش'))
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی')))
     phone = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, default='male', max_length=7, verbose_name=_('جنسیت'))
     job = TranslatedField(models.CharField(max_length=255, verbose_name=_('سمت')))
     profile = models.ImageField(upload_to=managers_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
     linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
@@ -114,31 +114,30 @@ class ManagersModel(models.Model):
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
+    get_full_name.short_description = _('نام و نام‌خانوادگی')
 
     def __str__(self):
         return self.get_full_name()
 
 
 class UnitMemberModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     unit = models.ForeignKey(UnitModel, on_delete=models.SET_NULL, null=True, verbose_name=_('بخش'))
     first_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام')))
-    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام خانوادگی')))
+    last_name = TranslatedField(models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی')))
     phone = models.CharField(max_length=100, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, default='male', max_length=7, verbose_name=_('جنسیت'))
     job = TranslatedField(models.CharField(max_length=255, verbose_name=_('سمت')))
     profile = models.ImageField(upload_to=unit_member_image_path, null=True, blank=True, verbose_name=_('پروفایل'))
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('عضو بخش')
-        verbose_name_plural = _('اعضای بخش ها')
+        verbose_name_plural = _('اعضای بخش‌ها')
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
+    get_full_name.short_description = _('نام و نام‌خانوادگی')
 
     def __str__(self):
         return self.get_full_name()
@@ -156,7 +155,7 @@ class ExprimentResultModel(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('نتیجه آزمایش و تصویربرداری')
-        verbose_name_plural = _('نتیجه آزمایش ها و تصویربرداری ها')
+        verbose_name_plural = _('نتیجه آزمایش‌ها و تصویربرداری‌ها')
 
     def __str__(self):
         return self.code
@@ -171,17 +170,17 @@ class AppointmentTimeModel(models.Model):
     day = models.CharField(max_length=15, choices=DAYS, verbose_name=_('روز'))
     time_from = models.CharField(max_length=15, choices=TIMES, verbose_name=_('از ساعت'))
     time_to = models.CharField(max_length=15, choices=TIMES, verbose_name=_('تا ساعت'))
-    insurances = models.ManyToManyField(to='hospital_setting.InsuranceModel', verbose_name=_('بیمه ها'))
+    insurances = models.ManyToManyField(to='hospital_setting.InsuranceModel', verbose_name=_('بیمه‌ها'))
     capacity = models.IntegerField(verbose_name=_('ظرفیت کل'))
     reserved = models.PositiveIntegerField(default=0, verbose_name=_('تعداد رزرو شده'))
     status = models.CharField(max_length=15, default='normal', choices=STATUS, verbose_name=_('وضعیت'))
-    tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت دهی'))
-    tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت دهی در پیامک'))
+    tip = models.ForeignKey(to='AppointmentTipModel', on_delete=models.SET_NULL, null=True, verbose_name=_('نکات نوبت‌دهی'))
+    tip_sms = models.ForeignKey(to='AppointmentTipSMSModel', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('نکات نوبت‌دهی در پیامک'))
 
     class Meta:
         ordering = ['date']
-        verbose_name = _('زمان نوبتدهی')
-        verbose_name_plural = _('زمان های نوبتدهی')
+        verbose_name = _('زمان نوبت‌دهی')
+        verbose_name_plural = _('زمان‌های نوبت‌دهی')
 
     def j_date(self):
         return jalali_convertor(time=self.date, number=True)
@@ -197,8 +196,8 @@ class AppointmentTipModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('نکات نوبت دهی')
-        verbose_name_plural = _('نکات نوبت دهی')
+        verbose_name = _('نکات نوبت‌دهی')
+        verbose_name_plural = _('نکات نوبت‌دهی')
 
     def __str__(self):
         return self.title
@@ -210,8 +209,8 @@ class AppointmentTipSMSModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('نکات نوبت دهی در پیامک')
-        verbose_name_plural = _('نکات نوبت دهی در پیامک')
+        verbose_name = _('نکات نوبت‌دهی در پیامک')
+        verbose_name_plural = _('نکات نوبت‌دهی در پیامک')
 
     def __str__(self):
         return self.title
@@ -224,7 +223,7 @@ class PatientTurnModel(models.Model):
     appointment = models.ForeignKey(to=AppointmentTimeModel, on_delete=models.SET_NULL, null=True, verbose_name=_('زمان مشاوره'))
     insurance = models.ForeignKey(to='hospital_setting.InsuranceModel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('بیمه'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ قابل پرداخت'))
-    prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه ی پزشک دیگر'))
+    prescription_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کد نسخه‌ی پزشک دیگر'))
     experiment_code = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('کدرهگیری(کدملی)'))
     turn = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('نوبت فیزیکی بیمار'))
     is_paid = models.BooleanField(default=False, verbose_name=_('پرداخت شده؟'))
@@ -254,8 +253,8 @@ class ElectronicPrescriptionModel(models.Model):
 
     class Meta:
         ordering = ['-created']
-        verbose_name = _('نوبت نسخه ی الکترونیکی بیمار')
-        verbose_name_plural = _('نوبت نسخه ی الکترونیکی بیماران')
+        verbose_name = _('نوبت نسخه‌ی الکترونیکی بیمار')
+        verbose_name_plural = _('نوبت نسخه‌ی الکترونیکی بیماران')
 
     def __str__(self):
         return f'{self.patient.first_name} {self.patient.last_name}'
@@ -264,14 +263,14 @@ class ElectronicPrescriptionModel(models.Model):
 class OnlinePaymentModel(models.Model):
     payer = models.ForeignKey(to=PatientTurnModel, on_delete=models.SET_NULL, null=True, verbose_name=_('پرداخت کننده'))
     price = models.PositiveBigIntegerField(verbose_name=_('مبلغ پرداختی'))
-    is_success = models.BooleanField(default=False, verbose_name=_('آیا تراکنش موفقیت آمیز بوده است؟'))
+    is_success = models.BooleanField(default=False, verbose_name=_('آیا تراکنش موفقیت‌آمیز بوده است؟'))
     code = models.CharField(max_length=50, verbose_name=_('شماره پرداخت'))
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-id']
         verbose_name = _('پرداخت اینترنتی')
-        verbose_name_plural = _('پرداخت های اینترنتی')
+        verbose_name_plural = _('پرداخت‌های اینترنتی')
 
     def __str__(self):
         return self.payer
@@ -279,12 +278,12 @@ class OnlinePaymentModel(models.Model):
 
 class LimitTurnTimeModel(models.Model):
     hours = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('تا چند ساعت قبل؟'))
-    rules = RichTextField(blank=True, null=True, verbose_name=_('قوانین نوبت دهی'), help_text=_('این قوانین در صفحه ی اول قبل از انجام مراحل رزرو اینترنتی نمایش داده میشود.'))
+    rules = RichTextField(blank=True, null=True, verbose_name=_('قوانین نوبت‌دهی'), help_text=_('این قوانین در صفحه‌ی اول قبل از انجام مراحل رزرو اینترنتی نمایش داده میشود.'))
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('حد زمانی برای انتخاب نوبت')
-        verbose_name_plural = _('حد زمانی برای انتخاب نوبت')
+        verbose_name = _('حد‌زمانی برای انتخاب نوبت')
+        verbose_name_plural = _('حد‌زمانی برای انتخاب نوبت')
 
     def __str__(self):
         return str(_('این جدول باید یک مقدار داشته باشد.'))

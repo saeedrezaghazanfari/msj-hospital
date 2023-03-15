@@ -15,19 +15,17 @@ class DoctorModel_Admin(admin.ModelAdmin):
 
 class TitleSkillModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class DegreeModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class DoctorWorkTimeModel_Admin(admin.ModelAdmin):
     list_display = ['doctor', 'day_from', 'day_to', 'time_from', 'time_to']
-    search_fields = ['doctor', 'day_from', 'day_to']
+    search_fields = ['doctor']
     ordering = ['-id']
 
 

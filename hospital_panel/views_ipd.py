@@ -4,7 +4,7 @@ from django.utils.translation import get_language
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-from extentions.utils import write_action
+from hospital_extentions.utils import write_action
 from hospital_ipd.models import IPDModel
 from .forms import IPDAnswerForm
 from .decorators import ipd_required

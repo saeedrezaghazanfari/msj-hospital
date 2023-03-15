@@ -6,7 +6,8 @@ from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from ckeditor.fields import RichTextField
 from hospital_auth.models import User
-from extentions.utils import (
+from hospital_extentions.utils import (
+    GENDERS,
     jalali_convertor, 
     ipd_doc_image_path,
     get_random_code,
@@ -15,16 +16,14 @@ from extentions.utils import (
 
 
 class IPDModel(models.Model):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
-
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     code = models.IntegerField(null=True, default=get_patient_tracking_code, verbose_name=_('کد'))
-    username = models.CharField(max_length=10, verbose_name=_('شماره پاسپورت / کدملی'))
+    username = models.CharField(max_length=10, verbose_name=_('شماره پاسپورت/کدملی'))
     first_name = models.CharField(max_length=100, verbose_name=_('نام'))
-    last_name = models.CharField(max_length=100, verbose_name=_('نام خانوادگی'))
+    last_name = models.CharField(max_length=100, verbose_name=_('نام‌خانوادگی'))
     phone = models.CharField(max_length=20, default=0, verbose_name=_('شماره تلفن'))
     email = models.EmailField(blank=True, null=True, verbose_name=_('ایمیل'))
-    gender = models.CharField(choices=GENDER_USER, default='male', max_length=7, verbose_name=_('جنسیت'))
+    gender = models.CharField(choices=GENDERS, default='male', max_length=7, verbose_name=_('جنسیت'))
     age = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('سن'))
     description = RichTextField(verbose_name=_('شرح بیماری'))
     document = models.FileField(upload_to=ipd_doc_image_path, null=True, blank=True, verbose_name=_('مستندات'))
@@ -38,7 +37,7 @@ class IPDModel(models.Model):
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-    get_full_name.short_description = _('نام و نام خانوادگی')
+    get_full_name.short_description = _('نام و نام‌خانوادگی')
 
     def j_created(self):
         return jalali_convertor(time=self.created, output='j_date')
@@ -49,8 +48,8 @@ class IPDModel(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('بیمار بین الملل')
-        verbose_name_plural = _('بیماران بین الملل')
+        verbose_name = _('بیمار بین‌الملل')
+        verbose_name_plural = _('بیماران بین‌الملل')
 
 
 class IPDCodeModel(models.Model):

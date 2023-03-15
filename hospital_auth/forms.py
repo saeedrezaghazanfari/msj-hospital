@@ -3,17 +3,16 @@ from django import forms
 from .models import User
 from captcha.fields import CaptchaField
 from django.utils.translation import gettext_lazy as _
-from extentions.validations import (
+from hospital_extentions.validations import (
     national_code_val, name_val
 )
-from extentions.utils import is_phone
-from extentions.customs import CustomizedForm, CustomizedModelForm
+from hospital_extentions.utils import is_phone, GENDERS
+from hospital_extentions.customs import CustomizedForm, CustomizedModelForm
 
 
 class SignUpForm(CustomizedModelForm):
-    GENDER_USER = (('male', _('مرد')), ('female', _('زن')))
     gender = forms.ChoiceField(
-        choices=GENDER_USER, 
+        choices=GENDERS, 
         widget=forms.RadioSelect(attrs={'name': 'gender_radio', 'checked': 'checked'})
     )
     firstname = forms.CharField(widget=forms.TextInput())
@@ -26,7 +25,7 @@ class SignUpForm(CustomizedModelForm):
         widgets = {
             'username': forms.TextInput({'placeholder': _('کدملی خود را وارد کنید')}),
             'firstname': forms.TextInput({'placeholder': _('نام خود را وارد کنید')}),
-            'lastname': forms.TextInput({'placeholder': _('نام خانوادگی خود را وارد کنید')}),
+            'lastname': forms.TextInput({'placeholder': _('نام‌خانوادگی خود را وارد کنید')}),
             'phone': forms.NumberInput({'placeholder': _('شماره تلفن خود را وارد کنید')}),
         }
 

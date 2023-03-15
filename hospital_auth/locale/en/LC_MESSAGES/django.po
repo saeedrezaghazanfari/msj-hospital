@@ -1,0 +1,270 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-16 00:51+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: admin.py:61
+msgid "پنل ادمین بیمارستان موسی ابن جعفر"
+msgstr "Admin panel of MSJ Hospital"
+
+#: apps.py:8
+msgid "احراز هویت"
+msgstr "Authentication"
+
+#: forms.py:26
+msgid "کدملی خود را وارد کنید"
+msgstr "Enter your country code"
+
+#: forms.py:27
+msgid "نام خود را وارد کنید"
+msgstr "Enter your name"
+
+#: forms.py:28
+msgid "نام‌خانوادگی خود را وارد کنید"
+msgstr "Enter your last name"
+
+#: forms.py:29 forms.py:50
+msgid "شماره تلفن خود را وارد کنید"
+msgstr "Enter your phone number"
+
+#: forms.py:52 forms.py:67
+msgid "الگوی شماره تلفن شما صحیح نیست"
+msgstr "Your phone number pattern is incorrect"
+
+#: forms.py:54
+msgid "این شماره تلفن در سیستم ثبت شده است"
+msgstr "This phone number is registered in the system"
+
+#: forms.py:59 models.py:19 models.py:75
+msgid "شماره تلفن"
+msgstr "phone number"
+
+#: forms.py:60
+msgid "کد کپچا"
+msgstr "captcha code"
+
+#: forms.py:65
+msgid "شماره تلفن همراه خود را وارد کنید"
+msgstr "Enter your mobile phone number"
+
+#: forms.py:69
+msgid "این شماره تلفن در سیستم موجود نیست"
+msgstr "This phone number is not available in the system"
+
+#: forms.py:74
+msgid "کد پیامک شده"
+msgstr "SMS code"
+
+#: forms.py:81
+msgid "کد پیامک شده را وارد کنید"
+msgstr "Enter the SMS code"
+
+#: forms.py:83
+msgid "فرمت کد قابل قبول نیست"
+msgstr "The code format is not acceptable"
+
+#: models.py:18 models.py:72 templates/auth/signup.html:18
+msgid "کدملی"
+msgstr "National Code"
+
+#: models.py:20 models.py:76
+msgid "جنسیت"
+msgstr "gender"
+
+#: models.py:21 models.py:77
+msgid "سن"
+msgstr "Age"
+
+#: models.py:22
+msgid "پروفایل"
+msgstr "profile"
+
+#: models.py:24
+msgid "مدیریت پنل پزشکی"
+msgstr "Medical panel management"
+
+#: models.py:25
+msgid "مدیریت پنل بلاگ"
+msgstr "Blog panel management"
+
+#: models.py:26
+msgid "مدیریت پنل اخبار"
+msgstr "News panel management"
+
+#: models.py:27
+msgid "مدیریت پنل نوت پزشکی"
+msgstr "Medical note panel management"
+
+#: models.py:28
+msgid "مدیریت پنل ثبت آزمایش و تصویربرداری"
+msgstr "Management of test registration and imaging panel"
+
+#: models.py:29
+msgid "مدیریت پنل نوبت دهی آنلاین"
+msgstr "Management of the online appointment panel"
+
+#: models.py:30
+msgid "مدیریت پنل ارتباطات"
+msgstr "Communication panel management"
+
+#: models.py:31
+msgid "مدیریت پنل IPD"
+msgstr "IPD panel management"
+
+#: models.py:38 models.py:59 models.py:73 templates/auth/signup.html:24
+msgid "نام"
+msgstr "name"
+
+#: models.py:45 models.py:60 models.py:74
+msgid "نام‌خانوادگی"
+msgstr "last name"
+
+#: models.py:49 models.py:85
+msgid "نام و نام‌خانوادگی"
+msgstr "first name and last name"
+
+#: models.py:53 models.py:58 models.py:94
+msgid "کاربر"
+msgstr "user"
+
+#: models.py:54
+msgid "کاربران"
+msgstr "users"
+
+#: models.py:67
+msgid "نام کامل کاربر"
+msgstr "User's full name"
+
+#: models.py:68
+msgid "نام کامل کاربران"
+msgstr "Users full name"
+
+#: models.py:89
+msgid "بیمار"
+msgstr "Patient"
+
+#: models.py:90
+msgid "بیماران"
+msgstr "patients"
+
+#: models.py:95
+msgid "کد"
+msgstr "code"
+
+#: models.py:96
+msgid "کد ورود"
+msgstr "login code"
+
+#: models.py:97 models.py:106
+msgid "تاریخ تولید کد"
+msgstr "Code generation date"
+
+#: models.py:98 models.py:110
+msgid "تاریخ انقضای کد"
+msgstr "Code expiration date"
+
+#: models.py:98
+msgid "این فیلد لازم نیست پر شود. بعد از ثبت رکورد بصورت اتوماتیک ثبت میشود."
+msgstr "This field does not need to be filled. After registration, the record will be registered automatically."
+
+#: models.py:99
+msgid "استفاده شده؟"
+msgstr "used?"
+
+#: models.py:114
+msgid "کد ورود به حساب کاربری"
+msgstr "Account login code"
+
+#: models.py:115
+msgid "کدهای ورود به حساب‌های کاربری"
+msgstr "Login codes to user accounts"
+
+#: templates/auth/enter_code.html:3
+msgid "آمپول | وارد کردن کد پیامکی"
+msgstr "ampoule | Enter SMS code"
+
+#: templates/auth/enter_code.html:22
+msgid "کد ارسال شده را وارد کنید:"
+msgstr "Enter the code sent:"
+
+#: templates/auth/enter_code.html:28 templates/auth/signin.html:27
+msgid "ورود"
+msgstr "log in"
+
+#: templates/auth/enter_code.html:31
+msgid "برگشت به صفحه ی ورود"
+msgstr "Back to the login page"
+
+#: templates/auth/signin.html:3
+msgid "آمپول | ورود"
+msgstr "ampoule | log in"
+
+#: templates/auth/signin.html:31
+msgid "ثبت نام در سایت"
+msgstr "Register on the site"
+
+#: templates/auth/signup.html:3
+msgid "آمپول | ثبت نام"
+msgstr "ampoule | Register"
+
+#: templates/auth/signup.html:29
+msgid "نام خانوادگی"
+msgstr "last name"
+
+#: templates/auth/signup.html:34
+msgid "شماره تلفن همراه"
+msgstr "Mobile Phone Number"
+
+#: templates/auth/signup.html:45
+msgid "ثبت نام"
+msgstr "Register"
+
+#: templates/auth/signup.html:47
+msgid "ورود به حساب کاربری"
+msgstr "Login to account"
+
+#: views.py:67
+msgid "حساب کاربری شما با موفقیت ایجاد شد. برای ورود کد پیامک شده را وارد کنید."
+msgstr "Your account has been successfully created. Enter the SMS code to enter."
+
+#: views.py:70
+msgid "مشکلی بوجود آمده است."
+msgstr "A problem has arisen."
+
+#: views.py:108
+msgid "پیامک حاوی کد برای شما ارسال شد. بعد از دریافت کد، آن را وارد کنید."
+msgstr "An SMS containing the code has been sent to you. After receiving the code, enter it."
+
+#: views.py:111
+msgid "شماره تلفن شما اشتباه است و یا در سیستم موجود نیست."
+msgstr "Your phone number is wrong or not available in the system."
+
+#: views.py:157
+msgid "به پنل کاربری بیمارستان موسی ابن جعفر خوش آمدید."
+msgstr "Welcome to the user panel of Musa Ibn Jafar Hospital."
+
+#: views.py:160
+msgid "مشکلی در ورود شما بوجود آمد."
+msgstr "There was a problem logging in."
+
+#: views.py:163
+msgid "کد شما نامعتبر و یا منقضی شده است."
+msgstr "Your code is invalid or expired."
+
+#: views.py:174
+msgid "شما با موفقیت از حساب کاربری خارج شدید."
+msgstr "You have successfully logged out."

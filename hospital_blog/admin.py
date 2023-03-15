@@ -15,13 +15,13 @@ from .models import (
 
 class MedicalNoteModel_Admin(admin.ModelAdmin):
     list_display = ['text', 'is_active']
-    search_fields = ['text', 'is_active']
+    search_fields = ['text']
     ordering = ['-id']
 
 
 class SMSTextModel_Admin(admin.ModelAdmin):
     list_display = ['receivers', 'is_sent_sms']
-    search_fields = ['receivers', 'is_sent_sms']
+    search_fields = ['receivers']
     ordering = ['-created']
 
 
@@ -37,37 +37,31 @@ class CreditEduModel_Admin(admin.ModelAdmin):
 
 class BlogModel_Admin(admin.ModelAdmin):
     list_display = ['id', 'title', 'get_full_name', 'is_publish', 'is_emailed']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class BlogGalleryModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class BlogCommentModel_Admin(admin.ModelAdmin):
     list_display = ['id', 'reply', 'is_show', 'is_read', 'j_created']
-    search_fields = ['is_show', 'is_read']
     ordering = ['-id']
 
 
 class CategoryModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class TagModel_Admin(admin.ModelAdmin):
     list_display = ['title']
-    search_fields = ['title']
     ordering = ['-id']
 
 
 class BlogLikeModel_Admin(admin.ModelAdmin):
     list_display = ['id', 'like_dislike']
-    search_fields = ['like_dislike']
     ordering = ['-id']
 
 
