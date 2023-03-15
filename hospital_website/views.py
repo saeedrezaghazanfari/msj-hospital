@@ -146,6 +146,9 @@ def ceo_management_page(request):
 # url: /chart/
 def chart_page(request):
     #TODO STATIC
+    # چارت بیمارستان
+    # چارت سازمانی
+    # خط مشی کیفیت بیمارستان
     return render(request, 'web/aboutus/chart.html')
 
 
@@ -176,6 +179,8 @@ def visiting_famous_page(request):
 # url: /patient/chart/
 def patient_chart_page(request):
     #TODO STATIC
+    # منشور حقوق بیمار
+    # منشور ایمنی بیمار
     return render(request, 'web/aboutus/patient-chart.html')
 
 
@@ -377,6 +382,13 @@ def phones_page(request):
 # url: /visitors-guide/
 def visitors_guide_page(request):
     #TODO STATIC
+    # راهنمای پذیرش تا ترخیص بیمار 
+    # مدارک مورد نیاز پذیرش بیمار 
+    # راهنمای پوشش کارکنان
+    # راهنمای ملاقات در بخش‌های ویژه
+    # راهنمای طبقات بیمارستان
+    # مسیرهای دسترسی به بیمارستان
+    # منشور حقوق پرسنل
     return render(request, 'web/guides/visitors-guide.html', {})
 
 

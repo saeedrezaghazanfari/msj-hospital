@@ -26,7 +26,7 @@ class SettingModel(models.Model):
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
     phone = TranslatedField(RichTextField(verbose_name=_('شماره تلفن/ها')))
     facs = models.CharField(max_length=255, verbose_name=_('فکس'))
-    from_to = TranslatedField(models.CharField(max_length=200, verbose_name=_('زمان گشایش')))
+    rules_hours = TranslatedField(RichTextField(verbose_name=_('ساعات و قوانین ملاقات')))
     history = TranslatedField(RichTextField(verbose_name=_('تاریخچه')))
     aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
