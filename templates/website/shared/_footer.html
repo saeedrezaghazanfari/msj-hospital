@@ -1,19 +1,54 @@
+{% load static %}
+
+<!-- + footer -->
 <footer>
-
-    <div class="container">
-
-        <h4>عضو خبرنامه شوید</h4>
-
-        <form action="{% url 'website:email-newsletter' %}?route={{ request.path }}" method="POST" novalidate autocomplete="off" class="bg-light p-3 mt-4 border">
-            {% csrf_token %}
     
-            <label for="email_field">ایمیل</label>
-            <input type="email" name="email_field" id="email_field">
-    
-            <br>
-            <button type="submit">ارسال</button>
-    
-        </form>
+    <div class="logo__wrapper">
+        <div>
+            <a href="#header"><img src="{% static 'img/logo-light.min.png' %}" alt="hospital logo"></a>
+        </div>
+    </div>
+
+    <div class="elements">
+
+        <div class="title">
+            <img src="{% static 'img/footer-hospital.min.png' %}" alt="footer hospital text">
+        </div>
+
+        <div class="links">
+            <ul>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".1s"><a href=""><i class="fa fa-chevron-left"></i> راهنمای نوبت‌دهی آنلاین</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".2s"><a href=""><i class="fa fa-chevron-left"></i> تلفن‌های داخلی</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".3s"><a href=""><i class="fa fa-chevron-left"></i> آموزش همگانی</a></li>
+            </ul>
+            <ul>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".4s"><a href=""><i class="fa fa-chevron-left"></i> گالری</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".5s"><a href=""><i class="fa fa-chevron-left"></i> پزشکان</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".6s"><a href=""><i class="fa fa-chevron-left"></i> مجلات و نشریات</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".7s"><a href=""><i class="fa fa-chevron-left"></i> رویدادها</a></li>
+                <br>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".8s"><a href=""><i class="fa fa-chevron-left"></i> تماس باما</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".9s"><a href=""><i class="fa fa-chevron-left"></i> آدرس ما</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="copy_text">
+
+        <p>راه‌های ارتباطی ما</p>
+
+        <ul>
+            <li class="telegram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".3s"><a href=""><i class="fab fa-telegram"></i></a></li>
+            <li class="instagram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".6s"><a href=""><i class="fab fa-instagram"></i></a></li>
+            <li class="envelope_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".6s"><a href=""><i class="fa fa-envelope"></i></a></li>
+            <li class="fax_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".3s"><a href=""><i class="fa fa-fax"></i></a></li>
+        </ul>
+
+        <div class="line"></div>
+
+        <p>&#169; <span id="year_copyright"></span> - بیمارستان تخصصی موسی بن جعفر(ع)</p>
     </div>
 
 </footer>
+<!-- - footer -->

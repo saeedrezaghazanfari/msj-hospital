@@ -1,0 +1,52 @@
+{% load static %}
+
+<!-- + header -->
+<header id="header" class="other_pages">
+
+    <div class="container">
+
+        <section class="top_of_menu">
+
+            <div class="website_logo">
+                <a href="{% url 'website:home' %}">
+                    <img src="{% static 'img/logo-light.min.png' %}" alt="website logo">
+                    <span class="animate__animated animate__fadeInUp wow" data-wow-delay="1.5s">بیمارستان تخصصی موسی بن جعفر(ع)</span>
+                </a>
+            </div>
+        
+            <div class="website_option">
+
+                <div class="chnage_lang_div"><i class="fas fa-chevron-down pt-1-2"></i> {{ request.LANGUAGE_CODE }}</div>
+                <ul class="chnage_lang_toggle">
+                    {% if request.LANGUAGE_CODE != 'fa' %}<li><a href="{% url 'activate_lang' %}?lang=fa&url={{ request.path|slice:'4:' }}">فارسی</a></li>{% endif %}
+                    {% if request.LANGUAGE_CODE != 'en' %}<li><a href="{% url 'activate_lang' %}?lang=en&url={{ request.path|slice:'4:' }}">English</a></li>{% endif %}
+                    {% if request.LANGUAGE_CODE != 'ar' %}<li><a href="{% url 'activate_lang' %}?lang=ar&url={{ request.path|slice:'4:' }}">العربیه</a></li>{% endif %}
+                    {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">Russian</a></li>{% endif %}
+                </ul>
+
+                <form method="GET" action="{% url 'website:search' %}" autocomplete="off" class="search_bar">
+                    <div class="form_wrapper">
+                        <input name="query" type="text" placeholder="جستجو کنید:">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+                <img class="image_search" src="{% static 'img/search.min.png' %}" alt="search icon">
+
+            </div>
+
+        </section>
+
+        <nav>
+
+            <div class="sidebar_toggle_div">
+                <button class="sidebar_toggle_btn"><i class="fa fa-bars"></i></button>
+            </div>
+
+            {% include 'website/shared/sidebar_megamenu.html' %}
+
+        </nav>
+
+    </div>
+
+</header>
+<!-- - header -->

@@ -1,0 +1,115 @@
+
+@import 'config/variables';
+@import 'config/animations';
+
+// header and main tag are here !!
+
+body.ltr_template {
+    direction: ltr !important;
+    text-align: left;
+
+    .corner__image--top {
+        left: -137px;
+        right: unset !important;
+    }
+    .corner__image--bottom {
+        right: 137px;
+        left: unset !important;
+    }
+}
+
+main {
+
+    section.page_title {
+        margin-top: 4rem;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+
+        .line {
+            height: 3px;
+            width: 20%;
+            background-color: $gray;
+            border-radius: 25px;
+        }
+        .text {
+            font-size: $font-large;
+            color: $dark;
+            margin: 0 10px;
+        }
+    }
+
+    article {
+        max-width: 1100px;
+        margin: auto;
+        margin-top: 2rem;
+        margin-bottom: 11rem;
+        position: relative;
+
+        .corner__image--top {
+            position: absolute;
+            z-index: -10;
+            background-color: rgba($color: $pink, $alpha: .4);
+            border-radius: 58% 42% 39% 61% / 57% 38% 62% 43%;
+            top: -5rem;
+            right: -137px;
+            height: 411px;
+            width: 442px;
+            animation: rotation-h 35s linear infinite;
+        }
+        .corner__image--bottom {
+            position: absolute;
+            z-index: -10;
+            background-color: rgba($color: $pink, $alpha: .4);
+            border-radius: 58% 42% 39% 61% / 57% 38% 62% 43%;
+            bottom: -5rem;
+            left: 137px;
+            height: 261px;
+            width: 232px;
+            animation: rotation-ah 35s linear infinite;
+        }
+
+        section.container {
+            box-shadow: $shadow;
+            padding: 2rem 3rem;
+            margin: 1rem;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, .6);
+            color: $dark;
+            backdrop-filter: blur(4px);
+            min-height: 500px;
+        }
+    }
+
+}
+
+
+// --- css media queries --- //
+
+// 1200 < x < 1600
+@media (min-width: 1200px) and (max-width: 1600px) {
+
+}
+
+
+// x < 1200
+@media (max-width: 1200px) {
+
+}
+
+
+// x < 700
+@media (max-width: 700px) {
+    .corner__image--top {
+        height: 311px !important;
+        width: 342px !important;
+    }
+}
+
+
+
+// x < 400
+@media (max-width: 400px) {
+
+}

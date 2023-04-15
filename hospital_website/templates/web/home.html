@@ -1,8 +1,10 @@
 {% extends 'website/shared/_main_layout.html' %}
 {% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block title %}{% translate 'بیمارستان موسی ابن جعفر' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -13,121 +15,10 @@
     {% list_medicals as list_medicals %}
 
     {% for note in notes %}
-    <div class="alert alert-primary">{{ forloop.counter }}. {{ note.text }}</div>
+    <div class="alert alert-primary d-none">{{ forloop.counter }}. {{ note.text }}</div>
     {% endfor %}
 
-
-    <form class="d-flex" method="GET" action="{% url 'website:search' %}">
-        <input type="text" name="query" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
-        <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
-    </form>
-
-    <hr>
-    
-    <ul>
-
-        <li><a href="/admin">پنل ادمین</a></li>
-        <li><a href="{% url 'panel:home' %}">پنل کاربری</a></li>
-        <li><a href="{% url 'website:home' %}">خانه</a></li>
-
-        <li>درباره ما</li>
-        <ul>
-            <li><a href="{% url 'website:aboutus' %}">درباره ما</a></li>
-            <li><a href="{% url 'website:history' %}">تاریخچه ی بیمارستان</a></li>
-            <li><a href="{% url 'website:workshops' %}">دوره‌ها و کارگاه‌ها</a></li>
-            <li><a href="{% url 'website:certificates' %}">افتخارات و گواهی نامه‌ها</a></li>
-            <li><a href="{% url 'website:gallery-imgs' %}">گالری تصاویر</a></li>
-            <li><a href="{% url 'website:gallery-vids' %}">گالری ویدئو</a></li>
-            <li><a href="{% url 'website:policies' %}">سیاست‌های بیمارستان</a></li>
-            <li><a href="{% url 'website:board-of-directors' %}">هیات مدیره</a></li>
-            <li><a href="{% url 'website:ceo-management' %}">مدیرعامل و گروه مدیریت</a></li>
-            <li><a href="{% url 'website:chart' %}">چارت بیمارستان</a></li>
-            <li><a href="{% url 'website:results' %}">دستاوردها</a></li>
-            <li><a href="{% url 'website:perspective' %}">چشم انداز، رسالت و ارزش‌ها</a></li>
-            <li><a href="{% url 'website:visiting-famous' %}">چهره های سرشناس مراجعه کننده</a></li>
-            <li><a href="{% url 'website:patient-chart' %}">منشور حقوق بيمار</a></li>
-            <li><a href="{% url 'website:committees' %}">کمیته های بیمارستان</a></li>
-            <li><a href="{% url 'website:credit' %}">اعتبار بخشی</a></li>
-            <li><a href="{% url 'website:quality-improvement' %}">واحد بهبود کیفیت</a></li>
-            <li><a href="{% url 'website:deceaseds' %}">گذشتگان بیمارستان</a></li>
-            <li><a href="{% url 'website:benefactors' %}">خیر و نیکوکار</a></li>
-            <li><a href="{% url 'website:facility' %}">امکانات رفاهی بیمارستان</a></li>
-            <li><a href="{% url 'website:reports' %}">گزارش عملکرد بیمارستان</a></li>
-
-        </ul>
-
-        <li>راهنمای بیمار</li>
-        <ul>
-            <li><a href="{% url 'doctor:doctors' %}">فهرست و جستجوی پزشکان</a></li>
-            <li><a href="{% url 'website:clinic-program' %}">برنامه کلینیک</a></li>
-            <li><a href="{% url 'units:oa-home' %}">راهنمای نوبت دهی آنلاین</a></li>
-            <li><a href="{% url 'website:prices' %}">تعرفه‌ها</a></li>
-            <li><a href="{% url 'website:insurances' %}">بیمه های طرف قرارداد</a></li>
-            <li><a href="{% url 'website:phones' %}">تلفن‌ها</a></li>
-            <li><a href="{% url 'website:visitors-guide' %}">راهنمای مراجعین</a></li>
-        </ul>
-
-        <li>خدمات و امکانات</li>
-        <ul>
-            <li><a href="{% url 'website:clinic-list' %}">کلینیک‌ها</a></li>
-            <li><a href="{% url 'website:operatingroom-list' %}">اتاق های عمل</a></li>
-            <li><a href="{% url 'website:official-list' %}">خدمات پشتیبانی</a></li>
-            <ul>
-                {% for item in list_officials %}
-                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
-                {% endfor %}
-            </ul>
-            <li><a href="{% url 'website:paraclinic-list' %}">پاراکلینیک‌ها</a></li>
-            <ul>
-                {% for item in list_paraclinics %}
-                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
-                {% endfor %}
-            </ul>
-            <li><a href="{% url 'website:medical-list' %}">بخش های درمانی</a></li>
-            <ul>
-                {% for item in list_medicals %}
-                <li><a href="{% url 'website:unit-info' item.id %}">{{ item.subunit.title }} {% if item.title %}{{ item.title }}{% endif %}</a></li>
-                {% endfor %}
-            </ul>
-        </ul>
-
-        <li>خدمات الکترونیکی</li>
-        <ul>
-            <li><a href="{% url 'units:oa-categories' %}">نوبت دهی آنلاین</a></li>
-            <li><a href="{% url 'units:oa-followupresult' %}">جوابدهی نتايج راديولوژي</a></li>
-            <li><a href="{% url 'units:oa-followupresult' %}">جوابدهی نتايج آزمايشات</a></li>
-        </ul>
-
-        <li>گردشگری سلامت</li>
-        <ul>
-            <li><a href="{% url 'ipd:enter-phone' %}">فرم آنلاین مشاوره ی پزشکی</a></li>
-            <li><a href="{% url 'ipd:services' %}">خدمات ویژه بیماران بین الملل</a></li>
-            <li><a href="{% url 'ipd:contact' %}">اطلاعات تماس با بخش IPD</a></li>
-            <li><a href="{% url 'ipd:doctors' %}">لیست پزشکان بیماران بین الملل</a></li>
-            <li><a href="{% url 'ipd:prices' %}">تعرفه خدمات درمانی</a></li>
-            <li><a href="{% url 'ipd:chart' %}">منشور حقوق بیماران بین الملل</a></li>
-        </ul>
-
-        <li><a href="{% url 'news:news' %}">اخبار</a></li>
-
-        <li><a href="{% url 'blog:blogs' %}">مجله‌ی سلامت</a></li>
-
-        <li><a href="{% url 'website:patient-edu' %}">آموزش بیمار</a></li>
-
-        <li>تماس</li>
-        <ul>
-            <li><a href="{% url 'contact:info' %}">اطلاعات تماس</a></li>
-            <li><a href="{% url 'contact:contactus' %}">فرم تماس باما</a></li>
-            <li><a href="{% url 'contact:careers' %}">همکاری باما</a></li>
-            <li><a href="{% url 'contact:suggestions' %}">انتقادات و پیشنهادات</a></li>
-            <li><a href="{% url 'contact:beneficiaries-comments' %}">نظرات ذینفعان</a></li>
-            <li><a href="{% url 'contact:patients-comments' %}">دیدگاه بیماران</a></li>
-            <li><a href="{% url 'contact:people-aids' %}">کمک‌های مردمی</a></li>
-        </ul>
-
-    </ul>
-
-    <div class="container">
+    <div class="d-none">
         {% for faq in faqs %}
         <div class="alert alert-success">
             {{ faq.question }} - {{ faq.answer }}
@@ -135,4 +26,466 @@
         {% endfor %}
     </div>
 
+    <!-- these are my codes ///////////////////////////////////////// -->
+
+    <!-- + header -->
+    <header id="header">
+
+        <section class="header__slider owl-carousel1 owl-carousel owl-theme owl-loaded owl-drag">
+            <div class="header__image item" style="background-image: url({% static 'img/_test.min.png' %});"></div>
+            <div class="header__image item" style="background-image: url({% static 'img/_doctor.min.png' %});"></div>
+            <div class="header__image item" style="background-image: url({% static 'img/map.min.png' %});"></div>
+        </section>
+
+        <section class="header__elements">
+
+            <div class="container">
+
+                <section class="top_of_menu">
+
+                    <div class="website_logo">
+                        <a href="/">
+                            <img src="{% static 'img/logo-light.min.png' %}" alt="website logo">
+                            <span class="animate__animated animate__fadeInUp wow" data-wow-delay="1.5s">بیمارستان تخصصی موسی بن جعفر(ع)</span>
+                        </a>
+                    </div>
+                
+                    <div class="website_option">
+
+                        <div class="chnage_lang_div"><i class="fas fa-chevron-down pt-1-2"></i> {{ request.LANGUAGE_CODE }}</div>
+                        <ul class="chnage_lang_toggle">
+                            {% if request.LANGUAGE_CODE != 'fa' %}<li><a href="{% url 'activate_lang' %}?lang=fa&url={{ request.path|slice:'4:' }}">فارسی</a></li>{% endif %}
+                            {% if request.LANGUAGE_CODE != 'en' %}<li><a href="{% url 'activate_lang' %}?lang=en&url={{ request.path|slice:'4:' }}">English</a></li>{% endif %}
+                            {% if request.LANGUAGE_CODE != 'ar' %}<li><a href="{% url 'activate_lang' %}?lang=ar&url={{ request.path|slice:'4:' }}">العربیه</a></li>{% endif %}
+                            {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">Russian</a></li>{% endif %}
+                        </ul>
+
+                        <form method="GET" action="{% url 'website:search' %}" autocomplete="off" class="search_bar">
+                            <div class="form_wrapper">
+                                <input name="query" type="text" placeholder="جستجو کنید:">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                        <img class="image_search" src="{% static 'img/search.min.png' %}" alt="search icon">
+
+                    </div>    
+    
+                </section>
+    
+                <nav>
+
+                    <div class="sidebar_toggle_div">
+                        <button class="sidebar_toggle_btn"><i class="fa fa-bars"></i></button>
+                    </div>
+
+                    {% include 'website/shared/sidebar_megamenu.html' %}
+        
+                </nav>
+
+                <section class="contact_ways">
+                    <div class="animate__animated animate__fadeIn wow" data-wow-delay=".4s">
+                        <p><a href="">تلگرام</a></p>
+                    </div>
+                    <div class="animate__animated animate__fadeIn wow" data-wow-delay=".6s">
+                        <p><a href="" class="text-pink">اینستاگرام</a></p>
+                    </div>
+                    <div class="animate__animated animate__fadeIn wow" data-wow-delay=".8s">
+                        <p><a href="">ایمیل</a></p>
+                    </div>
+                    <div class="animate__animated animate__fadeIn wow" data-wow-delay="1s">
+                        <p><a href="">فکس</a></p>
+                    </div>
+                </section>
+
+                <section class="center_buttons">
+                    <div>
+                        <img src="{% static 'img/network.min.png' %}" alt="qrcode image">
+                    </div>
+                    <div class="button_wrapper"><a href="{% url 'doctor:doctors' %}">پزشکان</a></div>
+                    <div class="button_wrapper"><a href="">پرسنل</a></div>
+                    <div class="button_wrapper"><a href="{% url 'website:insurances' %}">بیمه‌های طرف قرارداد</a></div>
+                </section>
+
+            </div>
+
+        </section>
+
+        <div class="bottom_tringle"></div>
+
+    </header>
+    <!-- - header -->
+
+
+    <!-- + content -->
+    <main>
+
+        <div class="stethoscope_div"></div>
+
+        <article>
+
+            <div class="corner__image corner__image--1"></div>
+            <div class="corner__image corner__image--2"></div>
+            <div class="corner__image corner__image--3"></div>
+
+            <div class="search__header">
+                <div class="line"></div>
+                <div class="text">جستجو در بیمارستان</div>
+                <div class="link"><a href="{% url 'website:gallery-vids' %}"><i class="fas fa-play"></i>&nbsp; تماشا ویدئو</a></div>
+            </div>
+
+            <div class="container_1">
+
+                <div class="search__box">
+                    <img src="{% static 'img/logo-dark.min.png' %}" alt="logo image">
+    
+                    <form>
+
+                        <div class="inputs_wrapper">
+                            <div class="inputs">
+                                <input type="text" placeholder="پزشک">
+                                <div class="line"></div>
+                                <select>
+                                    <option value="">پزشک</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                </select>
+                            </div>
+                            <div class="selected_item">
+                                <p>----</p>
+                            </div>
+                        </div>
+
+                        <div class="vertical_line"></div>
+
+                        <div class="inputs_wrapper">
+                            <div class="inputs">
+                                <input type="text" placeholder="تخصص">
+                                <div class="line"></div>
+                                <select>
+                                    <option value="">تخصص</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                </select>
+                            </div>
+                            <div class="selected_item">
+                                <p>----</p>
+                            </div>
+                        </div>
+
+                        <div class="vertical_line"></div>
+
+                        <div class="inputs_wrapper">
+                            <div class="inputs">
+                                <input type="text" placeholder="کلینیک">
+                                <div class="line"></div>
+                                <select>
+                                    <option value="">کلینیک</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                    <option value="">دکتر ناصری</option>
+                                </select>
+                            </div>
+                            <div class="selected_item">
+                                <p>----</p>
+                            </div>
+                        </div>
+                        
+                        <div class="link">
+                            <button type="submit">
+                                <i class="fas fa-search"></i>&nbsp; جستجو
+                            </button>
+                        </div>
+                    </form>
+    
+    
+                </div>
+
+                <div class="doctors__wrapper">
+
+                    <div class="doctors__gallery">
+
+                        <div class="div__next">
+                            <div><i class="fa fa-chevron-right"></i></div>
+                        </div>
+
+                        <div class="gallery_image gallery_image--next" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                            <div class="gallery__info">
+                                <div class="skill">متخصص مغز و اعصاب</div>
+                                <div class="name">دکتر محسن سلامی</div>
+                                <div class="counter">4/9</div>
+                            </div>
+                        </div>
+                        <div class="gallery_image gallery_image--center" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                            <div class="gallery__info">
+                                <div class="skill">متخصص مغز و اعصاب</div>
+                                <div class="name">دکتر محسن سلامی</div>
+                                <div class="counter">4/9</div>
+                            </div>
+                        </div>
+                        <div class="gallery_image gallery_image--prev" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                            <div class="gallery__info">
+                                <div class="skill">متخصص مغز و اعصاب</div>
+                                <div class="name">دکتر محسن سلامی</div>
+                                <div class="counter">4/9</div>
+                            </div>
+                        </div>
+
+                        <div class="div__prev">
+                            <div><i class="fa fa-chevron-left"></i></div>
+                        </div>
+
+                    </div>
+
+                    <div class="gallery__more">
+                        <div class="reservation">
+                            <div class="line"></div>
+                            <div>
+                                <a id="doctor_hours_link" href="">ساعات حضور</a>
+                            </div>
+                        </div>
+                        <div class="more_info">
+                            <div>
+                                <a id="doctor_info_link" href="">اطلاعات بیشتر</a>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="three__elements">
+
+                    <div class="one_element animate__animated animate__fadeInRight wow" data-wow-delay=".3s">
+                        <img src="{% static 'img/hands.min.png' %}" alt="hands image">
+                        <h1>کمک‌های مردمی</h1>
+                        <h3>از خدمات بیمارستان ما</h3>
+                        <p><a href="{% url 'contact:people-aids' %}">جهت کسب اطلاعات بیشتر کلیک کنید.</a></p>
+                    </div>
+                    
+                    <div class="one_element animate__animated animate__fadeInUp wow" data-wow-delay=".5s">
+                        <img src="{% static 'img/network.min.png' %}" alt="network image">
+                        <h1>نوبت‌دهی آنلاین</h1>
+                        <h3>از خدمات بیمارستان ما</h3>
+                        <p><a href="{% url 'units:oa-categories' %}">جهت کسب اطلاعات بیشتر کلیک کنید.</a></p>
+                    </div>
+
+                    <div class="one_element animate__animated animate__fadeInLeft wow" data-wow-delay=".3s">
+                        <img src="{% static 'img/graduation-cap.min.png' %}" alt="graduation-cap image">
+                        <h1>آموزش</h1>
+                        <h3>از خدمات بیمارستان ما</h3>
+                        <p><a href="{% url 'website:patient-edu' %}">جهت کسب اطلاعات بیشتر کلیک کنید.</a></p>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <div class="more__services">
+
+                <div class="gallery__header">
+                    خدمات بیشتر
+                </div>
+
+                <div class="gallery__services owl-carousel2 owl-carousel owl-theme owl-loaded owl-drag">
+                    
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                    <div class="gallery__item item">
+                        <a href="">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <p>تصویربرداری</p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container_2">
+
+                <div class="blogs__wrapper">
+
+                    <div class="header">اخبار و رویدادها</div>
+
+                    <div class="gallery__blogs owl-carousel3 owl-carousel owl-theme owl-loaded owl-drag">
+    
+                        <div class="gallery__item item">
+                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                                <div class="blog__image__glass">
+                                    <div class="blog__date">
+                                        <div class="day">23</div>
+                                        <div class="month_year">
+                                            <div class="month">02</div>
+                                            <div class="year">01</div>
+                                        </div>
+                                    </div>
+                                    <div class="blog__human">
+                                        27 روز پیش
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
+                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
+                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                        </div>
+    
+                        <div class="gallery__item item">
+                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                                <div class="blog__image__glass">
+                                    <div class="blog__date">
+                                        <div class="day">23</div>
+                                        <div class="month_year">
+                                            <div class="month">02</div>
+                                            <div class="year">01</div>
+                                        </div>
+                                    </div>
+                                    <div class="blog__human">
+                                        27 روز پیش
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
+                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
+                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                        </div>
+    
+                        <div class="gallery__item item">
+                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                                <div class="blog__image__glass">
+                                    <div class="blog__date">
+                                        <div class="day">23</div>
+                                        <div class="month_year">
+                                            <div class="month">02</div>
+                                            <div class="year">01</div>
+                                        </div>
+                                    </div>
+                                    <div class="blog__human">
+                                        27 روز پیش
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
+                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
+                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                        </div>
+    
+                        <div class="gallery__item item">
+                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                                <div class="blog__image__glass">
+                                    <div class="blog__date">
+                                        <div class="day">23</div>
+                                        <div class="month_year">
+                                            <div class="month">02</div>
+                                            <div class="year">01</div>
+                                        </div>
+                                    </div>
+                                    <div class="blog__human">
+                                        27 روز پیش
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
+                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
+                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                        </div>
+    
+    
+                    </div>
+
+                </div>
+
+                <div class="map__wrapper">
+
+                    <div class="textbox">
+                        <h1>مسیرهای دسترسی به بیمارستان</h1>
+                        <p>از طریق لینک زیر اقدام کنید</p>
+                        <div><a href=""><i class="fas fa-map-marker"></i> مشاهده نقشه</a></div> 
+                    </div>
+
+                    <img src="{% static 'img/map.min.png' %}" alt="map image">
+
+                </div>
+
+                <div class="insurances_wrapper">
+
+                    <div class="insurance__gallery owl-carousel4 owl-carousel owl-theme owl-loaded owl-drag">
+
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+                        <div class="insurance__item item">
+                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </article>
+
+    </main>
+    <!-- - content -->
+
+{% endblock %}
+
+{% block extraScript %}
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock %}
