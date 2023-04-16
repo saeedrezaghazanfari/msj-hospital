@@ -219,10 +219,10 @@ class HireFormModel(models.Model):
 
 class WorkshopModel(models.Model):
     title = TranslatedField(models.CharField(max_length=50, verbose_name=_('عنوان')))
+    desc = TranslatedField(RichTextField(blank=True, null=True, verbose_name=_('توضیحات دوره')))
     length = models.CharField(max_length=50, verbose_name=_('طول دوره'))
     category = TranslatedField(models.CharField(max_length=100, verbose_name=_('دسته‌بندی دوره')))
     capacity = models.PositiveIntegerField(verbose_name=_('ظرفیت دوره'))
-    nums = models.PositiveIntegerField(verbose_name=_('تعداد شرکت کنندگان'))
     times = models.CharField(max_length=100, verbose_name=_('ساعات برگذاری'))
     proffessors = TranslatedField(models.CharField(max_length=255, verbose_name=_('استادان دوره')))
     have_degree = models.BooleanField(default=False, verbose_name=_('آیا این دوره شامل مدرک میشود؟'))

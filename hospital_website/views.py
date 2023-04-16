@@ -132,7 +132,7 @@ def workshops_page(request):
 
     return render(request, 'web/aboutus/workshops.html', {
         'active_workshops': WorkshopModel.objects.filter(start_date__gt=timezone.now()).all(),
-        'prevs_workshops': WorkshopModel.objects.filter(start_date__lt=timezone.now()).all(),
+        'prevs_workshops': WorkshopModel.objects.filter(start_date__lt=timezone.now()).all()[:20],
     })
 
 

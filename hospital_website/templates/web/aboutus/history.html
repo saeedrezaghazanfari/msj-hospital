@@ -1,16 +1,41 @@
 {% extends 'website/shared/_main_layout.html' %}
 {% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block title %}{% translate 'تاریخچه بیمارستان' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/other.css' %}">
 {% endblock %}
 
 {% block content %}
 
-    <div class="alert alert-light text-primary">
-        <p>تاریخچه':</p>
-        {{ history|safe }}
-    </div>
+    {% include 'website/shared/_other_header.html' %}
+
+    <!-- + content -->
+    <main>
+
+        <section class="page_title">
+            <div class="line"></div>
+            <div class="text">{% translate 'تاریخچه بیمارستان' %}</div>
+        </section>
+
+        <article>
+            
+            <div class="corner__image--top"></div>
+            <div class="corner__image--bottom"></div>
+            
+            <section class="container">
+
+                <p class="paragraph">{{ history|safe }}</p>
+
+            </section>
+
+        </article>
+
+    </main>
+    <!-- - content -->
 
 {% endblock %}
+
+{% block extraScript %}{% endblock %}
 

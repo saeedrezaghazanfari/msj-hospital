@@ -119,7 +119,6 @@ main {
                 text-align: justify;
             }
 
-                
             ul.link-wrapper {
                 list-style: none;
                 display: flex;
@@ -172,6 +171,63 @@ main {
                     }
                 }
             }
+
+            .gallery__item {
+                box-shadow: $shadow;
+                border-radius: 15px;
+
+                &:hover .card__link {
+                    bottom: 8px;
+
+                    a {
+                        padding-bottom: 8px;
+                    }
+                }
+
+                .card__image {
+                    background-size: cover; 
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    height: 230px;
+                    width: auto;
+                    border-radius: 15px 15px 0 0;
+                    border-bottom: 2px solid #ccc;
+                    position: relative;
+                }
+                .card__header {
+                    padding: 10px 15px;
+                }
+                .diver {
+                    height: 1px;
+                    width: 100%;
+                    background-color: #ccc;
+                    margin: 20px 0;
+                }
+                .card__text {
+                    margin-top: 9px;
+                    padding: 10px 15px;
+                    color: $gray;
+                    font-size: $font-small;
+                    text-align: justify;
+                }
+                .card__link {
+                    position: absolute;
+                    bottom: 5px;
+                    left: 20px;
+                    padding: 10px;
+                    text-align: left;
+                    transition: all .3s ease;
+
+                    a {
+                        color: white;
+                        background-color: $dark;
+                        border-radius: 25px 25px 0 0;
+                        padding: 5px 20px;
+                        font-size: $font-small;
+                        transition: all .3s ease;
+                    }
+                }
+            }
         }
     }
 }
@@ -204,6 +260,6 @@ main {
 // x < 400
 @media (max-width: 400px) {
     main article section.container {
-        padding: 10px !important;
+        padding: 10px 15px !important;
     }
 }

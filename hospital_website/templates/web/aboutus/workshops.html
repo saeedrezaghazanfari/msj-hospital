@@ -1,47 +1,150 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% load static i18n widget_tweaks humanize %}
+{% block title %}{% translate 'دوره‌ها و کارگاه‌ها' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/other.css' %}">
 {% endblock %}
 
 {% block content %}
 
-    <h3>کارگاه‌های در‌حال برگزاری</h3>
+    {% include 'website/shared/_other_header.html' %}
 
-    {% for workshop in active_workshops %}
-    <div class="alert alert-light text-primary d-flex">
-        <div style="flex: 1;">{{ workshop.title }}</div>
-        <div style="flex: 1;">{{ workshop.length }}</div>
-        <div style="flex: 1;">{{ workshop.category }}</div>
-        <div style="flex: 1;">{{ workshop.capacity }}</div>
-        <div style="flex: 1;">{{ workshop.nums }}</div>
-        <div style="flex: 1;">{{ workshop.times }}</div>
-        <div style="flex: 1;">{{ workshop.proffessors }}</div>
-        <div style="flex: 1;">{{ workshop.have_degree }}</div>
-        <div style="flex: 1;">{{ workshop.image }}</div>
-        <div style="flex: 1;">{{ workshop.j_start_date }}</div>
-        <div style="flex: 1;"><button>more by modal</button></div>
-    </div>
-    {% endfor %}
+    <!-- + content -->
+    <main>
 
-    <h3>کارگاه‌های برگزار‌شده</h3>
-    {% for workshop in prevs_workshops %}
-    <div class="alert alert-light text-primary d-flex">
-        <div style="flex: 1;">{{ workshop.title }}</div>
-        <div style="flex: 1;">{{ workshop.length }}</div>
-        <div style="flex: 1;">{{ workshop.category }}</div>
-        <div style="flex: 1;">{{ workshop.capacity }}</div>
-        <div style="flex: 1;">{{ workshop.nums }}</div>
-        <div style="flex: 1;">{{ workshop.times }}</div>
-        <div style="flex: 1;">{{ workshop.proffessors }}</div>
-        <div style="flex: 1;">{{ workshop.have_degree }}</div>
-        <div style="flex: 1;">{{ workshop.image }}</div>
-        <div style="flex: 1;">{{ workshop.j_start_date }}</div>
-        <div style="flex: 1;"><button>more by modal</button></div>
-    </div>
-    {% endfor %}
+        <section class="page_title">
+            <div class="line"></div>
+            <div class="text">{% translate 'دوره‌ها و کارگاه‌ها' %}</div>
+        </section>
 
+        <article>
+            
+            <div class="corner__image--top"></div>
+            <div class="corner__image--bottom"></div>
+
+            <section class="container">
+
+                <h3 class="mb-2">{% translate 'لیست کارگاه‌های در‌حال برگزاری' %}</h3>
+
+                {% for workshop in active_workshops %}
+
+                <div class="gallery__item">
+                    <div class="card__image" style="background-image: url({{ workshop.image.url }});"></div>
+                    <div class="card__text">
+
+                        <div class="row">
+                            <div class="col-6">
+                                
+                                <h3>{% translate 'عنوان دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.title }}</p>
+                                <h3>{% translate 'تاریخ شروع' %}</h3>
+                                <p class="mb-2">{{ workshop.start_date }}</p>
+        
+                                <h3>{% translate 'ساعات برگزاری' %}</h3>
+                                <p class="mb-2">{{ workshop.times }}</p>
+        
+                                <h3>{% translate 'طول دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.length }}</p>
+
+                            </div>
+                            <div class="col-6">
+
+                                <h3>{% translate 'مدرک' %}</h3>
+                                {% if workshop.have_degree %}
+                                <p class="mb-2">{% translate 'این دوره شامل مدرک میباشد.' %}</p>
+                                {% else %}
+                                <p class="mb-2">{% translate 'این دوره شامل مدرک نمیباشد.' %}</p>
+                                {% endif %}
+        
+                                <h3>{% translate 'استادان دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.proffessors }}</p>
+        
+                                <h3>{% translate 'ظرفیت دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.capacity }}</p>
+
+                                <h3>{% translate 'دسته‌بندی دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.category }}</p>
+
+                            </div>
+                        </div>
+
+                        <div class="diver"></div>
+
+                        <h3 class="mt-2 mb-1">{% translate 'توضیحات دوره' %}</h3>
+                        <div class="paragraph mb-2">{{ workshop.desc|safe }}</div>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <br><br>
+
+                <h3 class="mb-2">{% translate 'لیست کارگاه‌های برگزار‌شده' %}</h3>
+
+                {% for workshop in prevs_workshops %}
+
+                <div class="gallery__item">
+                    <div class="card__image" style="background-image: url({{ workshop.image.url }});"></div>
+                    <div class="card__text">
+
+                        <div class="row">
+                            <div class="col-6">
+                                
+                                <h3>{% translate 'عنوان دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.title }}</p>
+
+                                <h3>{% translate 'تاریخ شروع' %}</h3>
+                                <p class="mb-2">{{ workshop.start_date }}</p>
+        
+                                <h3>{% translate 'ساعات برگزاری' %}</h3>
+                                <p class="mb-2">{{ workshop.times }}</p>
+        
+                                <h3>{% translate 'طول دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.length }}</p>
+
+                            </div>
+                            <div class="col-6">
+
+                                <h3>{% translate 'مدرک' %}</h3>
+                                {% if workshop.have_degree %}
+                                <p class="mb-2">{% translate 'این دوره شامل مدرک میباشد.' %}</p>
+                                {% else %}
+                                <p class="mb-2">{% translate 'این دوره شامل مدرک نمیباشد.' %}</p>
+                                {% endif %}
+        
+                                <h3>{% translate 'استادان دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.proffessors }}</p>
+        
+                                <h3>{% translate 'ظرفیت دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.capacity }}</p>
+
+                                <h3>{% translate 'دسته‌بندی دوره' %}</h3>
+                                <p class="mb-2">{{ workshop.category }}</p>
+
+                            </div>
+                        </div>
+
+                        <div class="diver"></div>
+
+                        <h3 class="mt-2 mb-1">{% translate 'توضیحات دوره' %}</h3>
+                        <div class="paragraph mb-2">{{ workshop.desc|safe }}</div>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+
+
+            </section>
+
+        </article>
+
+    </main>
+    <!-- - content -->
 
 {% endblock %}
 
+{% block extraScript %}{% endblock %}

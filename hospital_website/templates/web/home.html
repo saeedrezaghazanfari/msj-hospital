@@ -309,9 +309,9 @@
                             <div class="blog__image" style="background-image: url({{ item.image.url }});">
                                 <div class="blog__image__glass">
                                     <div class="blog__date">
-                                        <div class="day">{{ item.created.day }}</div>
+                                        <div class="day">{% if item.created.day < 10 %}0{{ item.created.day }}{% else %}{{item.created.day}}{% endif %}</div>
                                         <div class="month_year">
-                                            <div class="month">{{ item.created.month }}</div>
+                                            <div class="month">{% if item.created.month < 10 %}0{{ item.created.month }}{% else %}{{item.created.month}}{% endif %}</div>
                                             <div class="year">{{ item.created.year }}</div>
                                         </div>
                                     </div>
@@ -331,9 +331,9 @@
                             <div class="blog__image" style="background-image: url({{ item.image.url }});">
                                 <div class="blog__image__glass">
                                     <div class="blog__date">
-                                        <div class="day">{{ item.created.day }}</div>
+                                        <div class="day">{% if item.created.day < 10 %}0{{ item.created.day }}{% else %}{{item.created.day}}{% endif %}</div>
                                         <div class="month_year">
-                                            <div class="month">{{ item.created.month }}</div>
+                                            <div class="month">{% if item.created.month < 10 %}0{{ item.created.month }}{% else %}{{item.created.month}}{% endif %}</div>
                                             <div class="year">{{ item.created.year }}</div>
                                         </div>
                                     </div>
