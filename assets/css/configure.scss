@@ -71,6 +71,24 @@ textarea, input, button, select { font-family: vazir !important; outline: none; 
 .font-italic { font-style: italic; }
 .font-underline { text-decoration: underline; }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+
+    .col-6 {
+        min-width: 220px;
+        flex: 6;
+        padding: 7px 14px;
+        margin: 5px;
+    }
+}
+.text-center {
+    text-align: center;
+    justify-content: center;
+}
+
 // margins
 .m-1-2 { margin: 0.5rem; }
 .m-1 { margin: 1.5rem; }

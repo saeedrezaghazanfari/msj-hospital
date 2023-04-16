@@ -1,89 +1,115 @@
 {% extends 'website/shared/_main_layout.html' %}
 {% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% block title %}{% translate 'درباره ما' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/other.css' %}">
+<!-- leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> 
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 {% endblock %}
 
 {% block content %}
 
+    {% include 'website/shared/_other_header.html' %}
 
-    <div class="alert alert-light text-primary">
-        <p>مقیاس ایکس:</p>
-        {{ setting.x_scale }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>مقیاس ایگرگ:</p>
-        {{ setting.y_scale }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>متن شما روی نقشه':</p>
-        {{ setting.marker_text }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>آدرس':</p>
-        {{ setting.address }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>ایمیل:</p>
-        {{ setting.email }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>تلفن:</p>
-        {{ setting.phone }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>فکس:</p>
-        {{ setting.facs }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>ساعات و قوانین ملاقات:</p>
-        {{ setting.rules_hours }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>آپارات:</p>
-        {{ setting.aparat }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>لینکدین:</p>
-        {{ setting.linkedin }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>فیسبوک:</p>
-        {{ setting.facebook }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>توییتر:</p>
-        {{ setting.twitter }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>اینستاگرام:</p>
-        {{ setting.instagram }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>واتساپ:</p>
-        {{ setting.whatsapp }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>نام بانک':</p>
-        {{ setting.bank_name }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>نام صاحب حساب':</p>
-        {{ setting.bank_account_owner }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>شماره کارت:</p>
-        {{ setting.bank_account_cardnum }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>شماره حساب:</p>
-        {{ setting.bank_account_num }}
-    </div>
-    <div class="alert alert-light text-primary">
-        <p>شماره شبا:</p>
-        {{ setting.bank_account_shabanum }}
-    </div>
+    <!-- + content -->
+    <main>
 
+        <section class="page_title">
+            <div class="line"></div>
+            <div class="text">{% translate 'درباره ما' %}</div>
+        </section>
+
+        <article>
+            
+            <div class="corner__image--top"></div>
+            <div class="corner__image--bottom"></div>
+            
+            <section class="container">
+
+
+                <div class="row">
+                    <div class="col-6">
+
+                        <h3 class="my-2">{% translate 'درباره ما' %}</h3>
+                        <div class="paragraph">{{ setting.aboutus|safe }}</div>
+
+                        <h3 class="mt-3 mb-1">{% translate 'شبکه‌های اجتماعی' %}</h3>
+                        <p class="mb-1">{% translate 'ما را در شبکه‌های اجتماعی زیر دنبال کنید:' %}</p>
+                        
+                        <ul class="link-wrapper">
+                            {% if setting.email %}
+                            <li><a href="{{ setting.email }}"><i class="fa fa-envelope"></i></a></li>
+                            {% endif %}
+                            
+                            {% if setting.linkedin %}
+                            <li><a href="{{ setting.linkedin }}"><i class="fab fa-linkedin"></i></a></li>
+                            {% endif %}
+                            
+                            {% if setting.facebook %}
+                            <li><a href="{{ setting.facebook }}"><i class="fab fa-facebook"></i></a></li>
+                            {% endif %}
+                            
+                            {% if setting.twitter %}
+                            <li><a href="{{ setting.twitter }}"><i class="fab fa-twitter"></i></a></li>
+                            {% endif %}
+                        </ul>
+                        <ul class="link-wrapper">
+                            
+                            {% if setting.telegram %}
+                            <li><a href="{{ setting.telegram }}"><i class="fab fa-telegram"></i></a></li>
+                            {% endif %}
+                            
+                            {% if setting.fax %}
+                            <li><a href="{{ setting.fax }}"><i class="fa fa-fax"></i></a></li>
+                            {% endif %}
+                            
+                            {% if setting.instagram %}
+                            <li><a href="{{ setting.instagram }}"><i class="fab fa-instagram"></i></a></li>
+                            {% endif %}
+                            
+                        </ul>
+
+                        {% if setting.aparat %}
+                        <div class="text-center mt-2">
+                            <a href="{{ setting.aparat }}">ما را در آپارات دنبال کنید</a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-6">
+
+                        <h3 class="my-2">{% translate 'ساعات و قوانین ملاقات' %}</h3>
+                        <div class="paragraph">{{ setting.rules_hours|safe }}</div>
+
+                        <h3 class="mt-3 mb-2">{% translate 'تلفن‌ها' %}</h3>
+                        <div class="paragraph">{{ setting.phone|safe }}</div>
+
+                        <h3 class="mt-3 mb-2">{% translate 'آدرس ما' %}</h3>
+                        <div class="paragraph">{{ setting.address|safe }}</div>
+                        
+                        <p class="mt-3 mb-1">{% translate 'مارا در نقشه پیدا کنید:' %}</p>
+                        {% if setting.x_scale and setting.y_scale %}<div id="map"></div>{% endif %}
+
+                    </div>
+                </div>
+
+            </section>
+
+        </article>
+
+    </main>
+    <!-- - content -->
+
+{% endblock %}
+
+{% block extraScript %}
+<script>
+    var map = L.map('map').setView([{{setting.x_scale }}, {{ setting.y_scale }}], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+    L.marker([{{setting.x_scale }}, {{ setting.y_scale }}]).addTo(map).bindPopup("{{ setting.marker_text }}").openPopup();
+</script>
 {% endblock %}
 

@@ -41,6 +41,7 @@ class SettingModel(models.Model):
     ipd_services = TranslatedField(RichTextField(verbose_name=_('خدمات بخش بیماران بین الملل'), blank=True, null=True))
     quality_improvement = TranslatedField(RichTextField(verbose_name=_('بهبود کیفیت'), blank=True, null=True))
     whyus = TranslatedField(RichTextField(verbose_name=_('چرا ما؟'), blank=True, null=True))
+    aboutus = TranslatedField(RichTextField(verbose_name=_('درباره ما'), blank=True, null=True))
     history = TranslatedField(RichTextField(verbose_name=_('تاریخچه'), blank=True, null=True))
     have_signup_page = models.BooleanField(default=False, verbose_name=_('صفحه ثبتنام کاربران نمایش داده شود؟'))
 
