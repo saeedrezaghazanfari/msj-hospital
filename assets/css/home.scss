@@ -91,7 +91,7 @@ header {
     }
 
     .header__elements {
-        background-color: rgba($color: $dark, $alpha: 0.3);
+        // background-color: rgba($color: $dark, $alpha: 0.3);
         box-shadow: inset 0px 0px 110px 42px rgba($dark ,1);
         height: 100vh;
         width: 100%;
@@ -1009,37 +1009,42 @@ main {
                 position: relative;
                 
 
-                .gallery__item {
-                    margin: 0 20px;
-                    margin-top: 5px;
+                .gallery_service_wrapper {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     text-align: center;
+                    margin: 0 20px;
+                    margin-top: 5px;
 
-                    &:hover img {
-                        transform: scale(1.02);
-                    }
-                    &:hover p {
-                        transform: translateY(-1px);
-                    }
+                    .gallery__item {
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: cover;
+                        background-color: $pink;
 
-                    a {
-
-                        img {
-                            border-radius: 50%;
-                            max-height: 200px;
-                            max-width: 250px;
-                            box-shadow: 0 0 4px 0px $dark;
-                            transition: all .3s ease;
+                        border-radius: 50%;
+                        height: 180px;
+                        width: 180px;
+                        box-shadow: 0 0 4px 0px $dark;
+                        transition: all .3s ease;
+    
+                        &:hover {
+                            transform: scale(1.02);
                         }
+                        &:hover + a p {
+                            transform: translateY(-1px);
+                        }
+                    }    
+                    a {
                         p {
+                            text-align: center;
                             margin-top: 5px;
                             color: white;
                             transition: all .3s ease;
                             font-size: $font-medium;
                         }
-                    }
+                    }                
                 }
 
                 .owl-nav {
@@ -1320,8 +1325,7 @@ main {
                     position: relative;
                     
                     .insurance__item {
-                        flex: 1;
-                        margin: 10px 15px;
+                        margin: 10px 15px !important;
 
                         img {
                             height: 140px;

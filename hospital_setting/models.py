@@ -24,12 +24,13 @@ class SettingModel(models.Model):
     address = TranslatedField(models.CharField(max_length=255, verbose_name=_('آدرس')))
     email = models.EmailField(max_length=255, verbose_name=_('ایمیل'))
     phone = TranslatedField(RichTextField(verbose_name=_('شماره تلفن/ها')))
-    facs = models.CharField(max_length=255, verbose_name=_('فکس'))
     rules_hours = TranslatedField(RichTextField(verbose_name=_('ساعات و قوانین ملاقات')))
     aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('آپارات'))
     linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('لینکدین'))
     facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('فیسبوک'))
     twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('توییتر'))
+    telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('تلگرام'))
+    fax = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('فکس'))
     instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('اینستاگرام'))
     whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('واتساپ'))
     bank_name = TranslatedField(models.CharField(max_length=255, blank=True, null=True, verbose_name=_('نام بانک')))
@@ -228,7 +229,7 @@ class ResultModel(models.Model):
 
 
 class HomeGalleryModel(models.Model):
-    title = TranslatedField(models.CharField(max_length=255, verbose_name=_('عنوان')))
+    title = models.CharField(max_length=255, verbose_name=_('عنوان'))
     image = models.ImageField(upload_to=home_gallery_image_path, verbose_name=_('تصویر'))
     created = models.DateTimeField(auto_now_add=True)
 

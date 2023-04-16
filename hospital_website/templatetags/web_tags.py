@@ -2,6 +2,7 @@ from django.db.models import Q
 from django import template
 from hospital_blog.models import MedicalNoteModel
 from hospital_units.models import UnitModel
+from hospital_setting.models import SettingModel
 
 
 register = template.Library()
@@ -30,6 +31,13 @@ def list_officials():
 @register.simple_tag
 def list_medicals():
     data = UnitModel.objects.filter(~Q(subunit__title_fa='درمانگاه'), subunit__category='medical').all()
+    if data:
+        return data
+    return None
+
+@register.simple_tag
+def footer_data():
+    data = SettingModel.objects.first()
     if data:
         return data
     return None

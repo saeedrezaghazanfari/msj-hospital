@@ -7,15 +7,16 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from hospital_setting.models import (
-    NewsLetterEmailsModel, FAQModel, SettingModel, HomeGalleryModel, 
+    NewsLetterEmailsModel, SettingModel, HomeGalleryModel, 
     CertificateModel, HospitalImageGalleryModel, HospitalVideoGalleryModel,
     HospitalPoliticModel, ResultModel, CostModel, AncientsModel, 
     PriceBedModel, PriceServiceModel, PriceSurgrayModel,
     InsuranceModel, ContactInfoModel, HospitalFacilityModel, ReportModel
 )
-from hospital_doctor.models import DoctorWorkTimeModel, DoctorModel, TitleSkillModel
+from hospital_doctor.models import DoctorModel, TitleSkillModel
 from hospital_units.models import UnitModel, ManagersModel
-from hospital_blog.models import CreditEduModel, PampheletModel
+from hospital_blog.models import BlogModel, CreditEduModel, PampheletModel
+from hospital_news.models import NewsModel
 from hospital_contact.models import FamousPatientModel, WorkshopModel, BenefactorModel
 from hospital_extentions.utils import is_email, write_action
 
@@ -23,9 +24,53 @@ from hospital_extentions.utils import is_email, write_action
 # url: /
 def home_page(request):
     return render(request, 'web/home.html', {
-        'faqs': FAQModel.objects.all(),
         'galleries': HomeGalleryModel.objects.all()[:6],
+        'links': SettingModel.objects.first(),
+        'services': UnitModel.objects.all()[:20],
+        'blogs': BlogModel.objects.filter(is_publish=True).all()[:7],
+        'news': NewsModel.objects.filter(is_publish=True).all()[:7],
+        'insurances': InsuranceModel.objects.all()[:30],
     })
+
+
+# url: /home/doctors/data/
+@csrf_exempt
+def home_doctors_info_api(request):
+
+    if request.method == 'POST':
+
+        list_doctors = DoctorModel.objects.filter(is_active=True).all()[:50]
+
+        gallery = []
+        for doctor in list_doctors:
+            if doctor.user.profile:
+                gallery.append({
+                    'name': doctor.get_full_name(),
+                    'img': doctor.user.profile.url,
+                    'skill': doctor.skill_title.title,
+                    'uid': doctor.id,
+                })
+            if len(gallery) == 9:
+                break
+            
+        selectbox = []
+        for doctor in list_doctors:
+            selectbox.append({
+                'name': doctor.get_full_name(),
+                'uid': doctor.id,
+            })
+
+        return JsonResponse({
+            'doctors': selectbox,
+            'skills': list(TitleSkillModel.objects.all()[:50].values('id', 'title_en', 'title_fa', 'title_ar', 'title_ru')),
+            'clinics': list(UnitModel.objects.filter(subunit__title_fa='درمانگاه', subunit__category='medical').all()[:30].values(
+                'id', 'subunit__title_en', 'subunit__title_fa', 'subunit__title_ar', 'subunit__title_ru', 
+                'title_ar', 'title_en', 'title_fa', 'title_ru'
+            )),
+            'doctors_gallery': gallery,
+            'status': 200,
+        })
+    return JsonResponse({'status': 400}) 
 
 
 # url: /search/?query=

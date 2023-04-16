@@ -77,7 +77,7 @@ $(document).ready(function() {
     var owl4 = $('.owl-carousel4');
     owl4.owlCarousel({
         loop: true,
-        margin: 20,
+        margin: 5,
         rtl:  true,
         nav: false,
         dots: false,
@@ -100,27 +100,68 @@ $(document).ready(function() {
     });
 });
 
-let gallery_marker = 1;
-let response_data = [
-    {name: 'سعیدرضا1 غضنفری', doctor_image: 'url(assets/img/_doctor.min.png)', slug: '', skill: '111'},
-    {name: 'سعیدرضا 2غضنفری', doctor_image: 'url(assets/img/hands.min.png)', slug: '', skill: '222'},
-    {name: 'سعیدرضا غ3ضنفری', doctor_image: 'url(assets/img/line.min.png)', slug: '', skill: '33'},
-    {name: 'سعیدرضا غض4نفری', doctor_image: 'url(assets/img/search.min.png)', slug: '', skill: '4'},
-    {name: 'سعیدرضا غضن5فری', doctor_image: 'url(assets/img/_doctor.min.png)', slug: '', skill: '511'},
-    {name: 'سعیدرضا غضنف6ری', doctor_image: 'url(assets/img/hands.min.png)', slug: '', skill: '611'},
-    {name: 'سعیدرضا غضنفر7ی', doctor_image: 'url(assets/img/line.min.png)', slug: '', skill: '711'},
-    {name: 'سعیدرضا غضنفری8', doctor_image: 'url(assets/img/search.min.png)', slug: '', skill: '811'},
-    {name: 'سعیدرضا غضنفر9ی', doctor_image: 'url(assets/img/line.min.png)', slug: '', skill: '911'},
-];
 
-$('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': response_data[0].doctor_image});
-$('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': response_data[1].doctor_image});
-$('.doctors__wrapper .doctors__gallery .gallery_image--center .skill').text(response_data[1].skill);
-$('.doctors__wrapper .doctors__gallery .gallery_image--center .name').text(response_data[1].name);
-$('.doctors__wrapper .doctors__gallery .gallery_image--center .counter').text(`${gallery_marker + 1}/9`);
-$('.gallery__more #doctor_hours_link').attr('href', 'aaa----------aaa');
-$('.gallery__more #doctor_info_link').attr('href', 'aaa----------aaa');
-$('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': response_data[2].doctor_image});
+let gallery_marker = 1;
+let response_data = [];
+let language = window.location.pathname[1] + window.location.pathname[2];
+
+(async () => {
+    await fetch('/' + language + '/home/doctors/data/', {
+        method: "POST",
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+        }
+    })
+    .then(response => response.json())
+    .then( (response) => {
+        if(response.status == 200) {
+
+            let doctors = response.doctors;
+            let skills = response.skills;
+            let clinics = response.clinics;
+            response_data = response.doctors_gallery;
+
+            doctors.forEach(element => {
+                document.getElementById('doctor_selectbox').innerHTML += `<option class="doctor_optionbox" value="${element.uid}">${element.name}</option>`
+            });
+            skills.forEach(element => {
+                if(language == 'en')
+                    document.getElementById('skill_selectbox').innerHTML += `<option class="skill_optionbox" value="${element.id}">${element.title_en}</option>`
+                else if(language == 'fa')
+                    document.getElementById('skill_selectbox').innerHTML += `<option class="skill_optionbox" value="${element.id}">${element.title_fa}</option>`
+                else if(language == 'ar')
+                    document.getElementById('skill_selectbox').innerHTML += `<option class="skill_optionbox" value="${element.id}">${element.title_ar}</option>`
+                else if(language == 'ru')
+                    document.getElementById('skill_selectbox').innerHTML += `<option class="skill_optionbox" value="${element.id}">${element.title_ru}</option>`
+
+            });
+            clinics.forEach(element => {
+                if(language == 'en')
+                    document.getElementById('clinic_selectbox').innerHTML += `<option class="clinic_optionbox" value="${element.uid}">${element.subunit__title_en + ' ' + element.title_en}</option>`
+                else if(language == 'fa')
+                    document.getElementById('clinic_selectbox').innerHTML += `<option class="clinic_optionbox" value="${element.uid}">${element.subunit__title_fa + ' ' + element.title_fa}</option>`
+                else if(language == 'ar')
+                    document.getElementById('clinic_selectbox').innerHTML += `<option class="clinic_optionbox" value="${element.uid}">${element.subunit__title_ar + ' ' + element.title_ar}</option>`
+                else if(language == 'ru')
+                    document.getElementById('clinic_selectbox').innerHTML += `<option class="clinic_optionbox" value="${element.uid}">${element.subunit__title_ru + ' ' + element.title_ru}</option>`
+            });
+
+            $('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': `url(${response_data[0].img})`});
+            $('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': `url(${response_data[1].img})`});
+            $('.doctors__wrapper .doctors__gallery .gallery_image--center .skill').text(response_data[1].skill);
+            $('.doctors__wrapper .doctors__gallery .gallery_image--center .name').text(response_data[1].name);
+            $('.doctors__wrapper .doctors__gallery .gallery_image--center .counter').text(`${gallery_marker + 1}/9`);
+            $('.gallery__more #doctor_hours_link').attr('href', 'aaa----------aaa');
+            // TODO
+            $('.gallery__more #doctor_info_link').attr('href', `/${language}/doctor/info/${response_data[1].uid}/`);
+            $('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': `url(${response_data[2].img})`});
+        }
+    })
+    .catch(err => {
+        console.log('ERR', err)
+    });
+})();
+
 
 function check_marker() {
     if(gallery_marker == 0) {
@@ -152,20 +193,22 @@ function next_clicked() {
 
     $('.doctors__wrapper .doctors__gallery .gallery_image--center').fadeOut();
     setTimeout(() => {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': response_data[gallery_marker].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': `url(${response_data[gallery_marker].img})`});
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .skill').text(response_data[gallery_marker].skill);
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .name').text(response_data[gallery_marker].name);
         $('.gallery__more #doctor_hours_link').attr('href', 'aaa----------aaa');
-        $('.gallery__more #doctor_info_link').attr('href', 'aaa----------aaa');
+        // TODO
+
+        $('.gallery__more #doctor_info_link').attr('href', `/${language}/doctor/info/${response_data[gallery_marker].uid}/`);
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .counter').text(`${gallery_marker + 1}/9`);
     }, 500)
     $('.doctors__wrapper .doctors__gallery .gallery_image--center').fadeIn();
 
     if(gallery_marker > 0) {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': response_data[gallery_marker_prev].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': `url(${response_data[gallery_marker_prev].img})`});
     }
     if(gallery_marker < 8) {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': response_data[gallery_marker_next].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': `url(${response_data[gallery_marker_next].img})`});
     }
 }
 
@@ -178,20 +221,21 @@ function prev_clicked() {
 
     $('.doctors__wrapper .doctors__gallery .gallery_image--center').fadeOut();
     setTimeout(() => {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': response_data[gallery_marker].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--center').css({'background-image': `url(${response_data[gallery_marker].img})`});
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .skill').text(response_data[gallery_marker].skill);
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .name').text(response_data[gallery_marker].name);
         $('.gallery__more #doctor_hours_link').attr('href', 'aaa----------aaa');
-        $('.gallery__more #doctor_info_link').attr('href', 'aaa----------aaa');
+        // TODO
+        $('.gallery__more #doctor_info_link').attr('href', `/${language}/doctor/info/${response_data[gallery_marker].uid}/`);
         $('.doctors__wrapper .doctors__gallery .gallery_image--center .counter').text(`${gallery_marker + 1}/9`);
     }, 500)
     $('.doctors__wrapper .doctors__gallery .gallery_image--center').fadeIn();
 
     if(gallery_marker > 0) {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': response_data[gallery_marker_prev].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--prev').css({'background-image': `url(${response_data[gallery_marker_prev].img})`});
     }
     if(gallery_marker < 8) {
-        $('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': response_data[gallery_marker_next].doctor_image});
+        $('.doctors__wrapper .doctors__gallery .gallery_image--next').css({'background-image': `url(${response_data[gallery_marker_next].img})`});
     }
 }
 
@@ -199,3 +243,30 @@ document.querySelector('.doctors__wrapper .doctors__gallery .div__next').addEven
 document.querySelector('.doctors__wrapper .doctors__gallery .div__prev').addEventListener('click', prev_clicked);
 document.querySelector('.doctors__wrapper .doctors__gallery .gallery_image--prev').addEventListener('click', prev_clicked);
 document.querySelector('.doctors__wrapper .doctors__gallery .gallery_image--next').addEventListener('click', next_clicked);
+
+
+function check_doctor_select() {
+
+    let all_doctors = document.querySelectorAll('.doctor_optionbox');
+    let searched_txt = document.getElementById('doctor_search_input').value;
+
+    let my_selectbox = document.getElementById("doctor_selectbox");
+    my_selectbox.size = my_selectbox.options.length;     //open dropdown
+    
+    all_doctors.forEach(element => {
+        element.classList.remove('d-none')
+    });
+
+    all_doctors.forEach(element => {
+        
+        let exist = element.innerHTML.includes( searched_txt );
+        if(!exist)
+            element.classList.add('d-none');
+
+    });
+}
+
+function set_data(doctor, input_target) {
+    let searched_txt = document.getElementById(input_target);
+    searched_txt.value = doctor;
+}

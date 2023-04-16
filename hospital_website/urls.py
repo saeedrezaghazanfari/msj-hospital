@@ -7,6 +7,7 @@ urlpatterns = [
 
     # real
     path('', views.home_page, name='home'),
+    path('home/doctors/data/', views.home_doctors_info_api, name='home-doctorsinfoapi'),
     path('search/', views.search_page, name='search'),
     path('newsletter/register/', views.newsletter_page, name='email-newsletter'),
 

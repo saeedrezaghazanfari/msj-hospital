@@ -1,5 +1,5 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks web_tags %}
+{% load static i18n widget_tweaks web_tags humanize %}
 {% block title %}{% translate 'بیمارستان موسی ابن جعفر' %}{% endblock %}
 {% block extraCss %}
 <meta name="description" content="">
@@ -18,23 +18,15 @@
     <div class="alert alert-primary d-none">{{ forloop.counter }}. {{ note.text }}</div>
     {% endfor %}
 
-    <div class="d-none">
-        {% for faq in faqs %}
-        <div class="alert alert-success">
-            {{ faq.question }} - {{ faq.answer }}
-        </div>
-        {% endfor %}
-    </div>
-
     <!-- these are my codes ///////////////////////////////////////// -->
 
     <!-- + header -->
     <header id="header">
 
         <section class="header__slider owl-carousel1 owl-carousel owl-theme owl-loaded owl-drag">
-            <div class="header__image item" style="background-image: url({% static 'img/_test.min.png' %});"></div>
-            <div class="header__image item" style="background-image: url({% static 'img/_doctor.min.png' %});"></div>
-            <div class="header__image item" style="background-image: url({% static 'img/map.min.png' %});"></div>
+            {% for gallery in galleries %}
+            <div class="header__image item" style="background-image: url({{ gallery.image.url }});"></div>
+            {% endfor %}
         </section>
 
         <section class="header__elements">
@@ -57,7 +49,7 @@
                             {% if request.LANGUAGE_CODE != 'fa' %}<li><a href="{% url 'activate_lang' %}?lang=fa&url={{ request.path|slice:'4:' }}">فارسی</a></li>{% endif %}
                             {% if request.LANGUAGE_CODE != 'en' %}<li><a href="{% url 'activate_lang' %}?lang=en&url={{ request.path|slice:'4:' }}">English</a></li>{% endif %}
                             {% if request.LANGUAGE_CODE != 'ar' %}<li><a href="{% url 'activate_lang' %}?lang=ar&url={{ request.path|slice:'4:' }}">العربیه</a></li>{% endif %}
-                            {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">Russian</a></li>{% endif %}
+                            {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">русский</a></li>{% endif %}
                         </ul>
 
                         <form method="GET" action="{% url 'website:search' %}" autocomplete="off" class="search_bar">
@@ -83,18 +75,26 @@
                 </nav>
 
                 <section class="contact_ways">
+                    {% if links.telegram %}
                     <div class="animate__animated animate__fadeIn wow" data-wow-delay=".4s">
-                        <p><a href="">تلگرام</a></p>
+                        <p><a href="{{ links.telegram }}">تلگرام</a></p>
                     </div>
+                    {% endif %}
+                    {% if links.instagram %}
                     <div class="animate__animated animate__fadeIn wow" data-wow-delay=".6s">
-                        <p><a href="" class="text-pink">اینستاگرام</a></p>
+                        <p><a href="{{ links.instagram }}" class="text-pink">اینستاگرام</a></p>
                     </div>
+                    {% endif %}
+                    {% if links.email %}
                     <div class="animate__animated animate__fadeIn wow" data-wow-delay=".8s">
-                        <p><a href="">ایمیل</a></p>
+                        <p><a href="{{ links.email }}">ایمیل</a></p>
                     </div>
+                    {% endif %}
+                    {% if links.fax %}
                     <div class="animate__animated animate__fadeIn wow" data-wow-delay="1s">
-                        <p><a href="">فکس</a></p>
+                        <p><a href="{{ links.fax }}">فکس</a></p>
                     </div>
+                    {% endif %}
                 </section>
 
                 <section class="center_buttons">
@@ -142,13 +142,10 @@
 
                         <div class="inputs_wrapper">
                             <div class="inputs">
-                                <input type="text" placeholder="پزشک">
+                                <input type="text" onkeyup="check_doctor_select()" id="doctor_search_input" placeholder="پزشک">
                                 <div class="line"></div>
-                                <select>
+                                <select id="doctor_selectbox" onchange="set_data(value, 'doctor_search_input')">
                                     <option value="">پزشک</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
                                 </select>
                             </div>
                             <div class="selected_item">
@@ -162,11 +159,8 @@
                             <div class="inputs">
                                 <input type="text" placeholder="تخصص">
                                 <div class="line"></div>
-                                <select>
+                                <select id="skill_selectbox">
                                     <option value="">تخصص</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
                                 </select>
                             </div>
                             <div class="selected_item">
@@ -180,11 +174,8 @@
                             <div class="inputs">
                                 <input type="text" placeholder="کلینیک">
                                 <div class="line"></div>
-                                <select>
+                                <select id="clinic_selectbox">
                                     <option value="">کلینیک</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
-                                    <option value="">دکتر ناصری</option>
                                 </select>
                             </div>
                             <div class="selected_item">
@@ -210,21 +201,21 @@
                             <div><i class="fa fa-chevron-right"></i></div>
                         </div>
 
-                        <div class="gallery_image gallery_image--next" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                        <div class="gallery_image gallery_image--next">
                             <div class="gallery__info">
                                 <div class="skill">متخصص مغز و اعصاب</div>
                                 <div class="name">دکتر محسن سلامی</div>
                                 <div class="counter">4/9</div>
                             </div>
                         </div>
-                        <div class="gallery_image gallery_image--center" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                        <div class="gallery_image gallery_image--center">
                             <div class="gallery__info">
                                 <div class="skill">متخصص مغز و اعصاب</div>
                                 <div class="name">دکتر محسن سلامی</div>
                                 <div class="counter">4/9</div>
                             </div>
                         </div>
-                        <div class="gallery_image gallery_image--prev" style="background-image: url({% static 'img/_doctor.min.png' %});">
+                        <div class="gallery_image gallery_image--prev">
                             <div class="gallery__info">
                                 <div class="skill">متخصص مغز و اعصاب</div>
                                 <div class="name">دکتر محسن سلامی</div>
@@ -290,47 +281,16 @@
 
                 <div class="gallery__services owl-carousel2 owl-carousel owl-theme owl-loaded owl-drag">
                     
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
+                    {% for service in services %}
+                    {% if service.image %}
+                    <div class="gallery_service_wrapper item">
+                        <div class="gallery__item" style="background-image: url({{ service.image.url }});"></div>
+                        <a href="{% url 'website:unit-info' service.id %}">
+                            <p>{{ service.subunit.title }} {% if service.title %}{{ service.title }}{% endif %}</p>
                         </a>
                     </div>
-
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
-                        </a>
-                    </div>
-
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
-                        </a>
-                    </div>
-
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
-                        </a>
-                    </div>
-
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
-                        </a>
-                    </div>
-
-                    <div class="gallery__item item">
-                        <a href="">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                            <p>تصویربرداری</p>
-                        </a>
-                    </div>
+                    {% endif %}
+                    {% endfor %}
 
                 </div>
 
@@ -344,87 +304,50 @@
 
                     <div class="gallery__blogs owl-carousel3 owl-carousel owl-theme owl-loaded owl-drag">
     
+                        {% for item in blogs %}
                         <div class="gallery__item item">
-                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                            <div class="blog__image" style="background-image: url({{ item.image.url }});">
                                 <div class="blog__image__glass">
                                     <div class="blog__date">
-                                        <div class="day">23</div>
+                                        <div class="day">{{ item.created.day }}</div>
                                         <div class="month_year">
-                                            <div class="month">02</div>
-                                            <div class="year">01</div>
+                                            <div class="month">{{ item.created.month }}</div>
+                                            <div class="year">{{ item.created.year }}</div>
                                         </div>
                                     </div>
                                     <div class="blog__human">
-                                        27 روز پیش
+                                        {{ item.created|naturaltime }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
-                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
-                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                            <div class="blog__header"><a href="{% url 'blog:info' item.slug %}">{{ item.title }}</a></div>
+                            <div class="blog__text">{{ item.short_desc|truncatewords:20 }}</div>
+                            <div class="blog__link"><a href="{% url 'blog:info' item.slug %}">ادامه مطلب</a></div>
                         </div>
-    
+                        {% endfor %}
+
+                        {% for item in news %}
                         <div class="gallery__item item">
-                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
+                            <div class="blog__image" style="background-image: url({{ item.image.url }});">
                                 <div class="blog__image__glass">
                                     <div class="blog__date">
-                                        <div class="day">23</div>
+                                        <div class="day">{{ item.created.day }}</div>
                                         <div class="month_year">
-                                            <div class="month">02</div>
-                                            <div class="year">01</div>
+                                            <div class="month">{{ item.created.month }}</div>
+                                            <div class="year">{{ item.created.year }}</div>
                                         </div>
                                     </div>
                                     <div class="blog__human">
-                                        27 روز پیش
+                                        {{ item.created|naturaltime }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
-                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
-                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
+                            <div class="blog__header"><a href="{% url 'news:info' item.slug %}">{{ item.title }}</a></div>
+                            <div class="blog__text">{{ item.short_desc|truncatewords:20 }}</div>
+                            <div class="blog__link"><a href="{% url 'news:info' item.slug %}">ادامه مطلب</a></div>
                         </div>
-    
-                        <div class="gallery__item item">
-                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
-                                <div class="blog__image__glass">
-                                    <div class="blog__date">
-                                        <div class="day">23</div>
-                                        <div class="month_year">
-                                            <div class="month">02</div>
-                                            <div class="year">01</div>
-                                        </div>
-                                    </div>
-                                    <div class="blog__human">
-                                        27 روز پیش
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
-                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
-                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
-                        </div>
-    
-                        <div class="gallery__item item">
-                            <div class="blog__image" style="background-image: url({% static 'img/hands.min.png' %});">
-                                <div class="blog__image__glass">
-                                    <div class="blog__date">
-                                        <div class="day">23</div>
-                                        <div class="month_year">
-                                            <div class="month">02</div>
-                                            <div class="year">01</div>
-                                        </div>
-                                    </div>
-                                    <div class="blog__human">
-                                        27 روز پیش
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blog__header"><a href="">نوبت‌دهی بیمارستان</a></div>
-                            <div class="blog__text">واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. واکسیناسیون پرسنل کادر درمان بیمارستان موسی بن جعفر با عنایت پروردگار متعال انجام میشود. </div>
-                            <div class="blog__link"><a href="">ادامه مطلب</a></div>
-                        </div>
-    
-    
+                        {% endfor %}
+   
                     </div>
 
                 </div>
@@ -445,33 +368,11 @@
 
                     <div class="insurance__gallery owl-carousel4 owl-carousel owl-theme owl-loaded owl-drag">
 
+                        {% for insurance in insurances %}
                         <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
+                            <img src="{{ insurance.img.url }}" alt="{{ insurance.title }}">
                         </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
-                        <div class="insurance__item item">
-                            <img src="{% static 'img/graduation-cap.min.png' %}" alt="">
-                        </div>
+                        {% endfor %}
 
                     </div>
 

@@ -21,7 +21,7 @@
                     {% if request.LANGUAGE_CODE != 'fa' %}<li><a href="{% url 'activate_lang' %}?lang=fa&url={{ request.path|slice:'4:' }}">فارسی</a></li>{% endif %}
                     {% if request.LANGUAGE_CODE != 'en' %}<li><a href="{% url 'activate_lang' %}?lang=en&url={{ request.path|slice:'4:' }}">English</a></li>{% endif %}
                     {% if request.LANGUAGE_CODE != 'ar' %}<li><a href="{% url 'activate_lang' %}?lang=ar&url={{ request.path|slice:'4:' }}">العربیه</a></li>{% endif %}
-                    {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">Russian</a></li>{% endif %}
+                    {% if request.LANGUAGE_CODE != 'ru' %}<li><a href="{% url 'activate_lang' %}?lang=ru&url={{ request.path|slice:'4:' }}">русский</a></li>{% endif %}
                 </ul>
 
                 <form method="GET" action="{% url 'website:search' %}" autocomplete="off" class="search_bar">

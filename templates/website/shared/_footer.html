@@ -1,4 +1,5 @@
-{% load static %}
+{% load static web_tags %}
+{% footer_data as footer_data %}
 
 <!-- + footer -->
 <footer>
@@ -9,6 +10,7 @@
         </div>
     </div>
 
+
     <div class="elements">
 
         <div class="title">
@@ -17,18 +19,18 @@
 
         <div class="links">
             <ul>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".1s"><a href=""><i class="fa fa-chevron-left"></i> راهنمای نوبت‌دهی آنلاین</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".2s"><a href=""><i class="fa fa-chevron-left"></i> تلفن‌های داخلی</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".3s"><a href=""><i class="fa fa-chevron-left"></i> آموزش همگانی</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".1s"><a href="{% url 'units:oa-home' %}"><i class="fa fa-chevron-left"></i> راهنمای نوبت‌دهی آنلاین</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".2s"><a href="{% url 'website:phones' %}"><i class="fa fa-chevron-left"></i> تلفن‌های داخلی</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".3s"><a href="{% url 'website:workshops' %}"><i class="fa fa-chevron-left"></i> آموزش همگانی</a></li>
             </ul>
             <ul>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".4s"><a href=""><i class="fa fa-chevron-left"></i> گالری</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".5s"><a href=""><i class="fa fa-chevron-left"></i> پزشکان</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".6s"><a href=""><i class="fa fa-chevron-left"></i> مجلات و نشریات</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".7s"><a href=""><i class="fa fa-chevron-left"></i> رویدادها</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".4s"><a href="{% url 'website:gallery-imgs' %}"><i class="fa fa-chevron-left"></i> گالری</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".5s"><a href="{% url 'doctor:doctors' %}"><i class="fa fa-chevron-left"></i> پزشکان</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".6s"><a href="{% url 'blog:blogs' %}"><i class="fa fa-chevron-left"></i> مجلات و نشریات</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".7s"><a href="{% url 'news:news' %}"><i class="fa fa-chevron-left"></i> رویدادها</a></li>
                 <br>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".8s"><a href=""><i class="fa fa-chevron-left"></i> تماس باما</a></li>
-                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".9s"><a href=""><i class="fa fa-chevron-left"></i> آدرس ما</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".8s"><a href="{% url 'contact:info' %}"><i class="fa fa-chevron-left"></i> تماس باما</a></li>
+                <li class="animate__animated animate__fadeIn wow" data-wow-delay=".9s"><a href="{% url 'website:aboutus' %}"><i class="fa fa-chevron-left"></i> درباره ما</a></li>
             </ul>
         </div>
 
@@ -39,10 +41,18 @@
         <p>راه‌های ارتباطی ما</p>
 
         <ul>
-            <li class="telegram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".3s"><a href=""><i class="fab fa-telegram"></i></a></li>
-            <li class="instagram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".6s"><a href=""><i class="fab fa-instagram"></i></a></li>
-            <li class="envelope_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".6s"><a href=""><i class="fa fa-envelope"></i></a></li>
-            <li class="fax_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".3s"><a href=""><i class="fa fa-fax"></i></a></li>
+            {% if footer_data.telegram %}
+            <li class="telegram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".3s"><a href="{{ footer_data.telegram }}"><i class="fab fa-telegram"></i></a></li>
+            {% endif %}
+            {% if footer_data.instagram %}
+            <li class="instagram_icon animate__animated animate__fadeInRight wow" data-wow-delay=".6s"><a href="{{ footer_data.instagram }}"><i class="fab fa-instagram"></i></a></li>
+            {% endif %}
+            {% if footer_data.email %}
+            <li class="envelope_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".6s"><a href="{{ footer_data.email }}"><i class="fa fa-envelope"></i></a></li>
+            {% endif %}
+            {% if footer_data.fax %}
+            <li class="fax_icon animate__animated animate__fadeInLeft wow" data-wow-delay=".3s"><a href="{{ footer_data.fax }}"><i class="fa fa-fax"></i></a></li>
+            {% endif %}
         </ul>
 
         <div class="line"></div>

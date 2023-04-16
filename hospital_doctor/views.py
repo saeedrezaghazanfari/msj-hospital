@@ -105,9 +105,9 @@ def doctor_search(request):
     })
 
 
-# url: /doctor/info/<medicalId>/
-def doctor_info(request, medicalId):
-    doctor = get_object_or_404(DoctorModel, id=medicalId)
+# url: /doctor/info/<uid>/
+def doctor_info(request, uid):
+    doctor = get_object_or_404(DoctorModel, id=uid)
     
     return render(request, 'doctor/info.html', {
         'doctor': doctor,
