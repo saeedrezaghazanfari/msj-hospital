@@ -1,6 +1,6 @@
 {% extends 'website/shared/_main_layout.html' %}
 {% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'جستجو' %}{% endblock %}
+{% block title %}{% translate 'جستجو در بیمارستان' %}{% endblock %}
 {% block extraCss %}
 <meta name="description" content="">
 <meta name="keywords" content="">
@@ -16,7 +16,7 @@
 
         <section class="page_title">
             <div class="line"></div>
-            <div class="text">جستجو در بیمارستان</div>
+            <div class="text">{% translate 'جستجو در بیمارستان' %}</div>
         </section>
 
         <article>
@@ -26,15 +26,16 @@
             
             <section class="container">
 
-                <form class="d-flex" method="GET" action="{% url 'website:search' %}">
-                    <input type="text" name="query" oninput="search_query_txt()" id="querysearch" placeholder="جستجو کنید" class="text-center" style="flex: 5;">
-                    <button class="btn btn-primary mx-1" type="submit" style="flex: 1;">جستجو</button>
+                <p class="mb-1">{% translate 'برای جستجو در بیمارستان عبارت مورد نظر خود را وارد کنید:' %}</p>
+
+                <form class="search_website_form" method="GET" action="{% url 'website:search' %}">
+                    <input type="text" name="query" oninput="search_query_txt()" id="querysearch" placeholder="{% translate 'جستجو کنید' %}">
                 </form>
         
                 <br>
         
-                <h3>نمایش خروحی</h3>
-                <p id="queryshow">عبارت جستجو شده ی شما: <span></span><br><b></b></p>
+                <h3 class="mb-1">{% translate 'نمایش خروجی' %}</h3>
+                <p id="queryshow" class="mb-2">{% translate 'عبارت جستجو شده ی شما:' %} <span></span><br><b></b></p>
                 
                 <div id="wrapper-outputs"></div>
 
@@ -443,14 +444,20 @@
                     outputs.push([item, link[0]]);
                     document.querySelector('#queryshow span').innerHTML = query.value;
                 }
-                
             });
         });
 
-        document.querySelector('#queryshow b').innerHTML = `نتیجه(${outputs.length})`;
+        if(lang == 'fa')
+            document.querySelector('#queryshow b').innerHTML = `به تعداد ${outputs.length} نتیجه دریافت شد.`;
+        if(lang == 'en')
+            document.querySelector('#queryshow b').innerHTML = `${outputs.length} results received.`;
+        if(lang == 'ar')
+            document.querySelector('#queryshow b').innerHTML = `تم تلقي ${outputs.length} نتائج.`;
+        if(lang == 'ru')
+            document.querySelector('#queryshow b').innerHTML = `Получено ${outputs.length} результатов.`;
 
         outputs.forEach(element => {
-            document.getElementById('wrapper-outputs').innerHTML += `<div class="alert alert-light text-primary div-outputs"><a target="_blank" href="${element[1]}">${element[0]}</a><br>${element[1]}</div>`;
+            document.getElementById('wrapper-outputs').innerHTML += `<div class="alert-box"><a class="mb-1" target="_blank" href="${element[1]}">${element[0]}</a><br><a class="mb-1 text-light" target="_blank" href="${element[1]}">${element[1]}</a></div>`;
         });
     }
 
