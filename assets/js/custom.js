@@ -96,3 +96,20 @@ document.onreadystatechange = function() {
         }, 1500)
     }
 };
+
+
+function open_modal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+    setTimeout( () => {
+        document.getElementById(modalId).style.opacity = '1';
+        document.getElementById(modalId).style.visibility = 'visible';
+    }, 300);
+};
+
+function close_modal(modalId) {
+    document.getElementById(modalId).style.opacity = '0';
+    document.getElementById(modalId).style.visibility = 'none';
+    setTimeout( () => {
+        document.getElementById(modalId).style.display = 'none';
+    }, 1500);
+};

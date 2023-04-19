@@ -70,6 +70,15 @@ main {
             animation: rotation-ah 35s linear infinite;
         }
 
+        section.sudcontainer {
+            box-shadow: unset !important;
+            padding: unset !important;
+            padding-bottom: 5rem !important;
+            margin: 1rem;
+            border-radius: 8px;
+            background-color: unset !important;
+        }
+
         section.container {
             box-shadow: $shadow;
             padding: 2rem 3rem;
@@ -117,6 +126,7 @@ main {
                 text-indent: 10px;
                 word-break: break-word;
                 text-align: justify;
+                font-size: $font-small;
             }
 
             ul.link-wrapper {
@@ -175,6 +185,9 @@ main {
             .gallery__item {
                 box-shadow: $shadow;
                 border-radius: 15px;
+                min-width: 300px;
+                max-width: 300px;
+                background-color: white;
 
                 &:hover .card__link {
                     bottom: 8px;
@@ -226,6 +239,13 @@ main {
                         font-size: $font-small;
                         transition: all .3s ease;
                     }
+                }
+                button {
+                    color: #fff;
+                    font-size: 10pt;
+                    background-color: #434d59;
+                    padding: 6px 18px;
+                    border-radius: 8px;
                 }
             }
         }

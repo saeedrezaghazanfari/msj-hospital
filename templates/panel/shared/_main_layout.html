@@ -6,7 +6,7 @@
 
     <title>{% block title %}{% endblock %}</title>
 
-    {% include 'website/shared/_header_ref.html' %}
+    {% include 'panel/shared/_header_ref.html' %}
     
     {% block extraCss %}{% endblock %}
 
@@ -74,15 +74,15 @@
     {% endif %}
 
 
-    {% include 'website/shared/_header.html' %}
+    {% include 'panel/shared/_header.html' %}
 
     <div class="container mt-3 p-3 bg-white" style="border: 1px solid #ccc; border-radius: 15px;">
         {% block content %}{% endblock %}
     </div>
 
-    {% include 'website/shared/_footer.html' %} 
+    {% include 'panel/shared/_footer.html' %} 
 
-    {% include 'website/shared/_footer_ref.html' %}
+    {% include 'panel/shared/_footer_ref.html' %}
 
     {% block extraScript %}{% endblock %}
 

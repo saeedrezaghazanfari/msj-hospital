@@ -1,23 +1,90 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% load static i18n widget_tweaks humanize %}
+{% block title %}{% translate 'افتخارات و گواهینامه‌ها' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/other.css' %}">
 {% endblock %}
 
 {% block content %}
 
+    {% include 'website/shared/_other_header.html' %}
+
+    <!-- + content -->
+    <main>
+
+        <section class="page_title">
+            <div class="line"></div>
+            <div class="text">{% translate 'افتخارات و گواهینامه‌ها' %}</div>
+        </section>
+
+        <article>
+            
+            <div class="corner__image--top"></div>
+            <div class="corner__image--bottom"></div>
+
+            <section class="container sudcontainer">
+
+                <div class="row justify-center">
+                {% for certificate in certificates %}
+
+                <div class="gallery__item col-3" style="padding: unset !important;">
+                    <div class="card__image" style="background-image: url({{ certificate.image.url }});"></div>
+                    <div class="card__text">
+                                
+                        <h3>{% translate 'عنوان دوره' %}</h3>
+                        <p class="mb-1">{{ certificate.title }}</p>
+
+                        <div class="row">
+                            <div class="col-6" style="min-width: unset !important;">
+                                <h3>سال اخذ</h3>
+                                <p class="mb-1">{{ certificate.year_certif }}</p>
+                            </div>
+
+                            <div class="col-6" style="min-width: unset !important;">
+                                <h3>تاریخ اعتبار</h3>
+                                <p class="mb-1">{{ certificate.year_expire }}</p>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button class="mb-1-2" onclick="open_modal('{{ forloop.counter }}1')">نمایش توضیحات</button>
+                        </div>
+
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert--warning">
+                    {% translate 'گواهینامه‌ای ثبت نشده است.' %}
+                </div>
+                {% endfor %}
+                </div>
+                
+            </section>
+
+        </article>
+
+    </main>
+    <!-- - content -->
+
     {% for certificate in certificates %}
-    <div class="alert alert-light text-primary d-flex">
-        <div style="flex: 1;">{{ certificate.title }}</div>
-        <div style="flex: 1;">{{ certificate.description }}</div>
-        <div style="flex: 1;">{{ certificate.image.url }}</div>
-        <div style="flex: 1;">{{ certificate.year_certif }}</div>
-        <div style="flex: 1;">{{ certificate.year_expire }}</div>
-        <div style="flex: 1;"><button>more by modal</button></div>
+    <div class="modal" id="{{ forloop.counter }}1">
+        <div class="wrapper">
+            <h3 class="modal-header">{% translate 'توضیحات مدرک' %}</h3>
+            <p class="modal-body">{{ certificate.description|safe }}</p>
+            <div class="modal-footer">
+                <button onclick="close_modal('{{ forloop.counter }}1')">{% translate 'بستن' %}</button>
+            </div>
+        </div>
     </div>
     {% endfor %}
 
 
 {% endblock %}
+
+{% block extraScript %}{% endblock %}
+
+
+
+
 

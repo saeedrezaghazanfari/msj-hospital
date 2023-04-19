@@ -94,6 +94,76 @@ section#preloading {
     }
 }
 
+.alert {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    // border: 1px solid ;
+    margin: 10px 0;
+    color: white;
+
+    &--success {
+        background-color:  #70b900;
+    }
+    &--danger {
+        background-color:  rgb(255, 44, 44);
+    }
+    &--warning {
+        background-color:  rgb(255, 164, 44);
+    }
+    &--info {
+        background-color: rgb(84, 195, 255);
+    }
+}
+
+div.modal {
+    display: none;
+    justify-content: center;
+    position: fixed;
+    z-index: 103;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0, .3);
+    opacity: 0;
+    visibility: none;
+    transition: all .3s ease;
+
+    .wrapper {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 10px 15px;
+        margin: 5rem 10px;
+        height: 250px;
+        max-height: 400px;
+        overflow-y: auto;
+        width: 500px;
+
+        .modal-header {
+            margin-top: 15px;
+            margin-bottom: 20px;
+            font-size: $font-medium;
+        }
+        .modal-body {
+            font-size: $font-small !important;
+            color: $gray;
+        }
+        .modal-footer {
+            margin-top: 15px;
+            text-align: left;
+            
+            button {
+                color: #fff;
+                font-size: 10pt;
+                background-color: #434d59;
+                padding: 6px 18px;
+                border-radius: 8px;
+            }
+        }
+    }
+}
+
 section.message_box {
     display: flex;
     flex-direction: column;
