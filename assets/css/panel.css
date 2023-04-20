@@ -1,0 +1,68 @@
+
+
+form:has(> div.customform) { /* set style for parent. that is form element */
+    padding: 25px 0 15px 0;
+}
+
+div.customform {
+    position: relative;
+    margin-bottom: 20px;   
+}
+
+div.customform input, select, textarea {
+    font-family: vazir;
+    width: 92%;
+    padding: 7px;
+    font-size: 13pt;
+    color: #2391eb;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    outline: none;
+    background: white !important;
+    transition: all 0.3s linear;
+}
+
+div.customform input[type='checkbox'], 
+div.customform input[type='radio'] {
+    font-family: vazir;
+    width: unset !important;
+    padding: unset !important;
+    font-size: unset !important;
+    color: unset !important;
+    border: unset !important;
+    border-radius: unset !important;
+    outline: unset !important;
+    background: unset !important;
+    transition: unset !important;
+}
+
+div.customform label {
+    position: absolute;
+    pointer-events: none;
+    top: -15px;
+    right: 10px;
+    color: #d1d1d1;
+    font-size: 13px;
+    padding: 0 7px;
+    background-color: white;
+    transition: all 0.3s linear;
+}
+
+div.customform input[type='checkbox'] + label,
+div.customform input[type='radio'] + label {
+    position: unset !important;
+    pointer-events: unset !important;
+    top: unset !important;
+    right: unset !important;
+    color: unset !important;
+    font-size: unset !important;
+    padding: unset !important;
+    background-color: unset !important;
+    transition: unset !important;
+}
+
+ul.errorlist li {
+    color: red;
+    font-size: 13px;
+    margin-top: -15px;
+}

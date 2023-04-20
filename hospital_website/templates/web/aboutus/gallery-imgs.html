@@ -1,18 +1,46 @@
 {% extends 'website/shared/_main_layout.html' %}
-{% load static i18n widget_tweaks web_tags %}
-{% block title %}{% translate 'خانه' %}{% endblock %}
+{% load static i18n widget_tweaks humanize %}
+{% block title %}{% translate 'گالری تصاویر' %}{% endblock %}
 {% block extraCss %}
+<meta name="description" content="">
 <meta name="keywords" content="">
+<link rel="stylesheet" href="{% static 'css/other.css' %}">
 {% endblock %}
 
 {% block content %}
 
-    {% for element in images %}
-        <div class="alert alert-light text-primary d-flex">
-            <div style="flex: 1;">{{ element.title }}</div>
-            <div style="flex: 1;">{% for item in element.items %}{{ item.image.url }}{% endfor %}</div>
-        </div>
-    {% endfor %}
+    {% include 'website/shared/_other_header.html' %}
+
+    <!-- + content -->
+    <main>
+
+        <section class="page_title">
+            <div class="line"></div>
+            <div class="text">{% translate 'گالری تصاویر' %}</div>
+        </section>
+
+        <article>
+            
+            <div class="corner__image--top"></div>
+            <div class="corner__image--bottom"></div>
+
+            <section class="container sudcontainer">
+
+                {% for element in images %}
+                <div class="alert alert-light text-primary d-flex">
+                    <div style="flex: 1;">{{ element.title }}</div>
+                    <div style="flex: 1;">{% for item in element.items.all %}{{ item.image.url }}{% endfor %}</div>
+                </div>
+                {% endfor %}
+
+            </section>
+
+        </article>
+
+    </main>
+    <!-- - content -->
+
 
 {% endblock %}
 
+{% block extraScript %}{% endblock %}
